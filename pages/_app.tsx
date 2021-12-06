@@ -5,10 +5,13 @@ import Main from "../components/Main"
 import {MenuItem} from "../components/Menu"
 import {Ancestry} from "../src/Ancestry"
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} Menu={Menu} />
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <Menu>
+      <Component {...pageProps} />
+    </Menu>
+  )
 }
-export default MyApp
 
 function Menu({children}: {children: ReactNode}) {
   const [ancestries, setAncestries] = useState<Array<Ancestry>>([])

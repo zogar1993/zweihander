@@ -4,24 +4,22 @@ import {Trait} from "../../components/AncestryTraitCard"
 import {getAncestries} from "../../lib/GetAncestries"
 import {Ancestry} from "../../src/Ancestry"
 
-export default function AncestriesScreen({ancestry, Menu}: any) {
+export default function AncestriesScreen({ancestry}: any) {
 	return (
-		<Menu>
+		<section>
+			<h1>{ancestry.name}</h1>
+			<p>{ancestry.description}</p>
 			<section>
-				<h1>{ancestry.name}</h1>
-				<p>{ancestry.description}</p>
-				<section>
-					<h2>Traits</h2>
-					{ancestry.traits.map((trait: Trait) =>
-						<TraitBox key={trait.name}>
-							<h3>{trait.name}</h3>
-							<p>{trait.description}</p>
-							<p>{trait.effect}</p>
-						</TraitBox>
-					)}
-				</section>
+				<h2>Traits</h2>
+				{ancestry.traits.map((trait: Trait) =>
+					<TraitBox key={trait.name}>
+						<h3>{trait.name}</h3>
+						<p>{trait.description}</p>
+						<p>{trait.effect}</p>
+					</TraitBox>
+				)}
 			</section>
-		</Menu>
+		</section>
 	)
 }
 
