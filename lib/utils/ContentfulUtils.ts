@@ -44,7 +44,11 @@ const client = contentful.createClient({
 	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 });
 
-export async function fetchEntries(type: string): Promise<Array<Ancestry>> {
-	const response = await client.getEntries({content_type: type})
-	return response.items.map((x: any) => x.fields)
+export async function fetchEntries<T>(type: string): Promise<Array<T>> {
+	const response = await client.getEntries({content_type: type, limit: 1000})//TODO this limit should be the world
+	return response.items
+}
+
+export function contentfulToPlainObject(obj: any) {
+	return  {...obj.fields, id: obj.sys.id }
 }

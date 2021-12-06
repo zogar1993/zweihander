@@ -86,6 +86,8 @@ function Item({item, expanded, openMenu, setOpenMenu}: ItemsProps) {
 function SubItems({items, expanded, show}: SubItemsProps) {
 	const router = useRouter()
 
+	if (items.length === 0) return null
+
 	return (
 		<SubItemsContainer show={show} amount={items.length}>
 			{items.map((item) => {
@@ -280,15 +282,15 @@ const ItemName = styled.span`
 `
 
 export type BranchItem = {
-	icon: any
 	name: string
 	items: Array<LeafItem>
 	activePaths?: Array<string>
+	icon: any
 }
 
 export type LeafItem = {
-	path: string
 	name: string
+	path: string
 	activePaths?: Array<string>
 	icon: any
 }
