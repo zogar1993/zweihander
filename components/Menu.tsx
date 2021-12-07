@@ -1,6 +1,7 @@
 import {NextRouter, useRouter} from "next/router"
 import React, {useEffect, useState} from "react"
 import styled from "styled-components"
+import Link from "./Link"
 import theme from "./theme"
 //TODO use import Image from 'next/image'
 
@@ -59,47 +60,39 @@ export default function Menu({logo, menu}: MenuProps) {
 }
 
 function Item({item, expanded, openMenu, setOpenMenu}: ItemsProps) {
-	const router = useRouter()
 	const isOpen = openMenu === item.name
 
 	return (
 		<ItemContainer open={isOpen}>
-			<ItemButton
-				open={isOpen}
-				onClick={() => {
-					if (isOpen) setOpenMenu(null)
-					else if (isItemBranch(item)) setOpenMenu(item.name)
-					else redirectTo(item, router)
-				}}
-			>
-				<Icon src={item.icon} alt={item.name}/>
-				<ItemName>{item.name}</ItemName>
-				{isItemBranch(item) ? <DropdownIcon open={isOpen}/> : null}
-			</ItemButton>
-			{isItemBranch(item) ? (
-				<SubItems items={item.items} expanded={expanded} show={isOpen}/>
-			) : null}
+			{isItemBranch(item) ?
+				<>
+					<ItemButton open={isOpen} onClick={() => setOpenMenu(isOpen ? null : item.name)}>
+						<Icon src={item.icon} alt={item.name}/>
+						<ItemName>{item.name}</ItemName>
+						<DropdownIcon open={isOpen}/>
+					</ItemButton>
+					<SubItems items={item.items} expanded={expanded} show={isOpen}/>
+				</> :
+				<ItemLink open={isOpen} href={`\\${item.path}`}>
+					<Icon src={item.icon} alt={item.name}/>
+					<ItemName>{item.name}</ItemName>
+				</ItemLink>
+			}
 		</ItemContainer>
 	)
 }
 
 function SubItems({items, expanded, show}: SubItemsProps) {
-	const router = useRouter()
-
 	if (items.length === 0) return null
 
 	return (
 		<SubItemsContainer show={show} amount={items.length}>
 			{items.map((item) => {
 					return (
-						<SubItemButton
-							key={item.name}
-							expanded={expanded}
-							onClick={() => redirectTo(item, router)}
-						>
+						<SubItemLink key={item.name} expanded={expanded} href={`\\${item.path}`}>
 							<Icon src={item.icon} alt={item.name}/>
 							<SubItemName>{item.name}</SubItemName>
-						</SubItemButton>
+						</SubItemLink>
 					)
 				}
 			)}
@@ -211,7 +204,7 @@ const SubItemsContainer = styled.div<{ show: boolean; amount: number }>`
   transition: 0.4s ease-in-out;
 `
 
-const SubItemButton = styled(NoStyleButton)<{ expanded: boolean }>`
+const SubItemLink = styled(Link)<{ expanded: boolean }>`
   height: ${SUB_ITEM_HEIGHT};
   width: calc(${WIDTH_COLLAPSED} + ${WIDTH_EXTENDED});
 
@@ -256,6 +249,22 @@ const ItemContainer = styled.div<{ open: boolean }>`
   transition: 0.4s ease-out;
 `
 
+const ItemLink = styled(Link)<{ open: boolean }>`
+  display: flex;
+  align-items: center;
+  background-color: ${({open}) => (open ? theme.colors.menu.open_item : theme.colors.menu.background)};
+
+  cursor: pointer;
+  transition: 0.4s ease-out;
+  z-index: 1;
+
+  :hover {
+    background-color: ${theme.colors.menu.focus};
+  }
+
+  height: 44px;
+`
+//TODO remove duplication
 const ItemButton = styled(NoStyleButton)<{ open: boolean }>`
   display: flex;
   align-items: center;
