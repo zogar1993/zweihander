@@ -1,24 +1,9 @@
+import { MagicSource } from "../src/MagicSource"
+import { getEntries } from "./utils/CacheUtils"
+
 export async function getMagicSources() {
-  return [
-    {
-      name: "Generalists",
-      icon: "/menu/magic-hat.png",
-      code: "generalists",
-    },
-    {
-      name: "Arcana",
-      icon: "/menu/book.png",
-      code: "arcanas?",
-    },
-    {
-      name: "Prayers",
-      icon: "/menu/prayer.png",
-      code: "prayers?",
-    },
-    {
-      name: "Covenants",
-      icon: "/menu/wicca.png",
-      code: "covenants",
-    },
-  ];
+	return await getEntries<MagicSource>("magic_source", {
+		links: ["schools"],
+		resources: ["icon"],
+	})
 }
