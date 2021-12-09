@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import SpellCards from "../../components/magic/SpellCards";
+import theme from "../../components/theme"
 import getMagicSpells from "../../lib/GetMagicSpells";
 import { Spell } from "../../src/Spell";
 import { SEPARATION } from "../ancestries/[slug]";
@@ -28,6 +29,7 @@ const Title = styled.h3`
   text-align: center;
   color: black;
   text-transform: capitalize;
+  font-family: ${theme.fonts.title};
 `;
 
 const SourceContainer = styled.h3`

@@ -1,15 +1,24 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";
 import Main from "../components/Main";
 import { MenuItem } from "../components/Menu";
 import { Ancestry } from "../src/Ancestry";
+import "../public/reset.css";
+import "../public/fonts.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Menu>
-      <Component {...pageProps} />
-    </Menu>
+    <>
+      <Head>
+        <CssPreloadLink href="https://fonts.googleapis.com/css?family=Patrick+Hand" />
+        <CssPreloadLink href="https://fonts.googleapis.com/css?family=Almendra+SC" />
+        <CssPreloadLink href="https://fonts.googleapis.com/css?family=Almendra" />
+      </Head>
+      <Menu>
+        <Component {...pageProps} />
+      </Menu>
+    </>
   );
 }
 
@@ -82,3 +91,7 @@ const screens = ({
   },
   { path: "creatures", name: "Creatures", icon: "/menu/monster.png" },
 ];
+
+function CssPreloadLink({ href }: { href: string }) {
+  return <link rel="preload" href={href} as="font" crossOrigin="" />;
+}

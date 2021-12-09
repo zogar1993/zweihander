@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Spell } from "../../src/Spell";
-import { BORDER_RADIUS } from "../theme";
+import theme, { BORDER_RADIUS } from "../theme";
 
 const SEPARATION = "4px";
 
@@ -26,6 +26,10 @@ type Props = {
 //TODO move constants to theme
 
 const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: ${SEPARATION};
+
   border: 1px solid lightgray;
   border-radius: ${BORDER_RADIUS};
   padding: ${SEPARATION} calc(3 * ${SEPARATION});
@@ -52,6 +56,7 @@ const Paragraph = styled.p`
 `;
 
 const Title = styled.h3`
+  font-family: ${theme.fonts.title};
   font-size: 26px;
   text-align: center;
   color: black;

@@ -1,8 +1,8 @@
-import { NextRouter, useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import Link from "./Link";
-import theme from "./theme";
+import {NextRouter} from "next/router"
+import React, {useEffect, useState} from "react"
+import styled from "styled-components"
+import Link from "./Link"
+import theme from "./theme"
 //TODO use import Image from 'next/image'
 
 const FOOTER_HEIGHT = "0px";
@@ -198,7 +198,7 @@ const DropdownIcon = styled.div<{ open: boolean }>`
 `;
 
 const SubItemName = styled.span`
-  font-family: ${theme.fonts.option};
+  font-family: ${theme.fonts.title};
   margin-left: 16px;
   font-size: 16px;
   color: ${theme.colors.text};
@@ -303,7 +303,7 @@ const ItemButton = styled(NoStyleButton)<{ open: boolean }>`
 `;
 
 const ItemName = styled.span`
-  font-family: ${theme.fonts.option};
+  font-family: ${theme.fonts.title};
   font-size: 18px;
   text-align: left;
   margin-left: 2px;
@@ -319,14 +319,14 @@ export type BranchItem = {
 };
 
 export type LeafItem = {
-	name: string
-	path: string
-	activePaths?: Array<string>
-	icon: any
-}
+  name: string;
+  path: string;
+  activePaths?: Array<string>;
+  icon: any;
+};
 
-export type MenuItem = BranchItem | LeafItem
+export type MenuItem = BranchItem | LeafItem;
 
 export function isItemBranch(item: MenuItem): item is BranchItem {
-	return item.hasOwnProperty("items")
+  return item.hasOwnProperty("items");
 }
