@@ -1,0 +1,2999 @@
+{
+  "contentTypes": [],
+  "tags": [],
+  "editorInterfaces": [],
+  "entries": [
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Animism"
+        },
+        "code": {
+          "en-US": "animism"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3s7iVbUqUZmtWRJCSZzsH2"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5AllDimRANsbc8S2x2Wn9G"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5pXzSl2Yo0UejaXu3jzxrY"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4smHKlEc2kJBz9aL33zrbR"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3ArI8zmpUIqpPTabna31p8"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3Uhj1GPn9NLAdkPOgBvAQ8"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5aCU6lphyf3qAtUsffCiub"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "315mrL7hLzc4GEgtILlPN4"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1moqhFZX4MGLS7E2Kd6zdL"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Astromancy"
+        },
+        "code": {
+          "en-US": "astromancy"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "66xB4X7OCs9SG1kkZWuh73"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4NMJ1aGJG1J9iSIXhF6x6w"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7EvdEVyRH3wwURLnJBIjdZ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "YCvDAk65PZuHOgkUKlUzK"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "Nb02IB7RjzUAkP2a22BU6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2FVZMc8nR17Ut6M5PulwUm"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "76ly4g7HTCkMA4JYNXFhoE"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3BOmHwTDDBIoC7WgNGglc6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1qrwZGE2ZIKJs2Vqnk0kQ9"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Elementalism"
+        },
+        "code": {
+          "en-US": "elementalism"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2kI8H5kOT6oKvpXt2XA3DY"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7EJq69rxcEAVke6NLau4uB"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "59rWuIFey5vT67OdhQnglc"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3vKwqDULBlCkX62ucIJ4mU"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7mJcE5Va4Gw2cUluv288RW"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1IO1TpJ4gDHSQTcKty5njl"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5DE3beFeiUUCE2HHHvjwCh"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1jOxu0Em4GIalA7mwmclSD"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2QxLtfgzlTjlpug8OBfwp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Luminescence"
+        },
+        "code": {
+          "en-US": "luminescence"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3YxqEnd0Jriphd08zrYFow"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2iqaOOqPLvF8IYNX3yNUU"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1qSjKrOBpZFbsBnPnKzfUb"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5E17idzffr6m9JCQUnqOY4"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "V9EQrGQu6GNyvaDEtViKz"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "8xYwHFxZOoUz8OL0qns1W"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6qXTV1oHRa36JwuHGV4QvS"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "15tb83ufL8dCvSBrGFTNXL"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "c4FztdRBalsQlbmi0HLKe"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Morticism"
+        },
+        "code": {
+          "en-US": "morticism"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7upQgOZwYiyZ1qTQ5SgfV0"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1z8hhf2nnPFuohDdqKKrbH"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7fdCB1JvTmb8icEK0fvLvC"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3nBpNi5ZgYdns8hKkC83St"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1ypD5TdaDHAI4qxbvswIBv"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "73hiPjGxDNaG1ov3IwiXKG"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6jjO6k9PKTyTUou0qPenS"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5Fb1MiYLrEGQkVNShAY987"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1l91VeCkI5E1ROnYQnCbM5"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Necromancy"
+        },
+        "code": {
+          "en-US": "necromancy"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3su4Jl1Haw8fEpnXsM77BL"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "vpXYmGynFZ5hOoHRkntxz"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7cX0RW9K4Z2eoAuqOthf99"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3WU27VuMeDZl02ByKAPKDM"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6POfd4ruYfRm4soQfUqVNj"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4kK8bcczcwpEH6yaxsxy7u"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6uIRbtzLdvOyLL327MfNYp"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "74COQ469VBA7axiW47b1Jc"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1KKS2wQeDbEv7B5ktj6ObS"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Pyromancy"
+        },
+        "code": {
+          "en-US": "pyromancy"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4ONjcZFOsRWkEZfJdNFFK3"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "64zKHnK6p6ipfSNsHqeS1x"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6iSL65sQ1ugpSFykbinz6b"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4LvCsDnVDMttxM5FRm1k9K"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2RdaRAYsEPbEsUq2FQszK0"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5zzZu1eG82bR0f7YSJOTr6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3Sdg02BzCdjGynkMUmz7Wc"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "gjr6fpm1Egfnn9VVRrnvB"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6yVKyxsW0wdm14f8gRvHQM"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Shadowmancy"
+        },
+        "code": {
+          "en-US": "shadowmancy"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "53ob1fM9OOGuLAHtJifnuE"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7zwHCNyhpGgPPNjZhSCwqH"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "ULlOAkBq52mqRJDi42wFS"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4BoxVtB0CYIUhT5F6wSoKZ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5zXoZsAd2GdCQMrDrX0gWB"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4m4DRj1xrjBrE15LCroMd6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "XGB6B5PSA8JkUBDuobIRA"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "42UJEO5MeFCqkNuEAY0whk"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "exg1x5zVOvKFYOVCZPJ7C"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Sorcery"
+        },
+        "code": {
+          "en-US": "sorcery"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1FcXEHpAQ8jvM32eTSSDBo"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7foVs7P8SBTXM4H20mllDO"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4Ph2IVjteoFCyrIfb3CB9N"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6CULMJKPHHq49mdvVajHRv"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7ii5TnBbjBkIEzE4wnhudK"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2vsSX7vcsAyXYHK1AAMjBY"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "62CQuYUzsnfJ0qsUM2sC6z"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4LozWUILzORxYBhveDk9RR"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "q5xoIHXWmPllttlr9yU8e"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "arcana"
+        },
+        "name": {
+          "en-US": "Transmutation"
+        },
+        "code": {
+          "en-US": "transmutation"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "yHRGTN7SObKHtwfv7xjVd"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "KTLW2h7m8yppyHu9xuC1m"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7BWZaQmjfWKdYpgCYRQ2rU"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6RYPZD3kPf7alxUzNhBjbf"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1rNLL9a7tLHDxgAiIonNkb"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5XHIpLW9h90A5PmnD6DwHr"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "012T0rXuLCirn7EI1uesuq"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4GVlaec1QfnvmXbSjL45i1"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "63vYYjKi0EAHoEtWGMN5vF"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Black Lodge"
+        },
+        "code": {
+          "en-US": "black_lodge"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7G2nnVhyQ1WJjZ3ZvFDMUs"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4OAytMbEBtocTyfnUszF8V"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6NM8cMwcruu8qaysK0oe1e"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3pN9YzFuin79MDyZDU0pKx"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6I8woomOR6vY3UGilVcb3a"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "79W1Ey9Pn6JbDGQ6weKuuR"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5MbEjRE51M4gpqNXdcF4YM"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3RcLXGlwIjPFymqo5aP3nT"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3OENtnBy1hFx1kjX04Pxhd"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Endless Gullet"
+        },
+        "code": {
+          "en-US": "endless_gullet"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "56VyR2EQVdHNSzfxnCagrK"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4eKCbrfXDKpUlCrNvrShx7"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3CkGoMoITIVRC7l1ua9H3V"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2OWWSXt4Uy92M8zIVZ6rOY"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "67ltues0LenUbeXyZBCui3"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2GALFG0cBzPatflaDATRHW"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1wVMiKeGWeuSoHIPvqu0QK"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3UpDq80r96VsjZ4mtpJHyu"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1AsDyHJciT8rCmGrlDFSN9"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Hellfurnace"
+        },
+        "code": {
+          "en-US": "hellfurnace"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6H9y7fo3y4mH43U1I8XPmu"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4TlbcxkA0g51fJWNxIUUF0"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2JumineZA2oxoKMD1kypCM"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5uT6IdebRkIRBO9HEgzX8"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6D2LfhA7EbQY4hEXbomr4I"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4QNIVS7enkhtF6Hbx42qat"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "55BhWSQ5uxmzMe9t23PXVC"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1biAyVx00JqIPQWDHmETYb"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5GCQxyFsESAAD2UqG2BF6Y"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Outsider"
+        },
+        "code": {
+          "en-US": "outsider"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1Spe7LGF158NUVxMuPlIgE"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1KdrFCPA90fsNRJ9wlbLac"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4d2aYsDUvfpO3Qe6Mtb2gY"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "69alQcrOz9mnSP4pGCiGGq"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "LtA9jcWxrLP82hxkuXHcN"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "RFQhW10rEVHoexJajNX43"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1PVQyEXWM809tK3TwsMF1v"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5CvacS9k7VwzO8zuLmsOgj"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "egdLGnH14WkdiO0xOj2Hq"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Prince Of Change"
+        },
+        "code": {
+          "en-US": "prince_of_change"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "38oepKmndb9bVjq5yxe7Hs"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7jFO5CuhirSP8tZnaHkrpG"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3wmN4QodemICt36mOzSWOR"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3CbaNkGid3zMJYArng2UOA"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5GFWmHxPB3X8H7eMsNABpb"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1vzDmEIXf5R8qgKyH5702g"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6D5Wzx45lh74kilUTNuvjI"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3Yg9h06V902GgRC1b6tyrQ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "MbPPiyNfEPAe9JVnXfLS5"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Prince Of Decay"
+        },
+        "code": {
+          "en-US": "prince_of_decay"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3jFUfOCaTVofDrRhnn4waU"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2RGfbLvM03Nvxotb6ULnqv"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1bJTKv3C3IXRtanlJ8ZpUV"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3ez7O0dyeqPuHHh8xpi1gP"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6KoyFJvMDTu5JGg7yF0WXA"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2iVyh8N0LK8DZ2F7oiNA8z"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "39BZbDezUSIW3UFSfXTJV0"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2oxMFkz4x556VeXyHB4YL2"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "73HJrpIfxl7PXeIuE5coa7"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Prince Of Pleasure"
+        },
+        "code": {
+          "en-US": "prince_of_pleasure"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7GXhRFFxSM77VgqHCyTpWn"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "yAkRuGnmTh8Kdx1q8cbde"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1u2Uuq4qXmNPptdvMVss2b"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "39bDUOOO7FO1rJaC3BVWn6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "32fnzlzX5qgdFOBXUTs3Do"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5q0F4U1pcTCkWu2RNC8Hdk"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3UC8RHfyWBfJhtyzPt2gRB"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "77e20WCdh5AvmYauIvleZY"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6AVfoAEXwhnlUB8kIQWQbW"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Slavering Maw"
+        },
+        "code": {
+          "en-US": "slavering_maw"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6CZ8Xa7Ry6T8UApVxXgHXH"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1DlMoNqNLSXbozGMxjxfIC"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2urlJUhxaISmZsZR6WYLn3"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7lKpCyIDv8kLfdZCxiGWhO"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4R746IqEphKRo34xPO9HzE"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5kMGzWJ2YY63cE74m9sSRz"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3C7UVb7OODVpsd4cWQTjoE"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5LqnBi3kOwbu9KoJSOReod"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2n8xX5EAkfOD9KiTcYZzEv"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Thirteen"
+        },
+        "code": {
+          "en-US": "thirteen"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6BQLp5iLMgVPvsE6Arj7S6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2BwGTQDLZPySN1rmKHFP6D"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "ll9haDrJJvBzPEdXR2toh"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5rTCYRPD7JmfZIsCln2qQI"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5UQMnMA15U77UjeR5FA9oH"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1vcfZXv6Lx77YiWFiFdMtv"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1OBI8YOzG0T6XYPrajzXzL"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1HY7B2rCUULtX4wmFTxYej"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4mcOYpd29QvjErjDpsGtpm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "covenant"
+        },
+        "name": {
+          "en-US": "Witch-Queen"
+        },
+        "code": {
+          "en-US": "witch-queen"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2zy4sca14VVS53hrAhrwUG"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6EddEbFE9s2aauhJKO5GBv"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "54F74O0tY5uqk0EnAGUUTd"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2xdcfuBLLb92Nf9FGCN30T"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2prpGKtsXyKUL6WvcW3Kv4"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7jTVIYvtF4AqQlVV9UD3XH"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "QJdf3FL6zSfHSJAW8r6h8"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1QzZ4KFkpC1Aw0bfJjlyVI"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4CBQps5B1TxHoZKrZDXL4u"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "generalist"
+        },
+        "name": {
+          "en-US": "Generalist"
+        },
+        "code": {
+          "en-US": "generalist"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1YOCJ1PK23LZh0K024GwnP"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7JX7HERBMh672Dh7fd9Gfl"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6xENIWASX4okkWg8lmdWxi"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3dtvZ6Rk06il6cEPu6dom9"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5Fpc4Rp72OGbg1K3ug6Mxr"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5ex7AfP50lO9GyFbcfZB2h"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6nzHStDPL8LeQokolvLgkD"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1WwXLxn3MRtenxwv6xYHLK"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7JBXH3zASOEbEbaHpAwncG"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6FaIFCM31E7lxf907vMSu0"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "hG21SxMa8mmz6rc1OReUI"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "lUcPO2IOjcH5VfTLbtQRU"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "31CV9xiJb4Kjm0HnjHf4ME"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2ZJeT5YUu5J4qvfrPpcT8v"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1IMB3WbJzH7TFLDCZQUrM4"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5XyB7s8cVyA5UdeCve1FG9"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2nNRfXMIYe3EjHfL0LoTdw"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6z4Kxod6VJ3DIBkxds7sTA"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "U1iePooCqtoogADm5fg34"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4ZuwJx7JXdKSNRS4zD32Fe"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "01v4Mu8k3Uwi91a0aaVeu6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1QN3bEKZzgJ9oC2SlXRX4t"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6IJg6YkgUJU4f8dLtRvreA"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6PYz4TLEPEY01LqY8qM4ly"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Crouching One"
+        },
+        "code": {
+          "en-US": "crouching_one"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5bIuq6gFbjwLtFlsgkqaav"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "69YwfCSjCMWvK9OByNNSE2"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "fJPzeAdJrJSmxplzok6d6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5skPdn5AyvvpYhBuvKSlvr"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4dMq5FHLTxzKFyYCTZtY8V"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3gwxu3Ul035e67C5vHv4n5"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "227ic9vQmvMJQf3aaOJ4Av"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "rdxo0urbuOLQnod4h328Z"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "46xuth2d9CznZovzIk9cQL"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Custodian"
+        },
+        "code": {
+          "en-US": "custodian"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3CjOV64IF2LFQ93pQ5xkuu"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3bZZBBtV0uQF3pcfvCTpYi"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3edpoNn5TtiQFYCBAgvEsm"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1P4iNIxPxXnondPuxx1gXQ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7FJNzX9t2pwc2yJTHmxYvZ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "nBWp6PgcAod1XQPcmhHLQ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "24Xc5SOFE0YhHb48kp9v1R"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7f5bxua8AUwpC4IbWyrilD"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6KbDjB5i8LYF8d0fPJswOU"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Demiurge"
+        },
+        "code": {
+          "en-US": "demiurge"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7LwmdTsASrySDrtpVfGvlb"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1r6HpAmplZeqKhTEtWAA3l"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "lCo3WYaLaqeNPOLy1Ujt8"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1aKRqs38wN2sEo4hyIuns0"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "qcghOSY6EDGUS3uiQgmBV"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2JKHPPupgxLD1swUaSPQdx"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4ibycylL95RF5N5ttKCJgl"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1Xg7TH7NQlwy5ynLAKZX7a"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6P6y3aFMJSdjEYEt2CERpE"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "God-Emperor"
+        },
+        "code": {
+          "en-US": "god-emperor"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "78Lx6FNmCRjhvkT9qZcHT7"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5IEng2N9ecrhcQbHFyTrN1"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4xlN7mh8hsJkz71LbZJsHd"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3wjg1jjxCAA0d8gmHos9e9"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1QyYTSKbUkcq3KRCF6bVwT"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "bJlSROeillHt8a9Y4tigj"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "70HlrxCoK3dxJPNtsDMCZW"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3mSNes2MzNuEYvaqTxQqFo"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3j3mwndlXyuJOdzvqvyby1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Learner"
+        },
+        "code": {
+          "en-US": "learner"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7jGp4o035csGy5QIj7MEyA"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1xNClG1TFSUUU9109shrQX"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "HwFHLqOVesB0nPkKQZLCI"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "46O7pvekuOykKG37G2LAA4"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "IhmGGOyYEc34G9A5ikVPS"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "MWQNIei9HtudkJNY6KaX7"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "mNl9xhF9KYOF8ArnhuW2k"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "rOLt1xRT67lN46SBT4meS"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3mUDfmNyC1MXKmeplhMgyA"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Leviathan"
+        },
+        "code": {
+          "en-US": "leviathan"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5VUYW6Ie9ZJa68o5NFOvuV"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6OECarIi93UeCAJ3NwIm7J"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6RvRNMEYjbChrlvjRJ41EO"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2YbgkVJrAMNbfgsEnYSe1o"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5ymUtQWoJy15pkZlxW6rM9"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "42oq5kfpcPrijBvjxwAuzx"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "H7lsI0HdKW5eCWGdfuTrM"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "28aEA8EzYQN68zLpQ2CtRm"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6hBjvrlewoDR1c4BeaealB"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Martyr"
+        },
+        "code": {
+          "en-US": "martyr"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3O1ZtOKRwCN9I60USDSSpG"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "OMNE2O24vTuOSKHn9ZiF3"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2EglcnDytSPWR4rClFYO59"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "22EkFBP7NhjfIIBu5Ci0zB"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3Kfk22GMyZKccVlQbPQU5Z"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4zKWmfnXJ9xXCLZA30TiWm"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5iBRpjIpzby8MGpiIokZmG"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5P0qzXd1e8XM9Db4cdLiPO"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6vsl3GL1gZ5Bl5VGAbyGHK"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Nightfather"
+        },
+        "code": {
+          "en-US": "nightfather"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2qKjNvphjgHBdesO088qDy"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1oZx5uQbyPbpcs71SeEPbk"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1xddCtOWphutESUR29Ij1r"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4QvA1LoQPP3vPrqxgDY9RL"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3zo1mP5hCNH6afcuxtdakJ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5drhiabNICvjxgkpgwQjVz"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "649eSYANdj5KGoEVEGHZYo"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4XyUUDN7blcTPO1055zTTR"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1WuNGcLp8epScrpSNTT1H5"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Steward"
+        },
+        "code": {
+          "en-US": "steward"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5PnPJO2uh1J6G0Tj6miVxP"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "6JEZIr8qQufKhxn3yfTwlU"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4ERG8CtkVITWwdUlXQkRkB"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "2GAIaRscCDpfHfxXOhyzSa"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1ajQ1noIGHrTi9QWWqb8ec"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1g4ycZW1iE0m6xRRxCiWLZ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "75ZgpxpDoxFVgqoo0Hr8V3"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3ZsljDT4H2otdzKhuDDrjO"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5MLah44hCjSPXPoil6eDnr"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "magic_school"
+          }
+        }
+      },
+      "fields": {
+        "source": {
+          "en-US": "prayers"
+        },
+        "name": {
+          "en-US": "Winter King"
+        },
+        "code": {
+          "en-US": "winter_king"
+        },
+        "spells": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "15TProGAS2glEhV1dZLRBa"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1ohurUhDn3PAh4OmkOXAGG"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7BYGGQASoLC2XbwYcQ27Xw"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "nl7HkJkXQ4OTAOSw5IQt3"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1gVoUzeOOg346Dzks747NQ"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7jljZ595ODHktfvF0IZf8H"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5prCcLFs1MXBSrEgxJ12Kw"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1PwbqLwJNM2vGCSFqgooU6"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "xMc6BwqBgMh48YhcvC61i"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "assets": [],
+  "locales": [],
+  "webhooks": [],
+  "roles": []
+}

@@ -1,8 +1,8 @@
-import {Spell} from "./Spell"
+import { Spell } from "./Spell";
 
 export type MagicSchool = {
-	name: string
-	code: string
-	source: string
-	spells: Array<Spell>
-}
+  name: string;
+  code: string;
+  source: string;
+  spells: Array<Spell>;
+};

@@ -1,20 +1,26 @@
-import styled from "styled-components"
-import React, {ReactNode, useState} from "react"
+import styled from "styled-components";
+import React, { ReactNode, useState } from "react";
 
-export const SEPARATION = "4px"
-export const BORDER_RADIUS = "6px"
+export const SEPARATION = "4px";
+export const BORDER_RADIUS = "6px";
 
 export type AccordionItemType = {
-	name: string
-	content: ReactNode
-}
+  name: string;
+  content: ReactNode;
+};
 
-export default function Accordion({items}: { items: Array<AccordionItemType> }) {
-	return (
-		<AccordionContainer>
-			{items.map(item => <AccordionItem item={item} key={item.name}/>)}
-		</AccordionContainer>
-	)
+export default function Accordion({
+  items,
+}: {
+  items: Array<AccordionItemType>;
+}) {
+  return (
+    <AccordionContainer>
+      {items.map((item) => (
+        <AccordionItem item={item} key={item.name} />
+      ))}
+    </AccordionContainer>
+  );
 }
 
 const AccordionContainer = styled.div`
@@ -27,7 +33,7 @@ const AccordionContainer = styled.div`
   background-color: gray;
   overflow-y: auto;
   overflow-x: hidden;
-`
+`;
 
 const AccordionItemName = styled.div`
   display: flex;
@@ -41,22 +47,24 @@ const AccordionItemName = styled.div`
   background-color: lightgray;
   user-select: none;
   cursor: pointer;
-`
+`;
 
 const AccordionItemContent = styled.div<{ open: boolean }>`
   background-color: whitesmoke;
-  ${({open}) => open ? "" : "display: none"};
+  ${({ open }) => (open ? "" : "display: none")};
   padding: ${SEPARATION};
-`
+`;
 
-function AccordionItem({item}: { item: AccordionItemType }) {
-	const [open, setOpen] = useState(false)
-	return (
-		<React.Fragment key={item.name}>
-			<AccordionItemName onClick={() => setOpen(open => !open)}>{item.name}</AccordionItemName>
-			<AccordionItemContent open={open}>{item.content}</AccordionItemContent>
-		</React.Fragment>
-	)
+function AccordionItem({ item }: { item: AccordionItemType }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <React.Fragment key={item.name}>
+      <AccordionItemName onClick={() => setOpen((open) => !open)}>
+        {item.name}
+      </AccordionItemName>
+      <AccordionItemContent open={open}>{item.content}</AccordionItemContent>
+    </React.Fragment>
+  );
 }
 
 //TODO style misc accordion

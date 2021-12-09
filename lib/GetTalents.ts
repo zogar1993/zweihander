@@ -1,6 +1,6 @@
-import {Talent} from "../src/Talent"
-import {getEntries} from "./utils/CacheUtils"
+import { Talent } from "../src/Talent";
+import { getEntries } from "./utils/CacheUtils";
 
 export default async function getTalents() {
-	return getEntries<Talent>("talent")
+  return getEntries<Talent>("talent");
 }
