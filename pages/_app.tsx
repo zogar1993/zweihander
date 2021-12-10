@@ -41,7 +41,7 @@ function Menu({ children }: { children: ReactNode }) {
 
 	return (
 		<Main
-			logo={"/ZweihanderLogo.png"}
+			logo="/ZweihanderLogo.png"
 			screens={screens({ ancestries, magicSources })}
 		>
 			{children}

@@ -1,5 +1,3 @@
-import { Ancestry } from "../../src/Ancestry"
-
 export function importify(entries: Array<any>, type: string) {
 	return {
 		contentTypes: [],
@@ -44,10 +42,30 @@ const client = contentful.createClient({
 })
 
 export async function fetchEntries<T>(type: string): Promise<Array<T>> {
-	const response = await client.getEntries({ content_type: type, limit: 1000 }) //TODO this limit should be the world
+	const response = await client.getEntries({
+		content_type: type,
+		limit: 1000,
+		include: 10,
+	})
 	return response.items
 }
 
+//TODO make cache folder create itself
 export function contentfulToPlainObject(obj: any) {
-	return { ...obj.fields, id: obj.sys.id }
+	const result = { ...obj.fields }
+	for (const [key, value] of Object.entries(result)) {
+		result[key] = Array.isArray(value)
+			? value.map(x => unwrap(x))
+			: unwrap(value)
+	}
+	return result
+}
+
+function unwrap(value: any) {
+	if (!value.hasOwnProperty("sys")) return value
+	if (value.sys.type === "Asset") return value.fields.file.url
+	console.log(value)
+	if (value.sys.type === "Entry") {
+		return contentfulToPlainObject(value)
+	}
 }

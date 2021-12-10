@@ -5,42 +5,27 @@ import { contentfulToPlainObject, fetchEntries } from "./ContentfulUtils"
 export async function getEntries<T>(
 	type: string,
 	options: { links?: Array<string>; resources?: Array<string> } = {}
-) {
+): Promise<Array<T>> {
 	const cachePath = path.resolve(`.cache/${type}`)
 	try {
 		const entries = readFile(cachePath)
-		console.log(`Using cache for ${type}`)
+		//console.log(`Using cache for ${type}`)
 		return entries
 	} catch (error) {}
 
 	let data = await fetchEntries(type)
 
 	data = data.map(contentfulToPlainObject)
-	if (options.links) {
-		for (const link of options.links) {
-			data.forEach((entry: any) => {
-				entry[link] = (entry[link] as Array<any>).map(contentfulToPlainObject)
-			})
-		}
-	}
-
-	if (options.resources) {
-		for (const resource of options.resources) {
-			data.forEach((entry: any) => {
-				entry[resource] = contentfulToPlainObject(entry[resource]).file.url
-			})
-		}
-	}
 
 	try {
 		writeFile(cachePath, data)
-		console.log(`Wrote to ${type} cache`)
+		//console.log(`Wrote to ${type} cache`)
 	} catch (error) {
-		console.log(`ERROR WRITING ${type.toUpperCase()} CACHE TO FILE`)
-		console.log(error)
+		//console.log(`ERROR WRITING ${type.toUpperCase()} CACHE TO FILE`)
+		//console.log(error)
 	}
 
-	return data
+	return data as Array<T>
 }
 
 const readFile = (path: string) => JSON.parse(fs.readFileSync(path, "utf8"))
