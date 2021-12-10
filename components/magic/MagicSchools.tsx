@@ -2,7 +2,9 @@ import React from "react"
 import styled from "styled-components"
 import theme, { BORDER_RADIUS } from "../theme"
 
-export default function ButtonsGroup<T extends Item>(props: ButtonsGroupProps<T>) {
+export default function ButtonsGroup<T extends Item>(
+	props: ButtonsGroupProps<T>
+) {
 	const { items, selected, onChange } = props
 	const columns = 5
 	return (
@@ -47,9 +49,9 @@ const backGroundColor = ({ active }: Props) =>
 //	return "4px"
 //}
 
-const Container = styled.div<{columns: number}>`
+const Container = styled.div<{ columns: number }>`
 	display: grid;
-  grid-template-columns: repeat(${({ columns }) => columns}, 1fr);
+	grid-template-columns: repeat(${({ columns }) => columns}, 1fr);
 `
 
 interface Props {
@@ -63,7 +65,6 @@ interface Props {
 	"has-buttons-left"?: boolean
 }
 
-//TODO remove underscore links
 //TODO style buttons correctly
 //TODO refactor buttons
 //TODO order content
@@ -118,36 +119,36 @@ const Button = styled.button<ButtonProps>`
 `
 
 const ButtonItem = styled(Button)<Props>`
-  border: 1px solid darkgray;
-  min-width: 65px;
-  position: relative;
+	border: 1px solid darkgray;
+	min-width: 65px;
+	position: relative;
 
-  padding: 8px ${SIDE_PADDING};
+	padding: 8px ${SIDE_PADDING};
 
-  background-color: ${backGroundColor};
-  color: black;
-  font-family: ${theme.fonts.title};
-  text-transform: capitalize;
+	background-color: ${backGroundColor};
+	color: black;
+	font-family: ${theme.fonts.title};
+	text-transform: capitalize;
 
-  border-bottom-style: ${props =>
-          props["has-buttons-bottom"] ? "none" : "solid"};
-  border-right-style: ${props =>
-          props["has-buttons-right"] ? "none" : "solid"};
+	border-bottom-style: ${props =>
+		props["has-buttons-bottom"] ? "none" : "solid"};
+	border-right-style: ${props =>
+		props["has-buttons-right"] ? "none" : "solid"};
 
-  border-top-left-radius: ${props =>
-          props["has-buttons-top"] || props["has-buttons-left"] ? 0 : BORDER_RADIUS};
-  border-top-right-radius: ${props =>
-          props["has-buttons-top"] || props["has-buttons-right"] ? 0 : BORDER_RADIUS};
-  border-bottom-left-radius: ${props =>
-          props["has-buttons-bottom"] || props["has-buttons-left"]
-                  ? 0
-                  : BORDER_RADIUS};
-  border-bottom-right-radius: ${props =>
-          props["has-buttons-bottom"] || props["has-buttons-right"]
-                  ? 0
-                  : BORDER_RADIUS};
+	border-top-left-radius: ${props =>
+		props["has-buttons-top"] || props["has-buttons-left"] ? 0 : BORDER_RADIUS};
+	border-top-right-radius: ${props =>
+		props["has-buttons-top"] || props["has-buttons-right"] ? 0 : BORDER_RADIUS};
+	border-bottom-left-radius: ${props =>
+		props["has-buttons-bottom"] || props["has-buttons-left"]
+			? 0
+			: BORDER_RADIUS};
+	border-bottom-right-radius: ${props =>
+		props["has-buttons-bottom"] || props["has-buttons-right"]
+			? 0
+			: BORDER_RADIUS};
 `
 
 //TODO remove constants
-//TODO check visibility
+//TODO check visibility of exports
 //TODO organize folder structure
