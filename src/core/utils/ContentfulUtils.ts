@@ -47,14 +47,18 @@ export async function fetchEntries<T>(type: string): Promise<Array<T>> {
 		limit: 1000,
 		include: 10,
 	})
-	return response.items
+	return contentfulToArrayOfPlainObjects(response.items)
 }
 
-export function contentfulToPlainObject(obj: any) {
+function contentfulToArrayOfPlainObjects(arr: Array<any>) {
+	return arr.map(x => unwrap(x)).sort((x, y) => x.code.localeCompare(y.code))
+}
+
+function contentfulToPlainObject(obj: any) {
 	const result = { ...obj.fields }
 	for (const [key, value] of Object.entries(result)) {
 		result[key] = Array.isArray(value)
-			? value.map(x => unwrap(x))
+			? contentfulToArrayOfPlainObjects(value)
 			: unwrap(value)
 	}
 	return result

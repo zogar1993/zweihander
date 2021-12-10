@@ -59,3 +59,6 @@ const SourceContainer = styled.h3`
 	justify-content: center;
 	gap: ${SEPARATION};
 `
+
+//TODO order by petty to greater
+//TODO fix generalist getting state of other source

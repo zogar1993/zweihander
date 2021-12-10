@@ -67,7 +67,6 @@ interface Props {
 
 //TODO style buttons correctly
 //TODO refactor buttons
-//TODO order content
 
 const NOT_ACTIVE_BACKGROUND_COLOR = "white"
 

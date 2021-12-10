@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { contentfulToPlainObject, fetchEntries } from "./ContentfulUtils"
+import { fetchEntries } from "./ContentfulUtils"
 
 export async function getEntries<T>(type: string): Promise<Array<T>> {
 	const cachePath = path.resolve(`.cache/${type}`)
@@ -10,19 +10,17 @@ export async function getEntries<T>(type: string): Promise<Array<T>> {
 		return entries
 	} catch (error) {}
 
-	let data = await fetchEntries(type)
-
-	data = data.map(contentfulToPlainObject)
+	const entries = await fetchEntries(type)
 
 	try {
-		writeFile(cachePath, data)
+		writeFile(cachePath, entries)
 		console.log(`Wrote to ${type} cache`)
 	} catch (error) {
 		console.log(`ERROR WRITING ${type.toUpperCase()} CACHE TO FILE`)
 		console.log(error)
 	}
 
-	return data as Array<T>
+	return entries as Array<T>
 }
 
 const readFile = (path: string) => JSON.parse(fs.readFileSync(path, "utf8"))

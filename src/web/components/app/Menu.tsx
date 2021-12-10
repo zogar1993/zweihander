@@ -330,3 +330,5 @@ export type MenuItem = BranchItem | LeafItem
 export function isItemBranch(item: MenuItem): item is BranchItem {
 	return item.hasOwnProperty("items")
 }
+
+//TODO make content keep aspect ratio
