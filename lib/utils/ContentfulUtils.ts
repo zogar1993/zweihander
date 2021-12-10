@@ -50,7 +50,6 @@ export async function fetchEntries<T>(type: string): Promise<Array<T>> {
 	return response.items
 }
 
-//TODO make cache folder create itself
 export function contentfulToPlainObject(obj: any) {
 	const result = { ...obj.fields }
 	for (const [key, value] of Object.entries(result)) {
@@ -64,8 +63,6 @@ export function contentfulToPlainObject(obj: any) {
 function unwrap(value: any) {
 	if (!value.hasOwnProperty("sys")) return value
 	if (value.sys.type === "Asset") return value.fields.file.url
-	console.log(value)
-	if (value.sys.type === "Entry") {
-		return contentfulToPlainObject(value)
-	}
+	if (value.sys.type === "Entry") return contentfulToPlainObject(value)
+	throw `Cannot handle type '${value.sys.type}'`
 }
