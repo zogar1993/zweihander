@@ -1,8 +1,8 @@
 import { NextRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import Link from "./Link"
-import theme from "./theme"
+import Link from "@web/components/general/Link"
+import theme from "@web/theme/theme"
 //TODO use import Image from 'next/image'
 
 const FOOTER_HEIGHT = "0px"

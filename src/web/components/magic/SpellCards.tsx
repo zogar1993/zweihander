@@ -1,7 +1,7 @@
 import React from "react"
-import { Spell } from "../../src/Spell"
-import Grid from "../general/Grid"
-import SpellCard from "./SpellCard"
+import { Spell } from "@core/domain/Spell"
+import Grid from "@web/components/general/Grid"
+import SpellCard from "@web/components/magic/SpellCard"
 
 export default function SpellCards({ spells }: Props) {
 	return (

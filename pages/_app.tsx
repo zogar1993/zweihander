@@ -1,13 +1,13 @@
+import { Ancestry } from "@core/domain/Ancestry"
+import { MagicSource } from "@core/domain/MagicSource"
+import Main from "@web/components/app/Main"
+import { MenuItem } from "@web/components/app/Menu"
+import fetchResources from "@web/helpers/FetchResources"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import { ReactNode, useEffect, useState } from "react"
-import Main from "../components/Main"
-import { MenuItem } from "../components/Menu"
 import "../public/fonts.css"
 import "../public/reset.css"
-import fetchResources from "../lib/client/FetchResources"
-import { Ancestry } from "../src/Ancestry"
-import { MagicSource } from "../src/MagicSource"
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (

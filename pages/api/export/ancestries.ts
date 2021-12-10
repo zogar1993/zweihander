@@ -1,6 +1,6 @@
+import { getAncestries } from "@core/actions/GetAncestries"
+import { importify } from "@core/utils/ContentfulUtils"
 import type { NextApiRequest, NextApiResponse } from "next"
-import { getAncestries } from "../../../lib/GetAncestries"
-import { importify } from "../../../lib/utils/ContentfulUtils"
 
 export default async function handler(
 	req: NextApiRequest,

@@ -1,6 +1,6 @@
+import theme, { BORDER_RADIUS } from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
-import theme, { BORDER_RADIUS } from "../theme"
 
 export default function ButtonsGroup<T extends Item>(
 	props: ButtonsGroupProps<T>
@@ -151,4 +151,3 @@ const ButtonItem = styled(Button)<Props>`
 
 //TODO remove constants
 //TODO check visibility of exports
-//TODO organize folder structure

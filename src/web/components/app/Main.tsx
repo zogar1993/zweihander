@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import Menu, { MenuItem } from "./Menu"
+import Menu, { MenuItem } from "@web/components/app/Menu"
 
 export type MainProps = {
 	logo: any

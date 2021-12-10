@@ -1,6 +1,6 @@
+import getTalents from "@core/actions/GetTalents"
+import { importify } from "@core/utils/ContentfulUtils"
 import type { NextApiRequest, NextApiResponse } from "next"
-import getTalents from "../../../lib/GetTalents"
-import { importify } from "../../../lib/utils/ContentfulUtils"
 
 export default async function handler(
 	req: NextApiRequest,

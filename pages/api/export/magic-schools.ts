@@ -1,8 +1,6 @@
+import getMagicSchools from "@core/actions/GetMagicSchools"
+import { importify } from "@core/utils/ContentfulUtils"
 import type { NextApiRequest, NextApiResponse } from "next"
-import getMagicSchools from "../../../lib/GetMagicSchools"
-import getMagicSpells from "../../../lib/GetMagicSpells"
-import getTalents from "../../../lib/GetTalents"
-import { importify } from "../../../lib/utils/ContentfulUtils"
 
 export default async function handler(
 	req: NextApiRequest,

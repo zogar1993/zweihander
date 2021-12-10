@@ -1,7 +1,7 @@
+import { Spell } from "@core/domain/Spell"
+import theme, { BORDER_RADIUS } from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
-import { Spell } from "../../src/Spell"
-import theme, { BORDER_RADIUS } from "../theme"
 
 const SEPARATION = "4px"
 

@@ -1,8 +1,8 @@
+import { getAncestries } from "@core/actions/GetAncestries"
+import { Ancestry } from "@core/domain/Ancestry"
+import { Trait } from "@web/components/ancestry/AncestryTraitCard"
 import styled from "styled-components"
 import React from "react"
-import { Trait } from "../../components/AncestryTraitCard"
-import { getAncestries } from "../../lib/GetAncestries"
-import { Ancestry } from "../../src/Ancestry"
 
 export default function AncestriesScreen({ ancestry }: any) {
 	return (
