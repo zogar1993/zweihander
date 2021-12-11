@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import Menu, { MenuItem } from "@web/components/app/Menu"
+import Menu, {MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
 
 export type MainProps = {
 	logo: any
@@ -30,9 +30,9 @@ const PageContent = styled.div`
 `
 
 const Section = styled.section`
-	flex-grow: 1;
-	flex-shrink: 1;
 	height: 100vh;
+	width: calc(100% - ${MENU_WIDTH_EXTENDED});
+	margin: 0 auto;
 
 	padding: 8px 4px 4px;
 

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 //TODO use import Image from 'next/image'
 
+export const MENU_WIDTH_EXTENDED = "190px"
+export const MENU_WIDTH_COLLAPSED = "48px"
 const FOOTER_HEIGHT = "0px"
 const OUTER_Z_INDEX = 1
 
@@ -124,9 +126,6 @@ type ItemsProps = {
 	setOpenMenu: (value: string | null) => void
 }
 
-const WIDTH_EXTENDED = "190px"
-const WIDTH_COLLAPSED = "48px"
-
 const MenuOverflowHider = styled.div`
 	position: relative;
 	display: flex;
@@ -150,7 +149,7 @@ const MenuOverflowHider = styled.div`
 `
 
 const Logo = styled.img<{ show: boolean }>`
-	width: ${WIDTH_EXTENDED};
+	width: ${MENU_WIDTH_EXTENDED};
 	min-height: 40px;
 	overflow-x: hidden;
 
@@ -209,29 +208,31 @@ const SubItemsContainer = styled.div<{ show: boolean; amount: number }>`
 
 const SubItemLink = styled(Link)<{ show: boolean }>`
 	height: ${SUB_ITEM_HEIGHT};
-	width: calc(${WIDTH_COLLAPSED} + ${WIDTH_EXTENDED});
+	width: calc(${MENU_WIDTH_COLLAPSED} + ${MENU_WIDTH_EXTENDED});
 
 	display: flex;
 	align-items: center;
 	cursor: pointer;
 
-	transform: translateX(${({ show }) => (show ? `-${WIDTH_COLLAPSED}` : 0)});
+	transform: translateX(
+		${({ show }) => (show ? `-${MENU_WIDTH_COLLAPSED}` : 0)}
+	);
 	transition: 0.4s ease-out;
 
 	:hover {
 		background-color: ${theme.colors.menu.focus};
 	}
 
-  @media (max-width: 768px) {
-    width: calc(${WIDTH_COLLAPSED} + 100%);
-  }
+	@media (max-width: 768px) {
+		width: calc(${MENU_WIDTH_COLLAPSED} + 100%);
+	}
 `
 
 const MenuElement = styled.div<{ show: boolean }>`
 	user-select: none;
 	position: sticky;
 	height: calc(100vh - ${FOOTER_HEIGHT});
-	width: ${({ show }) => (show ? WIDTH_EXTENDED : WIDTH_COLLAPSED)};
+	width: ${({ show }) => (show ? MENU_WIDTH_EXTENDED : MENU_WIDTH_COLLAPSED)};
 	background-color: ${theme.colors.menu.background};
 	transition: width 0.4s;
 	border-right: ${theme.colors.menu.border} solid 1px;
@@ -296,7 +297,7 @@ const ItemName = styled.span`
 	font-size: 18px;
 	text-align: left;
 	margin-left: 2px;
-	width: calc(${WIDTH_EXTENDED} - ${WIDTH_COLLAPSED});
+	width: calc(${MENU_WIDTH_EXTENDED} - ${MENU_WIDTH_COLLAPSED});
 	color: ${theme.colors.text};
 `
 
@@ -319,5 +320,3 @@ export type MenuItem = BranchItem | LeafItem
 function isItemBranch(item: MenuItem): item is BranchItem {
 	return item.hasOwnProperty("items")
 }
-
-//TODO make content keep aspect ratio

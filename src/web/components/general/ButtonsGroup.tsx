@@ -35,6 +35,7 @@ type ButtonsGroupProps<T extends Item> = {
 	items: Array<T>
 	selected: T
 	onChange: (item: T) => void
+	columns: number
 }
 
 const SIDE_PADDING = "8px"
