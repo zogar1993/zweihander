@@ -1,7 +1,7 @@
 // @ts-ignore
 import styleInject from "style-inject"
 
-export enum Color {
+enum Color {
 	White = "#ffffff",
 	LighterGray = "#f5f5f5",
 	LightGray = "#dfdfdf",

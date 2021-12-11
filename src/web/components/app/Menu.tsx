@@ -1,4 +1,3 @@
-import { NextRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import Link from "@web/components/general/Link"
@@ -319,7 +318,7 @@ export type LeafItem = {
 
 export type MenuItem = BranchItem | LeafItem
 
-export function isItemBranch(item: MenuItem): item is BranchItem {
+function isItemBranch(item: MenuItem): item is BranchItem {
 	return item.hasOwnProperty("items")
 }
 

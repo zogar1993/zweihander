@@ -17,7 +17,7 @@ const Grid = styled.div<Props>`
 
 export default Grid
 
-interface Props {
+type Props = {
 	columns?: number
 	"mobile-columns"?: number
 }

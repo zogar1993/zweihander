@@ -151,5 +151,3 @@ const ButtonItem = styled(Button)<Props>`
 			? 0
 			: theme.borders.radius};
 `
-
-//TODO check visibility of exports
