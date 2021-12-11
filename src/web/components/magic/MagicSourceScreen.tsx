@@ -25,4 +25,3 @@ export const SourceContainer = styled.div`
 `
 
 //TODO refactor this file
-//TODO order by petty to greater

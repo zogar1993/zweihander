@@ -1,7 +1,9 @@
 import { getMagicSources } from "@core/actions/GetMagicSources"
 import ButtonsGroup from "@web/components/general/ButtonsGroup"
 import {
-	MagicSourceScreenProps, SourceContainer, Title
+	MagicSourceScreenProps,
+	SourceContainer,
+	Title
 } from "@web/components/magic/MagicSourceScreen"
 import SpellCards from "@web/components/magic/SpellCards"
 import { useRouter } from "next/router"

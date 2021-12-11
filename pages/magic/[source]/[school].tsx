@@ -1,4 +1,7 @@
 import { getMagicSources } from "@core/actions/GetMagicSources"
+import { MagicSchool } from "@core/domain/MagicSchool"
+import { MagicSource } from "@core/domain/MagicSource"
+import { Spell } from "@core/domain/Spell"
 import {
 	MagicSourceScreenProps,
 	SourceContainer,
@@ -9,12 +12,17 @@ import React from "react"
 
 export default function MagicSourceWithManySchoolsScreen({
 	source,
-	school
-}: MagicSourceScreenProps) {
+	school,
+	spells
+}: {
+	source: MagicSource
+	school: MagicSchool
+	spells: Array<Spell>
+}) {
 	return (
 		<SourceContainer>
 			<Title>{source.name}</Title>
-			<SpellCards spells={school.spells} />
+			<SpellCards spells={spells} />
 		</SourceContainer>
 	)
 }
@@ -25,7 +33,12 @@ export async function getStaticProps({
 	const sources = await getMagicSources()
 	const source = sources.find(x => x.code === sourceCode)!
 	const school = source.schools.find(x => x.code === schoolCode)!
-	return { props: { source, school } }
+	const spells = school.spells
+	const petty = spells.filter(x => x.principle === "Petty")
+	const lesser = spells.filter(x => x.principle === "Lesser")
+	const greater = spells.filter(x => x.principle === "Greater")
+	const sortedSpells = petty.concat(lesser).concat(greater)
+	return { props: { source, school, spells: sortedSpells } }
 }
 
 export async function getStaticPaths() {
