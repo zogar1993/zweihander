@@ -5,7 +5,6 @@ import SpellCards from "@web/components/magic/SpellCards"
 import theme from "@web/theme/theme"
 import React, { useState } from "react"
 import styled from "styled-components"
-import { SEPARATION } from "../ancestries/[slug]"
 
 export default function MagicSourceScreen({ source }: { source: MagicSource }) {
 	const [school, setSchool] = useState(source.schools[0])
@@ -53,11 +52,11 @@ const Title = styled.h3`
 	font-family: ${theme.fonts.title};
 `
 
-const SourceContainer = styled.h3`
+const SourceContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: ${SEPARATION};
+	gap: ${theme.spacing.separation};
 `
 
 //TODO order by petty to greater

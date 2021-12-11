@@ -1,8 +1,9 @@
 import { getAncestries } from "@core/actions/GetAncestries"
 import { Ancestry } from "@core/domain/Ancestry"
 import { Trait } from "@web/components/ancestry/AncestryTraitCard"
-import styled from "styled-components"
+import theme from "@web/theme/theme"
 import React from "react"
+import styled from "styled-components"
 
 export default function AncestriesScreen({ ancestry }: any) {
 	return (
@@ -45,11 +46,8 @@ export async function getStaticPaths() {
 	}
 }
 
-export const SEPARATION = "4px"
-export const BORDER_RADIUS = "6px"
-
 const TraitBox = styled.article`
 	border: 1px solid lightgray;
-	border-radius: ${BORDER_RADIUS};
-	padding: ${SEPARATION} calc(3 * ${SEPARATION});
+	border-radius: ${theme.borders.radius};
+	padding: ${theme.spacing.separation} calc(3 * ${theme.spacing.separation});
 `

@@ -1,8 +1,6 @@
-import styled from "styled-components"
+import theme from "@web/theme/theme"
 import React, { ReactNode, useState } from "react"
-
-export const SEPARATION = "4px"
-export const BORDER_RADIUS = "6px"
+import styled from "styled-components"
 
 export type AccordionItemType = {
 	name: string
@@ -27,7 +25,7 @@ const AccordionContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 1px;
-	border-radius: ${BORDER_RADIUS};
+	border-radius: ${theme.borders.radius};
 	border: 1px gray solid;
 	grid-area: misc;
 	background-color: gray;
@@ -52,7 +50,7 @@ const AccordionItemName = styled.div`
 const AccordionItemContent = styled.div<{ open: boolean }>`
 	background-color: whitesmoke;
 	${({ open }) => (open ? "" : "display: none")};
-	padding: ${SEPARATION};
+	padding: ${theme.spacing.separation};
 `
 
 function AccordionItem({ item }: { item: AccordionItemType }) {

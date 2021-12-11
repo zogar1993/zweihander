@@ -1,9 +1,7 @@
 import { Spell } from "@core/domain/Spell"
-import theme, { BORDER_RADIUS } from "@web/theme/theme"
+import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
-
-const SEPARATION = "4px"
 
 export default function SpellCard({ spell }: Props) {
 	return (
@@ -28,11 +26,11 @@ type Props = {
 const Section = styled.section`
 	display: flex;
 	flex-direction: column;
-	gap: ${SEPARATION};
+	gap: ${theme.spacing.separation};
 
 	border: 1px solid lightgray;
-	border-radius: ${BORDER_RADIUS};
-	padding: ${SEPARATION} calc(3 * ${SEPARATION});
+	border-radius: ${theme.borders.radius};
+	padding: ${theme.spacing.separation} calc(3 * ${theme.spacing.separation});
 	min-width: 200px;
 
 	user-select: none;
@@ -41,7 +39,7 @@ const Section = styled.section`
 
 const TagContainer = styled.div`
 	display: flex;
-	gap: ${SEPARATION};
+	gap: ${theme.spacing.separation};
 `
 
 const Tag = styled.span`

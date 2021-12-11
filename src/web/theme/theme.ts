@@ -1,8 +1,6 @@
 // @ts-ignore
 import styleInject from "style-inject"
 
-export const BORDER_RADIUS = "6px"
-
 export enum Color {
 	White = "#ffffff",
 	LighterGray = "#f5f5f5",
@@ -47,6 +45,12 @@ const light = {
 		stylish: "Almendra, Times, serif",
 		common: "Arial, Times, serif",
 	},
+	borders: {
+		radius: "6px"
+	},
+	spacing: {
+		separation: "4px"
+	}
 }
 
 const themes = { light }
@@ -85,7 +89,7 @@ styleInject(
 
     *::-webkit-scrollbar-thumb {
       background: darkgrey;
-      border-radius: ${BORDER_RADIUS};
+      border-radius: ${theme.borders.radius};
     }
 
     *::-webkit-scrollbar-thumb:hover {

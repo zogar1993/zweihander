@@ -1,9 +1,9 @@
+import theme from "@web/theme/theme"
 import styled from "styled-components"
 
-export const SEPARATION = "4px"
 const Grid = styled.div<Props>`
 	display: grid;
-	gap: ${SEPARATION};
+	gap: ${theme.spacing.separation};
 	grid-template-columns: repeat(${({ columns }) => columns || "auto-fit"}, 1fr);
 	flex-grow: 1;
 

@@ -1,4 +1,4 @@
-import theme, { BORDER_RADIUS } from "@web/theme/theme"
+import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
@@ -88,7 +88,7 @@ const Button = styled.button<ButtonProps>`
 	font-weight: bold;
 	text-transform: uppercase;
 
-	border-radius: ${BORDER_RADIUS};
+	border-radius: ${theme.borders.radius};
 
 	border-width: 1px;
 	border-style: solid;
@@ -135,18 +135,21 @@ const ButtonItem = styled(Button)<Props>`
 		props["has-buttons-right"] ? "none" : "solid"};
 
 	border-top-left-radius: ${props =>
-		props["has-buttons-top"] || props["has-buttons-left"] ? 0 : BORDER_RADIUS};
+		props["has-buttons-top"] || props["has-buttons-left"]
+			? 0
+			: theme.borders.radius};
 	border-top-right-radius: ${props =>
-		props["has-buttons-top"] || props["has-buttons-right"] ? 0 : BORDER_RADIUS};
+		props["has-buttons-top"] || props["has-buttons-right"]
+			? 0
+			: theme.borders.radius};
 	border-bottom-left-radius: ${props =>
 		props["has-buttons-bottom"] || props["has-buttons-left"]
 			? 0
-			: BORDER_RADIUS};
+			: theme.borders.radius};
 	border-bottom-right-radius: ${props =>
 		props["has-buttons-bottom"] || props["has-buttons-right"]
 			? 0
-			: BORDER_RADIUS};
+			: theme.borders.radius};
 `
 
-//TODO remove constants
 //TODO check visibility of exports
