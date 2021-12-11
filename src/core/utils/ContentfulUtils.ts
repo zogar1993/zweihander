@@ -7,7 +7,7 @@ export function importify(entries: Array<any>, type: string) {
 		assets: [],
 		locales: [],
 		webhooks: [],
-		roles: [],
+		roles: []
 	}
 }
 
@@ -20,11 +20,11 @@ function contentfullify(entry: any, type: string) {
 				sys: {
 					type: "Link",
 					linkType: "ContentType",
-					id: type,
-				},
-			},
+					id: type
+				}
+			}
 		},
-		fields: usify(entry),
+		fields: usify(entry)
 	}
 }
 
@@ -38,14 +38,14 @@ const contentful = require("contentful")
 
 const client = contentful.createClient({
 	space: process.env.CONTENTFUL_SPACE,
-	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 })
 
 export async function fetchEntries<T>(type: string): Promise<Array<T>> {
 	const response = await client.getEntries({
 		content_type: type,
 		limit: 1000,
-		include: 10,
+		include: 10
 	})
 	return contentfulToArrayOfPlainObjects(response.items)
 }

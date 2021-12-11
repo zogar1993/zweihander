@@ -51,7 +51,7 @@ function Menu({ children }: { children: ReactNode }) {
 
 const screens = ({
 	ancestries,
-	magicSources,
+	magicSources
 }: {
 	ancestries: Array<Ancestry>
 	magicSources: Array<MagicSource>
@@ -63,13 +63,13 @@ const screens = ({
 		items: ancestries.map(ancestry => ({
 			name: ancestry.name,
 			icon: "/menu/dwarf.png",
-			path: `ancestries/${ancestry.code}`,
-		})),
+			path: `ancestries/${ancestry.code}`
+		}))
 	},
 	{
 		path: "professions/:profession?",
 		name: "Professions",
-		icon: "/menu/businessman.png",
+		icon: "/menu/businessman.png"
 	},
 	{ path: "talents", name: "Talents", icon: "/menu/talent.png" },
 	{
@@ -78,10 +78,12 @@ const screens = ({
 		items: magicSources.map(source => ({
 			name: source.name,
 			icon: source.icon,
-			path: `magic/${source.code}`,
-		})),
+			path: `magic/${source.code}${
+				source.schools.length > 1 ? `/${source.schools[0].code}` : ""
+			}`
+		}))
 	},
-	{ path: "creatures", name: "Creatures", icon: "/menu/monster.png" },
+	{ path: "creatures", name: "Creatures", icon: "/menu/monster.png" }
 ]
 
 function CssPreloadLink({ href }: { href: string }) {

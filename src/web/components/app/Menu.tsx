@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
-import styled from "styled-components"
 import Link from "@web/components/general/Link"
 import theme from "@web/theme/theme"
+import React, { useEffect, useState } from "react"
+import styled from "styled-components"
 //TODO use import Image from 'next/image'
 
 const FOOTER_HEIGHT = "0px"
@@ -96,11 +96,7 @@ function SubItems({ items, expanded, show }: SubItemsProps) {
 		<SubItemsContainer show={show} amount={items.length}>
 			{items.map(item => {
 				return (
-					<SubItemLink
-						key={item.name}
-						show={expanded}
-						href={`/${item.path}`}
-					>
+					<SubItemLink key={item.name} show={expanded} href={`/${item.path}`}>
 						<Icon src={item.icon} alt={item.name} />
 						<SubItemName>{item.name}</SubItemName>
 					</SubItemLink>
@@ -219,9 +215,7 @@ const SubItemLink = styled(Link)<{ show: boolean }>`
 	align-items: center;
 	cursor: pointer;
 
-	transform: translateX(
-		${({ show }) => (show ? `-${WIDTH_COLLAPSED}` : 0)}
-	);
+	transform: translateX(${({ show }) => (show ? `-${WIDTH_COLLAPSED}` : 0)});
 	transition: 0.4s ease-out;
 
 	:hover {

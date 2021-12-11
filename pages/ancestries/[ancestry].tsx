@@ -24,25 +24,27 @@ export default function AncestriesScreen({ ancestry }: any) {
 	)
 }
 
-export async function getStaticProps({ params: { slug } }: any) {
+export async function getStaticProps({
+	params: { ancestry: ancestryCode }
+}: any) {
 	const ancestries = await getAncestries()
 	return {
 		props: {
 			ancestry: ancestries.find(
-				(ancestry: Ancestry) => ancestry.code === slug
-			)!,
-		},
+				(ancestry: Ancestry) => ancestry.code === ancestryCode
+			)!
+		}
 	}
 }
 
 export async function getStaticPaths() {
 	const ancestries = await getAncestries()
 	const paths = ancestries.map((x: { code: string }) => ({
-		params: { slug: x.code },
+		params: { ancestry: x.code }
 	}))
 	return {
 		paths,
-		fallback: false,
+		fallback: false
 	}
 }
 

@@ -8,7 +8,7 @@ export type AccordionItemType = {
 }
 
 export default function Accordion({
-	items,
+	items
 }: {
 	items: Array<AccordionItemType>
 }) {

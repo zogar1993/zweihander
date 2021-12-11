@@ -7,7 +7,7 @@ enum Color {
 	LightGray = "#dfdfdf",
 	Gray = "#b9b9b9",
 	DarkGrey = "#808080",
-	Black = "#000000",
+	Black = "#000000"
 }
 
 const light = {
@@ -21,29 +21,29 @@ const light = {
 			background: Color.LighterGray,
 			open_item: Color.LightGray,
 			focus: Color.Gray,
-			border: Color.Gray,
+			border: Color.Gray
 		},
 
 		disabled: {
 			text: Color.DarkGrey,
-			primary: Color.LighterGray,
+			primary: Color.LighterGray
 		},
 
 		actives: {
 			text: Color.Black,
-			primary: Color.DarkGrey,
+			primary: Color.DarkGrey
 		},
 
 		hovers: {
 			text: Color.Black,
-			primary: Color.Gray,
-		},
+			primary: Color.Gray
+		}
 	},
 	fonts: {
 		handwritten: "Patrick Hand, Times, serif",
 		title: "Almendra SC, Times, serif",
 		stylish: "Almendra, Times, serif",
-		common: "Arial, Times, serif",
+		common: "Arial, Times, serif"
 	},
 	borders: {
 		radius: "6px"
