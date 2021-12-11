@@ -3,11 +3,15 @@ import { MagicSource } from "@core/domain/MagicSource"
 import ButtonsGroup from "@web/components/general/ButtonsGroup"
 import SpellCards from "@web/components/magic/SpellCards"
 import theme from "@web/theme/theme"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 
 export default function MagicSourceScreen({ source }: { source: MagicSource }) {
 	const [school, setSchool] = useState(source.schools[0])
+
+	useEffect(() => {
+		setSchool(source.schools[0])
+	}, [source.code])
 
 	return (
 		<SourceContainer>
@@ -60,4 +64,4 @@ const SourceContainer = styled.div`
 `
 
 //TODO order by petty to greater
-//TODO fix generalist getting state of other source
+//TODO add deeplink for magic schools

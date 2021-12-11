@@ -21,8 +21,6 @@ type Props = {
 	spell: Spell
 }
 
-//TODO move constants to theme
-
 const Section = styled.section`
 	display: flex;
 	flex-direction: column;
@@ -53,7 +51,7 @@ const Paragraph = styled.p`
 	color: black;
 `
 
-const Title = styled.h3`
+const Title = styled.h5`
 	font-family: ${theme.fonts.title};
 	font-size: 26px;
 	text-align: center;

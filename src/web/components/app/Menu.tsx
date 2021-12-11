@@ -23,10 +23,10 @@ export default function Menu({ logo, menu }: MenuProps) {
 	const [openMenu, setOpenMenu] = useState<string | null>(null)
 	const [isMobile, setIsMobile] = useState(false)
 	//toggle when on mobile means that the hamburger is open. Should be closed by default.
-	//toggle when on desktop means that the sidebar is expanded. Should be expanded by default.
+	//toggle when on desktop means that the sidebar is shown. Should be shown by default.
 	const [toggle, setToggle] = useState(!isMobile)
-	//expanded is always true when mobile.
-	const expanded = toggle || isMobile
+	//show is always true when mobile.
+	const show = toggle || isMobile
 	//open is always true when desktop.
 	const open = toggle || !isMobile
 
@@ -42,19 +42,19 @@ export default function Menu({ logo, menu }: MenuProps) {
 	}, [isMobile])
 
 	return (
-		<MenuElement expanded={expanded}>
+		<MenuElement show={show}>
 			<MenuOverflowHider>
 				<Logo
 					src={logo}
 					alt="logo"
-					open={expanded}
+					show={show}
 					onClick={() => setToggle(toggle => !toggle)}
 				/>
 				<ItemsContainer open={open}>
 					{menu.map(item => (
 						<Item
 							key={item.name}
-							{...{ item, expanded, openMenu, setOpenMenu }}
+							{...{ item, expanded: show, openMenu, setOpenMenu }}
 						/>
 					))}
 				</ItemsContainer>
@@ -99,7 +99,7 @@ function SubItems({ items, expanded, show }: SubItemsProps) {
 				return (
 					<SubItemLink
 						key={item.name}
-						expanded={expanded}
+						show={expanded}
 						href={`/${item.path}`}
 					>
 						<Icon src={item.icon} alt={item.name} />
@@ -114,14 +114,6 @@ function SubItems({ items, expanded, show }: SubItemsProps) {
 type MenuProps = {
 	logo: any
 	menu: Array<MenuItem>
-}
-
-function redirectTo(item: LeafItem, router: NextRouter) {
-	const clean = item.path
-		.split("/")
-		.filter(x => !x.includes(":"))
-		.join("/")
-	if (!router.pathname.includes(`/${clean})`)) router.push(`/${clean}`)
 }
 
 type SubItemsProps = {
@@ -162,7 +154,7 @@ const MenuOverflowHider = styled.div`
 	}
 `
 
-const Logo = styled.img<{ open: boolean }>`
+const Logo = styled.img<{ show: boolean }>`
 	width: ${WIDTH_EXTENDED};
 	min-height: 40px;
 	overflow-x: hidden;
@@ -220,7 +212,7 @@ const SubItemsContainer = styled.div<{ show: boolean; amount: number }>`
 	transition: 0.4s ease-in-out;
 `
 
-const SubItemLink = styled(Link)<{ expanded: boolean }>`
+const SubItemLink = styled(Link)<{ show: boolean }>`
 	height: ${SUB_ITEM_HEIGHT};
 	width: calc(${WIDTH_COLLAPSED} + ${WIDTH_EXTENDED});
 
@@ -229,7 +221,7 @@ const SubItemLink = styled(Link)<{ expanded: boolean }>`
 	cursor: pointer;
 
 	transform: translateX(
-		${({ expanded }) => (expanded ? `-${WIDTH_COLLAPSED}` : 0)}
+		${({ show }) => (show ? `-${WIDTH_COLLAPSED}` : 0)}
 	);
 	transition: 0.4s ease-out;
 
@@ -238,11 +230,11 @@ const SubItemLink = styled(Link)<{ expanded: boolean }>`
 	}
 `
 
-const MenuElement = styled.div<{ expanded: boolean }>`
+const MenuElement = styled.div<{ show: boolean }>`
 	user-select: none;
 	position: sticky;
 	height: calc(100vh - ${FOOTER_HEIGHT});
-	width: ${({ expanded }) => (expanded ? WIDTH_EXTENDED : WIDTH_COLLAPSED)};
+	width: ${({ show }) => (show ? WIDTH_EXTENDED : WIDTH_COLLAPSED)};
 	background-color: ${theme.colors.menu.background};
 	transition: width 0.4s;
 	border-right: ${theme.colors.menu.border} solid 1px;
