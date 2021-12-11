@@ -221,6 +221,10 @@ const SubItemLink = styled(Link)<{ show: boolean }>`
 	:hover {
 		background-color: ${theme.colors.menu.focus};
 	}
+
+  @media (max-width: 768px) {
+    width: calc(${WIDTH_COLLAPSED} + 100%);
+  }
 `
 
 const MenuElement = styled.div<{ show: boolean }>`
