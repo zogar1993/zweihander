@@ -1,3 +1,4 @@
+import theme from "@web/theme/theme"
 import React, { ReactNode } from "react"
 import styled from "styled-components"
 import Menu, {MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
@@ -30,6 +31,7 @@ const PageContent = styled.div`
 `
 
 const Section = styled.section`
+  
 	height: 100vh;
 	width: calc(100% - ${MENU_WIDTH_EXTENDED});
 	margin: 0 auto;
@@ -40,5 +42,6 @@ const Section = styled.section`
 
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+  justify-content: center;
+  gap: ${theme.spacing.separation};
 `

@@ -1,18 +1,19 @@
 import { getMagicSources } from "@core/actions/GetMagicSources"
-import {
-	MagicSourceScreenProps,
-	SourceContainer,
-	Title
-} from "@web/components/magic/MagicSourceScreen"
+import { MagicSchool } from "@core/domain/MagicSchool"
+import { MagicSource } from "@core/domain/MagicSource"
+import { PageTitle } from "@web/components/general/PageTitle"
 import SpellCards from "@web/components/magic/SpellCards"
 import React from "react"
 
-export default function ({ source, school }: MagicSourceScreenProps) {
+export default function ({ source, school }: {
+	source: MagicSource
+	school: MagicSchool
+}) {
 	return (
-		<SourceContainer>
-			<Title>{source.name}</Title>
+		<>
+			<PageTitle>{source.name}</PageTitle>
 			<SpellCards spells={school.spells} />
-		</SourceContainer>
+		</>
 	)
 }
 

@@ -3,10 +3,7 @@ import { MagicSchool } from "@core/domain/MagicSchool"
 import { MagicSource } from "@core/domain/MagicSource"
 import { Spell } from "@core/domain/Spell"
 import ButtonsGroup from "@web/components/general/ButtonsGroup"
-import {
-	SourceContainer,
-	Title
-} from "@web/components/magic/MagicSourceScreen"
+import { PageTitle } from "@web/components/general/PageTitle"
 import SpellCards from "@web/components/magic/SpellCards"
 import { useRouter } from "next/router"
 import React from "react"
@@ -22,8 +19,8 @@ export default function MagicSourceWithManySchoolsScreen({
 }) {
 	const router = useRouter()
 	return (
-		<SourceContainer>
-			<Title>{source.name}</Title>
+		<>
+			<PageTitle>{source.name}</PageTitle>
 			{source.schools.length > 1 && (
 				<ButtonsGroup
 					items={source.schools}
@@ -31,10 +28,11 @@ export default function MagicSourceWithManySchoolsScreen({
 					onChange={school => {
 						router.push(`/magic/${source.code}/${school.code}`)
 					}}
+					columns={5}
 				/>
 			)}
 			<SpellCards spells={spells} />
-		</SourceContainer>
+		</>
 	)
 }
 
