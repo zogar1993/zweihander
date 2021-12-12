@@ -3,7 +3,8 @@ import styleInject from "style-inject"
 
 enum Color {
 	White = "#ffffff",
-	LighterGray = "#f5f5f5",
+	LightestGray = "#f5f5f5",
+	LighterGray = "#EAEAEA",
 	LightGray = "#dfdfdf",
 	Gray = "#b9b9b9",
 	DarkGrey = "#808080",
@@ -18,7 +19,7 @@ const light = {
 		primary: Color.White,
 
 		menu: {
-			background: Color.LighterGray,
+			background: Color.LightestGray,
 			open_item: Color.LightGray,
 			focus: Color.Gray,
 			border: Color.Gray
@@ -26,7 +27,7 @@ const light = {
 
 		disabled: {
 			text: Color.DarkGrey,
-			primary: Color.LighterGray
+			primary: Color.LightestGray
 		},
 
 		actives: {
@@ -37,6 +38,11 @@ const light = {
 		hovers: {
 			text: Color.Black,
 			primary: Color.Gray
+		},
+
+		selected: {
+			text: Color.Black,
+			primary: Color.LighterGray
 		}
 	},
 	fonts: {
