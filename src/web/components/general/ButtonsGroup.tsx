@@ -3,10 +3,8 @@ import React from "react"
 import styled from "styled-components"
 
 export default function ButtonsGroup<T extends Item>(
-	props: ButtonsGroupProps<T>
+	{ items, selected, onChange, columns }: ButtonsGroupProps<T>
 ) {
-	const { items, selected, onChange } = props
-	const columns = 5
 	return (
 		<Container columns={columns}>
 			{items.map((item, index) => (

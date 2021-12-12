@@ -1,26 +1,26 @@
 import { getAncestries } from "@core/actions/GetAncestries"
 import { Ancestry } from "@core/domain/Ancestry"
 import { Trait } from "@web/components/ancestry/AncestryTraitCard"
-import theme from "@web/theme/theme"
+import SpecialRuleCard from "@web/components/card/SpecialRuleCard"
+import Grid from "@web/components/general/Grid"
+import { PageTitle } from "@web/components/general/PageTitle"
 import React from "react"
 import styled from "styled-components"
 
 export default function AncestriesScreen({ ancestry }: any) {
 	return (
-		<section>
-			<h1>{ancestry.name}</h1>
-			<p>{ancestry.description}</p>
+		<>
+			<PageTitle>{ancestry.name}</PageTitle>
+			<Paragraph>{ancestry.description}</Paragraph>
 			<section>
-				<h2>Traits</h2>
-				{ancestry.traits.map((trait: Trait) => (
-					<TraitBox key={trait.name}>
-						<h3>{trait.name}</h3>
-						<p>{trait.description}</p>
-						<p>{trait.effect}</p>
-					</TraitBox>
-				))}
+				<h3>Traits</h3>
+				<Grid columns={3}>
+					{ancestry.traits.map((trait: Trait) => (
+						<SpecialRuleCard key={trait.name} trait={trait} />
+					))}
+				</Grid>
 			</section>
-		</section>
+		</>
 	)
 }
 
@@ -48,8 +48,6 @@ export async function getStaticPaths() {
 	}
 }
 
-const TraitBox = styled.article`
-	border: 1px solid lightgray;
-	border-radius: ${theme.borders.radius};
-	padding: ${theme.spacing.separation} calc(3 * ${theme.spacing.separation});
+const Paragraph = styled.p`
+	color: black;
 `

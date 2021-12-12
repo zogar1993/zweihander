@@ -1,4 +1,5 @@
 import { Spell } from "@core/domain/Spell"
+import { CardTitle } from "@web/components/general/CardTitle"
 import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
@@ -6,7 +7,7 @@ import styled from "styled-components"
 export default function SpellCard({ spell }: Props) {
 	return (
 		<Section>
-			<Title>{spell.name}</Title>
+			<CardTitle>{spell.name}</CardTitle>
 			<TagContainer>
 				<Tag>{spell.school}</Tag>
 				<Tag>{spell.principle}</Tag>
@@ -49,12 +50,4 @@ const Tag = styled.span`
 
 const Paragraph = styled.p`
 	color: black;
-`
-
-const Title = styled.h5`
-	font-family: ${theme.fonts.title};
-	font-size: 26px;
-	text-align: center;
-	color: black;
-	text-transform: capitalize;
 `

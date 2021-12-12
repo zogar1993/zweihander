@@ -31,7 +31,6 @@ const PageContent = styled.div`
 `
 
 const Section = styled.section`
-  
 	height: 100vh;
 	width: calc(100% - ${MENU_WIDTH_EXTENDED});
 	margin: 0 auto;
@@ -42,6 +41,6 @@ const Section = styled.section`
 
 	display: flex;
 	flex-direction: column;
-  justify-content: center;
+  align-items: stretch;
   gap: ${theme.spacing.separation};
 `
