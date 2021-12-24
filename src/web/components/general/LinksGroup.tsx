@@ -1,19 +1,20 @@
+import Link from "@web/components/general/Link"
 import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
-export default function ButtonsGroup<T extends Item>({
+export default function LinksGroup<T extends Item>({
 	items,
 	selected,
-	onChange,
-	columns
+	columns,
+	path
 }: ButtonsGroupProps<T>) {
 	return (
 		<Container columns={columns}>
 			{items.map(item => (
 				<ButtonItem
 					key={item.code}
-					onClick={() => onChange(item)}
+					href={`${path}/${item.code}`}
 					selected={selected.code === item.code}
 				>
 					{item.name}
@@ -31,7 +32,7 @@ type Item = {
 type ButtonsGroupProps<T extends Item> = {
 	items: Array<T>
 	selected: T
-	onChange: (item: T) => void
+	path: string
 	columns: number
 }
 
@@ -43,25 +44,30 @@ const Container = styled.div<{ columns: number }>`
 	gap: 1px;
 	border: 1px solid darkgray;
 	overflow: hidden;
-  flex-shrink: 0;
+	flex-shrink: 0;
 
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr;
 	}
 `
-//TODO fix issue on mobile where this does not show
 
 type ButtonProps = {
 	selected?: boolean
 }
 
-const Button = styled.button<ButtonProps>`
+const Button = styled(Link)`
 	min-width: 65px;
 
 	font-family: ${theme.fonts.common};
 	font-size: 16px;
 	font-weight: bold;
+
 	text-transform: uppercase;
+	text-align: center;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
 	color: ${theme.colors.text};
 	border-color: ${theme.colors.text};

@@ -2,10 +2,9 @@ import { getMagicSources } from "@core/actions/GetMagicSources"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { MagicSource } from "@core/domain/MagicSource"
 import { Spell } from "@core/domain/Spell"
-import ButtonsGroup from "@web/components/general/ButtonsGroup"
+import LinksGroup from "@web/components/general/LinksGroup"
 import { PageTitle } from "@web/components/general/PageTitle"
 import SpellCards from "@web/components/magic/SpellCards"
-import { useRouter } from "next/router"
 import React from "react"
 
 export default function MagicSourceWithManySchoolsScreen({
@@ -17,17 +16,14 @@ export default function MagicSourceWithManySchoolsScreen({
 	school: MagicSchool
 	spells: Array<Spell>
 }) {
-	const router = useRouter()
 	return (
 		<>
 			<PageTitle>{source.name}</PageTitle>
 			{source.schools.length > 1 && (
-				<ButtonsGroup
+				<LinksGroup
 					items={source.schools}
 					selected={school}
-					onChange={school => {
-						router.push(`/magic/${source.code}/${school.code}`)
-					}}
+					path={`/magic/${source.code}`}
 					columns={5}
 				/>
 			)}
