@@ -43,6 +43,7 @@ const Container = styled.div<{ columns: number }>`
 	gap: 1px;
 	border: 1px solid darkgray;
 	overflow: hidden;
+  flex-shrink: 0;
 
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr;

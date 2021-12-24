@@ -46,6 +46,7 @@ export async function getStaticProps({
 	const petty = spells.filter(x => x.principle === "Petty")
 	const lesser = spells.filter(x => x.principle === "Lesser")
 	const greater = spells.filter(x => x.principle === "Greater")
+	//TODO move to cache somehow?
 	const sortedSpells = petty.concat(lesser).concat(greater)
 	return { props: { source, school, spells: sortedSpells } }
 }

@@ -38,6 +38,7 @@ const Section = styled.section`
 
 const TagContainer = styled.div`
 	display: flex;
+	flex-wrap: wrap;
 	gap: ${theme.spacing.separation};
 `
 
@@ -45,7 +46,6 @@ const Tag = styled.span`
 	border: 1px solid lightgray;
 	border-radius: 4px;
 	padding: 3px 5px 3px 5px;
-	margin: 2px;
 `
 
 const Paragraph = styled.p`
