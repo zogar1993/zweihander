@@ -1,7 +1,7 @@
 import Link from "@web/components/general/Link"
 import theme from "@web/theme/theme"
 import React, { useEffect, useState } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 //TODO use import Image from 'next/image'
 
 export const MENU_WIDTH_EXTENDED = "190px"
@@ -258,38 +258,33 @@ const ItemContainer = styled.div<{ open: boolean }>`
 	transition: 0.4s ease-out;
 `
 
-const ItemLink = styled(Link)<{ open: boolean }>`
+const MenuItemCss = css`
 	display: flex;
 	align-items: center;
-	background-color: ${({ open }) =>
-		open ? theme.colors.menu.open_item : theme.colors.menu.background};
 
 	cursor: pointer;
 	transition: 0.4s ease-out;
 	z-index: 1;
 
+	height: 44px;
+
 	:hover {
 		background-color: ${theme.colors.menu.focus};
 	}
-
-	height: 44px;
 `
-//TODO remove duplication
-const ItemButton = styled(NoStyleButton)<{ open: boolean }>`
-	display: flex;
-	align-items: center;
+
+const ItemLink = styled(Link)<{ open: boolean }>`
+	${MenuItemCss};
+
 	background-color: ${({ open }) =>
 		open ? theme.colors.menu.open_item : theme.colors.menu.background};
+`
 
-	cursor: pointer;
-	transition: 0.4s ease-out;
-	z-index: 1;
+const ItemButton = styled(NoStyleButton)<{ open: boolean }>`
+	${MenuItemCss};
 
-	:hover {
-		background-color: ${theme.colors.menu.focus};
-	}
-
-	height: 44px;
+	background-color: ${({ open }) =>
+		open ? theme.colors.menu.open_item : theme.colors.menu.background};
 `
 
 const ItemName = styled.span`

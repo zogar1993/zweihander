@@ -66,3 +66,4 @@ function AccordionItem({ item }: { item: AccordionItemType }) {
 }
 
 //TODO style misc accordion
+//TODO fix scrollbar on ancestries mobile
