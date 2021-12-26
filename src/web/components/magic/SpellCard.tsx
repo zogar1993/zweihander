@@ -25,6 +25,7 @@ type Props = {
 const Section = styled.section`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: ${theme.spacing.separation};
 
 	border: 1px solid lightgray;
