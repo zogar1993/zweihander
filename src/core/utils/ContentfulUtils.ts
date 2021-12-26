@@ -42,6 +42,7 @@ const client = contentful.createClient({
 })
 
 export async function fetchEntries<T>(type: string): Promise<Array<T>> {
+	//Thesse are the max values for both limit and include at the time
 	const response = await client.getEntries({
 		content_type: type,
 		limit: 1000,
