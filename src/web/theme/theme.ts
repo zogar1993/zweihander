@@ -25,6 +25,8 @@ const light = {
 			border: Color.Gray
 		},
 
+		border: "lightgray",
+
 		disabled: {
 			text: Color.DarkGrey,
 			primary: Color.LightestGray

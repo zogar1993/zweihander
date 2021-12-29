@@ -1,7 +1,7 @@
+import Menu, { MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
 import theme from "@web/theme/theme"
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import Menu, {MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
 
 export type MainProps = {
 	logo: any
@@ -41,6 +41,6 @@ const Section = styled.section`
 
 	display: flex;
 	flex-direction: column;
-  align-items: stretch;
-  gap: ${theme.spacing.separation};
+	align-items: stretch;
+	gap: ${theme.spacing.separation};
 `
