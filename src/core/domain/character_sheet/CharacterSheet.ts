@@ -1,8 +1,11 @@
 import { Ancestry } from "@core/domain/Ancestry"
+import { ATTRIBUTE_DEFINITIONS, AttributeDefinition } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
+import { SkillDefinition } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
+import { Principle } from "@core/domain/Spell"
 import { Talent } from "@core/domain/Talent"
 
 type Props = {
@@ -260,7 +263,7 @@ function spentExperience({
 
 function orderSkills(skills: Array<Skill>, order: SkillOrder) {
 	if (order === "alphabetic") return skills
-	return ATTRIBUTES.map(attr =>
+	return ATTRIBUTE_DEFINITIONS.map(attr =>
 		skills.filter(skill => skill.attribute === attr.code)
 	).flatMap(x => x)
 }
@@ -401,43 +404,7 @@ export const upbringings = [
 	}
 ]
 
-export const ATTRIBUTES: Array<AttributeDefinition> = [
-	{
-		name: "Combat",
-		code: "combat"
-	},
-	{
-		name: "Brawn",
-		code: "brawn"
-	},
-	{
-		name: "Agility",
-		code: "agility"
-	},
-	{
-		name: "Perception",
-		code: "perception"
-	},
-	{
-		name: "Intelligence",
-		code: "intelligence"
-	},
-	{
-		name: "Willpower",
-		code: "willpower"
-	},
-	{
-		name: "Fellowship",
-		code: "fellowship"
-	}
-]
-
-export type AttributeDefinition = {
-	name: string
-	code: AttributeCode
-}
-
-interface Attribute {
+type Attribute = {
 	name: string
 	code: AttributeCode
 	base: number
@@ -448,6 +415,18 @@ interface Attribute {
 	ancestry_bonus: number
 
 	mercy_possible: boolean
+}
+
+type Skill = {
+	name: string
+	code: SkillCode
+	special: boolean
+	ranks: number
+	profession_ranks: number
+	chance: number
+	flip: Flip
+	has_focuses: boolean
+	attribute: AttributeCode
 }
 
 export type CharacterSheetData = {
@@ -502,26 +481,7 @@ export type CharacterSpells = Partial<Record<SchoolCode, Array<SpellCode>>>
 
 export type Focuses = Partial<Record<SkillCode, Array<string>>>
 
-export type SkillDefinition = {
-	name: string
-	code: SkillCode
-	attribute: AttributeCode
-	special: boolean
-}
-export type Principle = "Petty" | "Lesser" | "Greater"
-type Skill = {
-	name: string
-	code: SkillCode
-	special: boolean
-	ranks: number
-	profession_ranks: number
-	chance: number
-	flip: Flip
-	has_focuses: boolean
-	attribute: AttributeCode
-}
-
-interface CharacterSheet {
+type CharacterSheet = {
 	id: string
 	name: string
 	age: number
@@ -565,12 +525,12 @@ interface CharacterSheet {
 	settings: CharacterSheetSettings
 }
 
-interface ConditionTrack {
+type ConditionTrack = {
 	value: number
 	threshold: number
 }
 
-interface CharacterSheetAttribute {
+type CharacterSheetAttribute = {
 	name: string
 	code: AttributeCode
 	base: number
@@ -583,7 +543,7 @@ interface CharacterSheetAttribute {
 	mercy_possible: boolean
 }
 
-interface CharacterSheetSkill {
+type CharacterSheetSkill = {
 	name: string
 	code: SkillCode
 	special: boolean
