@@ -1,3 +1,5 @@
+import { AttributeBonuses } from "@core/domain/attribute/AttributeBonuses"
+
 export type Ancestry = {
 	name: string
 	code: string
@@ -16,14 +18,3 @@ export type AncestryTrait = {
 	from: number
 	to: number
 }
-
-export type AttributeBonuses = Partial<Record<AttributeCode, number>>
-
-export type AttributeCode =
-	| "combat"
-	| "brawn"
-	| "agility"
-	| "perception"
-	| "intelligence"
-	| "willpower"
-	| "fellowship"

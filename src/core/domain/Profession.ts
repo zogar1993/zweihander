@@ -1,3 +1,5 @@
+import { AttributeBonuses } from "@core/domain/attribute/AttributeBonuses"
+
 export type Profession = {
 	name: string
 	code: string
@@ -15,20 +17,9 @@ export type ProfessionAdvances = {
 	talents: Array<string>
 }
 
-export type AttributeBonuses = Partial<Record<AttributeCode, number>>
-
 export type Trait = {
 	name: string
 	code?: string
 	description: string
 	effect: string
 }
-
-export type AttributeCode =
-	"combat"
-	| "brawn"
-	| "agility"
-	| "perception"
-	| "intelligence"
-	| "willpower"
-	| "fellowship"

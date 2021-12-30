@@ -1,0 +1,32 @@
+import { Ancestry } from "@core/domain/Ancestry"
+import { calculateCharacterSheet, CharacterSheetData } from "@core/domain/character_sheet/CharacterSheet"
+import { MagicSchool } from "@core/domain/MagicSchool"
+import { Profession } from "@core/domain/Profession"
+import { Talent } from "@core/domain/Talent"
+
+const initialState = {}
+
+function reducer(state = initialState, action: { type: string, payload: {
+		character: CharacterSheetData
+		talents: Array<Talent>
+		professions: Array<Profession>
+		ancestries: Array<Ancestry>
+		schools: Array<MagicSchool>} }) {
+	switch (action.type) {
+		case "initialize": {
+			const { character, talents, professions, ancestries } = action.payload
+			return {
+				...state,
+				rawCharacter: character,
+				character: calculateCharacterSheet(action.payload),
+				talents,
+				professions,
+				ancestries
+			}
+		}
+		default:
+			return state
+	}
+}
+
+export default reducer;

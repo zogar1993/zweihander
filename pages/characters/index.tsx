@@ -71,12 +71,14 @@ const CardInfo = styled.div`
 
 const CardInfoLine = styled.span`
 	font-family: ${theme.fonts.handwritten};
+  color: ${theme.colors.text};
 `
 
 const CardTitle = styled.span`
   font-family: ${theme.fonts.stylish};
   font-size: 20px;
   text-align: center;
+  color: ${theme.colors.text};
 `
 
 const Avatar = styled(Image)`
