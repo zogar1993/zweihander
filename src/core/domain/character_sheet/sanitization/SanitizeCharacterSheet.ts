@@ -1,18 +1,18 @@
-import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
-	CharacterSheetAttributeData,
-	CharacterSheetAttributes,
-	CharacterSheetData,
-	CharacterSheetSkillData,
-	CharacterSheetSkills
-} from "@core/domain/character_sheet/CharacterSheet"
-import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
+	ATTRIBUTE_DEFINITIONS,
+	AttributeDefinition
+} from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
+import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import { ShallowCharacterSheet } from "@core/domain/character_sheet/sanitization/ShallowCharacterSheet"
+import {
+	SKILL_DEFINITIONS,
+	SkillDefinition
+} from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 
 export default function sanitizeCharacterSheet(
 	raw: UnsanitizedCharacterSheetData
-): CharacterSheetData {
+): SanitizedCharacterSheet {
 	return {
 		id: raw.id!,
 		name: raw.name!,
@@ -55,10 +55,8 @@ export default function sanitizeCharacterSheet(
 	}
 }
 
-function sanitizeAttributes(
-	raw: UnsanitizedAttributes
-): CharacterSheetAttributes {
-	const attributes = {} as CharacterSheetAttributes
+function sanitizeAttributes(raw: UnsanitizedAttributes): SanitizedAttributes {
+	const attributes = {} as SanitizedAttributes
 	ATTRIBUTE_DEFINITIONS.forEach(({ code, ...definition }) => {
 		const attribute = raw[code]
 		const advances = attribute?.advances || 0
@@ -72,8 +70,8 @@ function sanitizeAttributes(
 	return attributes
 }
 
-function sanitizeSkills(raw: UnsanitizedSkills): CharacterSheetSkills {
-	const skills = {} as CharacterSheetSkills
+function sanitizeSkills(raw: UnsanitizedSkills): SanitizedSkills {
+	const skills = {} as SanitizedSkills
 	SKILL_DEFINITIONS.forEach(({ code, ...definition }) => {
 		const { ranks = 0 } = raw[code] || {}
 		skills[code] = { ranks, ...definition }
@@ -81,13 +79,24 @@ function sanitizeSkills(raw: UnsanitizedSkills): CharacterSheetSkills {
 	return skills
 }
 
-export type UnsanitizedCharacterSheetData = Partial<
-	Omit<CharacterSheetData, "skills" | "attributes">
-> & { skills?: UnsanitizedSkills } & { attributes?: UnsanitizedAttributes }
+export type UnsanitizedCharacterSheetData = Partial<ShallowCharacterSheet> & {
+	skills?: UnsanitizedSkills
+	attributes?: UnsanitizedAttributes
+}
 
-export type UnsanitizedSkills = Partial<
-	Record<SkillCode, CharacterSheetSkillData>
->
-export type UnsanitizedAttributes = Partial<
-	Record<AttributeCode, CharacterSheetAttributeData>
->
+type RawSkill = { ranks: number }
+type RawAttribute = { base: number; advances: number }
+
+type UnsanitizedSkills = Partial<Record<SkillCode, RawSkill>>
+type UnsanitizedAttributes = Partial<Record<AttributeCode, RawAttribute>>
+
+export type SanitizedAttribute = RawAttribute &
+	Omit<AttributeDefinition, "code">
+export type SanitizedAttributes = Record<AttributeCode, SanitizedAttribute>
+export type SanitizedSkill = RawSkill & Omit<SkillDefinition, "code">
+export type SanitizedSkills = Record<SkillCode, SanitizedSkill>
+
+export type SanitizedCharacterSheet = ShallowCharacterSheet & {
+	skills: SanitizedSkills
+	attributes: SanitizedAttributes
+}

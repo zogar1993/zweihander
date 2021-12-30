@@ -1,15 +1,15 @@
 import { Ancestry } from "@core/domain/Ancestry"
-import { ATTRIBUTE_DEFINITIONS, AttributeDefinition } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
+import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
-import { SkillDefinition } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Principle } from "@core/domain/Spell"
 import { Talent } from "@core/domain/Talent"
 
 type Props = {
-	character: CharacterSheetData
+	character: SanitizedCharacterSheet
 	ancestries: Array<Ancestry>
 	professions: Array<Profession>
 	schools: Array<MagicSchool>
@@ -37,9 +37,9 @@ export function calculateCharacterSheet({
 	professions,
 	schools,
 	talents
-}: Props): CharacterSheet {
+}: Props): CalculatedCharacterSheet {
 	const ancestry = character.ancestry
-		? getByCode(character.ancestry, ancestries, "Ancestries")
+		? getByCode(character.ancestry, ancestries)
 		: null
 
 	const profs = getProfessions({ character, professions })
@@ -49,8 +49,7 @@ export function calculateCharacterSheet({
 		professions: profs
 	})
 
-	const getAttribute = (code: AttributeCode) =>
-		getByCode(code, attributes, "Attributes")
+	const getAttribute = (code: AttributeCode) => getByCode(code, attributes)
 
 	const skills = getSkills({ character, getAttribute, professions: profs })
 
@@ -89,7 +88,7 @@ export function calculateCharacterSheet({
 }
 
 type GetAttributeProps = {
-	character: CharacterSheetData
+	character: SanitizedCharacterSheet
 	ancestry: Ancestry | null
 	professions: Array<Profession>
 }
@@ -129,7 +128,7 @@ function getAttributes({
 }
 
 type GetSpecialRulesProps = {
-	character: CharacterSheetData
+	character: SanitizedCharacterSheet
 	talents: Array<Talent>
 	professions: Array<Profession>
 	ancestry: Ancestry | null
@@ -146,26 +145,24 @@ function getSpecialRules({
 	)
 	return [
 		...(ancestry_trait ? [ancestry_trait] : []),
-		...character.talents
-			.filter(x => x)
-			.map(x => getByCode(x!, talents, "Talents")),
+		...character.talents.filter(x => x).map(x => getByCode(x!, talents)),
 		...professions.flatMap(x => x.traits)
 	]
 }
 
 type GetProfessionsProps = {
-	character: CharacterSheetData
+	character: SanitizedCharacterSheet
 	professions: Array<Profession>
 }
 
 function getProfessions({ character, professions }: GetProfessionsProps) {
 	return [character.profession1, character.profession2, character.profession3]
 		.filter(x => x)
-		.map(code => getByCode(code!, professions, "Professions"))
+		.map(code => getByCode(code!, professions))
 }
 
 type GetSkillProps = {
-	character: CharacterSheetData
+	character: SanitizedCharacterSheet
 	professions: Array<Profession>
 	getAttribute: (code: AttributeCode) => Attribute
 }
@@ -203,7 +200,7 @@ function getSkills({
 }
 
 type SpentExperienceProps = {
-	character: CharacterSheetData
+	character: SanitizedCharacterSheet
 	schools: Array<MagicSchool>
 	attributes: Array<Attribute>
 	skills: Array<Skill>
@@ -238,10 +235,10 @@ function spentExperience({
 	const spells = { Petty: 0, Lesser: 0, Greater: 0 }
 	const keys = Object.keys(character.spells)
 	for (const schoolCode of keys) {
-		const schoolSpells = getByCode(schoolCode, schools, "Schools").spells
+		const schoolSpells = getByCode(schoolCode, schools).spells
 		const spellCodes = character.spells[schoolCode]!
 		for (const spellCode of spellCodes) {
-			const principle = getByCode(spellCode, schoolSpells, "Spells").principle
+			const principle = getByCode(spellCode, schoolSpells).principle
 			spells[principle]++
 		}
 	}
@@ -429,60 +426,15 @@ type Skill = {
 	attribute: AttributeCode
 }
 
-export type CharacterSheetData = {
-	id: string
-	name: string
-	age: number
-	sex: string | null
-	social_class: string | null
-	upbringing: string | null
-	damage: number
-	peril: number
-	avatar: string | null
-	order_alignment: string | null
-	chaos_alignment: string | null
-	order_ranks: number
-	chaos_ranks: number
-	corruption: number
-	journal: string
-	talents: Array<string | null>
-	ancestry_trait: string | null
-	focuses: Focuses
-	spells: CharacterSpells
-	ancestry: string | null
-	archetype: string | null
-	profession1: string | null
-	profession2: string | null
-	profession3: string | null
-	mercy: string | null
-	skills: CharacterSheetSkills
-	attributes: CharacterSheetAttributes
-	settings: CharacterSheetSettings
-}
-
-export type CharacterSheetSkills = Record<
-	SkillCode,
-	CharacterSheetSkillData & Omit<SkillDefinition, "code">
->
-export type CharacterSheetAttributes = Record<
-	AttributeCode,
-	CharacterSheetAttributeData & Omit<AttributeDefinition, "code">
->
-export type CharacterSheetSkillData = { ranks: number }
-export type CharacterSheetAttributeData = { base: number; advances: number }
-
 export type SkillOrder = "alphabetic" | "by_attribute"
-export type CharacterSheetSettings = {
-	skill_order: SkillOrder
-}
+export type CharacterSheetSettings = { skill_order: SkillOrder }
 export type SchoolCode = string
 export type SpellCode = string
 export type CharacterSpells = Partial<Record<SchoolCode, Array<SpellCode>>>
 
 export type Focuses = Partial<Record<SkillCode, Array<string>>>
 
-type CharacterSheet = {
-	id: string
+export type CalculatedCharacterSheet = {
 	name: string
 	age: number
 	sex: string | null
@@ -563,12 +515,13 @@ export type SpecialRule = {
 
 function getByCode<T extends { code: string }>(
 	code: string,
-	collection: Array<T>,
-	collectionName: string
+	collection: Array<T>
 ): T {
 	const item = collection.find(ancestry => ancestry.code === code)
 	if (item === undefined)
-		throw Error(`${collectionName} of code '${code}' not found`)
+		throw Error(
+			`Code '${code}' not found inside of '${JSON.stringify(collection)}'`
+		)
 
 	return item
 }

@@ -4,8 +4,10 @@ import getMagicSchools from "@core/actions/GetMagicSchools"
 import getProfessions from "@core/actions/GetProfessions"
 import getTalents from "@core/actions/GetTalents"
 import { Ancestry } from "@core/domain/Ancestry"
-import { CharacterSheetData } from "@core/domain/character_sheet/CharacterSheet"
-import sanitizeCharacterSheet from "@core/domain/character_sheet/SanitizeCharacterSheet"
+import { CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
+import sanitizeCharacterSheet, {
+	UnsanitizedCharacterSheetData
+} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { Talent } from "@core/domain/Talent"
@@ -19,7 +21,7 @@ import { Provider } from "react-redux"
 import styled from "styled-components"
 
 export default function CharactersScreen(props: {
-	character: CharacterSheetData
+	character: UnsanitizedCharacterSheetData
 	talents: Array<Talent>
 	professions: Array<Profession>
 	ancestries: Array<Ancestry>
@@ -35,7 +37,9 @@ export default function CharactersScreen(props: {
 		})
 	}, [props])
 
-	const character = router.isFallback ? {} as Partial<CharacterSheetData> : props.character
+	const character = router.isFallback
+		? ({} as Partial<CalculatedCharacterSheet>)
+		: props.character
 
 	return (
 		<Provider store={store}>
@@ -51,7 +55,6 @@ export default function CharactersScreen(props: {
 						/>
 					</AvatarContainer>
 				</Bio>
-				<AttributesSection>{"mono"}</AttributesSection>
 			</Layout>
 		</Provider>
 	)
@@ -86,46 +89,52 @@ export const BLOCK_WIDTH = "255px"
 export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
 //TODO SWR
 const Layout = styled.div`
-  display: grid;
-  width: ${DESKTOP_MAX_WIDTH};
-  grid-template-columns: repeat(4, 1fr);
-  gap: ${theme.spacing.separation};
-  grid-template-areas:
+	display: grid;
+	width: ${DESKTOP_MAX_WIDTH};
+	grid-template-columns: repeat(4, 1fr);
+	gap: ${theme.spacing.separation};
+	grid-template-areas:
 		"bio peril-tracker damage-tracker misc"
 		"attributes skills skills misc";
 
-  @media (max-width: 768px) {
-    grid-template-columns: minmax(0, 1fr);
-    width: 100%;
-    grid-template-areas:
+	@media (max-width: 768px) {
+		grid-template-columns: minmax(0, 1fr);
+		width: 100%;
+		grid-template-areas:
 			"bio"
 			"peril-tracker"
 			"damage-tracker"
 			"attributes"
 			"skills"
 			"misc";
-  }
+	}
 `
 
 const Bio = styled.div`
-  grid-area: bio;
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing.separation};
+	grid-area: bio;
+	display: flex;
+	flex-direction: column;
+	gap: ${theme.spacing.separation};
 `
 const AttributesSection = styled.div`
-  grid-area: attributes;
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing.separation};
+	grid-area: attributes;
+	display: flex;
+	flex-direction: column;
+	gap: ${theme.spacing.separation};
+`
+const SkillsSection = styled.div`
+	grid-area: skills;
+	display: flex;
+	flex-direction: column;
+	gap: ${theme.spacing.separation};
 `
 
 const Avatar = styled(Image)`
-  border-radius: ${theme.borders.radius};
-  width: 143px;
-  height: 143px;
+	border-radius: ${theme.borders.radius};
+	width: 143px;
+	height: 143px;
 `
 
 const AvatarContainer = styled.div`
-  display: flex;
+	display: flex;
 `

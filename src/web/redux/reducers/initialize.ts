@@ -1,17 +1,25 @@
 import { Ancestry } from "@core/domain/Ancestry"
-import { calculateCharacterSheet, CharacterSheetData } from "@core/domain/character_sheet/CharacterSheet"
+import { calculateCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
+import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { Talent } from "@core/domain/Talent"
 
 const initialState = {}
 
-function reducer(state = initialState, action: { type: string, payload: {
-		character: CharacterSheetData
-		talents: Array<Talent>
-		professions: Array<Profession>
-		ancestries: Array<Ancestry>
-		schools: Array<MagicSchool>} }) {
+function reducer(
+	state = initialState,
+	action: {
+		type: string
+		payload: {
+			character: SanitizedCharacterSheet
+			talents: Array<Talent>
+			professions: Array<Profession>
+			ancestries: Array<Ancestry>
+			schools: Array<MagicSchool>
+		}
+	}
+) {
 	switch (action.type) {
 		case "initialize": {
 			const { character, talents, professions, ancestries } = action.payload
@@ -29,4 +37,4 @@ function reducer(state = initialState, action: { type: string, payload: {
 	}
 }
 
-export default reducer;
+export default reducer
