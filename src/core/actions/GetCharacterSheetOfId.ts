@@ -1,3 +1,4 @@
+import sanitizeCharacterSheet from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import getMongoDBClient from "@core/utils/GetMongoDBClient"
 import { ObjectId } from "mongodb"
 
@@ -25,8 +26,9 @@ export async function getCharacterSheetOfId(id: string) {
 
 	if (characters.length === 0) throw Error(`No character of id '${id}' found`)
 
-	return characters.map(({ _id, thumbnail, ...x }) => ({
+	const character = characters.map(({ _id, thumbnail, ...x }) => ({
 		...x,
 		id: _id.toString()
 	}))[0]
+	return sanitizeCharacterSheet(character)
 }

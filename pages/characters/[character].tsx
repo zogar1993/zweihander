@@ -4,59 +4,45 @@ import getMagicSchools from "@core/actions/GetMagicSchools"
 import getProfessions from "@core/actions/GetProfessions"
 import getTalents from "@core/actions/GetTalents"
 import { Ancestry } from "@core/domain/Ancestry"
-import { CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
-import sanitizeCharacterSheet, {
-	UnsanitizedCharacterSheetData
-} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { Talent } from "@core/domain/Talent"
-import { store } from "@web/redux/store"
+import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
+import CharacterSheetBio from "@web/components/character_sheet/CharacterSheetBio"
+import { CharacterSheetContext, useCharacterSheetReducer } from "@web/components/character_sheet/CharacterSheetContext"
+import CharacterSheetSkills from "@web/components/character_sheet/CharacterSheetSkills"
 import theme from "@web/theme/theme"
-import { Field } from "misevi"
-import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
-import { Provider } from "react-redux"
 import styled from "styled-components"
 
 export default function CharactersScreen(props: {
-	character: UnsanitizedCharacterSheetData
+	character: SanitizedCharacterSheet
 	talents: Array<Talent>
 	professions: Array<Profession>
 	ancestries: Array<Ancestry>
 	schools: Array<MagicSchool>
 }) {
 	const router = useRouter()
+	const [state, dispatch] = useCharacterSheetReducer()
 
 	useEffect(() => {
 		if (router.isFallback) return
-		store.dispatch({
+		dispatch({
 			type: "initialize",
-			payload: { ...props, character: sanitizeCharacterSheet(props.character) }
+			payload: { ...props }
 		})
 	}, [props])
 
-	const character = router.isFallback
-		? ({} as Partial<CalculatedCharacterSheet>)
-		: props.character
-
 	return (
-		<Provider store={store}>
+		<CharacterSheetContext.Provider value={{ state, dispatch }}>
 			<Layout>
-				<Bio>
-					<Field label="Name" value={character.name} />
-					<AvatarContainer>
-						<Avatar
-							src={character.avatar || "/character/bandit.png"}
-							alt="Avatar"
-							width={143}
-							height={143}
-						/>
-					</AvatarContainer>
-				</Bio>
+				<CharacterSheetBio />
+				<CharacterSheetAttributes/>
+				<CharacterSheetSkills/>
 			</Layout>
-		</Provider>
+		</CharacterSheetContext.Provider>
 	)
 }
 
@@ -89,52 +75,23 @@ export const BLOCK_WIDTH = "255px"
 export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
 //TODO SWR
 const Layout = styled.div`
-	display: grid;
-	width: ${DESKTOP_MAX_WIDTH};
-	grid-template-columns: repeat(4, 1fr);
-	gap: ${theme.spacing.separation};
-	grid-template-areas:
+  display: grid;
+  width: ${DESKTOP_MAX_WIDTH};
+  grid-template-columns: repeat(4, 1fr);
+  gap: ${theme.spacing.separation};
+  grid-template-areas:
 		"bio peril-tracker damage-tracker misc"
 		"attributes skills skills misc";
 
-	@media (max-width: 768px) {
-		grid-template-columns: minmax(0, 1fr);
-		width: 100%;
-		grid-template-areas:
+  @media (max-width: 768px) {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    grid-template-areas:
 			"bio"
 			"peril-tracker"
 			"damage-tracker"
 			"attributes"
 			"skills"
 			"misc";
-	}
-`
-
-const Bio = styled.div`
-	grid-area: bio;
-	display: flex;
-	flex-direction: column;
-	gap: ${theme.spacing.separation};
-`
-const AttributesSection = styled.div`
-	grid-area: attributes;
-	display: flex;
-	flex-direction: column;
-	gap: ${theme.spacing.separation};
-`
-const SkillsSection = styled.div`
-	grid-area: skills;
-	display: flex;
-	flex-direction: column;
-	gap: ${theme.spacing.separation};
-`
-
-const Avatar = styled(Image)`
-	border-radius: ${theme.borders.radius};
-	width: 143px;
-	height: 143px;
-`
-
-const AvatarContainer = styled.div`
-	display: flex;
+  }
 `
