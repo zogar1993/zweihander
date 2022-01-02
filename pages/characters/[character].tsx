@@ -13,6 +13,7 @@ import { Talent } from "@core/domain/Talent"
 import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
 import CharacterSheetBio from "@web/components/character_sheet/CharacterSheetBio"
 import {
+	ActionType,
 	CharacterSheetContext,
 	useCharacterSheetReducer
 } from "@web/components/character_sheet/CharacterSheetContext"
@@ -38,7 +39,7 @@ export default function CharactersScreen(props: {
 	useEffect(() => {
 		if (router.isFallback) return
 		dispatch({
-			type: "initialize",
+			type: ActionType.Initialize,
 			payload: { ...props }
 		})
 	}, [props])

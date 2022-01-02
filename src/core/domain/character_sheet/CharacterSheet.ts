@@ -436,6 +436,8 @@ export type CharacterSpells = Partial<Record<SchoolCode, Array<SpellCode>>>
 export type Focuses = Partial<Record<SkillCode, Array<string>>>
 
 export type CalculatedCharacterSheet = {
+	id: string
+
 	name: string
 	age: number
 	sex: string | null

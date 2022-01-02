@@ -1,5 +1,9 @@
 import { getByCode } from "@core/domain/general/GetByCode"
-import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import {
+	ActionType,
+	useCharacterSheetDispatcher,
+	useCharacterSheetState
+} from "@web/components/character_sheet/CharacterSheetContext"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
@@ -16,6 +20,9 @@ export default function CharacterSheetBio() {
 		orderAlignments,
 		chaosAlignments
 	} = useCharacterSheetState()
+
+	const dispatch = useCharacterSheetDispatcher()
+
 	return (
 		<Bio>
 			<Field label="Name" value={character.name} />
@@ -39,6 +46,9 @@ export default function CharacterSheetBio() {
 						label="Social Class"
 						options={socialClasses}
 						value={character.social_class}
+						onChange={value =>
+							dispatch({ type: ActionType.SetSocialClass, payload: value })
+						}
 					/>
 				</FlexColumn>
 			</AvatarContainer>
@@ -60,7 +70,7 @@ export default function CharacterSheetBio() {
 						<Field
 							type="combobox"
 							label="Ancestry Trait"
-							options={getByCode(character.ancestry, ancestries).traits}//TODO may be moved to reducer
+							options={getByCode(character.ancestry, ancestries).traits} //TODO may be moved to reducer
 							value={character.ancestry_trait}
 						/>
 					)}
