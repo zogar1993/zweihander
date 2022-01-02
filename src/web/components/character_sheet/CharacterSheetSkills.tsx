@@ -1,12 +1,10 @@
-import { useCharacterSheet } from "@web/components/character_sheet/CharacterSheetContext"
+import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import theme from "@web/theme/theme"
-import { Field } from "misevi"
-import Image from "next/image"
 import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetSkills() {
-	const character = useCharacterSheet()
+	const { character } = useCharacterSheetState()
 	return (
 		<AttributesSection>
 			{character.skills.map(skill =>

@@ -1,3 +1,5 @@
+import { Alignment } from "@core/actions/GetAlignments"
+import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import {
@@ -28,7 +30,10 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	professions: [],
 	talents: [],
 	schools: [],
-	ancestries: []
+	ancestries: [],
+	archetypes: [],
+	chaosAlignments: [],
+	orderAlignments: []
 }) as CharacterSheetState
 
 export const CharacterSheetContext = React.createContext({
@@ -43,6 +48,9 @@ type CharacterSheetState = {
 	professions: Array<Profession>
 	ancestries: Array<Ancestry>
 	schools: Array<MagicSchool>
+	archetypes: Array<Archetype>
+	orderAlignments: Array<Alignment>
+	chaosAlignments: Array<Alignment>
 }
 
 export function useCharacterSheetReducer() {
@@ -51,8 +59,8 @@ export function useCharacterSheetReducer() {
 	})
 }
 
-export function useCharacterSheet() {
-	return useContext(CharacterSheetContext).state.character
+export function useCharacterSheetState() {
+	return useContext(CharacterSheetContext).state
 }
 
 export function useCharacterSheetDispatcher() {
@@ -69,19 +77,25 @@ function characterSheetReducer(
 			professions: Array<Profession>
 			ancestries: Array<Ancestry>
 			schools: Array<MagicSchool>
+			archetypes: Array<Archetype>
+			orderAlignments: Array<Alignment>
+			chaosAlignments: Array<Alignment>
 		}
 	}
 ) {
 	switch (action.type) {
 		case "initialize": {
-			const { character, talents, professions, ancestries } = action.payload
+			const { character, talents, professions, ancestries, archetypes, orderAlignments, chaosAlignments } = action.payload
 			return {
 				...state,
 				rawCharacter: character,
 				character: calculateCharacterSheet(action.payload),
 				talents,
 				professions,
-				ancestries
+				ancestries,
+				archetypes,
+				orderAlignments,
+				chaosAlignments
 			}
 		}
 		default:
