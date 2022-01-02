@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "contentful": "^9.0.1",
-    "misevi": "^0.4.1",
+    "misevi": "^0.4.3",
     "mongodb": "^4.2.2",
     "next": "11.1.2",
     "react": "17.0.2",

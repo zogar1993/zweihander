@@ -1,3 +1,4 @@
+import { getByCode } from "@core/domain/general/GetByCode"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
@@ -36,8 +37,8 @@ export default function CharacterSheetBio() {
 					<Field
 						type="combobox"
 						label="Social Class"
-						value={character.social_class}
 						options={socialClasses}
+						value={character.social_class}
 					/>
 				</FlexColumn>
 			</AvatarContainer>
@@ -49,20 +50,20 @@ export default function CharacterSheetBio() {
 					value={character.upbringing}
 				/>
 				<ProfessionContainer>
-				<Field
-					type="combobox"
-					label="Ancestry"
-					options={ancestries}
-					value={character.ancestry}
-				/>
-				{character.ancestry && (
 					<Field
 						type="combobox"
-						label="Ancestry Trait"
-						options={[]}
-						value={character.ancestry_trait}
+						label="Ancestry"
+						options={ancestries}
+						value={character.ancestry}
 					/>
-				)}
+					{character.ancestry && (
+						<Field
+							type="combobox"
+							label="Ancestry Trait"
+							options={getByCode(character.ancestry, ancestries).traits}//TODO may be moved to reducer
+							value={character.ancestry_trait}
+						/>
+					)}
 					<Field
 						type="combobox"
 						label="Archetype"

@@ -2,6 +2,7 @@ import { Ancestry } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { getByCode } from "@core/domain/general/GetByCode"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { SkillCode } from "@core/domain/skill/SkillCode"
@@ -511,17 +512,4 @@ export type SpecialRule = {
 	name: string
 	description: string
 	effect: string
-}
-
-function getByCode<T extends { code: string }>(
-	code: string,
-	collection: Array<T>
-): T {
-	const item = collection.find(ancestry => ancestry.code === code)
-	if (item === undefined)
-		throw Error(
-			`Code '${code}' not found inside of '${JSON.stringify(collection)}'`
-		)
-
-	return item
 }

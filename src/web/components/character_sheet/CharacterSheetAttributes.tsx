@@ -1,23 +1,22 @@
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import theme from "@web/theme/theme"
-import { Dots, Field } from "misevi"
+import { CircularNumberInput, Dots } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetAttributes() {
 	const { character } = useCharacterSheetState()
-	//TODO field has broken typescript?
 	return (
 		<AttributesSection>
 			{character.attributes.map(attribute => (
 				<Attribute key={attribute.code}>
 					<Name>{attribute.name}</Name>
-					<Field label="" type="number" value={attribute.base}/>
+					<CircularNumberInput value={attribute.base} />
+					<Dots value={attribute.profession_advances} total={6} />
 					<BonusContainer>
 						<span>bonus</span>
 						<span>{attribute.bonus}</span>
 					</BonusContainer>
-					<Dots value={attribute.profession_advances} total={6}/>
 				</Attribute>
 			))}
 		</AttributesSection>
@@ -32,14 +31,14 @@ const AttributesSection = styled.div`
 `
 
 const Attribute = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing.separation};
+	display: flex;
+	flex-direction: column;
+	gap: ${theme.spacing.separation};
+	align-items: center;
 `
 
 const Name = styled.span`
 	font-size: 16px;
 `
 
-const BonusContainer = styled.div`
-`
+const BonusContainer = styled.div``

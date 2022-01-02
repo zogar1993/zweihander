@@ -12,13 +12,20 @@ export async function getCharacterSheetOfId(id: string) {
 				projection: {
 					name: 1,
 					avatar: 1,
+					age: 1,
+					sex: 1,
+					upbringing: 1,
+					social_class: 1,
 					ancestry: 1,
+					ancestry_trait: 1,
+					archetype: 1,
 					profession1: 1,
 					profession2: 1,
 					profession3: 1,
-					age: 1,
 					skills: 1,
-					attributes: 1
+					attributes: 1,
+					order_alignment: 1,
+					chaos_alignment: 1
 				}
 			}
 		)
