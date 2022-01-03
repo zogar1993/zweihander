@@ -81,6 +81,7 @@ styleInject(
       padding: 0;
       border: 0;
       box-sizing: border-box;
+      scrollbar-width: thin;
     }
 
     *::before, ::after {

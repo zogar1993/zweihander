@@ -4,6 +4,7 @@ import { Trait } from "@web/components/ancestry/AncestryTraitCard"
 import SpecialRuleCard from "@web/components/card/SpecialRuleCard"
 import Grid from "@web/components/general/Grid"
 import { PageTitle } from "@web/components/general/PageTitle"
+import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
@@ -13,8 +14,8 @@ export default function AncestriesScreen({ ancestry }: any) {
 			<PageTitle>{ancestry.name}</PageTitle>
 			<Paragraph>{ancestry.description}</Paragraph>
 			<section>
-				<h3>Traits</h3>
-				<Grid columns={3}>
+				<SubSectionTitle>Traits</SubSectionTitle>
+				<Grid columns={3} mobile-columns={1}>
 					{ancestry.traits.map((trait: Trait) => (
 						<SpecialRuleCard key={trait.name} trait={trait} />
 					))}
@@ -50,4 +51,11 @@ export async function getStaticPaths() {
 
 const Paragraph = styled.p`
 	color: black;
+`
+export const SubSectionTitle = styled.h3`
+	font-size: 26px;
+	text-align: center;
+	color: black;
+	text-transform: capitalize;
+	font-family: ${theme.fonts.title};
 `

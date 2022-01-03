@@ -20,16 +20,14 @@ const NoStyleButton = styled.button`
 	outline: none;
 `
 
-export default function Menu({ logo, menu }: MenuProps) {
+export default function Menu({ logo, menu, onShowChange }: MenuProps) {
 	const [openMenu, setOpenMenu] = useState<string | null>(null)
 	const [isMobile, setIsMobile] = useState(false)
 	//toggle when on mobile means that the hamburger is open. Should be closed by default.
 	//toggle when on desktop means that the sidebar is shown. Should be shown by default.
-	const [toggle, setToggle] = useState(!isMobile)
-	//show is always true when mobile.
-	const show = toggle || isMobile
-	//open is always true when desktop.
-	const open = toggle || !isMobile
+
+	const [show, setShow] = useState(true)
+	const [open, setOpen] = useState(!isMobile)
 
 	useEffect(() => {
 		const setIsMobileHandler = () => setIsMobile(window.innerWidth <= 768)
@@ -39,8 +37,13 @@ export default function Menu({ logo, menu }: MenuProps) {
 	}, [])
 
 	useEffect(() => {
-		setToggle(!isMobile)
+		setOpen(!isMobile)
+		setShow(true)
 	}, [isMobile])
+
+	useEffect(() => {
+		onShowChange(show)
+	}, [show, onShowChange])
 
 	return (
 		<MenuElement show={show}>
@@ -49,7 +52,9 @@ export default function Menu({ logo, menu }: MenuProps) {
 					src={logo}
 					alt="logo"
 					show={show}
-					onClick={() => setToggle(toggle => !toggle)}
+					onClick={() =>
+						isMobile ? setOpen(open => !open) : setShow(show => !show)
+					}
 				/>
 				<ItemsContainer open={open}>
 					{menu.map(item => (
@@ -111,6 +116,7 @@ function SubItems({ items, expanded, show }: SubItemsProps) {
 type MenuProps = {
 	logo: any
 	menu: Array<MenuItem>
+	onShowChange: (value: boolean) => void
 }
 
 type SubItemsProps = {
