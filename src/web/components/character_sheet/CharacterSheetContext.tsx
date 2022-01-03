@@ -12,6 +12,7 @@ import sanitizeCharacterSheet, {
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
+import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Talent } from "@core/domain/Talent"
 import React, { Dispatch, useContext, useReducer } from "react"
 
@@ -140,7 +141,8 @@ export enum ActionType {
 	SetProfession2,
 	SetProfession3,
 	SetChaosAlignment,
-	SetOrderAlignment
+	SetOrderAlignment,
+	SetSkillRanks
 }
 
 type PayloadInitialize = {
@@ -170,6 +172,7 @@ type CharacterSheetAction =
 	| { type: ActionType.SetAncestryTrait; payload: string | null }
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
+	| { type: ActionType.SetSkillRanks; payload: {skill: SkillCode, value: number} }
 
 function modifyCharacterSheet(
 	property: string,

@@ -12,7 +12,11 @@ export default function CharacterSheetAttributes() {
 				<Attribute key={attribute.code}>
 					<Name>{attribute.name}</Name>
 					<CircularNumberInput value={attribute.base} />
-					<Dots value={attribute.profession_advances} total={6} />
+					<Dots value={attribute.advances} total={6}
+								coloring={({ value, number }) => {
+									if (attribute.profession_advances >= number && number > value)
+										return "palegreen"
+								}}/>
 					<BonusContainer>
 						<span>bonus</span>
 						<span>{attribute.bonus}</span>

@@ -17,7 +17,7 @@ import {
 	CharacterSheetContext,
 	useCharacterSheetReducer
 } from "@web/components/character_sheet/CharacterSheetContext"
-import CharacterSheetSkills from "@web/components/character_sheet/CharacterSheetSkills"
+import CharacterSheetSkills from "@web/components/character_sheet/skills/CharacterSheetSkills"
 import theme from "@web/theme/theme"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"

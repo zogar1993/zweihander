@@ -465,8 +465,8 @@ export type CalculatedCharacterSheet = {
 
 	damage: ConditionTrack
 	peril: ConditionTrack
-	attributes: Array<CharacterSheetAttribute>
-	skills: Array<CharacterSheetSkill>
+	attributes: Array<CalculatedAttribute>
+	skills: Array<CalculatedSkill>
 	talents: Array<string | null>
 	ancestry_trait: string | null
 
@@ -485,7 +485,7 @@ type ConditionTrack = {
 	threshold: number
 }
 
-type CharacterSheetAttribute = {
+export type CalculatedAttribute = {
 	name: string
 	code: AttributeCode
 	base: number
@@ -498,7 +498,7 @@ type CharacterSheetAttribute = {
 	mercy_possible: boolean
 }
 
-type CharacterSheetSkill = {
+export type CalculatedSkill = {
 	name: string
 	code: SkillCode
 	special: boolean
