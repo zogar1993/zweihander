@@ -10,9 +10,9 @@ export default async function handler(
 ) {
 	switch (req.method) {
 		case "PATCH":
-			await patch(req, res)
+			return await patch(req, res)
 		case "GET":
-			await get(req, res)
+			return await get(req, res)
 		default:
 			res.status(404)
 	}
@@ -27,6 +27,7 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 		}
 		const patch = req.body
 		const client = await getMongoDBClient()
+
 		await client
 			.collection("CHARACTERS")
 			.updateOne({ _id: new ObjectId(id) }, { $set: JSON.parse(patch) })

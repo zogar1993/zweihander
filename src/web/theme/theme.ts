@@ -58,6 +58,9 @@ const light = {
 	},
 	spacing: {
 		separation: "4px"
+	},
+	scrollbar: {
+		width: "10px"
 	}
 }
 
@@ -89,7 +92,7 @@ styleInject(
     }
 
     *::-webkit-scrollbar {
-      width: 10px;
+      width: ${theme.scrollbar.width};
     }
 
     *::-webkit-scrollbar-track {

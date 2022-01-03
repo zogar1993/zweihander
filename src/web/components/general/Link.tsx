@@ -4,14 +4,15 @@ import { ReactNode } from "react"
 export default function Link({
 	href,
 	children,
-	...props
+	className
 }: {
 	href: string
-	children: ReactNode
+	children: ReactNode,
+	className?: string
 }) {
 	return (
 		<NextLink href={href}>
-			<a {...props}>{children}</a>
+			<a className={className}>{children}</a>
 		</NextLink>
 	)
 }

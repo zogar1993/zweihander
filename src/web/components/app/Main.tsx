@@ -14,7 +14,6 @@ export default function Main({ children }: MainProps) {
 	const [ancestries, setAncestries] = useState<Array<Ancestry>>([])
 	const [magicSources, setMagicSources] = useState<Array<MagicSource>>([])
 	const [show, setShow] = useState<boolean>(true)
-	console.log(show)
 
 	useEffect(() => {
 		;(async () => {
@@ -60,9 +59,8 @@ const Section = styled.section`
 	overflow-x: hidden;
 `
 
-//14 comes from 4 (spacing) + 10 (scroll width)
 const SectionContainer = styled.div<{ show: boolean }>`
-	padding: 8px 14px 4px 4px;
+	padding: 8px calc(${theme.spacing.separation} + ${theme.scrollbar.width}) ${theme.spacing.separation} ${theme.spacing.separation};
 	width: calc(100vw - ${MENU_WIDTH_EXTENDED});
 	margin: 0 auto;
 
