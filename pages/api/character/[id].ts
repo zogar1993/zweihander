@@ -22,6 +22,7 @@ export default async function handler(
 		await client
 			.collection("CHARACTERS")
 			.updateOne({ _id: new ObjectId(id) }, { $set: JSON.parse(patch) })
+			//TODO sanitize this with business rules
 		res.status(200)
 	}
 }

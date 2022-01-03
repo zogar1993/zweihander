@@ -22,10 +22,11 @@ export default function CharacterSheetBio() {
 	} = useCharacterSheetState()
 
 	const dispatch = useCharacterSheetDispatcher()
-
+//TODO do avatar
 	return (
 		<Bio>
-			<Field label="Name" value={character.name} />
+			<Field label="Name" value={character.name} onBlur={value =>
+				dispatch({ type: ActionType.SetName, payload: value })} />
 			<AvatarContainer>
 				<Avatar
 					src={character.avatar || "/character/bandit.png"}
@@ -34,12 +35,23 @@ export default function CharacterSheetBio() {
 					height={143}
 				/>
 				<FlexColumn>
-					<Field type="number" label="Age" value={character.age} min={0} />
+					<Field
+						type="number"
+						label="Age"
+						value={character.age}
+						min={0}
+						onBlur={value =>
+							dispatch({ type: ActionType.SetAge, payload: value })
+						}
+					/>
 					<Field
 						type="combobox"
 						label="Sex"
 						options={sexes}
 						value={character.sex}
+						onChange={value =>
+							dispatch({ type: ActionType.SetSex, payload: value })
+						}
 					/>
 					<Field
 						type="combobox"
@@ -58,6 +70,9 @@ export default function CharacterSheetBio() {
 					label="Upbringing"
 					options={upbringings}
 					value={character.upbringing}
+					onChange={value =>
+						dispatch({ type: ActionType.SetUpbringing, payload: value })
+					}
 				/>
 				<ProfessionContainer>
 					<Field
@@ -65,6 +80,9 @@ export default function CharacterSheetBio() {
 						label="Ancestry"
 						options={ancestries}
 						value={character.ancestry}
+						onChange={value =>
+							dispatch({ type: ActionType.SetAncestry, payload: value })
+						}
 					/>
 					{character.ancestry && (
 						<Field
@@ -72,6 +90,9 @@ export default function CharacterSheetBio() {
 							label="Ancestry Trait"
 							options={getByCode(character.ancestry, ancestries).traits} //TODO may be moved to reducer
 							value={character.ancestry_trait}
+							onChange={value =>
+								dispatch({ type: ActionType.SetAncestryTrait, payload: value })
+							}
 						/>
 					)}
 					<Field
@@ -80,6 +101,9 @@ export default function CharacterSheetBio() {
 						options={archetypes}
 						value={character.archetype}
 						disabled={character.profession1 !== null}
+						onChange={value =>
+							dispatch({ type: ActionType.SetArchetype, payload: value })
+						}
 					/>
 					<Field
 						type="combobox"
@@ -87,6 +111,9 @@ export default function CharacterSheetBio() {
 						options={[]}
 						value={character.profession1}
 						disabled={character.profession2 !== null}
+						onChange={value =>
+							dispatch({ type: ActionType.SetProfession1, payload: value })
+						}
 					/>
 					{character.profession1 && (
 						<Field
@@ -95,6 +122,9 @@ export default function CharacterSheetBio() {
 							options={professions}
 							value={character.profession2}
 							disabled={character.profession3 !== null}
+							onChange={value =>
+								dispatch({ type: ActionType.SetProfession2, payload: value })
+							}
 						/>
 					)}
 					{character.profession2 && (
@@ -103,6 +133,9 @@ export default function CharacterSheetBio() {
 							label="Profession 3"
 							options={professions}
 							value={character.profession3}
+							onChange={value =>
+								dispatch({ type: ActionType.SetProfession3, payload: value })
+							}
 						/>
 					)}
 				</ProfessionContainer>
@@ -111,12 +144,18 @@ export default function CharacterSheetBio() {
 					label="Order Alignment"
 					options={orderAlignments}
 					value={character.order_alignment}
+					onChange={value =>
+						dispatch({ type: ActionType.SetOrderAlignment, payload: value })
+					}
 				/>
 				<Field
 					type="combobox"
 					label="Chaos Alignment"
 					options={chaosAlignments}
 					value={character.chaos_alignment}
+					onChange={value =>
+						dispatch({ type: ActionType.SetChaosAlignment, payload: value })
+					}
 				/>
 			</Grid>
 		</Bio>

@@ -158,7 +158,7 @@ type CharacterSheetAction =
 	| { type: ActionType.Initialize; payload: PayloadInitialize }
 	| { type: ActionType.SetName; payload: string }
 	| { type: ActionType.SetAvatar; payload: string | null }
-	| { type: ActionType.SetAge; payload: string }
+	| { type: ActionType.SetAge; payload: number }
 	| { type: ActionType.SetSex; payload: string | null }
 	| { type: ActionType.SetUpbringing; payload: string | null }
 	| { type: ActionType.SetSocialClass; payload: string | null }
