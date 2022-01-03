@@ -10,8 +10,8 @@ import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitizati
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { Talent } from "@core/domain/Talent"
+import CharacterSheetBio from "@web/components/character_sheet/bio/CharacterSheetBio"
 import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
-import CharacterSheetBio from "@web/components/character_sheet/CharacterSheetBio"
 import {
 	ActionType,
 	CharacterSheetContext,
