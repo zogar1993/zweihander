@@ -1,25 +1,16 @@
-import { getByCode } from "@core/domain/general/GetByCode"
 import {
 	ActionType,
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useStateEffect from "@web/components/character_sheet/hooks/UseStateEffect"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetAncestry() {
-	const { character, ancestries } = useCharacterSheetState()
+	const { character, ancestries, ancestryTraits } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
-
-	const ancestryTraits = useStateEffect(async () => {
-	//TODO move to dispatch to remove the error flickering
-		if (character.ancestry === undefined) return
-		if (character.ancestry === null) return []
-		return getByCode(character.ancestry, ancestries).traits
-	}, [character.ancestry, ancestries])
 
 	return (
 		<Container>

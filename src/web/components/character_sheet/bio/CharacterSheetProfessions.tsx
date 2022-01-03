@@ -1,45 +1,18 @@
-import { getByCode } from "@core/domain/general/GetByCode"
-import { Profession } from "@core/domain/Profession"
 import {
 	ActionType,
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useEffectAsync from "@web/components/character_sheet/hooks/UseStateAsync"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
-import React, { useState } from "react"
+import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetProfessions() {
-	const { character, professions, archetypes } = useCharacterSheetState()
+	const { character, professions, archetypes, tier1Professions } =
+		useCharacterSheetState()
 
 	const dispatch = useCharacterSheetDispatcher()
-	const [basics, setBasics] = useState<Array<Profession>>([])
-
-	//TODO make this cleaner
-	useEffectAsync(async () => {
-		if (character.archetype === undefined) return
-		if (character.archetype === null) {
-			const basics = professions.filter(profession =>
-				archetypes.some(archetype =>
-					archetype.professions["Main Gauche"].some(
-						prof => prof.profession === profession.code
-					)
-				)
-			)
-			setBasics(basics)
-		} else {
-			const names = getByCode(character.archetype, archetypes).professions[
-				"Main Gauche"
-			]
-			const basics = names.map(x => ({
-				...x,
-				...getByCode(x.profession, professions)
-			}))
-			setBasics(basics)
-		}
-	}, [character.archetype, professions, archetypes])
 
 	return (
 		<Container>
@@ -56,7 +29,7 @@ export default function CharacterSheetProfessions() {
 			<Field
 				type="combobox"
 				label="Profession 1"
-				options={basics}
+				options={tier1Professions}
 				value={character.profession1}
 				disabled={character.profession2 !== null}
 				onChange={value =>

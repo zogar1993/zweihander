@@ -1,6 +1,6 @@
 import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
-import { Ancestry } from "@core/domain/Ancestry"
+import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
@@ -10,6 +10,7 @@ import {
 import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { getByCode } from "@core/domain/general/GetByCode"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
@@ -35,7 +36,9 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	ancestries: [],
 	archetypes: [],
 	chaosAlignments: [],
-	orderAlignments: []
+	orderAlignments: [],
+	ancestryTraits: [],
+	tier1Professions: []
 }) as CharacterSheetState
 
 export const CharacterSheetContext = React.createContext({
@@ -53,6 +56,8 @@ type CharacterSheetState = {
 	archetypes: Array<Archetype>
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
+	tier1Professions: Array<Profession>
+	ancestryTraits: Array<AncestryTrait>
 }
 
 export function useCharacterSheetReducer() {
@@ -95,7 +100,12 @@ function characterSheetReducer(
 			return {
 				...state,
 				_character: action.payload,
-				character: calculateCharacterSheet({...state, character: action.payload})
+				character: calculateCharacterSheet({
+					...state,
+					character: action.payload
+				}),
+				ancestryTraits: calculateAncestryTraits(action.payload.ancestry, state),
+				tier1Professions: calculateTier1Professions(action.payload.archetype, state)
 			}
 		case ActionType.SetName:
 			return modifyCharacterSheet("name", state, action.payload)
@@ -109,12 +119,18 @@ function characterSheetReducer(
 			return modifyCharacterSheet("upbringing", state, action.payload)
 		case ActionType.SetSocialClass:
 			return modifyCharacterSheet("social_class", state, action.payload)
-		case ActionType.SetAncestry:
-			return modifyCharacterSheet("ancestry", state, action.payload)
+		case ActionType.SetAncestry: {
+			const newState = modifyCharacterSheet("ancestry", state, action.payload)
+			const ancestryTraits = calculateAncestryTraits(action.payload, state)
+			return { ...newState, ancestryTraits }
+		}
 		case ActionType.SetAncestryTrait:
 			return modifyCharacterSheet("ancestry_trait", state, action.payload)
-		case ActionType.SetArchetype:
-			return modifyCharacterSheet("archetype", state, action.payload)
+		case ActionType.SetArchetype: {
+			const newState = modifyCharacterSheet("archetype", state, action.payload)
+			const tier1Professions = calculateTier1Professions(action.payload, state)
+			return { ...newState, tier1Professions }
+		}
 		case ActionType.SetProfession1:
 			return modifyCharacterSheet("profession1", state, action.payload)
 		case ActionType.SetProfession2:
@@ -236,11 +252,40 @@ function modifyCharacterSheet(
 }
 
 function copyByDotNotation(path: Array<string>, obj: any, value: any): any {
-	if (path.length === 0) throw Error("Path was inexplicably empty")
+	if (path.length === 0) throw Error("Path was empty")
 	if (path.length === 1) return { ...obj, [path[0]]: value }
 	else
 		return {
 			...obj,
 			[path[0]]: copyByDotNotation(path.slice(1), obj[path[0]], value)
 		}
+}
+
+function calculateAncestryTraits(
+	ancestry: string | null,
+	state: CharacterSheetState
+): Array<AncestryTrait> {
+	return ancestry === null ? [] : getByCode(ancestry, state.ancestries).traits
+}
+
+function calculateTier1Professions(
+	archetype: string | null,
+	state: CharacterSheetState
+): Array<Profession> {
+	const { professions, archetypes } = state
+	if (archetype === null) {
+		return professions.filter(profession =>
+			archetypes.some(archetype =>
+				archetype.professions["Main Gauche"].some(
+					prof => prof.profession === profession.code
+				)
+			)
+		)
+	}
+
+	const names = getByCode(archetype, archetypes).professions["Main Gauche"]
+	return names.map(x => ({
+		...x,
+		...getByCode(x.profession, professions)
+	}))
 }

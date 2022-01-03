@@ -45,7 +45,7 @@ export default function CharactersScreen({
 			type: ActionType.InitializeCollections,
 			payload: { ...props }
 		})
-	}, [props])
+	}, [router.isFallback])
 
 	useEffectAsync(async () => {
 		if (router.isFallback) return
