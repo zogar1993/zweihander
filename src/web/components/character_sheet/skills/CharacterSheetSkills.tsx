@@ -3,7 +3,7 @@ import CharacterSheetSkill from "@web/components/character_sheet/skills/Characte
 import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
-//TODO add behaviour for skill and attribute
+
 export default function CharacterSheetSkills() {
 	const { character } = useCharacterSheetState()
 	const [firstHalf, secondHalf] = splitHalves(character.skills)

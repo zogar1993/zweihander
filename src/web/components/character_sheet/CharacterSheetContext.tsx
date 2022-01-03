@@ -2,13 +2,9 @@ import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import {
-	calculateCharacterSheet,
-	CalculatedCharacterSheet
-} from "@core/domain/character_sheet/CharacterSheet"
-import sanitizeCharacterSheet, {
-	SanitizedCharacterSheet
-} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import { calculateCharacterSheet, CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
+import sanitizeCharacterSheet, { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
@@ -39,7 +35,8 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 
 export const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
-	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
+	dispatch: (() => {
+	}) as Dispatch<CharacterSheetAction>
 })
 
 type CharacterSheetState = {
@@ -83,7 +80,7 @@ function characterSheetReducer(
 			} = action.payload
 			return {
 				...state,
-				rawCharacter: character,
+				_character: character,
 				character: calculateCharacterSheet(action.payload),
 				talents,
 				professions,
@@ -94,33 +91,39 @@ function characterSheetReducer(
 			}
 		}
 		case ActionType.SetName:
-			return modifyCharacterSheet("name", state, action)
+			return modifyCharacterSheet("name", state, action.payload)
 		case ActionType.SetAvatar:
-			return modifyCharacterSheet("avatar", state, action)
+			return modifyCharacterSheet("avatar", state, action.payload)
 		case ActionType.SetAge:
-			return modifyCharacterSheet("age", state, action)
+			return modifyCharacterSheet("age", state, action.payload)
 		case ActionType.SetSex:
-			return modifyCharacterSheet("sex", state, action)
+			return modifyCharacterSheet("sex", state, action.payload)
 		case ActionType.SetUpbringing:
-			return modifyCharacterSheet("upbringing", state, action)
+			return modifyCharacterSheet("upbringing", state, action.payload)
 		case ActionType.SetSocialClass:
-			return modifyCharacterSheet("social_class", state, action)
+			return modifyCharacterSheet("social_class", state, action.payload)
 		case ActionType.SetAncestry:
-			return modifyCharacterSheet("ancestry", state, action)
+			return modifyCharacterSheet("ancestry", state, action.payload)
 		case ActionType.SetAncestryTrait:
-			return modifyCharacterSheet("ancestry_trait", state, action)
+			return modifyCharacterSheet("ancestry_trait", state, action.payload)
 		case ActionType.SetArchetype:
-			return modifyCharacterSheet("archetype", state, action)
+			return modifyCharacterSheet("archetype", state, action.payload)
 		case ActionType.SetProfession1:
-			return modifyCharacterSheet("profession1", state, action)
+			return modifyCharacterSheet("profession1", state, action.payload)
 		case ActionType.SetProfession2:
-			return modifyCharacterSheet("profession2", state, action)
+			return modifyCharacterSheet("profession2", state, action.payload)
 		case ActionType.SetProfession3:
-			return modifyCharacterSheet("profession3", state, action)
+			return modifyCharacterSheet("profession3", state, action.payload)
 		case ActionType.SetChaosAlignment:
-			return modifyCharacterSheet("chaos_alignment", state, action)
+			return modifyCharacterSheet("chaos_alignment", state, action.payload)
 		case ActionType.SetOrderAlignment:
-			return modifyCharacterSheet("order_alignment", state, action)
+			return modifyCharacterSheet("order_alignment", state, action.payload)
+		case ActionType.SetAttributeBase:
+			return modifyCharacterSheet(`attributes.${action.payload.attribute}.base`, state, action.payload.value)
+		case ActionType.SetAttributeAdvancements:
+			return modifyCharacterSheet(`attributes.${action.payload.attribute}.advances`, state, action.payload.value)
+		case ActionType.SetSkillRanks:
+			return modifyCharacterSheet(`skills.${action.payload.skill}.ranks`, state, action.payload.value)
 		default:
 			return state
 	}
@@ -142,6 +145,8 @@ export enum ActionType {
 	SetProfession3,
 	SetChaosAlignment,
 	SetOrderAlignment,
+	SetAttributeAdvancements,
+	SetAttributeBase,
 	SetSkillRanks
 }
 
@@ -172,19 +177,30 @@ type CharacterSheetAction =
 	| { type: ActionType.SetAncestryTrait; payload: string | null }
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
-	| { type: ActionType.SetSkillRanks; payload: {skill: SkillCode, value: number} }
+	| { type: ActionType.SetSkillRanks; payload: { skill: SkillCode, value: number } }
+	| { type: ActionType.SetAttributeAdvancements; payload: { attribute: AttributeCode, value: number } }
+	| { type: ActionType.SetAttributeBase; payload: { attribute: AttributeCode, value: number } }
 
 function modifyCharacterSheet(
 	property: string,
 	state: CharacterSheetState,
-	action: CharacterSheetAction
+	value: any
 ) {
 	fetch(
 		`/api/character/${state.character.id}`,
-		{ method: "PATCH", body: JSON.stringify({[property]: action.payload})  }
+		{ method: "PATCH", body: JSON.stringify({ [property]: value }) }
 	)
+
+	const character = copyByDotNotation(property.split("."), state._character, value)
 	return {
 		...state,
-		character: { ...state.character, [property]: action.payload }
+		_character: character,
+		character: calculateCharacterSheet({ ...state, character })
 	}
+}
+
+function copyByDotNotation(path: Array<string>, obj: any, value: any): any {
+	if (path.length === 0) throw Error("Path was inexplicably empty")
+	if (path.length === 1) return { ...obj, [path[0]]: value }
+	else return { ...obj, [path[0]]: copyByDotNotation(path.slice(1), obj[path[0]], value) }
 }
