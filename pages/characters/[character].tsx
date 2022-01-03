@@ -1,7 +1,6 @@
 import getAlignments, { Alignment } from "@core/actions/GetAlignments"
 import { getAncestries } from "@core/actions/GetAncestries"
 import getArchetypes, { Archetype } from "@core/actions/GetArchetypes"
-import { getCharacterSheetOfId } from "@core/actions/GetCharacterSheetOfId"
 import getMagicSchools from "@core/actions/GetMagicSchools"
 import getProfessions from "@core/actions/GetProfessions"
 import getTalents from "@core/actions/GetTalents"
@@ -17,14 +16,18 @@ import {
 	CharacterSheetContext,
 	useCharacterSheetReducer
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useEffectAsync from "@web/components/character_sheet/hooks/UseStateAsync"
 import CharacterSheetSkills from "@web/components/character_sheet/skills/CharacterSheetSkills"
 import theme from "@web/theme/theme"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 import styled from "styled-components"
 
-export default function CharactersScreen(props: {
-	character: SanitizedCharacterSheet
+export default function CharactersScreen({
+	characterId,
+	...props
+}: {
+	characterId: string
 	talents: Array<Talent>
 	professions: Array<Profession>
 	ancestries: Array<Ancestry>
@@ -39,10 +42,21 @@ export default function CharactersScreen(props: {
 	useEffect(() => {
 		if (router.isFallback) return
 		dispatch({
-			type: ActionType.Initialize,
+			type: ActionType.InitializeCollections,
 			payload: { ...props }
 		})
 	}, [props])
+
+	useEffectAsync(async () => {
+		if (router.isFallback) return
+		const result = await fetch(`/api/character/${characterId}`, {
+			method: "GET"
+		})
+		dispatch({
+			type: ActionType.InitializeCharacterSheet,
+			payload: (await result.json()) as SanitizedCharacterSheet
+		})
+	}, [characterId])
 
 	return (
 		<CharacterSheetContext.Provider value={{ state, dispatch }}>
@@ -55,9 +69,9 @@ export default function CharactersScreen(props: {
 	)
 }
 
-//TODO may need some more love, maybe even move to csr
-export async function getStaticProps({ params: { character: id } }: any) {
-	const character = await getCharacterSheetOfId(id)
+export async function getStaticProps({
+	params: { character: characterId }
+}: any) {
 	const ancestries = await getAncestries()
 	const talents = await getTalents()
 	const professions = await getProfessions()
@@ -66,7 +80,7 @@ export async function getStaticProps({ params: { character: id } }: any) {
 	const alignments = await getAlignments()
 	return {
 		props: {
-			character,
+			characterId,
 			ancestries,
 			talents,
 			professions,
@@ -78,6 +92,7 @@ export async function getStaticProps({ params: { character: id } }: any) {
 	}
 }
 
+//TODO this fallback may not be best, check how it works in this case
 export async function getStaticPaths() {
 	return {
 		paths: [],
@@ -95,7 +110,7 @@ const Layout = styled.div`
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
 		"bio attributes attributes attributes"
-		"bio skills skills skills";
+		"bio skills skills wea";
 
 	@media (max-width: 768px) {
 		grid-template-columns: minmax(0, 1fr);

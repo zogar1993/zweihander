@@ -3,8 +3,13 @@ import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import { calculateCharacterSheet, CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
-import sanitizeCharacterSheet, { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import {
+	calculateCharacterSheet,
+	CalculatedCharacterSheet
+} from "@core/domain/character_sheet/CharacterSheet"
+import sanitizeCharacterSheet, {
+	SanitizedCharacterSheet
+} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
@@ -35,8 +40,7 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 
 export const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
-	dispatch: (() => {
-	}) as Dispatch<CharacterSheetAction>
+	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
 })
 
 type CharacterSheetState = {
@@ -68,9 +72,8 @@ function characterSheetReducer(
 	action: CharacterSheetAction
 ) {
 	switch (action.type) {
-		case ActionType.Initialize: {
+		case ActionType.InitializeCollections: {
 			const {
-				character,
 				talents,
 				professions,
 				ancestries,
@@ -80,8 +83,6 @@ function characterSheetReducer(
 			} = action.payload
 			return {
 				...state,
-				_character: character,
-				character: calculateCharacterSheet(action.payload),
 				talents,
 				professions,
 				ancestries,
@@ -90,6 +91,12 @@ function characterSheetReducer(
 				chaosAlignments
 			}
 		}
+		case ActionType.InitializeCharacterSheet:
+			return {
+				...state,
+				_character: action.payload,
+				character: calculateCharacterSheet({...state, character: action.payload})
+			}
 		case ActionType.SetName:
 			return modifyCharacterSheet("name", state, action.payload)
 		case ActionType.SetAvatar:
@@ -119,18 +126,31 @@ function characterSheetReducer(
 		case ActionType.SetOrderAlignment:
 			return modifyCharacterSheet("order_alignment", state, action.payload)
 		case ActionType.SetAttributeBase:
-			return modifyCharacterSheet(`attributes.${action.payload.attribute}.base`, state, action.payload.value)
+			return modifyCharacterSheet(
+				`attributes.${action.payload.attribute}.base`,
+				state,
+				action.payload.value
+			)
 		case ActionType.SetAttributeAdvancements:
-			return modifyCharacterSheet(`attributes.${action.payload.attribute}.advances`, state, action.payload.value)
+			return modifyCharacterSheet(
+				`attributes.${action.payload.attribute}.advances`,
+				state,
+				action.payload.value
+			)
 		case ActionType.SetSkillRanks:
-			return modifyCharacterSheet(`skills.${action.payload.skill}.ranks`, state, action.payload.value)
+			return modifyCharacterSheet(
+				`skills.${action.payload.skill}.ranks`,
+				state,
+				action.payload.value
+			)
 		default:
 			return state
 	}
 }
 
 export enum ActionType {
-	Initialize,
+	InitializeCollections,
+	InitializeCharacterSheet,
 	SetName,
 	SetAvatar,
 	SetAge,
@@ -151,7 +171,6 @@ export enum ActionType {
 }
 
 type PayloadInitialize = {
-	character: SanitizedCharacterSheet
 	talents: Array<Talent>
 	professions: Array<Profession>
 	ancestries: Array<Ancestry>
@@ -162,7 +181,11 @@ type PayloadInitialize = {
 }
 
 type CharacterSheetAction =
-	| { type: ActionType.Initialize; payload: PayloadInitialize }
+	| { type: ActionType.InitializeCollections; payload: PayloadInitialize }
+	| {
+			type: ActionType.InitializeCharacterSheet
+			payload: SanitizedCharacterSheet
+	  }
 	| { type: ActionType.SetName; payload: string }
 	| { type: ActionType.SetAvatar; payload: string | null }
 	| { type: ActionType.SetAge; payload: number }
@@ -177,21 +200,34 @@ type CharacterSheetAction =
 	| { type: ActionType.SetAncestryTrait; payload: string | null }
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
-	| { type: ActionType.SetSkillRanks; payload: { skill: SkillCode, value: number } }
-	| { type: ActionType.SetAttributeAdvancements; payload: { attribute: AttributeCode, value: number } }
-	| { type: ActionType.SetAttributeBase; payload: { attribute: AttributeCode, value: number } }
+	| {
+			type: ActionType.SetSkillRanks
+			payload: { skill: SkillCode; value: number }
+	  }
+	| {
+			type: ActionType.SetAttributeAdvancements
+			payload: { attribute: AttributeCode; value: number }
+	  }
+	| {
+			type: ActionType.SetAttributeBase
+			payload: { attribute: AttributeCode; value: number }
+	  }
 
 function modifyCharacterSheet(
 	property: string,
 	state: CharacterSheetState,
 	value: any
 ) {
-	fetch(
-		`/api/character/${state.character.id}`,
-		{ method: "PATCH", body: JSON.stringify({ [property]: value }) }
-	)
+	fetch(`/api/character/${state.character.id}`, {
+		method: "PATCH",
+		body: JSON.stringify({ [property]: value })
+	})
 
-	const character = copyByDotNotation(property.split("."), state._character, value)
+	const character = copyByDotNotation(
+		property.split("."),
+		state._character,
+		value
+	)
 	return {
 		...state,
 		_character: character,
@@ -202,5 +238,9 @@ function modifyCharacterSheet(
 function copyByDotNotation(path: Array<string>, obj: any, value: any): any {
 	if (path.length === 0) throw Error("Path was inexplicably empty")
 	if (path.length === 1) return { ...obj, [path[0]]: value }
-	else return { ...obj, [path[0]]: copyByDotNotation(path.slice(1), obj[path[0]], value) }
+	else
+		return {
+			...obj,
+			[path[0]]: copyByDotNotation(path.slice(1), obj[path[0]], value)
+		}
 }

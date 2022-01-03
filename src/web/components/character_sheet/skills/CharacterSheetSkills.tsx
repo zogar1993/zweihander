@@ -27,11 +27,13 @@ const SkillsSection = styled.div`
 	grid-area: skills;
 	display: flex;
 	gap: ${theme.spacing.separation};
+	justify-content: space-between;
 `
 
 const SkillsHalf = styled.div`
 	display: flex;
 	flex-direction: column;
+  gap: ${theme.spacing.separation};
 `
 
 function splitHalves<T>(array: Array<T>) {
