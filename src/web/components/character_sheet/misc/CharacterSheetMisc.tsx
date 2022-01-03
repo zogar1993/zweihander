@@ -1,6 +1,7 @@
 import Accordion from "@web/components/Accordion"
 import CharacterSheetAlignment from "@web/components/character_sheet/misc/CharacterSheetAlignment"
 import CharacterSheetStats from "@web/components/character_sheet/misc/CharacterSheetStats"
+import CharacterSheetTalents from "@web/components/character_sheet/misc/CharacterSheetTalents"
 import styled from "styled-components"
 
 export default function CharacterSheetMisc() {
@@ -14,6 +15,10 @@ export default function CharacterSheetMisc() {
 				{
 					name: "Stats",
 					content: <CharacterSheetStats />
+				},
+				{
+					name: "Talents",
+					content: <CharacterSheetTalents />
 				}
 			]}
 		/>

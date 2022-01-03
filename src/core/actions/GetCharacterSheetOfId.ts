@@ -28,7 +28,13 @@ export async function getCharacterSheetOfId(id: string) {
 					chaos_alignment: 1,
 					order_ranks: 1,
 					chaos_ranks: 1,
-					corruption: 1
+					corruption: 1,
+					talents: 1,
+					spells: 1,
+					focuses: 1,
+					mercy: 1,
+					journal: 1,
+					settings: 1
 				}
 			}
 		)

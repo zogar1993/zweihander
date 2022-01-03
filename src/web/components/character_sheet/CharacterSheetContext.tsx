@@ -3,13 +3,8 @@ import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import {
-	calculateCharacterSheet,
-	CalculatedCharacterSheet
-} from "@core/domain/character_sheet/CharacterSheet"
-import sanitizeCharacterSheet, {
-	SanitizedCharacterSheet
-} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { calculateCharacterSheet, CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
+import sanitizeCharacterSheet, { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
@@ -43,7 +38,8 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 
 export const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
-	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
+	dispatch: (() => {
+	}) as Dispatch<CharacterSheetAction>
 })
 
 type CharacterSheetState = {
@@ -170,6 +166,12 @@ function characterSheetReducer(
 			return modifyCharacterSheet("chaos_ranks", state, action.payload)
 		case ActionType.SetCorruption:
 			return modifyCharacterSheet("corruption", state, action.payload)
+		case ActionType.SetTalent:
+			return modifyCharacterSheet(
+				`talents.${action.payload.index}`,
+				state,
+				action.payload.talent
+			)
 		default:
 			return state
 	}
@@ -218,9 +220,9 @@ type PayloadInitialize = {
 type CharacterSheetAction =
 	| { type: ActionType.InitializeCollections; payload: PayloadInitialize }
 	| {
-			type: ActionType.InitializeCharacterSheet
-			payload: SanitizedCharacterSheet
-	  }
+	type: ActionType.InitializeCharacterSheet
+	payload: SanitizedCharacterSheet
+}
 	| { type: ActionType.SetName; payload: string }
 	| { type: ActionType.SetAvatar; payload: string | null }
 	| { type: ActionType.SetAge; payload: number }
@@ -236,34 +238,34 @@ type CharacterSheetAction =
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
 	| {
-			type: ActionType.SetSkillRanks
-			payload: { skill: SkillCode; value: number }
-	  }
+	type: ActionType.SetSkillRanks
+	payload: { skill: SkillCode; value: number }
+}
 	| {
-			type: ActionType.SetAttributeAdvancements
-			payload: { attribute: AttributeCode; value: number }
-	  }
+	type: ActionType.SetAttributeAdvancements
+	payload: { attribute: AttributeCode; value: number }
+}
 	| {
-			type: ActionType.SetAttributeBase
-			payload: { attribute: AttributeCode; value: number }
-	  }
+	type: ActionType.SetAttributeBase
+	payload: { attribute: AttributeCode; value: number }
+}
 	| { type: ActionType.SetCorruption; payload: number }
 	| { type: ActionType.SetOrderRanks; payload: number }
 	| { type: ActionType.SetChaosRanks; payload: number }
 	| {
-			type: ActionType.SetTalent
-			payload: { index: number; talent: string | null }
-	  }
+	type: ActionType.SetTalent
+	payload: { index: number; talent: string | null }
+}
 	| { type: ActionType.AddSpell; payload: { spell: string; school: string } }
 	| {
-			type: ActionType.RemoveSpell
-			payload: { focus: string; attribute: string }
-		}
+	type: ActionType.RemoveSpell
+	payload: { focus: string; attribute: string }
+}
 	| { type: ActionType.AddFocus; payload: { focus: string; attribute: string } }
 	| {
-			type: ActionType.RemoveFocus
-			payload: { focus: string; attribute: string }
-	  }
+	type: ActionType.RemoveFocus
+	payload: { focus: string; attribute: string }
+}
 
 function modifyCharacterSheet(
 	property: string,
@@ -289,7 +291,9 @@ function modifyCharacterSheet(
 
 function copyByDotNotation(path: Array<string>, obj: any, value: any): any {
 	if (path.length === 0) throw Error("Path was empty")
-	if (path.length === 1) return { ...obj, [path[0]]: value }
+	if (path.length === 1) return Array.isArray(obj) ?
+		obj.map((x, i) => i === Number(path[0]) ? value : x) :
+		{ ...obj, [path[0]]: value }
 	else
 		return {
 			...obj,
