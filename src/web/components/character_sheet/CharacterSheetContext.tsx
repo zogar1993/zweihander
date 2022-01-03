@@ -49,6 +49,10 @@ export const CharacterSheetContext = React.createContext({
 type CharacterSheetState = {
 	_character: SanitizedCharacterSheet
 	character: CalculatedCharacterSheet
+
+	tier1Professions: Array<Profession>
+	ancestryTraits: Array<AncestryTrait>
+
 	talents: Array<Talent>
 	professions: Array<Profession>
 	ancestries: Array<Ancestry>
@@ -56,8 +60,6 @@ type CharacterSheetState = {
 	archetypes: Array<Archetype>
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
-	tier1Professions: Array<Profession>
-	ancestryTraits: Array<AncestryTrait>
 }
 
 export function useCharacterSheetReducer() {
@@ -105,7 +107,10 @@ function characterSheetReducer(
 					character: action.payload
 				}),
 				ancestryTraits: calculateAncestryTraits(action.payload.ancestry, state),
-				tier1Professions: calculateTier1Professions(action.payload.archetype, state)
+				tier1Professions: calculateTier1Professions(
+					action.payload.archetype,
+					state
+				)
 			}
 		case ActionType.SetName:
 			return modifyCharacterSheet("name", state, action.payload)
@@ -159,6 +164,12 @@ function characterSheetReducer(
 				state,
 				action.payload.value
 			)
+		case ActionType.SetOrderRanks:
+			return modifyCharacterSheet("order_ranks", state, action.payload)
+		case ActionType.SetChaosRanks:
+			return modifyCharacterSheet("chaos_ranks", state, action.payload)
+		case ActionType.SetCorruption:
+			return modifyCharacterSheet("corruption", state, action.payload)
 		default:
 			return state
 	}
@@ -183,7 +194,15 @@ export enum ActionType {
 	SetOrderAlignment,
 	SetAttributeAdvancements,
 	SetAttributeBase,
-	SetSkillRanks
+	SetSkillRanks,
+	SetCorruption,
+	SetChaosRanks,
+	SetOrderRanks,
+	SetTalent,
+	AddSpell,
+	RemoveSpell,
+	AddFocus,
+	RemoveFocus
 }
 
 type PayloadInitialize = {
@@ -227,6 +246,23 @@ type CharacterSheetAction =
 	| {
 			type: ActionType.SetAttributeBase
 			payload: { attribute: AttributeCode; value: number }
+	  }
+	| { type: ActionType.SetCorruption; payload: number }
+	| { type: ActionType.SetOrderRanks; payload: number }
+	| { type: ActionType.SetChaosRanks; payload: number }
+	| {
+			type: ActionType.SetTalent
+			payload: { index: number; talent: string | null }
+	  }
+	| { type: ActionType.AddSpell; payload: { spell: string; school: string } }
+	| {
+			type: ActionType.RemoveSpell
+			payload: { focus: string; attribute: string }
+		}
+	| { type: ActionType.AddFocus; payload: { focus: string; attribute: string } }
+	| {
+			type: ActionType.RemoveFocus
+			payload: { focus: string; attribute: string }
 	  }
 
 function modifyCharacterSheet(

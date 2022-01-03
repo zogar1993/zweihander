@@ -17,6 +17,7 @@ import {
 	useCharacterSheetReducer
 } from "@web/components/character_sheet/CharacterSheetContext"
 import useEffectAsync from "@web/components/character_sheet/hooks/UseStateAsync"
+import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
 import CharacterSheetSkills from "@web/components/character_sheet/skills/CharacterSheetSkills"
 import theme from "@web/theme/theme"
 import { useRouter } from "next/router"
@@ -64,6 +65,7 @@ export default function CharactersScreen({
 				<CharacterSheetBio />
 				<CharacterSheetAttributes />
 				<CharacterSheetSkills />
+				<CharacterSheetMisc />
 			</Layout>
 		</CharacterSheetContext.Provider>
 	)
@@ -110,7 +112,7 @@ const Layout = styled.div`
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
 		"bio attributes attributes attributes"
-		"bio skills skills wea";
+		"bio skills skills misc";
 
 	@media (max-width: 768px) {
 		grid-template-columns: minmax(0, 1fr);

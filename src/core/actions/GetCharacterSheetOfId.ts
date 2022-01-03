@@ -25,7 +25,10 @@ export async function getCharacterSheetOfId(id: string) {
 					skills: 1,
 					attributes: 1,
 					order_alignment: 1,
-					chaos_alignment: 1
+					chaos_alignment: 1,
+					order_ranks: 1,
+					chaos_ranks: 1,
+					corruption: 1
 				}
 			}
 		)
