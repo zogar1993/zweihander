@@ -3,8 +3,13 @@ import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import { calculateCharacterSheet, CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
-import sanitizeCharacterSheet, { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import {
+	calculateCharacterSheet,
+	CalculatedCharacterSheet
+} from "@core/domain/character_sheet/CharacterSheet"
+import sanitizeCharacterSheet, {
+	SanitizedCharacterSheet
+} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
@@ -38,8 +43,7 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 
 export const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
-	dispatch: (() => {
-	}) as Dispatch<CharacterSheetAction>
+	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
 })
 
 type CharacterSheetState = {
@@ -81,6 +85,7 @@ function characterSheetReducer(
 				professions,
 				ancestries,
 				archetypes,
+				schools,
 				orderAlignments,
 				chaosAlignments
 			} = action.payload
@@ -90,6 +95,7 @@ function characterSheetReducer(
 				professions,
 				ancestries,
 				archetypes,
+				schools,
 				orderAlignments,
 				chaosAlignments
 			}
@@ -172,9 +178,62 @@ function characterSheetReducer(
 				state,
 				action.payload.talent
 			)
+		case ActionType.AddFocus: {
+			const { skill, focus } = action.payload
+			const skillFocuses = state.character.focuses[skill]
+			if (skillFocuses)
+				return modifyCharacterSheet(
+					`focuses.${skill}.${skillFocuses.length}`,
+					state,
+					focus
+				)
+			else return modifyCharacterSheet(`focuses.${skill}`, state, [focus])
+		}
+		case ActionType.RemoveFocus: {
+			//TODO maybe something more specific
+			const { skill, focus } = action.payload
+			const skillFocuses = state.character.focuses[skill]!
+			return modifyCharacterSheet(
+				`focuses.${skill}`,
+				state,
+				skillFocuses.filter(x => x != focus)
+			)
+		}
+		case ActionType.AddSpell: {
+			const { spell, school } = action.payload
+			const schoolSpells = state.character.spells[school]
+			if (schoolSpells)
+				return modifyCharacterSheet(
+					`spells.${school}.${schoolSpells.length}`,
+					state,
+					spell
+				)
+			else return modifyCharacterSheet(`spells.${school}`, state, [spell])
+		}
+		case ActionType.RemoveSpell: {
+			//TODO maybe something more specific
+			const { spell, school } = action.payload
+			const schoolSpells = state.character.spells[school]!
+			return modifyCharacterSheet(
+				`spells.${school}`,
+				state,
+				schoolSpells.filter(x => x != spell)
+			)
+		}
 		default:
 			return state
 	}
+}
+
+export default function addPartialRecordItemToArray<Item, Key extends string>(
+	key: Key,
+	item: Item,
+	record: Partial<Record<Key, Array<Item>>>
+) {
+	const items = record[key]
+	if (items) {
+		if (!items.includes(item)) items.push(item)
+	} else record[key] = [item]
 }
 
 export enum ActionType {
@@ -220,9 +279,9 @@ type PayloadInitialize = {
 type CharacterSheetAction =
 	| { type: ActionType.InitializeCollections; payload: PayloadInitialize }
 	| {
-	type: ActionType.InitializeCharacterSheet
-	payload: SanitizedCharacterSheet
-}
+			type: ActionType.InitializeCharacterSheet
+			payload: SanitizedCharacterSheet
+	  }
 	| { type: ActionType.SetName; payload: string }
 	| { type: ActionType.SetAvatar; payload: string | null }
 	| { type: ActionType.SetAge; payload: number }
@@ -238,34 +297,34 @@ type CharacterSheetAction =
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
 	| {
-	type: ActionType.SetSkillRanks
-	payload: { skill: SkillCode; value: number }
-}
+			type: ActionType.SetSkillRanks
+			payload: { skill: SkillCode; value: number }
+	  }
 	| {
-	type: ActionType.SetAttributeAdvancements
-	payload: { attribute: AttributeCode; value: number }
-}
+			type: ActionType.SetAttributeAdvancements
+			payload: { attribute: AttributeCode; value: number }
+	  }
 	| {
-	type: ActionType.SetAttributeBase
-	payload: { attribute: AttributeCode; value: number }
-}
+			type: ActionType.SetAttributeBase
+			payload: { attribute: AttributeCode; value: number }
+	  }
 	| { type: ActionType.SetCorruption; payload: number }
 	| { type: ActionType.SetOrderRanks; payload: number }
 	| { type: ActionType.SetChaosRanks; payload: number }
 	| {
-	type: ActionType.SetTalent
-	payload: { index: number; talent: string | null }
-}
+			type: ActionType.SetTalent
+			payload: { index: number; talent: string | null }
+	  }
 	| { type: ActionType.AddSpell; payload: { spell: string; school: string } }
 	| {
-	type: ActionType.RemoveSpell
-	payload: { focus: string; attribute: string }
-}
-	| { type: ActionType.AddFocus; payload: { focus: string; attribute: string } }
+			type: ActionType.RemoveSpell
+			payload: { spell: string; school: string }
+	  }
+	| { type: ActionType.AddFocus; payload: { focus: string; skill: SkillCode } }
 	| {
-	type: ActionType.RemoveFocus
-	payload: { focus: string; attribute: string }
-}
+			type: ActionType.RemoveFocus
+			payload: { focus: string; skill: SkillCode }
+	  }
 
 function modifyCharacterSheet(
 	property: string,
@@ -291,9 +350,10 @@ function modifyCharacterSheet(
 
 function copyByDotNotation(path: Array<string>, obj: any, value: any): any {
 	if (path.length === 0) throw Error("Path was empty")
-	if (path.length === 1) return Array.isArray(obj) ?
-		obj.map((x, i) => i === Number(path[0]) ? value : x) :
-		{ ...obj, [path[0]]: value }
+	if (path.length === 1)
+		return Array.isArray(obj)
+			? obj.map((x, i) => (i === Number(path[0]) ? value : x))
+			: { ...obj, [path[0]]: value }
 	else
 		return {
 			...obj,
