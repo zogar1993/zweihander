@@ -1,9 +1,9 @@
 import { Ancestry } from "@core/domain/Ancestry"
 import { MagicSource } from "@core/domain/MagicSource"
 import Menu, { MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
-import fetchResources from "@web/helpers/FetchResources"
+import useCollection from "@web/hooks/UseCollection"
 import theme from "@web/theme/theme"
-import React, { ReactNode, useEffect, useState } from "react"
+import React, { ReactNode, useState } from "react"
 import styled from "styled-components"
 
 export type MainProps = {
@@ -11,20 +11,10 @@ export type MainProps = {
 }
 
 export default function Main({ children }: MainProps) {
-	const [ancestries, setAncestries] = useState<Array<Ancestry>>([])
-	const [magicSources, setMagicSources] = useState<Array<MagicSource>>([])
 	const [show, setShow] = useState<boolean>(true)
 
-	useEffect(() => {
-		;(async () => {
-			const ancestries = await fetchResources<Ancestry>("ancestries")
-			setAncestries(ancestries)
-		})()
-		;(async () => {
-			const sources = await fetchResources<MagicSource>("magic-sources")
-			setMagicSources(sources)
-		})()
-	}, [])
+	const ancestries = useCollection<Ancestry>("ancestries")
+	const magicSources = useCollection<MagicSource>("magic-sources")
 
 	return (
 		<React.StrictMode>
@@ -60,7 +50,8 @@ const Section = styled.section`
 `
 
 const SectionContainer = styled.div<{ show: boolean }>`
-	padding: 8px calc(${theme.spacing.separation} + ${theme.scrollbar.width}) ${theme.spacing.separation} ${theme.spacing.separation};
+	padding: 8px calc(${theme.spacing.separation} + ${theme.scrollbar.width})
+		${theme.spacing.separation} ${theme.spacing.separation};
 	width: calc(100vw - ${MENU_WIDTH_EXTENDED});
 	margin: 0 auto;
 

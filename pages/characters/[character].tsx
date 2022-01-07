@@ -104,7 +104,7 @@ export async function getStaticPaths() {
 
 export const BLOCK_WIDTH = "255px"
 export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
-//TODO SWR
+
 const Layout = styled.div`
 	display: grid;
 	width: ${DESKTOP_MAX_WIDTH};
