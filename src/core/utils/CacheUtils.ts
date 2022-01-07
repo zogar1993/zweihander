@@ -6,7 +6,6 @@ export async function getEntries<T>(type: string): Promise<Array<T>> {
 	const cachePath = path.resolve(`.cache/${type}`)
 	try {
 		const entries = readFile(cachePath)
-		if (type === "magic_source") console.log("in", entries.length)
 		console.log(`Using cache for ${type}`)
 		return entries
 	} catch (error) {}

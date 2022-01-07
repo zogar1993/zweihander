@@ -3,7 +3,7 @@ export const SEXES = [
 	{ name: "Female", code: "female" },
 	{ name: "Other", code: "other" }
 ]
-//TODO fix combo without options
+
 export const SOCIAL_CLASSES = [
 	{ name: "Lowborn", code: "lowborn" },
 	{ name: "Bourgeois", code: "bourgeois" },

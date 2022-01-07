@@ -80,7 +80,6 @@ export async function getStaticProps({
 	const schools = await getMagicSchools()
 	const archetypes = await getArchetypes()
 	const alignments = await getAlignments()
-	console.log("outer", schools.length)
 	return {
 		props: {
 			characterId,
