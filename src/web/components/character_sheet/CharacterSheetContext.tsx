@@ -336,7 +336,7 @@ function modifyCharacterSheet(
 		body: JSON.stringify({ [property]: value })
 	})
 
-	const character = copyByDotNotation(
+	const character = replaceByDotNotation(
 		property.split("."),
 		state._character,
 		value
@@ -348,7 +348,41 @@ function modifyCharacterSheet(
 	}
 }
 
-function copyByDotNotation(path: Array<string>, obj: any, value: any): any {
+type ChangePut = { put: string; value: any }
+type ChangeDelete = { delete: string }
+type Change = ChangePut | ChangeDelete
+
+function changeFromCharacterSheet(
+	changes: Array<Change>,
+	state: CharacterSheetState
+) {
+	fetch(`/api/character/${state.character.id}`, {
+		method: "PATCH",
+		body: JSON.stringify(changes)
+	})
+
+	let character = state._character
+	for (const { put: path, value } of changes.filter(isPut))
+		character = replaceByDotNotation(path.split("."), character, value)
+	for (const { delete: path } of changes.filter(isDelete))
+		character = deleteByDotNotation(path.split("."), character)
+
+	return {
+		...state,
+		_character: character,
+		character: calculateCharacterSheet({ ...state, character })
+	}
+}
+
+function isDelete(change: Change): change is ChangeDelete {
+	return change.hasOwnProperty("delete")
+}
+
+function isPut(change: Change): change is ChangePut {
+	return change.hasOwnProperty("put")
+}
+
+function replaceByDotNotation(path: Array<string>, obj: any, value: any): any {
 	if (path.length === 0) throw Error("Path was empty")
 	if (path.length === 1)
 		return Array.isArray(obj)
@@ -357,8 +391,31 @@ function copyByDotNotation(path: Array<string>, obj: any, value: any): any {
 	else
 		return {
 			...obj,
-			[path[0]]: copyByDotNotation(path.slice(1), obj[path[0]], value)
+			[path[0]]: replaceByDotNotation(path.slice(1), obj[path[0]], value)
 		}
+}
+
+function deleteByDotNotation(path: Array<string>, obj: any): any {
+	if (path.length === 0) throw Error("Path was empty")
+	if (path.length === 1) {
+		if (Array.isArray(obj)) {
+			const array = obj.filter((x, i) => i !== Number(path[0]))
+			//Empty arrays are marked as undefined to be removed
+			return array.length === 0 ? undefined : array
+		} else {
+			const copy = { ...obj }
+			delete copy[path[0]]
+			return copy
+		}
+	} else {
+		const copy = { ...obj }
+		const child = deleteByDotNotation(path.slice(1), obj[path[0]])
+		if (child === undefined)
+			//Children marked as undefined are removed
+			delete copy[path[0]]
+		else copy[path[0]] = child
+		return copy
+	}
 }
 
 function calculateAncestryTraits(

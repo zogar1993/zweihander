@@ -17,12 +17,22 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-
     "baseUrl": "./",
     "paths": {
-      "@web/*": ["src/web/*"],
-      "@core/*": ["src/core/*"],
-    }
+      "@web/*": [
+        "src/web/*"
+      ],
+      "@core/*": [
+        "src/core/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@api/*": [
+        "pages/api/*"
+      ]
+    },
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
