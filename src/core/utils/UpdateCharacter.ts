@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb"
 
 export default async function updateCharacter(
 	id: string,
-	{set}: Record<string, any>
+	{set}: {set: Record<string, any>}
 ) {
 	const client = await getMongoDBClient()
 

@@ -2,11 +2,11 @@
 import {
 	call_character_sheet_api,
 	character_sheet_request,
-	expect_character_to_be_updated_with,
+	expect_character_to_have_attribute_set,
 	updateCharacterSpy
 } from "./utils"
 
-describe("PUT character/[id]/name should", () => {
+describe("set_value name should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -15,17 +15,17 @@ describe("PUT character/[id]/name should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("Change the name of the character", async () => {
-		const request = character_sheet_request("PUT", NAME_PATH, CHARACTER_NAME)
+	it("change the name of the character", async () => {
+		const request = character_sheet_request([
+			{ action: "set_value", property: PROPERTY_NAME, value: CHARACTER_NAME }
+		])
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_be_updated_with({ name: CHARACTER_NAME })
+		expect_character_to_have_attribute_set({ name: CHARACTER_NAME })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const NAME_PATH = ["name"]
+const PROPERTY_NAME = "name"
 const CHARACTER_NAME = "linuar"
-
-//TODO Clean data from character page, since it is mostly unnecesary, primarily on render
