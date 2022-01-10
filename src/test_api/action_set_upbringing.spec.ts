@@ -1,4 +1,3 @@
-//jest.mock("@core/utils/UpdateCharacter", () => Promise.resolve())
 import {
 	call_character_sheet_api,
 	character_sheet_request,
@@ -33,5 +32,3 @@ describe("set_value upbringing should", () => {
 
 const PROPERTY_UPBRINGING = "upbringing"
 const CHARACTER_UPBRINGING = "cultured"
-
-//TODO Clean data from character page, since it is mostly unnecesary, primarily on render

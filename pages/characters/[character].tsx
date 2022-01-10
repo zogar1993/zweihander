@@ -5,29 +5,13 @@ import getMagicSchools from "@core/actions/GetMagicSchools"
 import getProfessions from "@core/actions/GetProfessions"
 import getTalents from "@core/actions/GetTalents"
 import { Ancestry } from "@core/domain/Ancestry"
-import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { Talent } from "@core/domain/Talent"
-import CharacterSheetBio from "@web/components/character_sheet/bio/CharacterSheetBio"
-import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
-import {
-	ActionType,
-	CharacterSheetContext,
-	useCharacterSheetReducer
-} from "@web/components/character_sheet/CharacterSheetContext"
-import useEffectAsync from "@web/components/character_sheet/hooks/UseStateAsync"
-import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
-import CharacterSheetSkills from "@web/components/character_sheet/skills/CharacterSheetSkills"
-import theme from "@web/theme/theme"
-import { useRouter } from "next/router"
-import React, { useEffect } from "react"
-import styled from "styled-components"
+import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
+import React from "react"
 
-export default function CharactersScreen({
-	characterId,
-	...props
-}: {
+export default function CharacterScreen(props: {
 	characterId: string
 	talents: Array<Talent>
 	professions: Array<Profession>
@@ -37,38 +21,7 @@ export default function CharactersScreen({
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
 }) {
-	const router = useRouter()
-	const [state, dispatch] = useCharacterSheetReducer()
-
-	useEffect(() => {
-		if (router.isFallback) return
-		dispatch({
-			type: ActionType.InitializeCollections,
-			payload: { ...props }
-		})
-	}, [router.isFallback])
-
-	useEffectAsync(async () => {
-		if (router.isFallback) return
-		const result = await fetch(`/api/character/${characterId}`, {
-			method: "GET"
-		})
-		dispatch({
-			type: ActionType.InitializeCharacterSheet,
-			payload: (await result.json()) as SanitizedCharacterSheet
-		})
-	}, [characterId])
-
-	return (
-		<CharacterSheetContext.Provider value={{ state, dispatch }}>
-			<Layout>
-				<CharacterSheetBio />
-				<CharacterSheetAttributes />
-				<CharacterSheetSkills />
-				<CharacterSheetMisc />
-			</Layout>
-		</CharacterSheetContext.Provider>
-	)
+	return <CharacterSheetScreen {...props} />
 }
 
 export async function getStaticProps({
@@ -101,28 +54,3 @@ export async function getStaticPaths() {
 		fallback: true
 	}
 }
-
-export const BLOCK_WIDTH = "255px"
-export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
-
-const Layout = styled.div`
-	display: grid;
-	width: ${DESKTOP_MAX_WIDTH};
-	grid-template-columns: repeat(4, 1fr);
-	gap: ${theme.spacing.separation};
-	grid-template-areas:
-		"bio attributes attributes attributes"
-		"bio skills skills misc";
-
-	@media (max-width: 768px) {
-		grid-template-columns: minmax(0, 1fr);
-		width: 100%;
-		grid-template-areas:
-			"bio"
-			"peril-tracker"
-			"damage-tracker"
-			"attributes"
-			"skills"
-			"misc";
-	}
-`

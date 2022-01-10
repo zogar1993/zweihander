@@ -1,4 +1,3 @@
-//jest.mock("@core/utils/UpdateCharacter", () => Promise.resolve())
 import {
 	call_character_sheet_api,
 	character_sheet_request,
@@ -26,12 +25,12 @@ describe("set_value social_class should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_attribute_set({ social_class: CHARACTER_SOCIAL_CLASS })
+		expect_character_to_have_attribute_set({
+			social_class: CHARACTER_SOCIAL_CLASS
+		})
 		expect(result.statusCode).toBe(200)
 	})
 })
 
 const PROPERTY_SOCIAL_CLASS = "social_class"
 const CHARACTER_SOCIAL_CLASS = "lowborn"
-
-//TODO Clean data from character page, since it is mostly unnecesary, primarily on render

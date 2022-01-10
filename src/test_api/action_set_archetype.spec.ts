@@ -1,4 +1,3 @@
-//jest.mock("@core/utils/UpdateCharacter", () => Promise.resolve())
 import {
 	call_character_sheet_api,
 	character_sheet_request,

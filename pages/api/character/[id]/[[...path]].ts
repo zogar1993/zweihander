@@ -26,20 +26,18 @@ export default async function handler(
 }
 
 async function patch(req: NextApiRequest, res: NextApiResponse) {
-	{
-		const { id } = req.query
-		if (Array.isArray(id)) {
-			res.status(500)
-			return
-		}
-		const patch = req.body
-		const client = await getMongoDBClient()
-
-		await client
-			.collection("CHARACTERS")
-			.updateOne({ _id: new ObjectId(id) }, { $set: JSON.parse(patch) })
-		res.status(200)
+	const { id } = req.query
+	if (Array.isArray(id)) {
+		res.status(500)
+		return
 	}
+	const patch = req.body
+	const client = await getMongoDBClient()
+
+	await client
+		.collection("CHARACTERS")
+		.updateOne({ _id: new ObjectId(id) }, { $set: JSON.parse(patch) })
+	res.status(200)
 }
 
 //TODO sanitize this with business rules

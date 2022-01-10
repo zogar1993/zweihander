@@ -16,6 +16,7 @@ import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Talent } from "@core/domain/Talent"
+import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import React, { Dispatch, useContext, useReducer } from "react"
 
 const PLACEHOLDER_CHARACTER_SHEET = Object.freeze({
@@ -331,10 +332,9 @@ function modifyCharacterSheet(
 	state: CharacterSheetState,
 	value: any
 ) {
-	fetch(`/api/character/${state.character.id}`, {
-		method: "PATCH",
-		body: JSON.stringify({ [property]: value })
-	})
+	updateCharacterOfId(state.character.id, [
+		{ action: "set_value", property: property, value: value }
+	])
 
 	const character = replaceByDotNotation(
 		property.split("."),

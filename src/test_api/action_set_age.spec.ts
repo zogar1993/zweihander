@@ -1,4 +1,3 @@
-//jest.mock("@core/utils/UpdateCharacter", () => Promise.resolve())
 import {
 	call_character_sheet_api,
 	character_sheet_request,
@@ -29,5 +28,3 @@ describe("set_value age should", () => {
 
 const PROPERTY_AGE = "age"
 const CHARACTER_AGE = 36
-
-//TODO Clean data from character page, since it is mostly unnecesary, primarily on render

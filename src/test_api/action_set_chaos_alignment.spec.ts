@@ -1,4 +1,3 @@
-//jest.mock("@core/utils/UpdateCharacter", () => Promise.resolve())
 import {
 	call_character_sheet_api,
 	character_sheet_request,
@@ -17,7 +16,11 @@ describe("set_value chaos_alignment should", () => {
 
 	it("change the chaos alignment of the character", async () => {
 		const request = character_sheet_request([
-			{ action: "set_value", property: CHAOS_ALIGNMENT_PATH, value: CHARACTER_CHAOS_ALIGNMENT }
+			{
+				action: "set_value",
+				property: CHAOS_ALIGNMENT_PATH,
+				value: CHARACTER_CHAOS_ALIGNMENT
+			}
 		])
 
 		const result = await call_character_sheet_api(request)
