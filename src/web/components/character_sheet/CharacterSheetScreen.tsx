@@ -23,16 +23,7 @@ import styled from "styled-components"
 export default function CharacterSheetScreen({
 	characterId,
 	...props
-}: {
-	characterId: string
-	talents: Array<Talent>
-	professions: Array<Profession>
-	ancestries: Array<Ancestry>
-	schools: Array<MagicSchool>
-	archetypes: Array<Archetype>
-	orderAlignments: Array<Alignment>
-	chaosAlignments: Array<Alignment>
-}) {
+}: CharacterSheetScreenProps) {
 	const router = useRouter()
 	const [state, dispatch] = useCharacterSheetReducer()
 
@@ -90,3 +81,16 @@ const Layout = styled.div`
 			"misc";
   }
 `
+
+export type CharacterSheetScreenProps = {
+	characterId: string
+	talents: Array<Talent>
+	professions: Array<Profession>
+	ancestries: Array<Ancestry>
+	schools: Array<MagicSchool>
+	archetypes: Array<Archetype>
+	orderAlignments: Array<Alignment>
+	chaosAlignments: Array<Alignment>
+}
+
+//TODO fix act warnings

@@ -6,7 +6,7 @@ import {
 
 const NEW_CHARACTER_SEX = { name: "Female", code: "female" }
 
-describe("Name Textbox should", () => {
+describe("Sex Combobox should", () => {
 	it("send a 'set_value|sex' action on change", async () => {
 		await render_character_sheet_page_after_loading()
 

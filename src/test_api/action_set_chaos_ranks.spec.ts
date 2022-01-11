@@ -5,7 +5,7 @@ import {
 	updateCharacterSpy
 } from "./utils"
 
-describe("set_value order_alignment should", () => {
+describe("set_value chaos_ranks should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -14,23 +14,23 @@ describe("set_value order_alignment should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("change the order alignment of the character", async () => {
+	it("change the chaos ranks of the character", async () => {
 		const request = character_sheet_request([
 			{
 				action: "set_value",
-				property: PROPERTY_ORDER_ALIGNMENT,
-				value: CHARACTER_ORDER_ALIGNMENT
+				property: PROPERTY_CHAOS_RANKS,
+				value: CHARACTER_CHAOS_RANKS
 			}
 		])
 
 		const result = await call_character_sheet_api(request)
 
 		expect_character_to_have_attribute_set({
-			order_alignment: CHARACTER_ORDER_ALIGNMENT
+			chaos_ranks: CHARACTER_CHAOS_RANKS
 		})
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY_ORDER_ALIGNMENT = "order_alignment"
-const CHARACTER_ORDER_ALIGNMENT = "charity"
+const PROPERTY_CHAOS_RANKS = "chaos_ranks"
+const CHARACTER_CHAOS_RANKS = 4

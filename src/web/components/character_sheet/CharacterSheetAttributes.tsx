@@ -16,7 +16,6 @@ export default function CharacterSheetAttributes() {
 			{character.attributes.map(attribute => (
 				<Attribute key={attribute.code}>
 					<Name>{attribute.name}</Name>
-
 					<CircularNumberInput
 						value={attribute.base}
 						onBlur={value =>
@@ -41,6 +40,7 @@ export default function CharacterSheetAttributes() {
 								payload: { attribute: attribute.code, value: value }
 							})
 						}
+						aria-label={`${attribute.name} Advances`}
 					/>
 					<BonusContainer>
 						<span>bonus</span>

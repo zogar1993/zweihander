@@ -33,5 +33,21 @@ export function expect_character_to_have_attribute_set(
 ) {
 	const call = updateCharacterSpy.mock.calls[0]
 	expect(call[0]).toStrictEqual(CHARACTER_ID)
-	expect(call[1]).toStrictEqual({ set: change })
+	expect(call[1]).toStrictEqual({ set: change, push: {}, pull: {} })
+}
+
+export function expect_character_to_have_item_added(
+	change: Record<string, any>
+) {
+	const call = updateCharacterSpy.mock.calls[0]
+	expect(call[0]).toStrictEqual(CHARACTER_ID)
+	expect(call[1]).toStrictEqual({ push: change, pull: {}, set: {} })
+}
+
+export function expect_character_to_have_item_removed(
+	change: Record<string, any>
+) {
+	const call = updateCharacterSpy.mock.calls[0]
+	expect(call[0]).toStrictEqual(CHARACTER_ID)
+	expect(call[1]).toStrictEqual({ pull: change, push: {}, set: {} })
 }

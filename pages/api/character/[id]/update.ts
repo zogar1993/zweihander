@@ -1,7 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import getMongoDBClient from "@core/utils/GetMongoDBClient"
 import updateCharacter from "@core/utils/UpdateCharacter"
-import { ObjectId } from "mongodb"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -20,6 +18,8 @@ export default async function handler(
 		return
 	}
 	const setActions = {} as any
+	const pushActions = {} as any
+	const pullActions = {} as any
 	for (const action of actions) {
 		const parts = action.property.split(".")
 		switch (action.action) {
@@ -66,6 +66,76 @@ export default async function handler(
 					case "upbringing":
 						setActions["upbringing"] = action.value
 						break
+					case "corruption":
+						setActions["corruption"] = action.value
+						break
+					case "chaos_ranks":
+						setActions["chaos_ranks"] = action.value
+						break
+					case "order_ranks":
+						setActions["order_ranks"] = action.value
+						break
+					case "skills":
+						//TODO cleanse part 1
+						switch (parts[2]) {
+							case "ranks":
+								setActions[`skills.${parts[1]}.ranks`] = action.value
+								break
+							default:
+								res.status(500)
+								return
+						}
+						break
+					case "attributes":
+						//TODO cleanse part 1
+						switch (parts[2]) {
+							case "base":
+								setActions[`attributes.${parts[1]}.base`] = action.value
+								break
+							case "advances":
+								setActions[`attributes.${parts[1]}.advances`] = action.value
+								break
+							default:
+								res.status(500)
+								return
+						}
+						break
+					default:
+						res.status(500)
+						return
+				}
+				break
+			case "remove_from_array":
+				switch (
+					parts[0] //TODO validate that there are no extra parts?
+				) {
+					case "focuses":
+						pullActions[`focuses.${parts[1]}`] = action.value
+						break
+					case "spells":
+						pullActions[`spells.${parts[1]}`] = action.value
+						break
+					case "talents":
+						pullActions["talents"] = action.value
+						break
+					default:
+						res.status(500)
+						return
+				}
+				break
+			case "add_to_array":
+				switch (
+					parts[0] //TODO validate that there are no extra parts?
+				) {
+					case "focuses":
+						pushActions[`focuses.${parts[1]}`] = action.value
+						break
+					case "spells":
+						pushActions[`spells.${parts[1]}`] = action.value
+						break
+					case "talents":
+						pushActions["talents"] = action.value
+						break
 					default:
 						res.status(500)
 						return
@@ -77,29 +147,16 @@ export default async function handler(
 		}
 	}
 
-	await updateCharacter(id, { set: setActions })
+	await updateCharacter(id, {
+		set: setActions,
+		pull: pullActions,
+		push: pushActions
+	})
 	res.status(200)
 }
 
-async function patch(req: NextApiRequest, res: NextApiResponse) {
-	{
-		const { id } = req.query
-		if (Array.isArray(id)) {
-			res.status(500)
-			return
-		}
-		const patch = req.body
-		const client = await getMongoDBClient()
-
-		await client
-			.collection("CHARACTERS")
-			.updateOne({ _id: new ObjectId(id) }, { $set: JSON.parse(patch) })
-		res.status(200)
-	}
-}
-
 export type UpdateAction = {
-	action: "set_value" | "remove_from_array"
+	action: "set_value" | "remove_from_array" | "add_to_array"
 	property: string
 	value: any
 }

@@ -1,5 +1,5 @@
 import { UpdateAction } from "@api/character/[id]/update"
-import sanitizeCharacterSheet from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import sanitizeCharacterSheet, { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import {
 	act,
 	fireEvent,
@@ -13,6 +13,7 @@ import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import { ComboBoxItem } from "misevi/dist/components/inner_components/ComboBox"
 import * as router from "next/router"
+import { TEST_ANCESTRIES } from "./collections"
 
 const CHARACTER_ID = "an_id"
 export const fetchCharacterOfIdSpy = jest.spyOn(fetchCharacterOfId, "default")
@@ -22,18 +23,18 @@ useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 
 const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({ id: CHARACTER_ID })
 
-export async function render_character_sheet_page() {
+export async function render_character_sheet_page(character: Partial<SanitizedCharacterSheet>) {
 	fetchCharacterOfIdSpy.mockReset()
 	updateCharacterOfIdSpy.mockReset()
 	fetchCharacterOfIdSpy.mockReturnValue(
-		Promise.resolve(DEFAULT_CHARACTER_SHEET)
+		Promise.resolve({...DEFAULT_CHARACTER_SHEET, ...character})
 	)
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	render(
 		<CharacterSheetScreen
 			characterId={CHARACTER_ID}
 			schools={[]}
-			ancestries={[]}
+			ancestries={TEST_ANCESTRIES}
 			archetypes={[]}
 			chaosAlignments={[]}
 			orderAlignments={[]}
@@ -43,8 +44,8 @@ export async function render_character_sheet_page() {
 	)
 }
 
-export async function render_character_sheet_page_after_loading() {
-	await render_character_sheet_page()
+export async function render_character_sheet_page_after_loading(character: Partial<SanitizedCharacterSheet>) {
+	await render_character_sheet_page(character)
 	// Arbitrary selection of Name field
 	const textbox = await screen.findByRole("textbox", { name: "Name" })
 	await waitFor(() => expect(textbox).not.toBeDisabled())
@@ -68,6 +69,18 @@ export async function select_combobox_item(name: string, item: ComboBoxItem) {
 	textbox.focus()
 	const option = within(combobox).getByRole("option", { name: item.name })
 	fireEvent.click(option)
+}
+
+export async function select_dots_value(name: string, value: number) {
+	const group = screen.getByRole('radiogroup', { name: name })
+	const selected = within(group).getByRole('radio', { name: value.toString() })
+	fireEvent.click(selected)
+}
+
+export async function then_dots_is_checked_on(name: string, value: number) {
+	const group = screen.getByRole('radiogroup', { name: name })
+	const selected = within(group).getByRole('radio', { name: value.toString() })
+	await waitFor(() => expect(selected).toBeChecked())
 }
 
 export async function update_character_api_was_called_with(
