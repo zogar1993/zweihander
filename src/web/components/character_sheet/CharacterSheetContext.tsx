@@ -64,6 +64,7 @@ type CharacterSheetState = {
 }
 
 export function useCharacterSheetReducer() {
+//TODO replace placeholder with the real thing
 	return useReducer(characterSheetReducer, PLACEHOLDER_CHARACTER_SHEET_STATE)
 }
 
@@ -81,6 +82,7 @@ function characterSheetReducer(
 ) {
 	switch (action.type) {
 		case ActionType.InitializeCollections: {
+			if(!action.payload.character) return state //TODO this should not be needed
 			const {
 				talents,
 				professions,
@@ -88,7 +90,8 @@ function characterSheetReducer(
 				archetypes,
 				schools,
 				orderAlignments,
-				chaosAlignments
+				chaosAlignments,
+				character
 			} = action.payload
 			return {
 				...state,
@@ -98,23 +101,14 @@ function characterSheetReducer(
 				archetypes,
 				schools,
 				orderAlignments,
-				chaosAlignments
+				chaosAlignments,
+
+				_character: character,
+				character: calculateCharacterSheet(action.payload),
+				ancestryTraits: calculateAncestryTraits(character.ancestry, action.payload as any),
+				tier1Professions: calculateTier1Professions(character.archetype, action.payload as any)
 			}
 		}
-		case ActionType.InitializeCharacterSheet:
-			return {
-				...state,
-				_character: action.payload,
-				character: calculateCharacterSheet({
-					...state,
-					character: action.payload
-				}),
-				ancestryTraits: calculateAncestryTraits(action.payload.ancestry, state),
-				tier1Professions: calculateTier1Professions(
-					action.payload.archetype,
-					state
-				)
-			}
 		case ActionType.SetName:
 			return modifyCharacterSheet("name", state, action.payload)
 		case ActionType.SetAvatar:
@@ -268,6 +262,8 @@ export enum ActionType {
 }
 
 type PayloadInitialize = {
+	character: SanitizedCharacterSheet
+
 	talents: Array<Talent>
 	professions: Array<Profession>
 	ancestries: Array<Ancestry>

@@ -1,30 +1,18 @@
-import getAlignments, { Alignment } from "@core/actions/GetAlignments"
+import getAlignments  from "@core/actions/GetAlignments"
 import { getAncestries } from "@core/actions/GetAncestries"
-import getArchetypes, { Archetype } from "@core/actions/GetArchetypes"
+import getArchetypes  from "@core/actions/GetArchetypes"
+import { getCharacterSheetOfId } from "@core/actions/GetCharacterSheetOfId"
 import getMagicSchools from "@core/actions/GetMagicSchools"
 import getProfessions from "@core/actions/GetProfessions"
 import getTalents from "@core/actions/GetTalents"
-import { Ancestry } from "@core/domain/Ancestry"
-import { MagicSchool } from "@core/domain/MagicSchool"
-import { Profession } from "@core/domain/Profession"
-import { Talent } from "@core/domain/Talent"
-import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
+import CharacterSheetScreen, { CharacterSheetScreenProps } from "@web/components/character_sheet/CharacterSheetScreen"
 import React from "react"
 
-export default function CharacterScreen(props: {
-	characterId: string
-	talents: Array<Talent>
-	professions: Array<Profession>
-	ancestries: Array<Ancestry>
-	schools: Array<MagicSchool>
-	archetypes: Array<Archetype>
-	orderAlignments: Array<Alignment>
-	chaosAlignments: Array<Alignment>
-}) {
+export default function CharacterScreen(props: CharacterSheetScreenProps) {
 	return <CharacterSheetScreen {...props} />
 }
 
-export async function getStaticProps({
+export async function getServerSideProps({
 	params: { character: characterId }
 }: any) {
 	const ancestries = await getAncestries()
@@ -33,9 +21,10 @@ export async function getStaticProps({
 	const schools = await getMagicSchools()
 	const archetypes = await getArchetypes()
 	const alignments = await getAlignments()
+	const character = await getCharacterSheetOfId(characterId)
 	return {
 		props: {
-			characterId,
+			character,
 			ancestries,
 			talents,
 			professions,
@@ -44,13 +33,5 @@ export async function getStaticProps({
 			orderAlignments: alignments.filter(x => x.type === "order"),
 			chaosAlignments: alignments.filter(x => x.type === "chaos")
 		}
-	}
-}
-
-//TODO this fallback may not be best, check how it works in this case
-export async function getStaticPaths() {
-	return {
-		paths: [],
-		fallback: true
 	}
 }

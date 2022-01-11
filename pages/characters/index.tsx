@@ -14,7 +14,10 @@ export default function CharactersScreen({
 	return (
 		<Grid columns={5} mobile-columns={1}>
 			{characters.map(character => (
-				<Card href={`characters/${character.id}`} key={character.id}>
+				<Card
+					href={`characters/loading?character=${character.id}`}
+					key={character.id}
+				>
 					<CardTitle>{character.name || "unnamed"}</CardTitle>
 					<CardBody>
 						<Avatar
@@ -54,8 +57,8 @@ const Card = styled(Link)`
 	border: solid 1px ${theme.colors.border};
 	border-radius: ${theme.borders.radius};
 
-  user-select: none;
-  cursor: pointer;
+	user-select: none;
+	cursor: pointer;
 `
 
 const CardBody = styled.div`
@@ -71,14 +74,14 @@ const CardInfo = styled.div`
 
 const CardInfoLine = styled.span`
 	font-family: ${theme.fonts.handwritten};
-  color: ${theme.colors.text};
+	color: ${theme.colors.text};
 `
 
 const CardTitle = styled.span`
-  font-family: ${theme.fonts.stylish};
-  font-size: 20px;
-  text-align: center;
-  color: ${theme.colors.text};
+	font-family: ${theme.fonts.stylish};
+	font-size: 20px;
+	text-align: center;
+	color: ${theme.colors.text};
 `
 
 const Avatar = styled(Image)`
