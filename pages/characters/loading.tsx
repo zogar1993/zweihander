@@ -14,5 +14,3 @@ export default function CharacterScreen(props: CharacterSheetScreenProps) {
 
 	return <CharacterSheetScreen {...props} />
 }
-
-//TODO optimize calls to reducer

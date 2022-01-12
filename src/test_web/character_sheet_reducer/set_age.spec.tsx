@@ -1,6 +1,6 @@
 import {
 	change_number_input_value,
-	render_character_sheet_page_after_loading,
+	render_character_sheet_page,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -8,7 +8,7 @@ const NEW_CHARACTER_AGE = 36
 
 describe("Age Textbox should", () => {
 	it("send a 'set_value|age' action on change", async () => {
-		await render_character_sheet_page_after_loading()
+		await render_character_sheet_page()
 
 		await change_number_input_value("Age", NEW_CHARACTER_AGE)
 

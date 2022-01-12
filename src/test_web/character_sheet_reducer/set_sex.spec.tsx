@@ -1,5 +1,5 @@
 import {
-	render_character_sheet_page_after_loading,
+	render_character_sheet_page,
 	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
@@ -8,7 +8,7 @@ const NEW_CHARACTER_SEX = { name: "Female", code: "female" }
 
 describe("Sex Combobox should", () => {
 	it("send a 'set_value|sex' action on change", async () => {
-		await render_character_sheet_page_after_loading()
+		await render_character_sheet_page()
 
 		await select_combobox_item("Sex", NEW_CHARACTER_SEX)
 

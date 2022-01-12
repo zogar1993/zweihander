@@ -63,9 +63,20 @@ type CharacterSheetState = {
 	chaosAlignments: Array<Alignment>
 }
 
-export function useCharacterSheetReducer() {
-//TODO replace placeholder with the real thing
-	return useReducer(characterSheetReducer, PLACEHOLDER_CHARACTER_SHEET_STATE)
+export function useCharacterSheetReducer(props: PayloadInitialize) {
+	if (!props.character)
+		return useReducer(characterSheetReducer, PLACEHOLDER_CHARACTER_SHEET_STATE)
+	const state = {
+		...props,
+		_character: props.character,
+		character: calculateCharacterSheet(props),
+		ancestryTraits: calculateAncestryTraits(props.character.ancestry, props),
+		tier1Professions: calculateTier1Professions(
+			props.character.archetype,
+			props
+		)
+	}
+	return useReducer(characterSheetReducer, state)
 }
 
 export function useCharacterSheetState() {
@@ -81,34 +92,6 @@ function characterSheetReducer(
 	action: CharacterSheetAction
 ) {
 	switch (action.type) {
-		case ActionType.InitializeCollections: {
-			if(!action.payload.character) return state //TODO this should not be needed
-			const {
-				talents,
-				professions,
-				ancestries,
-				archetypes,
-				schools,
-				orderAlignments,
-				chaosAlignments,
-				character
-			} = action.payload
-			return {
-				...state,
-				talents,
-				professions,
-				ancestries,
-				archetypes,
-				schools,
-				orderAlignments,
-				chaosAlignments,
-
-				_character: character,
-				character: calculateCharacterSheet(action.payload),
-				ancestryTraits: calculateAncestryTraits(character.ancestry, action.payload as any),
-				tier1Professions: calculateTier1Professions(character.archetype, action.payload as any)
-			}
-		}
 		case ActionType.SetName:
 			return modifyCharacterSheet("name", state, action.payload)
 		case ActionType.SetAvatar:
@@ -232,8 +215,6 @@ export default function addPartialRecordItemToArray<Item, Key extends string>(
 }
 
 export enum ActionType {
-	InitializeCollections,
-	InitializeCharacterSheet,
 	SetName,
 	SetAvatar,
 	SetAge,
@@ -274,11 +255,6 @@ type PayloadInitialize = {
 }
 
 type CharacterSheetAction =
-	| { type: ActionType.InitializeCollections; payload: PayloadInitialize }
-	| {
-			type: ActionType.InitializeCharacterSheet
-			payload: SanitizedCharacterSheet
-	  }
 	| { type: ActionType.SetName; payload: string }
 	| { type: ActionType.SetAvatar; payload: string | null }
 	| { type: ActionType.SetAge; payload: number }
@@ -416,14 +392,14 @@ function deleteByDotNotation(path: Array<string>, obj: any): any {
 
 function calculateAncestryTraits(
 	ancestry: string | null,
-	state: CharacterSheetState
+	state: Pick<CharacterSheetState, "ancestries">
 ): Array<AncestryTrait> {
 	return ancestry === null ? [] : getByCode(ancestry, state.ancestries).traits
 }
 
 function calculateTier1Professions(
 	archetype: string | null,
-	state: CharacterSheetState
+	state: Pick<CharacterSheetState, "professions" | "archetypes">
 ): Array<Profession> {
 	const { professions, archetypes } = state
 	if (archetype === null) {

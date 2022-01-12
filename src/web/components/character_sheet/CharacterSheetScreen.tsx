@@ -8,27 +8,17 @@ import { Talent } from "@core/domain/Talent"
 import CharacterSheetBio from "@web/components/character_sheet/bio/CharacterSheetBio"
 import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
 import {
-	ActionType,
 	CharacterSheetContext,
 	useCharacterSheetReducer
 } from "@web/components/character_sheet/CharacterSheetContext"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
 import CharacterSheetSkills from "@web/components/character_sheet/skills/CharacterSheetSkills"
 import theme from "@web/theme/theme"
-import React, { useEffect } from "react"
+import React from "react"
 import styled from "styled-components"
 
-export default function CharacterSheetScreen({
-	...props
-}: CharacterSheetScreenProps) {
-	const [state, dispatch] = useCharacterSheetReducer()
-
-	useEffect(() => {
-		dispatch({
-			type: ActionType.InitializeCollections,
-			payload: { ...props }
-		})
-	}, [])
+export default function CharacterSheetScreen(props: CharacterSheetScreenProps) {
+	const [state, dispatch] = useCharacterSheetReducer(props)
 
 	return (
 		<CharacterSheetContext.Provider value={{ state, dispatch }}>
@@ -79,4 +69,3 @@ export type CharacterSheetScreenProps = {
 }
 
 //TODO fix act warnings
-//TODO make redirection for static character sheet loading page
