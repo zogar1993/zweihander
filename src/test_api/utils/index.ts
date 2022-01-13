@@ -14,9 +14,7 @@ export async function call_character_sheet_api(request: NextApiRequest) {
 	return result
 }
 
-export function character_sheet_request(
-	body: Array<UpdateAction>
-) {
+export function character_sheet_request(body: Array<UpdateAction>) {
 	return {
 		method: "POST",
 		query: {
@@ -33,7 +31,7 @@ export function expect_character_to_have_attribute_set(
 ) {
 	const call = updateCharacterSpy.mock.calls[0]
 	expect(call[0]).toStrictEqual(CHARACTER_ID)
-	expect(call[1]).toStrictEqual({ set: change, push: {}, pull: {} })
+	expect(call[1]).toStrictEqual({ set: change })
 }
 
 export function expect_character_to_have_item_added(
@@ -41,7 +39,7 @@ export function expect_character_to_have_item_added(
 ) {
 	const call = updateCharacterSpy.mock.calls[0]
 	expect(call[0]).toStrictEqual(CHARACTER_ID)
-	expect(call[1]).toStrictEqual({ push: change, pull: {}, set: {} })
+	expect(call[1]).toStrictEqual({ push: change })
 }
 
 export function expect_character_to_have_item_removed(
@@ -49,5 +47,5 @@ export function expect_character_to_have_item_removed(
 ) {
 	const call = updateCharacterSpy.mock.calls[0]
 	expect(call[0]).toStrictEqual(CHARACTER_ID)
-	expect(call[1]).toStrictEqual({ pull: change, push: {}, set: {} })
+	expect(call[1]).toStrictEqual({ pull: change })
 }

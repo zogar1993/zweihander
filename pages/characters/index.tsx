@@ -39,6 +39,8 @@ export default function CharactersScreen({
 	)
 }
 
+//TODO loading mechanism for character is inneficient, maybe router event?
+
 export async function getServerSideProps() {
 	const characters = await getCharacters()
 	return {

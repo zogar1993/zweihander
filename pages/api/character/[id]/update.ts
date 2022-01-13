@@ -1,5 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import updateCharacter from "@core/utils/UpdateCharacter"
+import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
+import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
+import updateCharacter, {
+	UpdateCharacterProps
+} from "@core/utils/UpdateCharacter"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -17,141 +21,36 @@ export default async function handler(
 		res.status(500)
 		return
 	}
-	const setActions = {} as any
-	const pushActions = {} as any
-	const pullActions = {} as any
-	for (const action of actions) {
-		const parts = action.property.split(".")
-		switch (action.action) {
-			case "set_value":
-				switch (
-					parts[0] //TODO validate that theree are no extra parts?
-				) {
-					case "name":
-						setActions["name"] = action.value
-						break
-					case "age":
-						setActions["age"] = action.value
-						break
-					case "sex":
-						setActions["sex"] = action.value
-						break
-					case "ancestry":
-						setActions["ancestry"] = action.value
-						break
-					case "ancestry_trait":
-						setActions["ancestry_trait"] = action.value
-						break
-					case "archetype":
-						setActions["archetype"] = action.value
-						break
-					case "order_alignment":
-						setActions["order_alignment"] = action.value
-						break
-					case "chaos_alignment":
-						setActions["chaos_alignment"] = action.value
-						break
-					case "profession_1":
-						setActions["profession_1"] = action.value
-						break
-					case "profession_2":
-						setActions["profession_2"] = action.value
-						break
-					case "profession_3":
-						setActions["profession_3"] = action.value
-						break
-					case "social_class":
-						setActions["social_class"] = action.value
-						break
-					case "upbringing":
-						setActions["upbringing"] = action.value
-						break
-					case "corruption":
-						setActions["corruption"] = action.value
-						break
-					case "chaos_ranks":
-						setActions["chaos_ranks"] = action.value
-						break
-					case "order_ranks":
-						setActions["order_ranks"] = action.value
-						break
-					case "skills":
-						//TODO cleanse part 1
-						switch (parts[2]) {
-							case "ranks":
-								setActions[`skills.${parts[1]}.ranks`] = action.value
-								break
-							default:
-								res.status(500)
-								return
-						}
-						break
-					case "attributes":
-						//TODO cleanse part 1
-						switch (parts[2]) {
-							case "base":
-								setActions[`attributes.${parts[1]}.base`] = action.value
-								break
-							case "advances":
-								setActions[`attributes.${parts[1]}.advances`] = action.value
-								break
-							default:
-								res.status(500)
-								return
-						}
-						break
-					default:
-						res.status(500)
-						return
-				}
-				break
-			case "remove_from_array":
-				switch (
-					parts[0] //TODO validate that there are no extra parts?
-				) {
-					case "focuses":
-						pullActions[`focuses.${parts[1]}`] = action.value
-						break
-					case "spells":
-						pullActions[`spells.${parts[1]}`] = action.value
-						break
-					case "talents":
-						pullActions["talents"] = action.value
-						break
-					default:
-						res.status(500)
-						return
-				}
-				break
-			case "add_to_array":
-				switch (
-					parts[0] //TODO validate that there are no extra parts?
-				) {
-					case "focuses":
-						pushActions[`focuses.${parts[1]}`] = action.value
-						break
-					case "spells":
-						pushActions[`spells.${parts[1]}`] = action.value
-						break
-					case "talents":
-						pushActions["talents"] = action.value
-						break
-					default:
-						res.status(500)
-						return
-				}
-				break
-			default:
-				res.status(500)
-				return
-		}
+
+	//TODO do better error handling
+	const errors_415: Array<UpdateAction> = []
+	const errors_500: Array<UpdateAction> = []
+	const results: Array<UpdateCharacterProps> = []
+	actions.forEach(action => {
+		const endpoints = ENDPOINTS.filter(endpoint =>
+			action.property.match(endpoint.regex)
+		)
+		if (endpoints.length === 0) errors_415.push(action)
+		else if (endpoints.length > 1) errors_500.push(action)
+		else results.push(endpoints[0][action.action]!(action.property, action.value))//TODO eww
+	})
+
+	if (errors_500.length > 0) {
+		res.status(500)
+		return
 	}
 
-	await updateCharacter(id, {
-		set: setActions,
-		pull: pullActions,
-		push: pushActions
-	})
+	if (errors_415.length > 0) {
+		res.status(415)
+		return
+	}
+
+	const endpoints = results.reduce((previous, current) => ({
+		...previous,
+		...current
+	}))
+
+	await updateCharacter(id, endpoints)
 	res.status(200)
 }
 
@@ -159,4 +58,129 @@ export type UpdateAction = {
 	action: "set_value" | "remove_from_array" | "add_to_array"
 	property: string
 	value: any
+}
+
+type WeaFunc = (property: string, payload: any) => UpdateCharacterProps
+
+const SIMPLE_SET_VALUE_ENDPOINT = (property: string, payload: any) => {
+	return { set: { [property]: payload } }
+}
+
+const SIMPLE_ADD_TO_ARRAY_ENDPOINT = (property: string, payload: any) => {
+	return { push: { [property]: payload } }
+}
+
+const SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT = (property: string, payload: any) => {
+	return { pull: { [property]: payload } }
+}
+
+const ENDPOINTS: Array<Endpoint> = [
+	{
+		regex: /^name$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^age$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^sex$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^ancestry$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^ancestry_trait$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^archetype$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^order_alignment$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^chaos_alignment$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^profession_1$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^profession_2$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^profession_3$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^social_class$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^upbringing$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^corruption$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^chaos_ranks$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^order_ranks$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: new RegExp(
+			`^skills.${regexCodes(SKILL_DEFINITIONS)}.ranks$`
+		),
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: new RegExp(
+			`^attributes.${regexCodes(ATTRIBUTE_DEFINITIONS)}.base$`
+		),
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: new RegExp(
+			`^attributes.${regexCodes(ATTRIBUTE_DEFINITIONS)}.advances$`
+		),
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: new RegExp(`^talents$`),
+		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
+		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT
+	},
+	{
+		regex: new RegExp(`^focuses.${regexCodes(SKILL_DEFINITIONS)}$`),
+		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
+		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT
+	},
+	{
+		regex: new RegExp(`^spells.*$`), //TODO use schools
+		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
+		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT
+	}
+]
+
+type Endpoint = {
+	regex: RegExp
+	set_value?: WeaFunc
+	remove_from_array?: WeaFunc
+	add_to_array?: WeaFunc
+} //TODO better this later with advanced types
+
+function regexCodes(array: ReadonlyArray<{code: string}>) {
+	return `(${array.map(x => x.code).join("|")})`
 }
