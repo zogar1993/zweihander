@@ -1,7 +1,7 @@
 import { SOCIAL_CLASSES } from "@web/components/character_sheet/bio/Constants"
 import {
-	change_textbox_value,
-	render_character_sheet_page, select_combobox_item,
+	render_character_sheet_page,
+	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -14,7 +14,11 @@ describe("Social Class Combobox should", () => {
 		await select_combobox_item("Social Class", NEW_SOCIAL_CLASS)
 
 		await update_character_api_was_called_with([
-			{ action: "set_value", property: "social_class", value: NEW_SOCIAL_CLASS.code }
+			{
+				action: "set_value",
+				property: "social_class",
+				value: NEW_SOCIAL_CLASS.code
+			}
 		])
 	})
 })

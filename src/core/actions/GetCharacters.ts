@@ -32,5 +32,9 @@ export async function getCharacters() {
 
 function toTitle(value: string | null) {
 	if (!value) return null
-	return value.split("_").filter(x => x.length > 0).map(x => x[0].toUpperCase() + x.substring(1)).join(" ")
+	return value
+		.split("_")
+		.filter(x => x.length > 0)
+		.map(x => x[0].toUpperCase() + x.substring(1))
+		.join(" ")
 }

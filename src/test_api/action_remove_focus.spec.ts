@@ -26,7 +26,9 @@ describe("remove_from_array focus should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_item_removed({ [`focuses.${SKILL_DEFINITIONS[0].code}`]: CHARACTER_FOCUS })
+		expect_character_to_have_item_removed({
+			[`focuses.${SKILL_DEFINITIONS[0].code}`]: CHARACTER_FOCUS
+		})
 		expect(result.statusCode).toBe(200)
 	})
 })

@@ -26,7 +26,9 @@ describe("add_to_array focus should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_item_added({ [`focuses.${SKILL_DEFINITIONS[0].code}`]: VALUE })
+		expect_character_to_have_item_added({
+			[`focuses.${SKILL_DEFINITIONS[0].code}`]: VALUE
+		})
 		expect(result.statusCode).toBe(200)
 	})
 })

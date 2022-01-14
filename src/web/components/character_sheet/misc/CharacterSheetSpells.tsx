@@ -1,5 +1,4 @@
 import { getByCode } from "@core/domain/general/GetByCode"
-import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { Spell } from "@core/domain/Spell"
 import {
 	ActionType,

@@ -16,7 +16,9 @@ import { ComboBoxItem } from "misevi/dist/components/inner_components/ComboBox"
 import * as router from "next/router"
 import {
 	TEST_ANCESTRIES,
-	TEST_ARCHETYPES, TEST_CHAOS_ALIGNMENTS, TEST_ORDER_ALIGNMENTS,
+	TEST_ARCHETYPES,
+	TEST_CHAOS_ALIGNMENTS,
+	TEST_ORDER_ALIGNMENTS,
 	TEST_PROFESSIONS
 } from "./collections"
 

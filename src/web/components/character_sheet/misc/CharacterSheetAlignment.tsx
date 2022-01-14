@@ -17,18 +17,24 @@ export default function CharacterSheetAlignment() {
 				<Dots
 					value={character.order_ranks}
 					total={9}
-					onChange={value => dispatch({
-						type: ActionType.SetOrderRanks, payload: value
-					})}
+					onChange={value =>
+						dispatch({
+							type: ActionType.SetOrderRanks,
+							payload: value
+						})
+					}
 					aria-label={`Order Ranks`}
 				/>
 				<Label>Chaos Ranks</Label>
 				<Dots
 					value={character.chaos_ranks}
 					total={9}
-						onChange={value => dispatch({
-						type: ActionType.SetChaosRanks, payload: value
-					})}
+					onChange={value =>
+						dispatch({
+							type: ActionType.SetChaosRanks,
+							payload: value
+						})
+					}
 					aria-label={`Chaos Ranks`}
 				/>
 			</RanksContainer>
@@ -38,9 +44,12 @@ export default function CharacterSheetAlignment() {
 					min={0}
 					max={9}
 					value={character.corruption}
-					onBlur={value => dispatch({
-						type: ActionType.SetCorruption, payload: value
-					})}
+					onBlur={value =>
+						dispatch({
+							type: ActionType.SetCorruption,
+							payload: value
+						})
+					}
 					aria-label={`Corruption`}
 				/>
 			</CorruptionContainer>
@@ -55,16 +64,16 @@ const Label = styled.label`
 `
 
 const Container = styled.div`
-  display: flex;
-  gap: ${theme.spacing.separation};
-  justify-content: space-between;
-  align-content: stretch;
-  width: 100%;
+	display: flex;
+	gap: ${theme.spacing.separation};
+	justify-content: space-between;
+	align-content: stretch;
+	width: 100%;
 `
 
 const RanksContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 `
 
 const CorruptionContainer = styled.div`

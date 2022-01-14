@@ -1,6 +1,7 @@
 import { TEST_ORDER_ALIGNMENTS } from "./utils/collections"
 import {
-	render_character_sheet_page, select_combobox_item,
+	render_character_sheet_page,
+	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -13,7 +14,11 @@ describe("Order Alignment Combobox should", () => {
 		await select_combobox_item("Order Alignment", NEW_ALIGNMENT)
 
 		await update_character_api_was_called_with([
-			{ action: "set_value", property: "order_alignment", value: NEW_ALIGNMENT.code }
+			{
+				action: "set_value",
+				property: "order_alignment",
+				value: NEW_ALIGNMENT.code
+			}
 		])
 	})
 })

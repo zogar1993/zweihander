@@ -25,7 +25,9 @@ describe("remove_from_array spell should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_item_removed({ [`spells.a_magic`]: CHARACTER_SPELL })
+		expect_character_to_have_item_removed({
+			[`spells.a_magic`]: CHARACTER_SPELL
+		})
 		expect(result.statusCode).toBe(200)
 	})
 })

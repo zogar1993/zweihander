@@ -7,7 +7,7 @@ export default function Link({
 	className
 }: {
 	href: string
-	children: ReactNode,
+	children: ReactNode
 	className?: string
 }) {
 	return (

@@ -35,8 +35,8 @@ type RemovableItemsProps<Key extends string, Item> = {
 }
 
 const Tag = styled.span`
-  border: 1px solid lightgray;
-  border-radius: 4px;
-  padding: 3px 5px 3px 5px;
-  margin: 2px;
+	border: 1px solid lightgray;
+	border-radius: 4px;
+	padding: 3px 5px 3px 5px;
+	margin: 2px;
 `

@@ -4,7 +4,7 @@ import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
-export default function SpecialRuleCard({ trait }: {trait: Trait}) {
+export default function SpecialRuleCard({ trait }: { trait: Trait }) {
 	return (
 		<TraitBox>
 			<CardTitle>{trait.name}</CardTitle>
@@ -20,9 +20,9 @@ const TraitBox = styled.article`
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};
-  border: 1px solid lightgray;
-  border-radius: ${theme.borders.radius};
-  padding: ${theme.spacing.separation} calc(3 * ${theme.spacing.separation});
+	border: 1px solid lightgray;
+	border-radius: ${theme.borders.radius};
+	padding: ${theme.spacing.separation} calc(3 * ${theme.spacing.separation});
 `
 
 const Description = styled.p`

@@ -26,7 +26,9 @@ describe("set_value attributes.{code}.base should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_attribute_set({ [`attributes.${ATTRIBUTE_DEFINITIONS[0].code}.base`]: VALUE })
+		expect_character_to_have_attribute_set({
+			[`attributes.${ATTRIBUTE_DEFINITIONS[0].code}.base`]: VALUE
+		})
 		expect(result.statusCode).toBe(200)
 	})
 })
