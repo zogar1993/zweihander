@@ -20,6 +20,7 @@ export default function CharacterSheetAlignment() {
 					onChange={value => dispatch({
 						type: ActionType.SetOrderRanks, payload: value
 					})}
+					aria-label={`Order Ranks`}
 				/>
 				<Label>Chaos Ranks</Label>
 				<Dots
@@ -28,6 +29,7 @@ export default function CharacterSheetAlignment() {
 						onChange={value => dispatch({
 						type: ActionType.SetChaosRanks, payload: value
 					})}
+					aria-label={`Chaos Ranks`}
 				/>
 			</RanksContainer>
 			<CorruptionContainer>
@@ -39,12 +41,13 @@ export default function CharacterSheetAlignment() {
 					onBlur={value => dispatch({
 						type: ActionType.SetCorruption, payload: value
 					})}
+					aria-label={`Corruption`}
 				/>
 			</CorruptionContainer>
 		</Container>
 	)
 }
-
+//TODO everything on this page may have a legit label
 const Label = styled.label`
 	font-family: ${theme.fonts.common};
 	font-size: 12px;

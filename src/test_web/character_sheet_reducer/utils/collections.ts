@@ -1,4 +1,7 @@
+import { Alignment } from "@core/actions/GetAlignments"
+import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry } from "@core/domain/Ancestry"
+import { Profession } from "@core/domain/Profession"
 
 export const TEST_ANCESTRIES: Array<Ancestry> = Array.from(
 	Array(10).keys(),
@@ -23,4 +26,73 @@ export const TEST_ANCESTRIES: Array<Ancestry> = Array.from(
 		from: 10 * (m - 1) + 1,
 		to: 10 * m
 	}))
+}))
+
+export const TEST_PROFESSIONS: Array<Profession> = Array.from(
+	Array(50).keys(),
+	n => n + 1
+).map(n => ({
+	name: `Profession ${n}`,
+	code: `profession_${n}`,
+	book: "Main Gauche",
+	type: "",
+	prerequisite: undefined,
+	description: `Profession Description ${n}`,
+	traits: [
+		{
+			name: `Profession ${n} Trait`,
+			code: `profession_${n}_trait`,
+			description: `profession_${n}_trait_description`,
+			effect: `profession_${n}_trait_effect`
+		}
+	],
+	advances: {
+		skill_ranks: [],
+		bonus_advances: {},
+		talents: []
+	}
+}))
+
+export const TEST_ARCHETYPES: Array<Archetype> = Array.from(
+	Array(5).keys(),
+	n => n + 1
+).map(n => ({
+	name: `Archetype ${n}`,
+	code: `archetype_${n}`,
+	from: 20 * (n - 1) + 1,
+	to: 20 * n,
+	professions: {
+		"Main Gauche": Array.from(Array(5).keys(), m => m + 1).map(m => ({
+			profession: TEST_PROFESSIONS[n + 5 * (m - 1)].code,
+			from: 20 * (m - 1) + 1,
+			to: 20 * m
+		})),
+		Zweihänder: []
+	}
+}))
+
+export const TEST_CHAOS_ALIGNMENTS: Array<Alignment> = Array.from(
+	Array(10).keys(),
+	n => n + 1
+).map(n => ({
+	name: `Chaos Alignment ${n}`,
+	code: `chaos_alignment_${n}`,
+	description: `chaos_alignment_${n}_description`,
+	from: 10 * (n - 1) + 1,
+	to: 10 * n,
+	type: "chaos",
+	partner: `order_alignment_${n}`
+}))
+
+export const TEST_ORDER_ALIGNMENTS: Array<Alignment> = Array.from(
+	Array(10).keys(),
+	n => n + 1
+).map(n => ({
+	name: `Order Alignment ${n}`,
+	code: `order_alignment_${n}`,
+	description: `chaos_alignment_${n}_description`,
+	from: 10 * (n - 1) + 1,
+	to: 10 * n,
+	type: "order",
+	partner: `order_alignment_${n}`
 }))

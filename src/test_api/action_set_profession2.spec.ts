@@ -5,7 +5,7 @@ import {
 	updateCharacterSpy
 } from "./utils"
 
-describe("set_value profession_3 should", () => {
+describe("set_value profession2 should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -14,23 +14,23 @@ describe("set_value profession_3 should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("change the third profession of the character", async () => {
+	it("change the second profession of the character", async () => {
 		const request = character_sheet_request([
 			{
 				action: "set_value",
-				property: PROPERTY_PROFESSION_3,
-				value: CHARACTER_PROFESSION_3
+				property: PROPERTY_PROFESSION_2,
+				value: CHARACTER_PROFESSION_2
 			}
 		])
 
 		const result = await call_character_sheet_api(request)
 
 		expect_character_to_have_attribute_set({
-			profession_3: CHARACTER_PROFESSION_3
+			profession2: CHARACTER_PROFESSION_2
 		})
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY_PROFESSION_3 = "profession_3"
-const CHARACTER_PROFESSION_3 = "linuar"
+const PROPERTY_PROFESSION_2 = "profession2"
+const CHARACTER_PROFESSION_2 = "linuar"

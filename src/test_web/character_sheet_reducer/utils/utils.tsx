@@ -14,7 +14,11 @@ import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import { ComboBoxItem } from "misevi/dist/components/inner_components/ComboBox"
 import * as router from "next/router"
-import { TEST_ANCESTRIES } from "./collections"
+import {
+	TEST_ANCESTRIES,
+	TEST_ARCHETYPES, TEST_CHAOS_ALIGNMENTS, TEST_ORDER_ALIGNMENTS,
+	TEST_PROFESSIONS
+} from "./collections"
 
 const CHARACTER_ID = "an_id"
 export const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
@@ -33,10 +37,10 @@ export async function render_character_sheet_page(
 			character={{ ...DEFAULT_CHARACTER_SHEET, ...character }}
 			schools={[]}
 			ancestries={TEST_ANCESTRIES}
-			archetypes={[]}
-			chaosAlignments={[]}
-			orderAlignments={[]}
-			professions={[]}
+			archetypes={TEST_ARCHETYPES}
+			chaosAlignments={TEST_CHAOS_ALIGNMENTS}
+			orderAlignments={TEST_ORDER_ALIGNMENTS}
+			professions={TEST_PROFESSIONS}
 			talents={[]}
 		/>
 	)
@@ -72,6 +76,11 @@ export async function then_dots_is_checked_on(name: string, value: number) {
 	const group = screen.getByRole("radiogroup", { name: name })
 	const selected = within(group).getByRole("radio", { name: value.toString() })
 	await waitFor(() => expect(selected).toBeChecked())
+}
+
+export async function click_menu_item(name: string) {
+	const group = screen.getByRole("menuitem", { name: name })
+	fireEvent.click(group)
 }
 
 export async function update_character_api_was_called_with(

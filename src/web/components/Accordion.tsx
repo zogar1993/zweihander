@@ -13,7 +13,7 @@ export default function Accordion({
 	items: Array<AccordionItemType>
 }) {
 	return (
-		<AccordionContainer>
+		<AccordionContainer role="menu">
 			{items.map(item => (
 				<AccordionItem item={item} key={item.name} />
 			))}
@@ -33,7 +33,7 @@ const AccordionContainer = styled.div`
 	overflow-x: hidden;
 `
 
-const AccordionItemName = styled.div`
+const AccordionItemName = styled.button`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -57,7 +57,7 @@ function AccordionItem({ item }: { item: AccordionItemType }) {
 	const [open, setOpen] = useState(false)
 	return (
 		<React.Fragment key={item.name}>
-			<AccordionItemName onClick={() => setOpen(open => !open)}>
+			<AccordionItemName onClick={() => setOpen(open => !open)} role="menuitem">
 				{item.name}
 			</AccordionItemName>
 			<AccordionItemContent open={open}>{item.content}</AccordionItemContent>

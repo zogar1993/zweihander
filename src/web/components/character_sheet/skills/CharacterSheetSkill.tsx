@@ -28,6 +28,7 @@ export default function CharacterSheetSkill({
 					if (skill.profession_ranks >= number && number > value)
 						return "palegreen"
 				}}
+				aria-label={`${skill.name} Ranks`}
 			/>
 			<span>{skill.chance}</span>
 		</Container>

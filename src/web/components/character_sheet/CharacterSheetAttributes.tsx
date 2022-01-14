@@ -26,6 +26,7 @@ export default function CharacterSheetAttributes() {
 						}
 						min={28}
 						max={55}
+						aria-label={`${attribute.name} Base`}
 					/>
 					<Dots
 						value={attribute.advances}

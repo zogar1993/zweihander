@@ -11,16 +11,10 @@ export default async function handler(
 	res: NextApiResponse
 ) {
 	const id = req.query.id
-	if (Array.isArray(id)) {
-		res.status(500)
-		return
-	}
+	if (Array.isArray(id)) return res.status(500)
 
 	const actions = req.body as Array<UpdateAction>
-	if (!Array.isArray(actions)) {
-		res.status(500)
-		return
-	}
+	if (!Array.isArray(actions)) return res.status(500)
 
 	//TODO do better error handling
 	const errors_415: Array<UpdateAction> = []
@@ -30,20 +24,16 @@ export default async function handler(
 		const endpoints = ENDPOINTS.filter(endpoint =>
 			action.property.match(endpoint.regex)
 		)
-		if (endpoints.length === 0) errors_415.push(action)
-		else if (endpoints.length > 1) errors_500.push(action)
-		else results.push(endpoints[0][action.action]!(action.property, action.value))//TODO eww
+		if (endpoints.length === 0) return errors_415.push(action)
+		if (endpoints.length > 1) return errors_500.push(action)
+		const endpoint = endpoints[0][action.action]
+		if (endpoint === undefined) return errors_415.push(action)
+		const result = endpoint(action.property, action.value)
+		results.push(result)
 	})
 
-	if (errors_500.length > 0) {
-		res.status(500)
-		return
-	}
-
-	if (errors_415.length > 0) {
-		res.status(415)
-		return
-	}
+	if (errors_500.length > 0) return res.status(500)
+	if (errors_415.length > 0) return res.status(415)
 
 	const endpoints = results.reduce((previous, current) => ({
 		...previous,
@@ -108,15 +98,15 @@ const ENDPOINTS: Array<Endpoint> = [
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
-		regex: /^profession_1$/,
+		regex: /^profession1$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
-		regex: /^profession_2$/,
+		regex: /^profession2$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
-		regex: /^profession_3$/,
+		regex: /^profession3$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
@@ -140,15 +130,11 @@ const ENDPOINTS: Array<Endpoint> = [
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
-		regex: new RegExp(
-			`^skills.${regexCodes(SKILL_DEFINITIONS)}.ranks$`
-		),
+		regex: new RegExp(`^skills.${regexCodes(SKILL_DEFINITIONS)}.ranks$`),
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
-		regex: new RegExp(
-			`^attributes.${regexCodes(ATTRIBUTE_DEFINITIONS)}.base$`
-		),
+		regex: new RegExp(`^attributes.${regexCodes(ATTRIBUTE_DEFINITIONS)}.base$`),
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
@@ -181,6 +167,6 @@ type Endpoint = {
 	add_to_array?: WeaFunc
 } //TODO better this later with advanced types
 
-function regexCodes(array: ReadonlyArray<{code: string}>) {
+function regexCodes(array: ReadonlyArray<{ code: string }>) {
 	return `(${array.map(x => x.code).join("|")})`
 }
