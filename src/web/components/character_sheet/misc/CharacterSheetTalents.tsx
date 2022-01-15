@@ -3,36 +3,40 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import RemovableItems from "@web/components/RemovableItems"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
+import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetTalents() {
-	return (
-		<Container>
-			{Array.from({ length: 9 }, (_, i) => i).map(i => (
-				<TalentComboBox index={i} key={i.toString()} />
-			))}
-		</Container>
-	)
-}
-
-function TalentComboBox({ index }: { index: number }) {
 	const { character, talents } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	return (
-		<Field
-			type="combobox"
-			label={"Talent " + (index + 1)}
-			options={talents}
-			value={character.talents && character.talents[index]}
-			onChange={talent =>
-				dispatch({
-					type: ActionType.SetTalent,
-					payload: { index: index, talent: talent }
-				})
-			}
-		/>
+		<Container>
+			<Field
+				label="Talent"
+				type="combobox"
+				options={talents}
+				onChange={value =>
+					dispatch({
+						type: ActionType.AddTalent,
+						payload: value as string
+					})
+				}
+				value={null}
+				unclearable
+			/>
+			<RemovableItems
+				items={character.talents}
+				removeItem={({ item }) =>
+					dispatch({
+						type: ActionType.RemoveTalent,
+						payload: item
+					})
+				}
+			/>
+		</Container>
 	)
 }
 

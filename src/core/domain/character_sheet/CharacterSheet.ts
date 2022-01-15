@@ -68,6 +68,7 @@ export function calculateCharacterSheet({
 		attributes,
 		schools: formatSpells(character.spells, schools),
 		focuses: formatFocuses(character.focuses),
+		talents: formatTalents(character.talents, talents),
 		skills: orderSkills(skills, character.settings.skill_order),
 		encumbrance_limit: 3 + getAttribute("brawn").bonus,
 		initiative: 3 + getAttribute("perception").bonus,
@@ -472,7 +473,7 @@ export type CalculatedCharacterSheet = Readonly<{
 	peril: ConditionTrack
 	attributes: Array<CalculatedAttribute>
 	skills: Array<CalculatedSkill>
-	talents: Array<string | null>
+	talents: Array<Item & { items: Array<Item> }>
 	ancestry_trait: string | null
 
 	journal: string
@@ -550,4 +551,13 @@ function formatFocuses(focuses: Focuses): CalculatedCharacterSheet["focuses"] {
 			}))
 		}
 	})
+}
+
+function formatTalents(values: Array<string>, talents: Array<Talent>): CalculatedCharacterSheet["talents"] {
+	return [{
+		code: "profession1", name: "Profession 1", items: values.map(talent => ({
+			name: getByCode(talent, talents).name,
+			code: talent
+		}))
+	}]
 }

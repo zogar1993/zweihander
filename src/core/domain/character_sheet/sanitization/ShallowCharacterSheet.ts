@@ -20,7 +20,6 @@ export type ShallowCharacterSheet = {
 	chaos_ranks: number
 	corruption: number
 	journal: string
-	talents: Array<string | null>
 	ancestry_trait: string | null
 	focuses: Focuses
 	spells: CharacterSpells

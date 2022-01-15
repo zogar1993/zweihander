@@ -23,7 +23,7 @@ import {
 	TEST_CHAOS_ALIGNMENTS,
 	TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
-	TEST_PROFESSIONS
+	TEST_PROFESSIONS, TEST_TALENTS
 } from "./collections"
 
 const CHARACTER_ID = "an_id"
@@ -47,7 +47,7 @@ export async function render_character_sheet(
 			chaosAlignments={TEST_CHAOS_ALIGNMENTS}
 			orderAlignments={TEST_ORDER_ALIGNMENTS}
 			professions={TEST_PROFESSIONS}
-			talents={[]}
+			talents={TEST_TALENTS}
 		/>
 	)
 }

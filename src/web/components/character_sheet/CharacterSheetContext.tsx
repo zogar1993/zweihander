@@ -148,12 +148,6 @@ function characterSheetReducer(
 			return change(["set_value", "chaos_ranks", action.payload])
 		case ActionType.SetCorruption:
 			return change(["set_value", "corruption", action.payload])
-		case ActionType.SetTalent: //TODO talents should be added or removed
-			return change([
-				"set_value",
-				`talents.${action.payload.index}`,
-				action.payload.talent
-			])
 		case ActionType.AddFocus: {
 			const { skill, focus } = action.payload
 			const list = state._character.focuses[skill]!
@@ -179,6 +173,12 @@ function characterSheetReducer(
 			if (list.length === 1)
 				return change(["delete_property", `spells.${school}`])
 			else return change(["remove_from_array", `spells.${school}`, spell])
+		}
+		case ActionType.AddTalent: {
+			return change(["add_to_array", `talents`, action.payload])
+		}
+		case ActionType.RemoveTalent: {
+			return change(["remove_from_array", `talents`, action.payload])
 		}
 		default:
 			return state
@@ -221,7 +221,9 @@ export enum ActionType {
 	AddSpell,
 	RemoveSpell,
 	AddFocus,
-	RemoveFocus
+	RemoveFocus,
+	AddTalent,
+	RemoveTalent
 }
 
 type PayloadInitialize = {
@@ -266,10 +268,6 @@ type CharacterSheetAction =
 	| { type: ActionType.SetCorruption; payload: number }
 	| { type: ActionType.SetOrderRanks; payload: number }
 	| { type: ActionType.SetChaosRanks; payload: number }
-	| {
-			type: ActionType.SetTalent
-			payload: { index: number; talent: string | null }
-	  }
 	| { type: ActionType.AddSpell; payload: { spell: string; school: string } }
 	| {
 			type: ActionType.RemoveSpell
@@ -280,6 +278,8 @@ type CharacterSheetAction =
 			type: ActionType.RemoveFocus
 			payload: { focus: string; skill: SkillCode }
 	  }
+	| { type: ActionType.AddTalent; payload: string }
+	| { type: ActionType.RemoveTalent; payload: string }
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,

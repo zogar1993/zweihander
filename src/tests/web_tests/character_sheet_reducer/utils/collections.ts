@@ -4,6 +4,7 @@ import { Ancestry } from "@core/domain/Ancestry"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { Spell } from "@core/domain/Spell"
+import { Talent } from "@core/domain/Talent"
 
 export const TEST_ANCESTRIES: Array<Ancestry> = Array.from(
 	Array(10).keys(),
@@ -110,4 +111,14 @@ export const TEST_MAGIC_SCHOOLS: Array<MagicSchool> = Array.from(
 		name: `Magic School ${n} Spell ${m}`,
 		code: `magic_school_${n}_spell_${m}`
 	})) as unknown as Array<Spell>,
+}))
+
+export const TEST_TALENTS: Array<Talent> = Array.from(
+	Array(40).keys(),
+	n => n + 1
+).map(n => ({
+	name: `Talent ${n}`,
+	code: `talent_${n}`,
+	effect: `talent_${n}_effect`,
+	description: `talent_${n}_description`
 }))

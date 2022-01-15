@@ -16,7 +16,7 @@ export default function CharacterSheetMisc() {
 					content: <CharacterSheetAlignment />
 				},
 				{
-					name: ACCORDION_ITEM.TALENTS,
+					name: ACCORDION_ITEM.STATS,
 					content: <CharacterSheetStats />
 				},
 				{

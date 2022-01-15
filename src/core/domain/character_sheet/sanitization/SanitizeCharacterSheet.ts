@@ -29,17 +29,8 @@ export default function sanitizeCharacterSheet(
 		chaos_ranks: raw.chaos_ranks || 0,
 		corruption: raw.corruption || 0,
 		journal: raw.journal || "",
-		talents: raw.talents || [
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null
-		],
+		talents: (raw.talents?.filter(x => typeof x === "string") ||
+			[]) as Array<string>,
 		ancestry_trait: raw.ancestry_trait || null,
 		focuses: raw.focuses || {},
 		spells: raw.spells || {},
@@ -82,6 +73,7 @@ function sanitizeSkills(raw: UnsanitizedSkills): SanitizedSkills {
 export type UnsanitizedCharacterSheetData = Partial<ShallowCharacterSheet> & {
 	skills?: UnsanitizedSkills
 	attributes?: UnsanitizedAttributes
+	talents?: UnsanitizedTalents
 }
 
 type RawSkill = { ranks: number }
@@ -89,6 +81,7 @@ type RawAttribute = { base: number; advances: number }
 
 type UnsanitizedSkills = Partial<Record<SkillCode, RawSkill>>
 type UnsanitizedAttributes = Partial<Record<AttributeCode, RawAttribute>>
+type UnsanitizedTalents = Array<string | null>
 
 export type SanitizedAttribute = RawAttribute &
 	Omit<AttributeDefinition, "code">
@@ -99,4 +92,5 @@ export type SanitizedSkills = Record<SkillCode, SanitizedSkill>
 export type SanitizedCharacterSheet = ShallowCharacterSheet & {
 	skills: SanitizedSkills
 	attributes: SanitizedAttributes
+	talents: Array<string>
 }
