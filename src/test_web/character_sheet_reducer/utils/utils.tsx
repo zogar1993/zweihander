@@ -17,7 +17,7 @@ import * as router from "next/router"
 import {
 	TEST_ANCESTRIES,
 	TEST_ARCHETYPES,
-	TEST_CHAOS_ALIGNMENTS,
+	TEST_CHAOS_ALIGNMENTS, TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
 	TEST_PROFESSIONS
 } from "./collections"
@@ -37,7 +37,7 @@ export async function render_character_sheet_page(
 	render(
 		<CharacterSheetScreen
 			character={{ ...DEFAULT_CHARACTER_SHEET, ...character }}
-			schools={[]}
+			schools={TEST_MAGIC_SCHOOLS}
 			ancestries={TEST_ANCESTRIES}
 			archetypes={TEST_ARCHETYPES}
 			chaosAlignments={TEST_CHAOS_ALIGNMENTS}
@@ -81,8 +81,13 @@ export async function then_dots_is_checked_on(name: string, value: number) {
 }
 
 export async function click_menu_item(name: string) {
-	const group = screen.getByRole("menuitem", { name: name })
-	fireEvent.click(group)
+	const menuitem = screen.getByRole("menuitem", { name: name })
+	fireEvent.click(menuitem)
+}
+
+export async function get_accordion_item_content(name: string) {
+	const menuitem = screen.getByRole("menuitem", { name: name })
+	return menuitem.parentElement!.children[1]! as HTMLElement
 }
 
 export async function update_character_api_was_called_with(

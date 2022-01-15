@@ -1,6 +1,7 @@
 import { getCharacters } from "@core/actions/GetCharacters"
 import Grid from "@web/components/general/Grid"
 import Link from "@web/components/general/Link"
+import RedirectionToCharacterSheetInterceptor from "@web/components/redirect_loaders/RedirectionToCharacterSheetInterceptor"
 import theme from "@web/theme/theme"
 import Image from "next/image"
 import React from "react"
@@ -12,34 +13,31 @@ export default function CharactersScreen({
 	characters: Array<CharacterSheetTag>
 }) {
 	return (
-		<Grid columns={5} mobile-columns={1}>
-			{characters.map(character => (
-				<Card
-					href={`characters/loading?character=${character.id}`}
-					key={character.id}
-				>
-					<CardTitle>{character.name || "unnamed"}</CardTitle>
-					<CardBody>
-						<Avatar
-							src={character.avatar || "/character/bandit.png"}
-							alt="Avatar"
-							width={70}
-							height={70}
-						/>
-						<CardInfo>
-							<CardInfoLine>{character.ancestry}</CardInfoLine>
-							<CardInfoLine>{character.profession1}</CardInfoLine>
-							<CardInfoLine>{character.profession2}</CardInfoLine>
-							<CardInfoLine>{character.profession3}</CardInfoLine>
-						</CardInfo>
-					</CardBody>
-				</Card>
-			))}
-		</Grid>
+		<RedirectionToCharacterSheetInterceptor>
+			<Grid columns={5} mobile-columns={1}>
+				{characters.map(character => (
+					<Card href={`characters/${character.id}`} key={character.id}>
+						<CardTitle>{character.name || "unnamed"}</CardTitle>
+						<CardBody>
+							<Avatar
+								src={character.avatar || "/character/bandit.png"}
+								alt="Avatar"
+								width={70}
+								height={70}
+							/>
+							<CardInfo>
+								<CardInfoLine>{character.ancestry}</CardInfoLine>
+								<CardInfoLine>{character.profession1}</CardInfoLine>
+								<CardInfoLine>{character.profession2}</CardInfoLine>
+								<CardInfoLine>{character.profession3}</CardInfoLine>
+							</CardInfo>
+						</CardBody>
+					</Card>
+				))}
+			</Grid>
+		</RedirectionToCharacterSheetInterceptor>
 	)
 }
-
-//TODO loading mechanism for character is inneficient, maybe router event?
 
 export async function getServerSideProps() {
 	const characters = await getCharacters()

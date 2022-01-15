@@ -1,7 +1,9 @@
 import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry } from "@core/domain/Ancestry"
+import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
+import { Spell } from "@core/domain/Spell"
 
 export const TEST_ANCESTRIES: Array<Ancestry> = Array.from(
 	Array(10).keys(),
@@ -95,4 +97,17 @@ export const TEST_ORDER_ALIGNMENTS: Array<Alignment> = Array.from(
 	to: 10 * n,
 	type: "order",
 	partner: `order_alignment_${n}`
+}))
+
+export const TEST_MAGIC_SCHOOLS: Array<MagicSchool> = Array.from(
+	Array(10).keys(),
+	n => n + 1
+).map(n => ({
+	name: `Magic School ${n}`,
+	code: `magic_school_${n}`,
+	source: `arcana`,
+	spells: Array.from(Array(5).keys(), m => m + 1).map(m => ({
+		name: `Magic School ${n} Spell ${m}`,
+		code: `magic_school_${n}_spell_${m}`
+	})) as unknown as Array<Spell>,
 }))

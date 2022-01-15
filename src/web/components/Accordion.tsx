@@ -56,12 +56,12 @@ const AccordionItemContent = styled.div<{ open: boolean }>`
 function AccordionItem({ item }: { item: AccordionItemType }) {
 	const [open, setOpen] = useState(false)
 	return (
-		<React.Fragment key={item.name}>
+		<div key={item.name}>
 			<AccordionItemName onClick={() => setOpen(open => !open)} role="menuitem">
 				{item.name}
 			</AccordionItemName>
 			<AccordionItemContent open={open}>{item.content}</AccordionItemContent>
-		</React.Fragment>
+		</div>
 	)
 }
 
