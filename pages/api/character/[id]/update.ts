@@ -16,7 +16,7 @@ export default async function handler(
 	const actions = req.body as Array<UpdateAction>
 	if (!Array.isArray(actions)) return res.status(500)
 
-	//TODO do better error handling
+	//TODO P1 do better error handling
 	const errors_415: Array<UpdateAction> = []
 	const errors_500: Array<UpdateAction> = []
 	const results: Array<UpdateCharacterProps> = []
@@ -35,7 +35,7 @@ export default async function handler(
 	if (errors_500.length > 0) return res.status(500)
 	if (errors_415.length > 0) return res.status(415)
 
-	//TODO this wont work with 2 of the aame kind i think
+	//TODO P0 this wont work with 2 of the aame kind i think
 	const endpoints = results.reduce((previous, current) => ({
 		...previous,
 		...current
@@ -161,7 +161,7 @@ const ENDPOINTS: Array<Endpoint> = [
 		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT
 	},
 	{
-		regex: new RegExp(`^spells.*$`), //TODO use schools
+		regex: new RegExp(`^spells.*$`), //TODO P1 use schools
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
 		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
@@ -175,7 +175,7 @@ type Endpoint = {
 	remove_from_array?: WeaFunc
 	add_to_array?: WeaFunc
 	delete_property?: WeaFunc
-} //TODO better this later with advanced types
+} //TODO P2 better this later with advanced types
 
 function regexCodes(array: ReadonlyArray<{ code: string }>) {
 	return `(${array.map(x => x.code).join("|")})`

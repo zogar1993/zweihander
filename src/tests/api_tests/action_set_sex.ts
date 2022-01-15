@@ -33,4 +33,4 @@ describe("set_value sex should", () => {
 const PROPERTY_SEX = "sex"
 const CHARACTER_SEX = "female"
 
-//TODO Clean data from character page, since it is mostly unnecesary, primarily on render
+//TODO P0 Clean data from character page, since it is mostly unnecesary, primarily on render

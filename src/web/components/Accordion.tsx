@@ -65,5 +65,6 @@ function AccordionItem({ item }: { item: AccordionItemType }) {
 	)
 }
 
-//TODO style misc accordion
-//TODO config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
+//TODO P2 style misc accordion
+//TODO P2 config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
+//TODO P0 add tests for default issues

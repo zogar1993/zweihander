@@ -375,5 +375,3 @@ function calculateTier1Professions(
 function deepClone<T>(obj: T) {
 	return JSON.parse(JSON.stringify(obj))
 }
-
-//TODO Add logic for backend removal of arrays

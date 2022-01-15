@@ -40,9 +40,9 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 	res.status(200)
 }
 
-//TODO sanitize this with business rules
-//TODO Handle responses for failures
-//TODO how to be atomic on mongodb
+//TODO P1 sanitize this with business rules
+//TODO P1 Handle responses for failures
+//TODO P1 how to be atomic on mongodb
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
 	const { id } = req.query

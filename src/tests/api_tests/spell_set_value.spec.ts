@@ -29,6 +29,6 @@ describe("add_to_array spell should", () => {
 		expect(result.statusCode).toBe(200)
 	})
 })
-//TODO unharcoderino
+//TODO P0 unharcoderino
 const PROPERTY = `spells.a_magic`
 const VALUE = ["cultured"]

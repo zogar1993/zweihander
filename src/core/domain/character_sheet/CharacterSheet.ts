@@ -35,12 +35,12 @@ export enum Peril {
 }
 
 export function calculateCharacterSheet({
-																					character,
-																					ancestries,
-																					professions,
-																					schools,
-																					talents
-																				}: Props): CalculatedCharacterSheet {
+	character,
+	ancestries,
+	professions,
+	schools,
+	talents
+}: Props): CalculatedCharacterSheet {
 	const ancestry = character.ancestry
 		? getByCode(character.ancestry, ancestries)
 		: null
@@ -100,10 +100,10 @@ type GetAttributeProps = {
 }
 
 function getAttributes({
-												 character,
-												 ancestry,
-												 professions
-											 }: GetAttributeProps): Array<Attribute> {
+	character,
+	ancestry,
+	professions
+}: GetAttributeProps): Array<Attribute> {
 	const codes = Object.keys(character.attributes) as Array<AttributeCode>
 	return codes.map(code => {
 		const {
@@ -141,11 +141,11 @@ type GetSpecialRulesProps = {
 }
 
 function getSpecialRules({
-													 character,
-													 talents,
-													 professions,
-													 ancestry
-												 }: GetSpecialRulesProps) {
+	character,
+	talents,
+	professions,
+	ancestry
+}: GetSpecialRulesProps) {
 	const ancestry_trait = ancestry?.traits.find(
 		x => x.code === character.ancestry_trait
 	)
@@ -174,10 +174,10 @@ type GetSkillProps = {
 }
 
 function getSkills({
-										 character,
-										 professions,
-										 getAttribute
-									 }: GetSkillProps): Array<Skill> {
+	character,
+	professions,
+	getAttribute
+}: GetSkillProps): Array<Skill> {
 	const codes = Object.keys(character.skills) as Array<SkillCode>
 	return codes.map(code => {
 		const { ranks, ...definition } = character.skills[code]
@@ -213,11 +213,11 @@ type SpentExperienceProps = {
 }
 
 function spentExperience({
-													 character,
-													 schools,
-													 attributes,
-													 skills
-												 }: SpentExperienceProps): number {
+	character,
+	schools,
+	attributes,
+	skills
+}: SpentExperienceProps): number {
 	let profession1_talents_amount = 0
 	profession1_talents_amount += character.talents[0] === null ? 0 : 1
 	profession1_talents_amount += character.talents[1] === null ? 0 : 1
@@ -272,18 +272,18 @@ function orderSkills(skills: Array<Skill>, order: SkillOrder) {
 }
 
 function calculateExperience({
-															 profession1,
-															 profession2,
-															 profession3,
-															 skills,
-															 attributes,
-															 profession1_talents_amount,
-															 profession2_talents_amount,
-															 profession3_talents_amount,
-															 focuses,
-															 spells,
-															 favored_skills
-														 }: CalculateExperienceProps): number {
+	profession1,
+	profession2,
+	profession3,
+	skills,
+	attributes,
+	profession1_talents_amount,
+	profession2_talents_amount,
+	profession3_talents_amount,
+	focuses,
+	spells,
+	favored_skills
+}: CalculateExperienceProps): number {
 	let experience = 0
 
 	if (profession1) experience += 100
@@ -355,7 +355,7 @@ function forEachEntryInRecord<Key extends string, Value>(
 	pairs.forEach(func)
 }
 
-//TODO move elsewhere
+//TODO P1 move elsewhere
 export const upbringings = [
 	{
 		code: "cultured",
@@ -553,11 +553,18 @@ function formatFocuses(focuses: Focuses): CalculatedCharacterSheet["focuses"] {
 	})
 }
 
-function formatTalents(values: Array<string>, talents: Array<Talent>): CalculatedCharacterSheet["talents"] {
-	return [{
-		code: "profession1", name: "Profession 1", items: values.map(talent => ({
-			name: getByCode(talent, talents).name,
-			code: talent
-		}))
-	}]
+function formatTalents(
+	values: Array<string>,
+	talents: Array<Talent>
+): CalculatedCharacterSheet["talents"] {
+	return [
+		{
+			code: "profession1",
+			name: "Profession 1",
+			items: values.map(talent => ({
+				name: getByCode(talent, talents).name,
+				code: talent
+			}))
+		}
+	]
 }

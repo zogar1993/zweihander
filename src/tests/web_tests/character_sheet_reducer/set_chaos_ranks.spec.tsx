@@ -1,3 +1,4 @@
+import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
 	click_menu_item,
 	render_character_sheet,
@@ -11,7 +12,7 @@ describe("Chaos Ranks Dots should", () => {
 	it("send a 'set_value|chaos_ranks' action on change", async () => {
 		await render_character_sheet()
 
-		await click_menu_item("Alignment & Corruption") //TODO unharcoderino
+		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
 		await select_dots_value("Chaos Ranks", NEW_CHAOS_RANKS)
 
 		await update_character_api_was_called_with([
