@@ -1,6 +1,6 @@
 export function getByCode<T extends { code: string }>(
 	code: string,
-	collection: Array<T>
+	collection: ReadonlyArray<T>
 ): T {
 	const item = collection.find(ancestry => ancestry.code === code)
 	if (item === undefined)

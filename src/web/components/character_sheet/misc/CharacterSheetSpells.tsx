@@ -56,8 +56,7 @@ export default function CharacterSheetSpells() {
 				Add
 			</button>
 			<RemovableItems
-				items={character.spells}
-				definitions={schools}
+				items={character.schools}
 				removeItem={({ item, key }) =>
 					dispatch({
 						type: ActionType.RemoveSpell,

@@ -35,6 +35,7 @@ export default async function handler(
 	if (errors_500.length > 0) return res.status(500)
 	if (errors_415.length > 0) return res.status(415)
 
+	//TODO this wont work with 2 of the aame kind i think
 	const endpoints = results.reduce((previous, current) => ({
 		...previous,
 		...current
@@ -45,12 +46,12 @@ export default async function handler(
 }
 
 export type UpdateAction = {
-	action: "set_value" | "remove_from_array" | "add_to_array"
+	action: "set_value" | "remove_from_array" | "add_to_array" | "delete_property"
 	property: string
-	value: any
+	value?: any
 }
 
-type WeaFunc = (property: string, payload: any) => UpdateCharacterProps
+type WeaFunc = (property: string, payload?: any) => UpdateCharacterProps
 
 const SIMPLE_SET_VALUE_ENDPOINT = (property: string, payload: any) => {
 	return { set: { [property]: payload } }
@@ -62,6 +63,10 @@ const SIMPLE_ADD_TO_ARRAY_ENDPOINT = (property: string, payload: any) => {
 
 const SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT = (property: string, payload: any) => {
 	return { pull: { [property]: payload } }
+}
+
+const SIMPLE_DELETE_PROPERTY_ENDPOINT = (property: string) => {
+	return { unset: [property] }
 }
 
 const ENDPOINTS: Array<Endpoint> = [
@@ -151,12 +156,16 @@ const ENDPOINTS: Array<Endpoint> = [
 	{
 		regex: new RegExp(`^focuses.${regexCodes(SKILL_DEFINITIONS)}$`),
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
-		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT
+		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT
 	},
 	{
 		regex: new RegExp(`^spells.*$`), //TODO use schools
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
-		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT
+		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT
 	}
 ]
 
@@ -165,6 +174,7 @@ type Endpoint = {
 	set_value?: WeaFunc
 	remove_from_array?: WeaFunc
 	add_to_array?: WeaFunc
+	delete_property?: WeaFunc
 } //TODO better this later with advanced types
 
 function regexCodes(array: ReadonlyArray<{ code: string }>) {

@@ -1,23 +1,21 @@
+import { Item } from "@core/domain/Item"
 import React from "react"
 import styled from "styled-components"
 
-export default function RemovableItems<Key extends string, Item>({
+export default function RemovableItems({
 	items,
-	definitions,
 	removeItem
-}: RemovableItemsProps<Key, Item>) {
-	const keys = Object.keys(items) as Array<Key>
+}: RemovableItemsProps) {
 	return (
 		<>
-			{keys.map(code => {
-				const skill = definitions.find(x => x.code === code)!
+			{items.map(item => {
 				return (
-					<React.Fragment key={code}>
-						<span>{skill.name}</span>
+					<React.Fragment key={item.code}>
+						<span>{item.name}</span>
 						<div>
-							{(items[code] as Array<Item>).map(focus => (
-								<Tag onClick={() => removeItem({ item: focus, key: code })}>
-									{focus}
+							{item.items.map(sub => (
+								<Tag onClick={() => removeItem({ item: sub.code, key: item.code })}>
+									{sub.name}
 								</Tag>
 							))}
 						</div>
@@ -28,10 +26,9 @@ export default function RemovableItems<Key extends string, Item>({
 	)
 }
 
-type RemovableItemsProps<Key extends string, Item> = {
-	items: Partial<Record<Key, Array<Item>>>
-	definitions: ReadonlyArray<{ name: string; code: Key }>
-	removeItem: (params: { item: Item; key: Key }) => void
+type RemovableItemsProps = {
+	items: Array<Item & {items: Array<Item>}>
+	removeItem: (params: { item: string; key: string }) => void
 }
 
 const Tag = styled.span`

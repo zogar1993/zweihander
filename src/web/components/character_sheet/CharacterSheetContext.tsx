@@ -1,3 +1,4 @@
+import { UpdateAction } from "@api/character/[id]/update"
 import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
@@ -17,16 +18,17 @@ import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Talent } from "@core/domain/Talent"
 import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
+import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, useContext, useReducer } from "react"
 
 const PLACEHOLDER_CHARACTER_SHEET = Object.freeze({
 	skills: SKILL_DEFINITIONS as any,
 	attributes: ATTRIBUTE_DEFINITIONS as any,
-	focuses: {},
-	spells: {},
+	focuses: [],
+	schools: [],
 	special_rules: [] as any,
 	settings: {}
-}) as CalculatedCharacterSheet
+}) as unknown as CalculatedCharacterSheet
 
 const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	_character: sanitizeCharacterSheet({}),
@@ -91,112 +93,92 @@ function characterSheetReducer(
 	state: CharacterSheetState,
 	action: CharacterSheetAction
 ) {
+	const change = (...changes: Array<UpdateActionBlock>) =>
+		changeFromCharacterSheet(blocksToObjects(changes), state)
 	switch (action.type) {
 		case ActionType.SetName:
-			return modifyCharacterSheet("name", state, action.payload)
+			return change(["set_value", "name", action.payload])
 		case ActionType.SetAvatar:
-			return modifyCharacterSheet("avatar", state, action.payload)
+			return change(["set_value", "avatar", action.payload])
 		case ActionType.SetAge:
-			return modifyCharacterSheet("age", state, action.payload)
+			return change(["set_value", "age", action.payload])
 		case ActionType.SetSex:
-			return modifyCharacterSheet("sex", state, action.payload)
+			return change(["set_value", "sex", action.payload])
 		case ActionType.SetUpbringing:
-			return modifyCharacterSheet("upbringing", state, action.payload)
+			return change(["set_value", "upbringing", action.payload])
 		case ActionType.SetSocialClass:
-			return modifyCharacterSheet("social_class", state, action.payload)
+			return change(["set_value", "social_class", action.payload])
 		case ActionType.SetAncestry: {
-			const newState = modifyCharacterSheet("ancestry", state, action.payload)
+			const newState = change(["set_value", "ancestry", action.payload])
 			const ancestryTraits = calculateAncestryTraits(action.payload, state)
 			return { ...newState, ancestryTraits }
 		}
 		case ActionType.SetAncestryTrait:
-			return modifyCharacterSheet("ancestry_trait", state, action.payload)
+			return change(["set_value", "ancestry_trait", action.payload])
 		case ActionType.SetArchetype: {
-			const newState = modifyCharacterSheet("archetype", state, action.payload)
+			const newState = change(["set_value", "archetype", action.payload])
 			const tier1Professions = calculateTier1Professions(action.payload, state)
 			return { ...newState, tier1Professions }
 		}
 		case ActionType.SetProfession1:
-			return modifyCharacterSheet("profession1", state, action.payload)
+			return change(["set_value", "profession1", action.payload])
 		case ActionType.SetProfession2:
-			return modifyCharacterSheet("profession2", state, action.payload)
+			return change(["set_value", "profession2", action.payload])
 		case ActionType.SetProfession3:
-			return modifyCharacterSheet("profession3", state, action.payload)
+			return change(["set_value", "profession3", action.payload])
 		case ActionType.SetChaosAlignment:
-			return modifyCharacterSheet("chaos_alignment", state, action.payload)
+			return change(["set_value", "chaos_alignment", action.payload])
 		case ActionType.SetOrderAlignment:
-			return modifyCharacterSheet("order_alignment", state, action.payload)
-		case ActionType.SetAttributeBase:
-			return modifyCharacterSheet(
-				`attributes.${action.payload.attribute}.base`,
-				state,
-				action.payload.value
-			)
-		case ActionType.SetAttributeAdvancements:
-			return modifyCharacterSheet(
-				`attributes.${action.payload.attribute}.advances`,
-				state,
-				action.payload.value
-			)
-		case ActionType.SetSkillRanks:
-			return modifyCharacterSheet(
-				`skills.${action.payload.skill}.ranks`,
-				state,
-				action.payload.value
-			)
+			return change(["set_value", "order_alignment", action.payload])
+		case ActionType.SetAttributeBase: {
+			const { attribute, value } = action.payload
+			return change(["set_value", `attributes.${attribute}.base`, value])
+		}
+		case ActionType.SetAttributeAdvancements: {
+			const { attribute, value } = action.payload
+			return change(["set_value", `attributes.${attribute}.advances`, value])
+		}
+		case ActionType.SetSkillRanks: {
+			const { skill, value } = action.payload
+			return change(["set_value", `skills.${skill}.ranks`, value])
+		}
 		case ActionType.SetOrderRanks:
-			return modifyCharacterSheet("order_ranks", state, action.payload)
+			return change(["set_value", "order_ranks", action.payload])
 		case ActionType.SetChaosRanks:
-			return modifyCharacterSheet("chaos_ranks", state, action.payload)
+			return change(["set_value", "chaos_ranks", action.payload])
 		case ActionType.SetCorruption:
-			return modifyCharacterSheet("corruption", state, action.payload)
-		case ActionType.SetTalent:
-			return modifyCharacterSheet(
+			return change(["set_value", "corruption", action.payload])
+		case ActionType.SetTalent: //TODO talents should be added or removed
+			return change([
+				"set_value",
 				`talents.${action.payload.index}`,
-				state,
 				action.payload.talent
-			)
+			])
 		case ActionType.AddFocus: {
 			const { skill, focus } = action.payload
-			const skillFocuses = state.character.focuses[skill]
-			if (skillFocuses)
-				return modifyCharacterSheet(
-					`focuses.${skill}.${skillFocuses.length}`,
-					state,
-					focus
-				)
-			else return modifyCharacterSheet(`focuses.${skill}`, state, [focus])
+			const list = state._character.focuses[skill]!
+			if (list) return change(["add_to_array", `focuses.${skill}`, focus])
+			else return change(["set_value", `focuses.${skill}`, [focus]])
 		}
 		case ActionType.RemoveFocus: {
-			//TODO maybe something more specific
 			const { skill, focus } = action.payload
-			const skillFocuses = state.character.focuses[skill]!
-			return modifyCharacterSheet(
-				`focuses.${skill}`,
-				state,
-				skillFocuses.filter(x => x != focus)
-			)
+			const list = state._character.focuses[skill]!
+			if (list.length === 1)
+				return change(["delete_property", `focuses.${skill}`])
+			else return change(["remove_from_array", `focuses.${skill}`, focus])
 		}
 		case ActionType.AddSpell: {
 			const { spell, school } = action.payload
-			const schoolSpells = state.character.spells[school]
-			if (schoolSpells)
-				return modifyCharacterSheet(
-					`spells.${school}.${schoolSpells.length}`,
-					state,
-					spell
-				)
-			else return modifyCharacterSheet(`spells.${school}`, state, [spell])
+			const list = state._character.spells[school]
+			if (list) return change(["add_to_array", `spells.${school}`, spell])
+			else return change(["set_value", `spells.${school}`, [spell]])
 		}
 		case ActionType.RemoveSpell: {
-			//TODO maybe something more specific
 			const { spell, school } = action.payload
-			const schoolSpells = state.character.spells[school]!
-			return modifyCharacterSheet(
-				`spells.${school}`,
-				state,
-				schoolSpells.filter(x => x != spell)
-			)
+			const list = state._character.spells[school]!
+			if (list.length === 1)
+				return change(["delete_property", `spells.${school}`])
+			else return change(["remove_from_array", `spells.${school}`, spell])
 		}
 		default:
 			return state
@@ -299,46 +281,32 @@ type CharacterSheetAction =
 			payload: { focus: string; skill: SkillCode }
 	  }
 
-function modifyCharacterSheet(
-	property: string,
-	state: CharacterSheetState,
-	value: any
-) {
-	updateCharacterOfId(state.character.id, [
-		{ action: "set_value", property: property, value: value }
-	])
-
-	const character = replaceByDotNotation(
-		property.split("."),
-		state._character,
-		value
-	)
-	return {
-		...state,
-		_character: character,
-		character: calculateCharacterSheet({ ...state, character })
-	}
-}
-
-type ChangePut = { put: string; value: any }
-type ChangeDelete = { delete: string }
-type Change = ChangePut | ChangeDelete
-
 function changeFromCharacterSheet(
-	changes: Array<Change>,
+	changes: Array<UpdateAction>,
 	state: CharacterSheetState
 ) {
-	fetch(`/api/character/${state.character.id}`, {
-		method: "PATCH",
-		body: JSON.stringify(changes)
+	updateCharacterOfId(state.character.id, changes)
+
+	const character = deepClone(state._character)
+	changes.forEach(({ action, property, value }) => {
+		const parts = property.split(".")
+		switch (action) {
+			case "set_value":
+				setValue(parts, character, value)
+				break
+			case "remove_from_array":
+				removeFromArray(parts, character, value)
+				break
+			case "add_to_array":
+				addToArray(parts, character, value)
+				break
+			case "delete_property":
+				deleteProperty(parts, character)
+				break
+			default:
+				throw Error(`'${action}' is not a valid action`)
+		}
 	})
-
-	let character = state._character
-	for (const { put: path, value } of changes.filter(isPut))
-		character = replaceByDotNotation(path.split("."), character, value)
-	for (const { delete: path } of changes.filter(isDelete))
-		character = deleteByDotNotation(path.split("."), character)
-
 	return {
 		...state,
 		_character: character,
@@ -346,48 +314,33 @@ function changeFromCharacterSheet(
 	}
 }
 
-function isDelete(change: Change): change is ChangeDelete {
-	return change.hasOwnProperty("delete")
+function setValue(parts: Array<string>, obj: any, value: any) {
+	if (parts.length === 1) obj[parts[0]] = value
+	else setValue(parts.slice(1), obj[parts[0]], value)
 }
 
-function isPut(change: Change): change is ChangePut {
-	return change.hasOwnProperty("put")
+function removeFromArray(parts: Array<string>, obj: any, value: any) {
+	if (parts.length === 1) {
+		const list_key = parts[0]
+		const old_list = obj[list_key]
+		if (Array.isArray(old_list))
+			obj[list_key] = old_list.filter((x, i) => i !== value)
+		else throw Error(`'${JSON.stringify(old_list)}' is not an array`)
+	} else removeFromArray(parts.slice(1), obj[parts[0]], value)
 }
 
-function replaceByDotNotation(path: Array<string>, obj: any, value: any): any {
-	if (path.length === 0) throw Error("Path was empty")
-	if (path.length === 1)
-		return Array.isArray(obj)
-			? obj.map((x, i) => (i === Number(path[0]) ? value : x))
-			: { ...obj, [path[0]]: value }
-	else
-		return {
-			...obj,
-			[path[0]]: replaceByDotNotation(path.slice(1), obj[path[0]], value)
-		}
+function addToArray(parts: Array<string>, obj: any, value: any) {
+	if (parts.length === 1) {
+		const list_key = parts[0]
+		const old_list = obj[list_key]
+		if (Array.isArray(old_list)) obj[list_key] = [...old_list, value]
+		else throw Error(`'${JSON.stringify(old_list)}' is not an array`)
+	} else addToArray(parts.slice(1), obj[parts[0]], value)
 }
 
-function deleteByDotNotation(path: Array<string>, obj: any): any {
-	if (path.length === 0) throw Error("Path was empty")
-	if (path.length === 1) {
-		if (Array.isArray(obj)) {
-			const array = obj.filter((x, i) => i !== Number(path[0]))
-			//Empty arrays are marked as undefined to be removed
-			return array.length === 0 ? undefined : array
-		} else {
-			const copy = { ...obj }
-			delete copy[path[0]]
-			return copy
-		}
-	} else {
-		const copy = { ...obj }
-		const child = deleteByDotNotation(path.slice(1), obj[path[0]])
-		if (child === undefined)
-			//Children marked as undefined are removed
-			delete copy[path[0]]
-		else copy[path[0]] = child
-		return copy
-	}
+function deleteProperty(parts: Array<string>, obj: any) {
+	if (parts.length === 1) delete parts[0]
+	else deleteProperty(parts.slice(1), obj[parts[0]])
 }
 
 function calculateAncestryTraits(
@@ -418,3 +371,9 @@ function calculateTier1Professions(
 		...getByCode(x.profession, professions)
 	}))
 }
+
+function deepClone<T>(obj: T) {
+	return JSON.parse(JSON.stringify(obj))
+}
+
+//TODO Add logic for backend removal of arrays

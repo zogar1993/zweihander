@@ -41,11 +41,10 @@ export default function CharacterSheetFocuses() {
 			</button>
 			<RemovableItems
 				items={character.focuses}
-				definitions={SKILL_DEFINITIONS}
 				removeItem={({ item, key }) =>
 					dispatch({
 						type: ActionType.RemoveFocus,
-						payload: { skill: key, focus: item }
+						payload: { skill: key as SkillCode, focus: item }
 					})
 				}
 			/>

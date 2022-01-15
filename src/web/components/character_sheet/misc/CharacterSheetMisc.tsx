@@ -4,6 +4,7 @@ import CharacterSheetFocuses from "@web/components/character_sheet/misc/Characte
 import CharacterSheetSpells from "@web/components/character_sheet/misc/CharacterSheetSpells"
 import CharacterSheetStats from "@web/components/character_sheet/misc/CharacterSheetStats"
 import CharacterSheetTalents from "@web/components/character_sheet/misc/CharacterSheetTalents"
+import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import styled from "styled-components"
 
 export default function CharacterSheetMisc() {
@@ -11,23 +12,23 @@ export default function CharacterSheetMisc() {
 		<MiscAccordion
 			items={[
 				{
-					name: "Alignment & Corruption",
+					name: ACCORDION_ITEM.ALIGNMENT,
 					content: <CharacterSheetAlignment />
 				},
 				{
-					name: "Stats",
+					name: ACCORDION_ITEM.TALENTS,
 					content: <CharacterSheetStats />
 				},
 				{
-					name: "Talents",
+					name: ACCORDION_ITEM.TALENTS,
 					content: <CharacterSheetTalents />
 				},
 				{
-					name: "Focuses",
+					name: ACCORDION_ITEM.FOCUSES,
 					content: <CharacterSheetFocuses />
 				},
 				{
-					name: "Spells",
+					name: ACCORDION_ITEM.SPELLS,
 					content: <CharacterSheetSpells />
 				}
 			]}
