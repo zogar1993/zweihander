@@ -1,9 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
-import updateCharacter, {
-	UpdateCharacterProps
-} from "@core/utils/UpdateCharacter"
+import updateCharacter, { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -51,7 +49,7 @@ export type UpdateAction = {
 	value?: any
 }
 
-type WeaFunc = (property: string, payload?: any) => UpdateCharacterProps
+type EndpointFunc = (property: string, payload?: any) => UpdateCharacterProps
 
 const SIMPLE_SET_VALUE_ENDPOINT = (property: string, payload: any) => {
 	return { set: { [property]: payload } }
@@ -169,14 +167,10 @@ const ENDPOINTS: Array<Endpoint> = [
 	}
 ]
 
-type Endpoint = {
-	regex: RegExp
-	set_value?: WeaFunc
-	remove_from_array?: WeaFunc
-	add_to_array?: WeaFunc
-	delete_property?: WeaFunc
-} //TODO P2 better this later with advanced types
-
 function regexCodes(array: ReadonlyArray<{ code: string }>) {
 	return `(${array.map(x => x.code).join("|")})`
 }
+
+export type Endpoint = {
+	[key in UpdateAction["action"]]?: EndpointFunc;
+} & { regex: RegExp }
