@@ -67,5 +67,3 @@ export type CharacterSheetScreenProps = {
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
 }
-
-//TODO P2 fix act warnings

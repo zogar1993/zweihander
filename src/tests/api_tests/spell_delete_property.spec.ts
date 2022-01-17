@@ -1,3 +1,4 @@
+import { TEST_MAGIC_SCHOOLS } from "../web_tests/character_sheet_reducer/utils/collections"
 import {
 	call_character_sheet_api,
 	character_sheet_request,
@@ -24,9 +25,9 @@ describe("delete_property spell should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_property_deleted(`spells.a_magic`)
+		expect_character_to_have_property_deleted(PROPERTY)
 		expect(result.statusCode).toBe(200)
 	})
 })
-//TODO P0 unharcoderino
-const PROPERTY = `spells.a_magic`
+
+const PROPERTY = `spells.${TEST_MAGIC_SCHOOLS[1].code}`

@@ -1,7 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
-import updateCharacter, { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
+import updateCharacter, {
+	UpdateCharacterProps
+} from "@core/utils/UpdateCharacter"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -33,13 +35,7 @@ export default async function handler(
 	if (errors_500.length > 0) return res.status(500)
 	if (errors_415.length > 0) return res.status(415)
 
-	//TODO P0 this wont work with 2 of the aame kind i think
-	const endpoints = results.reduce((previous, current) => ({
-		...previous,
-		...current
-	}))
-
-	await updateCharacter(id, endpoints)
+	await updateCharacter(id, flattenResults(results))
 	res.status(200)
 }
 
@@ -172,5 +168,28 @@ function regexCodes(array: ReadonlyArray<{ code: string }>) {
 }
 
 export type Endpoint = {
-	[key in UpdateAction["action"]]?: EndpointFunc;
+	[key in UpdateAction["action"]]?: EndpointFunc
 } & { regex: RegExp }
+
+function flattenResults(results: Array<UpdateCharacterProps>) {
+	return results.reduce((previous, current) => {
+		const merging = { ...previous }
+		const key = Object.keys(current)[0]
+		switch (key) {
+			case "unset":
+				merging[key] = mergeArrays(previous[key], current[key])
+				break
+			case "set":
+			case "push":
+			case "pull":
+				merging[key] = mergeObjects(previous[key], current[key])
+				break
+		}
+		return merging
+	})
+}
+
+const mergeObjects = (obj1?: object, obj2?: object) =>
+	obj1 === undefined ? obj2 : obj2 === undefined ? obj1 : { ...obj1, ...obj2 }
+const mergeArrays = (arr1?: any[], arr2?: any[]) =>
+	arr1 === undefined ? arr2 : arr2 === undefined ? arr1 : [...arr1, ...arr2]

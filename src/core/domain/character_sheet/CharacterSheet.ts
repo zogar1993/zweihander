@@ -10,6 +10,7 @@ import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Principle } from "@core/domain/Spell"
 import { Talent } from "@core/domain/Talent"
+import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 
 type Props = {
 	character: SanitizedCharacterSheet
@@ -231,7 +232,7 @@ function spentExperience({
 	profession3_talents_amount += character.talents[7] === null ? 0 : 1
 	profession3_talents_amount += character.talents[8] === null ? 0 : 1
 
-	const favored_attribute = upbringings.find(
+	const favored_attribute = UPBRINGINGS.find(
 		x => x.code === character.upbringing
 	)?.attribute
 	const favored_skills = skills
@@ -354,59 +355,6 @@ function forEachEntryInRecord<Key extends string, Value>(
 	const pairs = partialRecordKeys(record)
 	pairs.forEach(func)
 }
-
-//TODO P1 move elsewhere
-export const upbringings = [
-	{
-		code: "cultured",
-		name: "Cultured (Fellowship)",
-		from: 1,
-		to: 14,
-		attribute: "fellowship"
-	},
-	{
-		code: "forgotten",
-		name: "Forgotten (Agility)",
-		from: 15,
-		to: 29,
-		attribute: "agility"
-	},
-	{
-		code: "industrious",
-		name: "Industrious (Brawn)",
-		from: 30,
-		to: 44,
-		attribute: "brawn"
-	},
-	{
-		code: "militant",
-		name: "Militant (Combat)",
-		from: 45,
-		to: 59,
-		attribute: "combat"
-	},
-	{
-		code: "opportunistic",
-		name: "Opportunistic (Perception)",
-		from: 60,
-		to: 74,
-		attribute: "perception"
-	},
-	{
-		code: "reverent",
-		name: "Reverent (Willpower)",
-		from: 75,
-		to: 89,
-		attribute: "willpower"
-	},
-	{
-		code: "scholastic",
-		name: "Scholastic (Intelligence)",
-		from: 90,
-		to: 100,
-		attribute: "intelligence"
-	}
-]
 
 type Attribute = {
 	name: string

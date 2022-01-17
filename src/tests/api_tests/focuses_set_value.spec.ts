@@ -30,6 +30,6 @@ describe("add_to_array focus should", () => {
 		expect(result.statusCode).toBe(200)
 	})
 })
-//TODO P0 unharcoderino
+
 const PROPERTY = `focuses.${SKILL_DEFINITIONS[0].code}`
 const VALUE = ["cultured"]

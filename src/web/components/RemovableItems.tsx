@@ -14,7 +14,10 @@ export default function RemovableItems({
 						<span>{item.name}</span>
 						<div>
 							{item.items.map(sub => (
-								<Tag onClick={() => removeItem({ item: sub.code, key: item.code })}>
+								<Tag
+									onClick={() => removeItem({ item: sub.code, key: item.code })}
+									key={sub.code}
+								>
 									{sub.name}
 								</Tag>
 							))}
@@ -27,7 +30,7 @@ export default function RemovableItems({
 }
 
 type RemovableItemsProps = {
-	items: Array<Item & {items: Array<Item>}>
+	items: Array<Item & { items: Array<Item> }>
 	removeItem: (params: { item: string; key: string }) => void
 }
 

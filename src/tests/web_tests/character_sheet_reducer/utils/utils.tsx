@@ -3,7 +3,6 @@ import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import {
-	act,
 	BoundFunctions,
 	fireEvent,
 	queries,
@@ -23,7 +22,8 @@ import {
 	TEST_CHAOS_ALIGNMENTS,
 	TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
-	TEST_PROFESSIONS, TEST_TALENTS
+	TEST_PROFESSIONS,
+	TEST_TALENTS
 } from "./collections"
 
 const CHARACTER_ID = "an_id"
@@ -58,14 +58,14 @@ export async function change_textbox_value(
 	functions: BoundFunctions<typeof queries> = screen
 ) {
 	const textbox = functions.getByRole("textbox", { name: name })
-	act(() => fireEvent.change(textbox, { target: { value: value.toString() } }))
-	act(() => fireEvent.blur(textbox))
+	fireEvent.change(textbox, { target: { value: value.toString() } })
+	fireEvent.blur(textbox)
 }
 
 export async function change_number_input_value(name: string, value: number) {
 	const number_input = screen.getByRole("spinbutton", { name: name })
-	act(() => fireEvent.change(number_input, { target: { value: value } }))
-	act(() => fireEvent.blur(number_input))
+	fireEvent.change(number_input, { target: { value: value } })
+	fireEvent.blur(number_input)
 }
 
 export async function select_combobox_item(
@@ -90,6 +90,19 @@ export async function then_dots_is_checked_on(name: string, value: number) {
 	const group = screen.getByRole("radiogroup", { name: name })
 	const selected = within(group).getByRole("radio", { name: value.toString() })
 	await waitFor(() => expect(selected).toBeChecked())
+}
+
+export async function then_textbox_has_a_value_of(name: string, value: string) {
+	const checkbox = screen.getByRole("textbox", { name: name })
+	await waitFor(() => expect(checkbox).toHaveValue(value.toString()))
+}
+
+export async function then_number_input_has_a_value_of(
+	name: string,
+	value: number
+) {
+	const checkbox = screen.getByRole("spinbutton", { name: name })
+	await waitFor(() => expect(checkbox).toHaveValue(value))
 }
 
 export async function click_menu_item(name: string) {
