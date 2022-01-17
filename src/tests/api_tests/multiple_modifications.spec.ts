@@ -43,4 +43,4 @@ const PROPERTY_1_VALUE = "Linuar"
 const PROPERTY_2_VALUE = "36"
 const PROPERTY_3_VALUE = "baking"
 
-//TODO maybe fail if same property is sent multiple times
+//TODO P3 maybe fail if same property is sent multiple times

@@ -10,4 +10,4 @@ export default async function handler(
 	res.status(200).json(importify(alignments, "alignment"))
 }
 
-//TODO P1 need to reimport alignments because of encoding
+//TODO P0 need to reimport alignments because of encoding

@@ -21,7 +21,7 @@ export default function CharacterSheetBio() {
 		useCharacterSheetState()
 
 	const dispatch = useCharacterSheetDispatcher()
-	//TODO P2 do avatar
+	//TODO P0 do avatar
 	return (
 		<Bio>
 			<Field

@@ -13,11 +13,25 @@ export default function Accordion({
 	items: Array<AccordionItemType>
 }) {
 	return (
-		<AccordionContainer role="menu">
+		<AccordionContainer role="tablist">
 			{items.map(item => (
 				<AccordionItem item={item} key={item.name} />
 			))}
 		</AccordionContainer>
+	)
+}
+
+function AccordionItem({ item }: { item: AccordionItemType }) {
+	const [open, setOpen] = useState(false)
+	return (
+		<ItemContainer key={item.name}>
+			<AccordionItemTab onClick={() => setOpen(open => !open)} role="tab">
+				{item.name}
+			</AccordionItemTab>
+			<AccordionItemContent role="tabpanel" open={open}>
+				{item.content}
+			</AccordionItemContent>
+		</ItemContainer>
 	)
 }
 
@@ -33,15 +47,13 @@ const AccordionContainer = styled.div`
 	overflow-x: hidden;
 `
 
-const AccordionItemName = styled.button`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+const AccordionItemTab = styled.button`
+	width: 100%;
 	text-align: center;
 	height: 36px;
 	min-height: 36px;
 	font-size: 20px;
-	font-family: Almendra, serif;
+	font-family: ${theme.fonts.stylish};
 	background-color: lightgray;
 	user-select: none;
 	cursor: pointer;
@@ -53,17 +65,8 @@ const AccordionItemContent = styled.div<{ open: boolean }>`
 	padding: ${theme.spacing.separation};
 `
 
-function AccordionItem({ item }: { item: AccordionItemType }) {
-	const [open, setOpen] = useState(false)
-	return (
-		<div key={item.name}>
-			<AccordionItemName onClick={() => setOpen(open => !open)} role="menuitem">
-				{item.name}
-			</AccordionItemName>
-			<AccordionItemContent open={open}>{item.content}</AccordionItemContent>
-		</div>
-	)
-}
+const ItemContainer = styled.div`
+	width: 100%;
+`
 
-//TODO P2 style misc accordion
-//TODO P2 config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
+//TODO P0 style misc accordion

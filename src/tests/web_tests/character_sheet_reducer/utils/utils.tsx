@@ -106,14 +106,14 @@ export async function then_number_input_has_a_value_of(
 }
 
 export async function click_menu_item(name: string) {
-	const menuitem = screen.getByRole("menuitem", { name: name })
+	const menuitem = screen.getByRole("tab", { name: name })
 	fireEvent.click(menuitem)
 	const content = menuitem.parentElement!.children[1]! as HTMLElement
 	return within(content)
 }
 
 export async function get_accordion_item_content(name: string) {
-	const menuitem = screen.getByRole("menuitem", { name: name })
+	const menuitem = screen.getByRole("tab", { name: name })
 	return menuitem.parentElement!.children[1]! as HTMLElement
 }
 

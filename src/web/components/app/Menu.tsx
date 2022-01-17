@@ -2,7 +2,7 @@ import Link from "@web/components/general/Link"
 import theme from "@web/theme/theme"
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
-//TODO P2 use import Image from 'next/image'
+//TODO P0 use import Image from 'next/image'
 
 export const MENU_WIDTH_EXTENDED = "190px"
 export const MENU_WIDTH_COLLAPSED = "48px"
