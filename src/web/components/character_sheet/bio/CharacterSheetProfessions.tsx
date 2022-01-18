@@ -53,9 +53,7 @@ export default function CharacterSheetProfessions() {
 				label="Profession 3"
 				options={professions}
 				value={character.profession3}
-				disabled={
-					character.profession2 === null || character.profession3 !== null
-				}
+				disabled={character.profession2 === null}
 				onChange={value =>
 					dispatch({ type: ActionType.SetProfession3, payload: value })
 				}

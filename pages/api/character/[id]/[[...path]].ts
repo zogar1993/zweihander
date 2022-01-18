@@ -40,6 +40,7 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 	res.status(200)
 }
 
+//TODO P1 visual glitch on css first paint
 //TODO P1 sanitize this with business rules
 //TODO P1 Handle responses for failures
 //TODO P1 how to be atomic on mongodb

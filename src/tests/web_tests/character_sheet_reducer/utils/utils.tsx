@@ -1,6 +1,6 @@
 import { UpdateAction } from "@api/character/[id]/update"
 import sanitizeCharacterSheet, {
-	SanitizedCharacterSheet
+	UnsanitizedCharacterSheetData
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import {
 	BoundFunctions,
@@ -34,13 +34,16 @@ useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({ id: CHARACTER_ID })
 
 export async function render_character_sheet(
-	character: Partial<SanitizedCharacterSheet> = {}
+	character: Partial<UnsanitizedCharacterSheetData> = {}
 ) {
 	updateCharacterOfIdSpy.mockReset()
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	render(
 		<CharacterSheetScreen
-			character={{ ...DEFAULT_CHARACTER_SHEET, ...character }}
+			character={sanitizeCharacterSheet({
+				...DEFAULT_CHARACTER_SHEET,
+				...character
+			})}
 			schools={TEST_MAGIC_SCHOOLS}
 			ancestries={TEST_ANCESTRIES}
 			archetypes={TEST_ARCHETYPES}
@@ -80,7 +83,7 @@ export async function select_combobox_item(
 	fireEvent.click(option)
 }
 
-export async function select_dots_value(name: string, value: number) {
+export async function change_dots_value(name: string, value: number) {
 	const group = screen.getByRole("radiogroup", { name: name })
 	const selected = within(group).getByRole("radio", { name: value.toString() })
 	fireEvent.click(selected)

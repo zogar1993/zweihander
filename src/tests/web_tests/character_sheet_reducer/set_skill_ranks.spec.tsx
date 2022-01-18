@@ -1,7 +1,7 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
+	change_dots_value,
 	render_character_sheet,
-	select_dots_value,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -12,7 +12,7 @@ describe("Skill Ranks Dots should", () => {
 	it("send a 'set_value|skills.{code}.ranks' action on change", async () => {
 		await render_character_sheet()
 
-		await select_dots_value(`${SKILL.name} Ranks`, NEW_SKILL_RANKS)
+		await change_dots_value(`${SKILL.name} Ranks`, NEW_SKILL_RANKS)
 
 		await update_character_api_was_called_with([
 			{

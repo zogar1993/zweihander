@@ -12,7 +12,8 @@ const customJestConfig = {
 		"^@web/(.*)$": "<rootDir>/src/web/$1",
 		"^@core/(.*)$": "<rootDir>/src/core/$1",
 		"^@pages/(.*)$": "<rootDir>/pages/$1",
-		"^@api/(.*)$": "<rootDir>/pages/api/$1"
+		"^@api/(.*)$": "<rootDir>/pages/api/$1",
+		"^@tests/(.*)$": "<rootDir>/src/tests/$1"
 	},
 	setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 	// if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work

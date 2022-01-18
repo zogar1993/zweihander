@@ -1,7 +1,7 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import {
+	change_dots_value,
 	render_character_sheet,
-	select_dots_value,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -12,7 +12,7 @@ describe("Attribute Advances Dots should", () => {
 	it("send a 'set_value|attributes.{code}.advances' action on change", async () => {
 		await render_character_sheet()
 
-		await select_dots_value(
+		await change_dots_value(
 			`${ATTRIBUTE.name} Advances`,
 			NEW_ATTRIBUTE_ADVANCES
 		)

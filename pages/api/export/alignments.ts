@@ -9,5 +9,3 @@ export default async function handler(
 	const alignments = await getAlignments()
 	res.status(200).json(importify(alignments, "alignment"))
 }
-
-//TODO P0 need to reimport alignments because of encoding

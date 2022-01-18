@@ -26,6 +26,7 @@ const PLACEHOLDER_CHARACTER_SHEET = Object.freeze({
 	attributes: ATTRIBUTE_DEFINITIONS as any,
 	focuses: [],
 	schools: [],
+	talents: [],
 	special_rules: [] as any,
 	settings: {}
 }) as unknown as CalculatedCharacterSheet
@@ -286,7 +287,6 @@ function changeFromCharacterSheet(
 	state: CharacterSheetState
 ) {
 	updateCharacterOfId(state.character.id, changes)
-
 	const character = deepClone(state._character)
 	changes.forEach(({ action, property, value }) => {
 		const parts = property.split(".")

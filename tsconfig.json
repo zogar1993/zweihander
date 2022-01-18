@@ -30,6 +30,9 @@
       ],
       "@api/*": [
         "pages/api/*"
+      ],
+      "@tests/*": [
+        "tests/*"
       ]
     },
     "incremental": true
