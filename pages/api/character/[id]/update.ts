@@ -13,7 +13,7 @@ export default async function handler(
 	const id = req.query.id
 	if (Array.isArray(id)) return res.status(500)
 
-	const actions = req.body as Array<UpdateAction>
+	const actions = JSON.parse(req.body) as Array<UpdateAction>
 	if (!Array.isArray(actions)) return res.status(500)
 
 	//TODO P1 do better error handling
@@ -160,6 +160,14 @@ const ENDPOINTS: Array<Endpoint> = [
 		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
 		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT
+	},
+	{
+		regex: /^avatar$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
+		regex: /^thumbnail/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	}
 ]
 

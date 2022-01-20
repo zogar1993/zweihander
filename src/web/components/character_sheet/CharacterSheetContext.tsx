@@ -99,8 +99,13 @@ function characterSheetReducer(
 	switch (action.type) {
 		case ActionType.SetName:
 			return change(["set_value", "name", action.payload])
-		case ActionType.SetAvatar:
-			return change(["set_value", "avatar", action.payload])
+		case ActionType.SetAvatar: {
+			const { avatar, thumbnail } = action.payload
+			return change(
+				["set_value", "avatar", avatar],
+				["set_value", "thumbnail", thumbnail]
+			)
+		}
 		case ActionType.SetAge:
 			return change(["set_value", "age", action.payload])
 		case ActionType.SetSex:
@@ -241,7 +246,10 @@ type PayloadInitialize = {
 
 type CharacterSheetAction =
 	| { type: ActionType.SetName; payload: string }
-	| { type: ActionType.SetAvatar; payload: string | null }
+	| {
+			type: ActionType.SetAvatar
+			payload: { avatar: string; thumbnail: string }
+	  }
 	| { type: ActionType.SetAge; payload: number }
 	| { type: ActionType.SetSex; payload: string | null }
 	| { type: ActionType.SetUpbringing; payload: string | null }

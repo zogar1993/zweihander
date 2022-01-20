@@ -22,7 +22,7 @@ export async function update_character(...body: Array<UpdateActionBlock>) {
 		query: {
 			id: CHARACTER_ID
 		},
-		body: blocksToObjects(body)
+		body: JSON.stringify(blocksToObjects(body))
 	} as unknown as NextApiRequest
 	const result = {
 		status(code: number) {
@@ -39,7 +39,7 @@ export function character_sheet_request(body: Array<UpdateAction>) {
 		query: {
 			id: CHARACTER_ID
 		},
-		body: body
+		body: JSON.stringify(body)
 	} as unknown as NextApiRequest
 }
 

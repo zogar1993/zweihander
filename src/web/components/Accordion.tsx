@@ -23,12 +23,21 @@ export default function Accordion({
 
 function AccordionItem({ item }: { item: AccordionItemType }) {
 	const [open, setOpen] = useState(false)
+	const id = `accordion-tab-(${item.name.toLowerCase()})`
 	return (
 		<ItemContainer key={item.name}>
-			<AccordionItemTab onClick={() => setOpen(open => !open)} role="tab">
+			<AccordionItemTab
+				onClick={() => setOpen(open => !open)}
+				role="tab"
+				id={id}
+			>
 				{item.name}
 			</AccordionItemTab>
-			<AccordionItemContent role="tabpanel" open={open}>
+			<AccordionItemContent
+				role="tabpanel"
+				aria-expanded={open}
+				aria-labelledby={id}
+			>
 				{item.content}
 			</AccordionItemContent>
 		</ItemContainer>
@@ -59,14 +68,12 @@ const AccordionItemTab = styled.button`
 	cursor: pointer;
 `
 
-const AccordionItemContent = styled.div<{ open: boolean }>`
+const AccordionItemContent = styled.div<{ "aria-expanded": boolean }>`
 	background-color: whitesmoke;
-	${({ open }) => (open ? "" : "display: none")};
+	${({ "aria-expanded": expanded }) => (expanded ? "" : "display: none")};
 	padding: ${theme.spacing.separation};
 `
 
 const ItemContainer = styled.div`
 	width: 100%;
 `
-
-//TODO P0 style misc accordion

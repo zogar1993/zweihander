@@ -11,8 +11,7 @@ import {
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
 import theme from "@web/theme/theme"
-import { Field } from "misevi"
-import Image from "next/image"
+import { Avatar, Field } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
@@ -21,7 +20,6 @@ export default function CharacterSheetBio() {
 		useCharacterSheetState()
 
 	const dispatch = useCharacterSheetDispatcher()
-	//TODO P0 do avatar
 	return (
 		<Bio>
 			<Field
@@ -33,8 +31,12 @@ export default function CharacterSheetBio() {
 				<Avatar
 					src={character.avatar || "/character/bandit.png"}
 					alt="Avatar"
-					width={143}
-					height={143}
+					onChange={(avatar, thumbnail) =>
+						dispatch({
+							type: ActionType.SetAvatar,
+							payload: { avatar, thumbnail }
+						})
+					}
 				/>
 				<FlexColumn>
 					<Field
@@ -98,12 +100,6 @@ export default function CharacterSheetBio() {
 		</Bio>
 	)
 }
-
-const Avatar = styled(Image)`
-	border-radius: ${theme.borders.radius};
-	width: 143px;
-	height: 143px;
-`
 
 const AvatarContainer = styled.div`
 	display: grid;

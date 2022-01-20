@@ -7,15 +7,18 @@ export default async function updateCharacter(
 ) {
 	const client = await getMongoDBClient()
 
-	const unsets = unset ? {} : undefined as any
-	if (unset) unset.forEach(x => unsets[x] = "")
+	const unsets = unset ? {} : (undefined as any)
+	if (unset) unset.forEach(x => (unsets[x] = ""))
+
+	const patch = {} as any
+	if (set) patch["$set"] = set
+	if (pull) patch["$pull"] = pull
+	if (push) patch["$push"] = push
+	if (unset) patch["$unset"] = unsets
 
 	await client
 		.collection("CHARACTERS")
-		.updateOne(
-			{ _id: new ObjectId(id) },
-			{ $set: set, $push: push, $pull: pull, $unset: unset }
-		)
+		.updateOne({ _id: new ObjectId(id) }, patch)
 }
 
 export type UpdateCharacterProps = {
