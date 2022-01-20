@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import getAncestries from "@core/actions/GetAncestries"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import updateCharacter, {
@@ -16,24 +17,23 @@ export default async function handler(
 	const actions = JSON.parse(req.body) as Array<UpdateAction>
 	if (!Array.isArray(actions)) return res.status(500)
 
-	//TODO P1 do better error handling
-	const errors_415: Array<UpdateAction> = []
-	const errors_500: Array<UpdateAction> = []
+	const client_errors: Array<[UpdateAction, string]> = []
+	const server_errors: Array<[UpdateAction, string]> = []
 	const results: Array<UpdateCharacterProps> = []
-	actions.forEach(action => {
-		const endpoints = ENDPOINTS.filter(endpoint =>
-			action.property.match(endpoint.regex)
-		)
-		if (endpoints.length === 0) return errors_415.push(action)
-		if (endpoints.length > 1) return errors_500.push(action)
-		const endpoint = endpoints[0][action.action]
-		if (endpoint === undefined) return errors_415.push(action)
-		const result = endpoint(action.property, action.value)
-		results.push(result)
-	})
 
-	if (errors_500.length > 0) return res.status(500)
-	if (errors_415.length > 0) return res.status(415)
+	for (const action of actions) {
+		try {
+			results.push(await getActionResult(action))
+		} catch (e: unknown) {
+			const [type, ...error] = e as InternalError
+			if (type === "client") client_errors.push(error)
+			else if (type === "server") server_errors.push(error)
+			else throw e
+		}
+	}
+
+	if (server_errors.length > 0) return res.status(500).json(server_errors)
+	if (client_errors.length > 0) return res.status(400).json(client_errors)
 
 	await updateCharacter(id, flattenResults(results))
 	res.status(200)
@@ -65,19 +65,23 @@ const SIMPLE_DELETE_PROPERTY_ENDPOINT = (property: string) => {
 
 const ENDPOINTS: Array<Endpoint> = [
 	{
+		regex: /^age$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { non_nullable: "number" }
+	},
+	{
+		regex: /^ancestry$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: {
+			predefined_values: async () => (await getAncestries()).map(x => x.code)
+		}
+	},
+	{
 		regex: /^name$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
-		regex: /^age$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
-	},
-	{
 		regex: /^sex$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
-	},
-	{
-		regex: /^ancestry$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
@@ -177,7 +181,13 @@ function regexCodes(array: ReadonlyArray<{ code: string }>) {
 
 export type Endpoint = {
 	[key in UpdateAction["action"]]?: EndpointFunc
-} & { regex: RegExp }
+} & {
+	regex: RegExp
+	validations?: {
+		non_nullable?: "number"
+		predefined_values?: () => Promise<Array<string>>
+	}
+}
 
 function flattenResults(results: Array<UpdateCharacterProps>) {
 	return results.reduce((previous, current) => {
@@ -201,3 +211,29 @@ const mergeObjects = (obj1?: object, obj2?: object) =>
 	obj1 === undefined ? obj2 : obj2 === undefined ? obj1 : { ...obj1, ...obj2 }
 const mergeArrays = (arr1?: any[], arr2?: any[]) =>
 	arr1 === undefined ? arr2 : arr2 === undefined ? arr1 : [...arr1, ...arr2]
+
+async function getActionResult(action: UpdateAction) {
+	const endpoints = ENDPOINTS.filter(endpoint =>
+		action.property.match(endpoint.regex)
+	)
+	if (endpoints.length === 0) throw ["client", action, "action not found"]
+	if (endpoints.length > 1) throw ["server", action, "ambiguous action"]
+
+	const { [action.action]: transform, validations } = endpoints[0]
+	if (transform === undefined) throw ["client", action, "action not found"]
+
+	if (validations) {
+		if (validations.non_nullable)
+			if (validations.non_nullable !== typeof action.value)
+				throw ["client", action, "value must be a number"]
+		if (validations.predefined_values) {
+			const values = await validations.predefined_values()
+			if (!values.includes(action.value))
+				throw ["client", action, "value must be among predefined ones"]
+		}
+	}
+
+	return transform(action.property, action.value)
+}
+
+type InternalError = ["client" | "server", UpdateAction, string]

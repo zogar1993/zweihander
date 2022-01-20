@@ -1,4 +1,4 @@
-import { getAncestries } from "@core/actions/GetAncestries"
+import getAncestries from "@core/actions/GetAncestries"
 import { importify } from "@core/utils/ContentfulUtils"
 import type { NextApiRequest, NextApiResponse } from "next"
 

@@ -1,4 +1,4 @@
-import { getAncestries } from "@core/actions/GetAncestries"
+import getAncestries from "@core/actions/GetAncestries"
 import { Ancestry } from "@core/domain/Ancestry"
 import { Trait } from "@web/components/ancestry/AncestryTraitCard"
 import SpecialRuleCard from "@web/components/card/SpecialRuleCard"

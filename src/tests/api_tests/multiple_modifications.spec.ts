@@ -40,7 +40,7 @@ const PROPERTY_3 = "talents"
 const PROPERTY_4 = `spells.${TEST_MAGIC_SCHOOLS[0]}`
 
 const PROPERTY_1_VALUE = "Linuar"
-const PROPERTY_2_VALUE = "36"
+const PROPERTY_2_VALUE = 36
 const PROPERTY_3_VALUE = "baking"
 
 //TODO P3 maybe fail if same property is sent multiple times

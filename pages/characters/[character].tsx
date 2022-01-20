@@ -1,11 +1,13 @@
-import getAlignments  from "@core/actions/GetAlignments"
-import { getAncestries } from "@core/actions/GetAncestries"
-import getArchetypes  from "@core/actions/GetArchetypes"
+import getAlignments from "@core/actions/GetAlignments"
+import getAncestries from "@core/actions/GetAncestries"
+import getArchetypes from "@core/actions/GetArchetypes"
 import { getCharacterSheetOfId } from "@core/actions/GetCharacterSheetOfId"
 import getMagicSchools from "@core/actions/GetMagicSchools"
 import getProfessions from "@core/actions/GetProfessions"
 import getTalents from "@core/actions/GetTalents"
-import CharacterSheetScreen, { CharacterSheetScreenProps } from "@web/components/character_sheet/CharacterSheetScreen"
+import CharacterSheetScreen, {
+	CharacterSheetScreenProps
+} from "@web/components/character_sheet/CharacterSheetScreen"
 import React from "react"
 
 export default function CharacterScreen(props: CharacterSheetScreenProps) {
