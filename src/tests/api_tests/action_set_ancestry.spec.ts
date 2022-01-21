@@ -14,14 +14,17 @@ describe("set_value ancestry should", () => {
 	})
 
 	it("accept only predefined ancestries", async () => {
-		const result = await update_character([
-			"set_value",
-			PROPERTY,
-			"undefined_ancestries"
-		])
+		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
 		expect(result.statusCode).toBe(400)
 		expect_character_to_be_unchanged()
+	})
+
+	it("accept null", async () => {
+		const result = await update_character(["set_value", PROPERTY, null])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ ancestry: null })
 	})
 })
 

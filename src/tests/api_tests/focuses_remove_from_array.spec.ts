@@ -1,37 +1,25 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
-	call_character_sheet_api,
-	character_sheet_request,
 	expect_character_to_have_item_removed,
-	updateCharacterSpy
+	the_saved_character_has,
+	update_character
 } from "./utils"
 
 describe("remove_from_array focus should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("remove the focus from the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "remove_from_array",
-				property: PROPERTY_FOCUSES,
-				value: CHARACTER_FOCUS
-			}
+		the_saved_character_has({ focuses: { [SKILL.code]: [VALUE] } })
+
+		const result = await update_character([
+			"remove_from_array",
+			PROPERTY,
+			VALUE
 		])
 
-		const result = await call_character_sheet_api(request)
-
-		expect_character_to_have_item_removed({
-			[`focuses.${SKILL_DEFINITIONS[0].code}`]: CHARACTER_FOCUS
-		})
+		expect_character_to_have_item_removed({ [PROPERTY]: VALUE })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY_FOCUSES = `focuses.${SKILL_DEFINITIONS[0].code}`
-const CHARACTER_FOCUS = "cultured"
+const SKILL = SKILL_DEFINITIONS[1]
+const PROPERTY = `focuses.${SKILL.code}`
+const VALUE = "cultured"

@@ -1,19 +1,10 @@
 import {
 	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
-	update_character,
-	updateCharacterSpy
+	update_character
 } from "./utils"
 
 describe("set_value age should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("change the age of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 

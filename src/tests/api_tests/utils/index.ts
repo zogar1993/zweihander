@@ -1,13 +1,25 @@
 import handler, { UpdateAction } from "@api/character/[id]/update"
 import * as GetAncestries from "@core/actions/GetAncestries"
+import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
+import sanitizeCharacterSheet, {
+	SanitizedCharacterSheet
+} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import * as UpdateCharacter from "@core/utils/UpdateCharacter"
 import { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import { NextApiRequest, NextApiResponse } from "next"
 import { TEST_ANCESTRIES } from "../../web_tests/character_sheet_reducer/utils/collections"
+import { DEFAULT_CHARACTER_SHEET } from "../../web_tests/character_sheet_reducer/utils/utils"
 
 export const updateCharacterSpy = jest.spyOn(UpdateCharacter, "default")
 export const getAncestries = jest.spyOn(GetAncestries, "default")
+export const getCharacterSheetOfId = jest.spyOn(
+	GetCharacterSheetOfId,
+	"default"
+)
+
+getAncestries.mockReturnValue(Promise.resolve(TEST_ANCESTRIES))
+getCharacterSheetOfId.mockReturnValue(Promise.resolve(DEFAULT_CHARACTER_SHEET))
 
 export const CHARACTER_ID = "an_id"
 
@@ -21,11 +33,20 @@ export async function call_character_sheet_api(request: NextApiRequest) {
 	return result
 }
 
+export function the_saved_character_has(
+	character: Partial<SanitizedCharacterSheet>
+) {
+	const sanitized = sanitizeCharacterSheet({
+		...DEFAULT_CHARACTER_SHEET,
+		...character
+	})
+	getCharacterSheetOfId.mockReturnValue(Promise.resolve(sanitized))
+}
+
 export async function update_character(...body: Array<UpdateActionBlock>) {
 	updateCharacterSpy.mockReset()
 	updateCharacterSpy.mockReturnValue(Promise.resolve())
-	getAncestries.mockReset()
-	getAncestries.mockReturnValue(Promise.resolve(TEST_ANCESTRIES))
+
 	const request = {
 		method: "POST",
 		query: {
@@ -43,7 +64,15 @@ export async function update_character(...body: Array<UpdateActionBlock>) {
 			return result
 		}
 	} as any as NextApiResponse
+
 	await handler(request, result)
+
+	//reset mocks to sane defaults
+	getCharacterSheetOfId.mockReset()
+	getCharacterSheetOfId.mockReturnValue(
+		Promise.resolve(DEFAULT_CHARACTER_SHEET)
+	)
+
 	return result
 }
 
@@ -80,7 +109,9 @@ export function expect_character_to_have_property_deleted(change: string) {
 }
 
 export function expect_character_to_have_changed(change: UpdateCharacterProps) {
-	const call = updateCharacterSpy.mock.calls[0]
+	const calls = updateCharacterSpy.mock.calls
+	expect(calls.length).toStrictEqual(1)
+	const call = calls[0]
 	expect(call[0]).toStrictEqual(CHARACTER_ID)
 	expect(call[1]).toStrictEqual(change)
 }

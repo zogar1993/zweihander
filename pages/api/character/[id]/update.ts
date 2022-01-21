@@ -1,7 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import getAncestries from "@core/actions/GetAncestries"
+import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
+import { getByCode } from "@core/domain/general/GetByCode"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
+import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import updateCharacter, {
 	UpdateCharacterProps
 } from "@core/utils/UpdateCharacter"
@@ -24,16 +27,42 @@ export default async function handler(
 	for (const action of actions) {
 		try {
 			results.push(await getActionResult(action))
-		} catch (e: unknown) {
-			const [type, ...error] = e as InternalError
-			if (type === "client") client_errors.push(error)
-			else if (type === "server") server_errors.push(error)
-			else throw e
+		} catch (e: any) {
+			if (Array.isArray(e)) {
+				const [type, ...error] = e as InternalError
+				switch (type) {
+					case "client":
+						client_errors.push(error)
+						break
+					case "server":
+						server_errors.push(error)
+						break
+					default:
+						throw e
+				}
+			} else throw e
 		}
 	}
 
 	if (server_errors.length > 0) return res.status(500).json(server_errors)
 	if (client_errors.length > 0) return res.status(400).json(client_errors)
+
+	const character = await getCharacterSheetOfId(id)
+	const changed = applyActionsToCharacter(character, actions)
+
+	const conflict_errors: Array<string> = []
+	if (changed.ancestry_trait !== null)
+		if (changed.ancestry === null)
+			conflict_errors.push("cannot set ancestry_trait while ancestry is null")
+		else {
+			const ancestry = getByCode(changed.ancestry, await getAncestries())
+			if (ancestry.traits.every(trait => trait.code !== changed.ancestry_trait))
+				conflict_errors.push(
+					`'${changed.ancestry_trait}' is not a trait in ancestry '${changed.ancestry}'`
+				)
+		}
+
+	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
 	await updateCharacter(id, flattenResults(results))
 	res.status(200)
@@ -77,15 +106,15 @@ const ENDPOINTS: Array<Endpoint> = [
 		}
 	},
 	{
+		regex: /^ancestry_trait$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT
+	},
+	{
 		regex: /^name$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
 		regex: /^sex$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
-	},
-	{
-		regex: /^ancestry_trait$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT
 	},
 	{
@@ -226,7 +255,7 @@ async function getActionResult(action: UpdateAction) {
 		if (validations.non_nullable)
 			if (validations.non_nullable !== typeof action.value)
 				throw ["client", action, "value must be a number"]
-		if (validations.predefined_values) {
+		if (validations.predefined_values && action.value !== null) {
 			const values = await validations.predefined_values()
 			if (!values.includes(action.value))
 				throw ["client", action, "value must be among predefined ones"]

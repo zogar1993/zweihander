@@ -1,8 +1,8 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
-	call_character_sheet_api,
-	character_sheet_request,
 	expect_character_to_have_item_added,
+	the_saved_character_has,
+	update_character,
 	updateCharacterSpy
 } from "./utils"
 
@@ -16,22 +16,16 @@ describe("add_to_array focus should", () => {
 	})
 
 	it("add the focus to the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "add_to_array",
-				property: PROPERTY,
-				value: VALUE
-			}
-		])
+		the_saved_character_has({ focuses: { [SKILL.code]: [IRRELEVANT_VALUE] } })
 
-		const result = await call_character_sheet_api(request)
+		const result = await update_character(["add_to_array", PROPERTY, VALUE])
 
-		expect_character_to_have_item_added({
-			[`focuses.${SKILL_DEFINITIONS[0].code}`]: VALUE
-		})
+		expect_character_to_have_item_added({ [PROPERTY]: VALUE })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY = `focuses.${SKILL_DEFINITIONS[0].code}`
+const SKILL = SKILL_DEFINITIONS[1]
+const PROPERTY = `focuses.${SKILL.code}`
 const VALUE = "cultured"
+const IRRELEVANT_VALUE = "irrelevant"

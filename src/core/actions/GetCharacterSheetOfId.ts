@@ -2,7 +2,7 @@ import sanitizeCharacterSheet from "@core/domain/character_sheet/sanitization/Sa
 import getMongoDBClient from "@core/utils/GetMongoDBClient"
 import { ObjectId } from "mongodb"
 
-export async function getCharacterSheetOfId(id: string) {
+export default async function getCharacterSheetOfId(id: string) {
 	const client = await getMongoDBClient()
 	const characters = await client
 		.collection("CHARACTERS")

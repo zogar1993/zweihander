@@ -1,36 +1,55 @@
+import { TEST_ANCESTRIES } from "../web_tests/character_sheet_reducer/utils/collections"
 import {
-	call_character_sheet_api,
-	character_sheet_request,
+	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
-	updateCharacterSpy
+	the_saved_character_has,
+	update_character
 } from "./utils"
 
 describe("set_value ancestry should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("change the ancestry trait of the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "set_value",
-				property: PROPERTY_ANCESTRY_TRAIT,
-				value: CHARACTER_ANCESTRY_TRAIT
-			}
+		the_saved_character_has({ ancestry: ANCESTRY.code })
+
+		const result = await update_character(["set_value", PROPERTY, VALUE])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ ancestry_trait: VALUE })
+	})
+
+	it("accept null", async () => {
+		the_saved_character_has({ ancestry: ANCESTRY.code })
+
+		const result = await update_character(["set_value", PROPERTY, null])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ ancestry_trait: null })
+	})
+
+	it("not accept any value if ancestry is null", async () => {
+		the_saved_character_has({ ancestry: null })
+
+		const result = await update_character(["set_value", PROPERTY, VALUE])
+
+		expect(result.statusCode).toBe(409)
+		expect_character_to_be_unchanged()
+	})
+
+	it("not accept any value that is not a trait from the ancestry", async () => {
+		the_saved_character_has({ ancestry: ANCESTRY.code })
+
+		const result = await update_character([
+			"set_value",
+			PROPERTY,
+			ANOTHER_ANCESTRY_VALUE
 		])
 
-		const result = await call_character_sheet_api(request)
-
-		expect_character_to_have_attribute_set({
-			ancestry_trait: CHARACTER_ANCESTRY_TRAIT
-		})
-		expect(result.statusCode).toBe(200)
+		expect(result.statusCode).toBe(409)
+		expect_character_to_be_unchanged()
 	})
 })
 
-const PROPERTY_ANCESTRY_TRAIT = "ancestry_trait"
-const CHARACTER_ANCESTRY_TRAIT = "dwarf_trait"
+const ANCESTRY = TEST_ANCESTRIES[1]
+const ANOTHER_ANCESTRY = TEST_ANCESTRIES[2]
+const PROPERTY = "ancestry_trait"
+const VALUE = ANCESTRY.traits[1].code
+const ANOTHER_ANCESTRY_VALUE = ANOTHER_ANCESTRY.traits[1].code

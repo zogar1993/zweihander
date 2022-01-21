@@ -17,6 +17,7 @@ import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Talent } from "@core/domain/Talent"
+import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, useContext, useReducer } from "react"
@@ -295,60 +296,14 @@ function changeFromCharacterSheet(
 	state: CharacterSheetState
 ) {
 	updateCharacterOfId(state.character.id, changes)
-	const character = deepClone(state._character)
-	changes.forEach(({ action, property, value }) => {
-		const parts = property.split(".")
-		switch (action) {
-			case "set_value":
-				setValue(parts, character, value)
-				break
-			case "remove_from_array":
-				removeFromArray(parts, character, value)
-				break
-			case "add_to_array":
-				addToArray(parts, character, value)
-				break
-			case "delete_property":
-				deleteProperty(parts, character)
-				break
-			default:
-				throw Error(`'${action}' is not a valid action`)
-		}
-	})
+
+	const character = applyActionsToCharacter(state._character, changes)
+
 	return {
 		...state,
 		_character: character,
 		character: calculateCharacterSheet({ ...state, character })
 	}
-}
-
-function setValue(parts: Array<string>, obj: any, value: any) {
-	if (parts.length === 1) obj[parts[0]] = value
-	else setValue(parts.slice(1), obj[parts[0]], value)
-}
-
-function removeFromArray(parts: Array<string>, obj: any, value: any) {
-	if (parts.length === 1) {
-		const list_key = parts[0]
-		const old_list = obj[list_key]
-		if (Array.isArray(old_list))
-			obj[list_key] = old_list.filter((x, i) => i !== value)
-		else throw Error(`'${JSON.stringify(old_list)}' is not an array`)
-	} else removeFromArray(parts.slice(1), obj[parts[0]], value)
-}
-
-function addToArray(parts: Array<string>, obj: any, value: any) {
-	if (parts.length === 1) {
-		const list_key = parts[0]
-		const old_list = obj[list_key]
-		if (Array.isArray(old_list)) obj[list_key] = [...old_list, value]
-		else throw Error(`'${JSON.stringify(old_list)}' is not an array`)
-	} else addToArray(parts.slice(1), obj[parts[0]], value)
-}
-
-function deleteProperty(parts: Array<string>, obj: any) {
-	if (parts.length === 1) delete parts[0]
-	else deleteProperty(parts.slice(1), obj[parts[0]])
 }
 
 function calculateAncestryTraits(
@@ -378,8 +333,4 @@ function calculateTier1Professions(
 		...x,
 		...getByCode(x.profession, professions)
 	}))
-}
-
-function deepClone<T>(obj: T) {
-	return JSON.parse(JSON.stringify(obj))
 }

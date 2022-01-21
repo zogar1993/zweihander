@@ -26,12 +26,12 @@ import {
 	TEST_TALENTS
 } from "./collections"
 
-const CHARACTER_ID = "an_id"
+export const CHARACTER_ID = "an_id"
 export const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
 export const useRouterSpy = jest.spyOn(router, "useRouter")
 useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 
-const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({ id: CHARACTER_ID })
+export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({ id: CHARACTER_ID })
 
 export async function render_character_sheet(
 	character: Partial<UnsanitizedCharacterSheetData> = {}

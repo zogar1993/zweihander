@@ -1,8 +1,8 @@
 import { TEST_MAGIC_SCHOOLS } from "../web_tests/character_sheet_reducer/utils/collections"
 import {
-	call_character_sheet_api,
-	character_sheet_request,
 	expect_character_to_have_item_added,
+	the_saved_character_has,
+	update_character,
 	updateCharacterSpy
 } from "./utils"
 
@@ -16,22 +16,16 @@ describe("add_to_array spell should", () => {
 	})
 
 	it("add the spell to the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "add_to_array",
-				property: PROPERTY_SPELLS,
-				value: CHARACTER_SPELL
-			}
-		])
+		the_saved_character_has({ spells: { [SCHOOL.code]: [IRRELEVANT_VALUE] } })
 
-		const result = await call_character_sheet_api(request)
+		const result = await update_character(["add_to_array", PROPERTY, VALUE])
 
-		expect_character_to_have_item_added({
-			[PROPERTY_SPELLS]: CHARACTER_SPELL
-		})
+		expect_character_to_have_item_added({ [PROPERTY]: VALUE })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY_SPELLS = `spells.${TEST_MAGIC_SCHOOLS[1].code}`
-const CHARACTER_SPELL = "cultured"
+const SCHOOL = TEST_MAGIC_SCHOOLS[1]
+const VALUE = SCHOOL.spells[1].code
+const PROPERTY = `spells.${SCHOOL.code}`
+const IRRELEVANT_VALUE = "irrelevant"

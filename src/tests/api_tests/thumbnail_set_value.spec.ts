@@ -1,23 +1,14 @@
 import {
 	expect_character_to_have_attribute_set,
-	update_character,
-	updateCharacterSpy
+	update_character
 } from "./utils"
 
 describe("set_value thumbnail should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("change the thumbnail of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		expect_character_to_have_attribute_set({ thumbnail: VALUE })
 		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ thumbnail: VALUE })
 	})
 })
 
