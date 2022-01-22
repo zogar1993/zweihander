@@ -2,7 +2,7 @@ import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITI
 import {
 	expect_character_to_have_attribute_set,
 	update_character
-} from "./utils"
+} from "@tests/api_tests/utils"
 
 describe("set_value attributes.{code}.advances should", () => {
 	it("change the attribute advances of the character", async () => {

@@ -2,7 +2,7 @@ import {
 	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
 	update_character
-} from "./utils"
+} from "@tests/api_tests/utils"
 
 describe("set_value social_class should", () => {
 	it("change the social class of the character", async () => {

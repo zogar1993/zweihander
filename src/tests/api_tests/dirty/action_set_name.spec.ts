@@ -3,9 +3,9 @@ import {
 	character_sheet_request,
 	expect_character_to_have_attribute_set,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
-describe("set_value corruption should", () => {
+describe("set_value name should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -14,23 +14,17 @@ describe("set_value corruption should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("change the corruption ranks of the character", async () => {
+	it("change the name of the character", async () => {
 		const request = character_sheet_request([
-			{
-				action: "set_value",
-				property: PROPERTY_CORRUPTION,
-				value: CHARACTER_CORRUPTION
-			}
+			{ action: "set_value", property: PROPERTY_NAME, value: CHARACTER_NAME }
 		])
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_attribute_set({
-			corruption: CHARACTER_CORRUPTION
-		})
+		expect_character_to_have_attribute_set({ name: CHARACTER_NAME })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY_CORRUPTION = "corruption"
-const CHARACTER_CORRUPTION = 4
+const PROPERTY_NAME = "name"
+const CHARACTER_NAME = "linuar"

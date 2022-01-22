@@ -3,7 +3,7 @@ import {
 	character_sheet_request,
 	expect_character_to_have_item_removed,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
 describe("remove_from_array talent should", () => {
 	beforeEach(() => {

@@ -1,12 +1,12 @@
-import { TEST_MAGIC_SCHOOLS } from "../web_tests/character_sheet_reducer/utils/collections"
 import {
 	call_character_sheet_api,
 	character_sheet_request,
-	expect_character_to_have_property_deleted,
+	expect_character_to_have_attribute_set,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
+import { TEST_MAGIC_SCHOOLS } from "@tests/web_tests/character_sheet_reducer/utils/collections"
 
-describe("delete_property spell should", () => {
+describe("add_to_array spell should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -15,19 +15,21 @@ describe("delete_property spell should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("remove magic school from the character", async () => {
+	it("set_value spell to the character", async () => {
 		const request = character_sheet_request([
 			{
-				action: "delete_property",
-				property: PROPERTY
+				action: "set_value",
+				property: PROPERTY,
+				value: VALUE
 			}
 		])
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_property_deleted(PROPERTY)
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
 const PROPERTY = `spells.${TEST_MAGIC_SCHOOLS[1].code}`
+const VALUE = ["cultured"]

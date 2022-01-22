@@ -3,9 +3,9 @@ import {
 	character_sheet_request,
 	expect_character_to_have_attribute_set,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
-describe("set_value name should", () => {
+describe("set_value chaos_ranks should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -14,17 +14,23 @@ describe("set_value name should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("change the name of the character", async () => {
+	it("change the chaos ranks of the character", async () => {
 		const request = character_sheet_request([
-			{ action: "set_value", property: PROPERTY_NAME, value: CHARACTER_NAME }
+			{
+				action: "set_value",
+				property: PROPERTY_CHAOS_RANKS,
+				value: CHARACTER_CHAOS_RANKS
+			}
 		])
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_attribute_set({ name: CHARACTER_NAME })
+		expect_character_to_have_attribute_set({
+			chaos_ranks: CHARACTER_CHAOS_RANKS
+		})
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY_NAME = "name"
-const CHARACTER_NAME = "linuar"
+const PROPERTY_CHAOS_RANKS = "chaos_ranks"
+const CHARACTER_CHAOS_RANKS = 4

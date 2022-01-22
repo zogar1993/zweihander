@@ -1,11 +1,12 @@
+import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import {
 	call_character_sheet_api,
 	character_sheet_request,
 	expect_character_to_have_attribute_set,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
-describe("set_value order_ranks should", () => {
+describe("set_value attributes.{code}.base should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -14,23 +15,23 @@ describe("set_value order_ranks should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("change the order ranks of the character", async () => {
+	it("change the attribute base of the character", async () => {
 		const request = character_sheet_request([
 			{
 				action: "set_value",
-				property: PROPERTY_ORDER_RANKS,
-				value: CHARACTER_ORDER_RANKS
+				property: PROPERTY,
+				value: VALUE
 			}
 		])
 
 		const result = await call_character_sheet_api(request)
 
 		expect_character_to_have_attribute_set({
-			order_ranks: CHARACTER_ORDER_RANKS
+			[`attributes.${ATTRIBUTE_DEFINITIONS[0].code}.base`]: VALUE
 		})
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY_ORDER_RANKS = "order_ranks"
-const CHARACTER_ORDER_RANKS = 4
+const PROPERTY = `attributes.${ATTRIBUTE_DEFINITIONS[0].code}.base`
+const VALUE = 45

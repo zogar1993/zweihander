@@ -61,8 +61,6 @@ export default async function handler(
 	const changed = applyActionsToCharacter(character, actions)
 	const conflict_errors = await validateModel(changed)
 
-	console.log(conflict_errors)
-
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
 	await updateCharacter(id, flattenResults(results))
@@ -283,8 +281,8 @@ async function validateModel(character: SanitizedCharacterSheet) {
 		character.archetype === null
 			? []
 			: archetypes
-			.find(x => x.code === character.archetype)
-			?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
+					.find(x => x.code === character.archetype)
+					?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
 
 	return [
 		verifyDependencyIsNotNull("ancestry_trait", "ancestry", character),

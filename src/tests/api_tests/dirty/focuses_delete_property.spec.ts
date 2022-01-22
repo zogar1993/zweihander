@@ -4,7 +4,7 @@ import {
 	character_sheet_request,
 	expect_character_to_have_property_deleted,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
 describe("delete_property focus should", () => {
 	beforeEach(() => {

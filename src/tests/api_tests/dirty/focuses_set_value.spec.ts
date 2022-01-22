@@ -4,9 +4,9 @@ import {
 	character_sheet_request,
 	expect_character_to_have_attribute_set,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
-describe("set_value skills.{code}.ranks should", () => {
+describe("add_to_array focus should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -15,7 +15,7 @@ describe("set_value skills.{code}.ranks should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("change the skill ranks of the character", async () => {
+	it("set_value focus to the character", async () => {
 		const request = character_sheet_request([
 			{
 				action: "set_value",
@@ -26,12 +26,10 @@ describe("set_value skills.{code}.ranks should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_attribute_set({
-			[`skills.${SKILL_DEFINITIONS[0].code}.ranks`]: VALUE
-		})
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY = `skills.${SKILL_DEFINITIONS[0].code}.ranks`
-const VALUE = 1
+const PROPERTY = `focuses.${SKILL_DEFINITIONS[0].code}`
+const VALUE = ["cultured"]

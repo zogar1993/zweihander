@@ -1,12 +1,11 @@
-import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
 	call_character_sheet_api,
 	character_sheet_request,
-	expect_character_to_have_attribute_set,
+	expect_character_to_have_item_added,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
-describe("add_to_array focus should", () => {
+describe("add_to_array talent should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -15,10 +14,10 @@ describe("add_to_array focus should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("set_value focus to the character", async () => {
+	it("add the talent to the character", async () => {
 		const request = character_sheet_request([
 			{
-				action: "set_value",
+				action: "add_to_array",
 				property: PROPERTY,
 				value: VALUE
 			}
@@ -26,10 +25,10 @@ describe("add_to_array focus should", () => {
 
 		const result = await call_character_sheet_api(request)
 
-		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
+		expect_character_to_have_item_added({ talents: VALUE })
 		expect(result.statusCode).toBe(200)
 	})
 })
 
-const PROPERTY = `focuses.${SKILL_DEFINITIONS[0].code}`
-const VALUE = ["cultured"]
+const PROPERTY = "talents"
+const VALUE = "cultured"

@@ -1,7 +1,7 @@
 import {
 	expect_character_to_have_attribute_set,
 	update_character
-} from "./utils"
+} from "@tests/api_tests/utils"
 
 describe("set_value thumbnail should", () => {
 	it("change the thumbnail of the character", async () => {

@@ -1,9 +1,9 @@
-import { TEST_MAGIC_SCHOOLS } from "../web_tests/character_sheet_reducer/utils/collections"
 import {
 	expect_character_to_have_item_removed,
 	the_saved_character_has,
 	update_character
-} from "./utils"
+} from "@tests/api_tests/utils"
+import { TEST_MAGIC_SCHOOLS } from "@tests/web_tests/character_sheet_reducer/utils/collections"
 
 describe("remove_from_array spell should", () => {
 	it("remove the spell from the character", async () => {

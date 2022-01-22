@@ -1,9 +1,9 @@
-import { TEST_ORDER_ALIGNMENTS } from "../web_tests/character_sheet_reducer/utils/collections"
 import {
 	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
 	update_character
-} from "./utils"
+} from "@tests/api_tests/utils"
+import { TEST_ORDER_ALIGNMENTS } from "../web_tests/character_sheet_reducer/utils/collections"
 
 describe("set_value order_alignment should", () => {
 	it("change the order alignment of the character", async () => {

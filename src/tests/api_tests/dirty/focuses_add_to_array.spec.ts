@@ -1,12 +1,12 @@
-import { TEST_MAGIC_SCHOOLS } from "../web_tests/character_sheet_reducer/utils/collections"
+import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
 	expect_character_to_have_item_added,
 	the_saved_character_has,
 	update_character,
 	updateCharacterSpy
-} from "./utils"
+} from "@tests/api_tests/utils"
 
-describe("add_to_array spell should", () => {
+describe("add_to_array focus should", () => {
 	beforeEach(() => {
 		updateCharacterSpy.mockReturnValue(Promise.resolve())
 	})
@@ -15,8 +15,8 @@ describe("add_to_array spell should", () => {
 		updateCharacterSpy.mockReset()
 	})
 
-	it("add the spell to the character", async () => {
-		the_saved_character_has({ spells: { [SCHOOL.code]: [IRRELEVANT_VALUE] } })
+	it("add the focus to the character", async () => {
+		the_saved_character_has({ focuses: { [SKILL.code]: [IRRELEVANT_VALUE] } })
 
 		const result = await update_character(["add_to_array", PROPERTY, VALUE])
 
@@ -25,7 +25,7 @@ describe("add_to_array spell should", () => {
 	})
 })
 
-const SCHOOL = TEST_MAGIC_SCHOOLS[1]
-const VALUE = SCHOOL.spells[1].code
-const PROPERTY = `spells.${SCHOOL.code}`
+const SKILL = SKILL_DEFINITIONS[1]
+const PROPERTY = `focuses.${SKILL.code}`
+const VALUE = "cultured"
 const IRRELEVANT_VALUE = "irrelevant"

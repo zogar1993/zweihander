@@ -1,9 +1,9 @@
-import { SEXES } from "@web/components/character_sheet/bio/Constants"
 import {
 	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
 	update_character
-} from "./utils"
+} from "@tests/api_tests/utils"
+import { SEXES } from "@web/components/character_sheet/bio/Constants"
 
 describe("set_value sex should", () => {
 	it("change the sex of the character", async () => {

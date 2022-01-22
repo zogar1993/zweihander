@@ -32,7 +32,7 @@
         "pages/api/*"
       ],
       "@tests/*": [
-        "tests/*"
+        "src/tests/*"
       ]
     },
     "incremental": true

@@ -3,7 +3,7 @@ import {
 	expect_character_to_have_item_removed,
 	the_saved_character_has,
 	update_character
-} from "./utils"
+} from "@tests/api_tests/utils"
 
 describe("remove_from_array focus should", () => {
 	it("remove the focus from the character", async () => {
