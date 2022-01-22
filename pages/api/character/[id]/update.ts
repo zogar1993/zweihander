@@ -95,12 +95,12 @@ const ENDPOINTS: Array<Endpoint> = [
 	{
 		regex: /^age$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
-		validations: { non_nullable: "number" }
+		validations: { number: { nullable: false, min: 0 } }
 	},
 	{
 		regex: /^ancestry$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
-		validations: { nullable: "string" }
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^ancestry_trait$/,
@@ -148,29 +148,35 @@ const ENDPOINTS: Array<Endpoint> = [
 	},
 	{
 		regex: /^corruption$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 0, max: 9 } }
 	},
 	{
 		regex: /^chaos_ranks$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 0, max: 9 } }
 	},
 	{
 		regex: /^order_ranks$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 0, max: 9 } }
 	},
 	{
 		regex: new RegExp(`^skills.${regexCodes(SKILL_DEFINITIONS)}.ranks$`),
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 0, max: 3 } }
 	},
 	{
 		regex: new RegExp(`^attributes.${regexCodes(ATTRIBUTE_DEFINITIONS)}.base$`),
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 28, max: 55 } }
 	},
 	{
 		regex: new RegExp(
 			`^attributes.${regexCodes(ATTRIBUTE_DEFINITIONS)}.advances$`
 		),
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 0, max: 6 } }
 	},
 	{
 		regex: new RegExp(`^talents$`),
@@ -210,14 +216,20 @@ export type Endpoint = {
 } & {
 	regex: RegExp
 	validations?: {
-		nullable?: "string"
-		non_nullable?: "number"
+		number?: {
+			nullable?: boolean
+			min?: number
+			max?: number
+		}
+		string?: { nullable?: boolean }
 	}
 }
 
 function flattenResults(results: Array<UpdateCharacterProps>) {
 	return results.reduce((previous, current) => {
-		const merging = { ...previous }
+		const merging = {
+			...previous
+		}
 		const key = Object.keys(current)[0]
 		switch (key) {
 			case "unset":
@@ -249,16 +261,22 @@ async function getActionResult(action: UpdateAction) {
 	if (transform === undefined) throw ["client", action, "action not found"]
 
 	if (validations) {
-		if (validations.nullable && action.value !== null)
-			if (validations.nullable !== typeof action.value)
-				throw [
-					"client",
-					action,
-					`value must be a ${validations.nullable} or null`
-				]
-		if (validations.non_nullable)
-			if (validations.non_nullable !== typeof action.value)
-				throw ["client", action, `value must be ${validations.non_nullable}`]
+		if (validations.number) {
+			const { nullable, min, max } = validations.number
+			if (action.value === null) {
+				if (!nullable) throw ["client", action, "must not be null"]
+			} else {
+				const value = Number(action.value)
+				if (!Number.isInteger(value))
+					throw ["client", action, "must be an integer"]
+
+				if (Number.isInteger(min) && value < min!)
+					throw ["client", action, `min is ${min}`]
+
+				if (Number.isInteger(max) && value > max!)
+					throw ["client", action, `max is ${max}`]
+			}
+		}
 	}
 
 	return transform(action.property, action.value)

@@ -1,36 +1,66 @@
 import {
-	call_character_sheet_api,
-	character_sheet_request,
+	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
-	updateCharacterSpy
+	update_character
 } from "@tests/api_tests/utils"
 
 describe("set_value order_ranks should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("change the order ranks of the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "set_value",
-				property: PROPERTY_ORDER_RANKS,
-				value: CHARACTER_ORDER_RANKS
-			}
-		])
+		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		const result = await call_character_sheet_api(request)
-
-		expect_character_to_have_attribute_set({
-			order_ranks: CHARACTER_ORDER_RANKS
-		})
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 		expect(result.statusCode).toBe(200)
+	})
+
+	it("accept only numbers", async () => {
+		const result = await update_character(["set_value", PROPERTY, "a_string"])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept only integers", async () => {
+		const result = await update_character(["set_value", PROPERTY, 2.5])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("not accept null", async () => {
+		const result = await update_character(["set_value", PROPERTY, null])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("not accept lower than 0", async () => {
+		const result = await update_character(["set_value", PROPERTY, -1])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept minimum 0", async () => {
+		const result = await update_character(["set_value", PROPERTY, 0])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: 0 })
+	})
+
+	it("not accept higher than 9", async () => {
+		const result = await update_character(["set_value", PROPERTY, 10])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept maximum 9", async () => {
+		const result = await update_character(["set_value", PROPERTY, 9])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: 9 })
 	})
 })
 
-const PROPERTY_ORDER_RANKS = "order_ranks"
-const CHARACTER_ORDER_RANKS = 4
+const PROPERTY = "order_ranks"
+const VALUE = 4

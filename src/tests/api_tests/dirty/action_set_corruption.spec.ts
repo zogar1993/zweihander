@@ -1,36 +1,66 @@
 import {
-	call_character_sheet_api,
-	character_sheet_request,
+	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
-	updateCharacterSpy
+	update_character
 } from "@tests/api_tests/utils"
 
 describe("set_value corruption should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
+	it("change the corruption of the character", async () => {
+		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
-	it("change the corruption ranks of the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "set_value",
-				property: PROPERTY_CORRUPTION,
-				value: CHARACTER_CORRUPTION
-			}
-		])
-
-		const result = await call_character_sheet_api(request)
-
-		expect_character_to_have_attribute_set({
-			corruption: CHARACTER_CORRUPTION
-		})
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 		expect(result.statusCode).toBe(200)
+	})
+
+	it("accept only numbers", async () => {
+		const result = await update_character(["set_value", PROPERTY, "a_string"])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept only integers", async () => {
+		const result = await update_character(["set_value", PROPERTY, 2.5])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("not accept null", async () => {
+		const result = await update_character(["set_value", PROPERTY, null])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("not accept lower than 0", async () => {
+		const result = await update_character(["set_value", PROPERTY, -1])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept minimum 0", async () => {
+		const result = await update_character(["set_value", PROPERTY, 0])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: 0 })
+	})
+
+	it("not accept higher than 9", async () => {
+		const result = await update_character(["set_value", PROPERTY, 10])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept maximum 9", async () => {
+		const result = await update_character(["set_value", PROPERTY, 9])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: 9 })
 	})
 })
 
-const PROPERTY_CORRUPTION = "corruption"
-const CHARACTER_CORRUPTION = 4
+const PROPERTY = "corruption"
+const VALUE = 4

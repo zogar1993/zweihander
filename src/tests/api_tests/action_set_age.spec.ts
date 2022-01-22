@@ -9,11 +9,18 @@ describe("set_value age should", () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result.statusCode).toBe(200)
-		expect_character_to_have_attribute_set({ age: VALUE })
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
 	it("accept only numbers", async () => {
 		const result = await update_character(["set_value", PROPERTY, "a_string"])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept only integers", async () => {
+		const result = await update_character(["set_value", PROPERTY, 2.5])
 
 		expect(result.statusCode).toBe(400)
 		expect_character_to_be_unchanged()
@@ -24,6 +31,20 @@ describe("set_value age should", () => {
 
 		expect(result.statusCode).toBe(400)
 		expect_character_to_be_unchanged()
+	})
+
+	it("not accept negative numbers", async () => {
+		const result = await update_character(["set_value", PROPERTY, -1])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
+
+	it("accept minimum 0", async () => {
+		const result = await update_character(["set_value", PROPERTY, 0])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: 0 })
 	})
 })
 

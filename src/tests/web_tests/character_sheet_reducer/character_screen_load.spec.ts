@@ -13,7 +13,9 @@ import {
 } from "./utils/collections"
 import {
 	click_menu_item,
-	render_character_sheet, then_dots_is_checked_on, then_number_input_has_a_value_of,
+	render_character_sheet,
+	then_dots_is_checked_on,
+	then_number_input_has_a_value_of,
 	then_textbox_has_a_value_of
 } from "./utils/utils"
 
