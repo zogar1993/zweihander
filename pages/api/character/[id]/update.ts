@@ -1,13 +1,23 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import getAncestries from "@core/actions/GetAncestries"
+import getArchetypes from "@core/actions/GetArchetypes"
+import getChaosAlignments from "@core/actions/GetChaosAlignments"
 import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
+import getOrderAlignments from "@core/actions/GetOrderAlignments"
+import getProfessions from "@core/actions/GetProfessions"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import { getByCode } from "@core/domain/general/GetByCode"
+import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { hasByCode } from "@core/domain/general/HasByCode"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import updateCharacter, {
 	UpdateCharacterProps
 } from "@core/utils/UpdateCharacter"
+import {
+	SEXES,
+	SOCIAL_CLASSES,
+	UPBRINGINGS
+} from "@web/components/character_sheet/bio/Constants"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -49,18 +59,9 @@ export default async function handler(
 
 	const character = await getCharacterSheetOfId(id)
 	const changed = applyActionsToCharacter(character, actions)
+	const conflict_errors = await validateModel(changed)
 
-	const conflict_errors: Array<string> = []
-	if (changed.ancestry_trait !== null)
-		if (changed.ancestry === null)
-			conflict_errors.push("cannot set ancestry_trait while ancestry is null")
-		else {
-			const ancestry = getByCode(changed.ancestry, await getAncestries())
-			if (ancestry.traits.every(trait => trait.code !== changed.ancestry_trait))
-				conflict_errors.push(
-					`'${changed.ancestry_trait}' is not a trait in ancestry '${changed.ancestry}'`
-				)
-		}
+	console.log(conflict_errors)
 
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
@@ -101,9 +102,7 @@ const ENDPOINTS: Array<Endpoint> = [
 	{
 		regex: /^ancestry$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
-		validations: {
-			predefined_values: async () => (await getAncestries()).map(x => x.code)
-		}
+		validations: { nullable: "string" }
 	},
 	{
 		regex: /^ancestry_trait$/,
@@ -188,7 +187,7 @@ const ENDPOINTS: Array<Endpoint> = [
 		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT
 	},
 	{
-		regex: new RegExp(`^spells.*$`), //TODO P1 use schools
+		regex: new RegExp(`^spells.*$`), //TODO DOING use schools
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
 		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
@@ -213,8 +212,8 @@ export type Endpoint = {
 } & {
 	regex: RegExp
 	validations?: {
+		nullable?: "string"
 		non_nullable?: "number"
-		predefined_values?: () => Promise<Array<string>>
 	}
 }
 
@@ -252,17 +251,78 @@ async function getActionResult(action: UpdateAction) {
 	if (transform === undefined) throw ["client", action, "action not found"]
 
 	if (validations) {
+		if (validations.nullable && action.value !== null)
+			if (validations.nullable !== typeof action.value)
+				throw [
+					"client",
+					action,
+					`value must be a ${validations.nullable} or null`
+				]
 		if (validations.non_nullable)
 			if (validations.non_nullable !== typeof action.value)
-				throw ["client", action, "value must be a number"]
-		if (validations.predefined_values && action.value !== null) {
-			const values = await validations.predefined_values()
-			if (!values.includes(action.value))
-				throw ["client", action, "value must be among predefined ones"]
-		}
+				throw ["client", action, `value must be ${validations.non_nullable}`]
 	}
 
 	return transform(action.property, action.value)
 }
 
 type InternalError = ["client" | "server", UpdateAction, string]
+
+async function validateModel(character: SanitizedCharacterSheet) {
+	const ancestries = await getAncestries()
+	const archetypes = await getArchetypes()
+	const professions = await getProfessions()
+	const chaos_aligments = await getChaosAlignments()
+	const order_aligments = await getOrderAlignments()
+	const ancestry_traits =
+		character.ancestry === null
+			? []
+			: ancestries.find(x => x.code === character.ancestry)?.traits ?? []
+
+	const first_professions =
+		character.archetype === null
+			? []
+			: archetypes
+			.find(x => x.code === character.archetype)
+			?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
+
+	return [
+		verifyDependencyIsNotNull("ancestry_trait", "ancestry", character),
+		verifyDependencyIsNotNull("profession1", "archetype", character),
+		verifyDependencyIsNotNull("profession2", "profession1", character),
+		verifyDependencyIsNotNull("profession3", "profession2", character),
+		verifyIsNullOrWithin("ancestry", ancestries, character),
+		verifyIsNullOrWithin("ancestry_trait", ancestry_traits, character),
+		verifyIsNullOrWithin("archetype", archetypes, character),
+		verifyIsNullOrWithin("profession1", first_professions, character),
+		verifyIsNullOrWithin("profession2", professions, character),
+		verifyIsNullOrWithin("profession3", professions, character),
+		verifyIsNullOrWithin("order_alignment", order_aligments, character),
+		verifyIsNullOrWithin("chaos_alignment", chaos_aligments, character),
+		verifyIsNullOrWithin("social_class", SOCIAL_CLASSES, character),
+		verifyIsNullOrWithin("upbringing", UPBRINGINGS, character),
+		verifyIsNullOrWithin("sex", SEXES, character)
+	].flatMap(x => x)
+}
+
+function verifyDependencyIsNotNull(
+	property: keyof SanitizedCharacterSheet,
+	dependency: keyof SanitizedCharacterSheet,
+	character: SanitizedCharacterSheet
+) {
+	if (character[property] !== null)
+		if (character[dependency] === null)
+			return [`cannot set ${property} while ${dependency} is null`]
+	return []
+}
+
+function verifyIsNullOrWithin(
+	property: keyof SanitizedCharacterSheet,
+	collection: Array<{ code: string }>,
+	character: SanitizedCharacterSheet
+) {
+	if (character[property] !== null)
+		if (!hasByCode(character[property] as string, collection))
+			return [`'${character[property]}' is not a valid ${property}`]
+	return []
+}

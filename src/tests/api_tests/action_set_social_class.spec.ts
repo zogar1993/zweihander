@@ -1,36 +1,31 @@
 import {
-	call_character_sheet_api,
-	character_sheet_request,
+	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
-	updateCharacterSpy
+	update_character
 } from "./utils"
 
 describe("set_value social_class should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("change the social class of the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "set_value",
-				property: PROPERTY_SOCIAL_CLASS,
-				value: CHARACTER_SOCIAL_CLASS
-			}
-		])
+		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		const result = await call_character_sheet_api(request)
-
-		expect_character_to_have_attribute_set({
-			social_class: CHARACTER_SOCIAL_CLASS
-		})
 		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
+	})
+
+	it("accept null", async () => {
+		const result = await update_character(["set_value", PROPERTY, null])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: null })
+	})
+
+	it("accept only predefined social classes", async () => {
+		const result = await update_character(["set_value", PROPERTY, "whatever"])
+
+		expect(result.statusCode).toBe(409)
+		expect_character_to_be_unchanged()
 	})
 })
 
-const PROPERTY_SOCIAL_CLASS = "social_class"
-const CHARACTER_SOCIAL_CLASS = "lowborn"
+const PROPERTY = "social_class"
+const VALUE = "lowborn"

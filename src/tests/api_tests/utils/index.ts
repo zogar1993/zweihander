@@ -1,5 +1,4 @@
 import handler, { UpdateAction } from "@api/character/[id]/update"
-import * as GetAncestries from "@core/actions/GetAncestries"
 import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet
@@ -8,17 +7,28 @@ import * as UpdateCharacter from "@core/utils/UpdateCharacter"
 import { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import { NextApiRequest, NextApiResponse } from "next"
-import { TEST_ANCESTRIES } from "../../web_tests/character_sheet_reducer/utils/collections"
+import {
+	TEST_ANCESTRIES,
+	TEST_ARCHETYPES,
+	TEST_CHAOS_ALIGNMENTS,
+	TEST_ORDER_ALIGNMENTS,
+	TEST_PROFESSIONS
+} from "../../web_tests/character_sheet_reducer/utils/collections"
 import { DEFAULT_CHARACTER_SHEET } from "../../web_tests/character_sheet_reducer/utils/utils"
+import { permamock } from "./Permamock"
 
 export const updateCharacterSpy = jest.spyOn(UpdateCharacter, "default")
-export const getAncestries = jest.spyOn(GetAncestries, "default")
 export const getCharacterSheetOfId = jest.spyOn(
 	GetCharacterSheetOfId,
 	"default"
 )
 
-getAncestries.mockReturnValue(Promise.resolve(TEST_ANCESTRIES))
+permamock("@core/actions/GetAncestries", TEST_ANCESTRIES)
+permamock("@core/actions/GetProfessions", TEST_PROFESSIONS)
+permamock("@core/actions/GetArchetypes", TEST_ARCHETYPES)
+permamock("@core/actions/GetOrderAlignments", TEST_ORDER_ALIGNMENTS)
+permamock("@core/actions/GetChaosAlignments", TEST_CHAOS_ALIGNMENTS)
+
 getCharacterSheetOfId.mockReturnValue(Promise.resolve(DEFAULT_CHARACTER_SHEET))
 
 export const CHARACTER_ID = "an_id"

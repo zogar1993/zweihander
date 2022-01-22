@@ -41,7 +41,7 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 }
 
 //TODO P1 visual glitch on css first paint
-//TODO P1 sanitize this with business rules
+//TODO DOING sanitize this with business rules
 //TODO P1 Handle responses for failures
 //TODO P1 how to be atomic on mongodb
 //TODO P1 add authentication
@@ -51,7 +51,7 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 //TODO P1 add settings
 //TODO P2 config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
 //TODO P2 do skeleton for characters
-//TODO P0 clean and refactor tests
+//TODO DOING clean and refactor tests
 //TODO P0 finish first release character sheet styling
 //TODO P0 style misc accordion
 

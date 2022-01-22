@@ -1,34 +1,31 @@
 import {
-	call_character_sheet_api,
-	character_sheet_request,
+	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
-	updateCharacterSpy
+	update_character
 } from "./utils"
 
 describe("set_value upbringing should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("change the upbringing of the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "set_value",
-				property: PROPERTY_UPBRINGING,
-				value: CHARACTER_UPBRINGING
-			}
-		])
+		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		const result = await call_character_sheet_api(request)
-
-		expect_character_to_have_attribute_set({ upbringing: CHARACTER_UPBRINGING })
 		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ upbringing: VALUE })
+	})
+
+	it("accept null", async () => {
+		const result = await update_character(["set_value", PROPERTY, null])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ upbringing: null })
+	})
+
+	it("accept only predefined upbringings", async () => {
+		const result = await update_character(["set_value", PROPERTY, "whatever"])
+
+		expect(result.statusCode).toBe(409)
+		expect_character_to_be_unchanged()
 	})
 })
 
-const PROPERTY_UPBRINGING = "upbringing"
-const CHARACTER_UPBRINGING = "cultured"
+const PROPERTY = "upbringing"
+const VALUE = "cultured"

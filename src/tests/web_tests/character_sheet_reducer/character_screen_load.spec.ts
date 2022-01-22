@@ -19,7 +19,7 @@ import {
 
 describe("Character Sheet Screen should", () => {
 	it("show character values on load", async () => {
-		//TODO P2 lacks some properties and empty scenario
+		//TODO DOING lacks some properties and empty scenario
 		await render_character_sheet(A_CHARACTER_SHEET)
 
 		await then_textbox_has_a_value_of("Name", NAME)

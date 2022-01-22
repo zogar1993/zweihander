@@ -1,8 +1,7 @@
-import { Talent } from "@core/domain/Talent"
 import { getEntries } from "@core/utils/CacheUtils"
 
 export default async function getArchetypes() {
-	return getEntries<Talent>("archetype")
+	return getEntries<Archetype>("archetype")
 }
 export type Book = "Zweihänder" | "Main Gauche"
 export type Archetype = {

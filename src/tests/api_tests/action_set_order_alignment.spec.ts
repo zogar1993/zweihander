@@ -1,36 +1,32 @@
+import { TEST_ORDER_ALIGNMENTS } from "../web_tests/character_sheet_reducer/utils/collections"
 import {
-	call_character_sheet_api,
-	character_sheet_request,
+	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
-	updateCharacterSpy
+	update_character
 } from "./utils"
 
 describe("set_value order_alignment should", () => {
-	beforeEach(() => {
-		updateCharacterSpy.mockReturnValue(Promise.resolve())
-	})
-
-	afterEach(() => {
-		updateCharacterSpy.mockReset()
-	})
-
 	it("change the order alignment of the character", async () => {
-		const request = character_sheet_request([
-			{
-				action: "set_value",
-				property: PROPERTY_ORDER_ALIGNMENT,
-				value: CHARACTER_ORDER_ALIGNMENT
-			}
-		])
+		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		const result = await call_character_sheet_api(request)
-
-		expect_character_to_have_attribute_set({
-			order_alignment: CHARACTER_ORDER_ALIGNMENT
-		})
 		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
+	})
+
+	it("accept null", async () => {
+		const result = await update_character(["set_value", PROPERTY, null])
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_attribute_set({ [PROPERTY]: null })
+	})
+
+	it("accept only predefined order alignments", async () => {
+		const result = await update_character(["set_value", PROPERTY, "whatever"])
+
+		expect(result.statusCode).toBe(409)
+		expect_character_to_be_unchanged()
 	})
 })
 
-const PROPERTY_ORDER_ALIGNMENT = "order_alignment"
-const CHARACTER_ORDER_ALIGNMENT = "charity"
+const PROPERTY = "order_alignment"
+const VALUE = TEST_ORDER_ALIGNMENTS[1].code

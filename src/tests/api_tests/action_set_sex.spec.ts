@@ -1,12 +1,12 @@
-import { TEST_CHAOS_ALIGNMENTS } from "../web_tests/character_sheet_reducer/utils/collections"
+import { SEXES } from "@web/components/character_sheet/bio/Constants"
 import {
 	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
 	update_character
 } from "./utils"
 
-describe("set_value chaos_alignment should", () => {
-	it("change the chaos alignment of the character", async () => {
+describe("set_value sex should", () => {
+	it("change the sex of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result.statusCode).toBe(200)
@@ -20,7 +20,7 @@ describe("set_value chaos_alignment should", () => {
 		expect_character_to_have_attribute_set({ [PROPERTY]: null })
 	})
 
-	it("accept only predefined archetypes", async () => {
+	it("accept only predefined sexes", async () => {
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
 		expect(result.statusCode).toBe(409)
@@ -28,5 +28,7 @@ describe("set_value chaos_alignment should", () => {
 	})
 })
 
-const PROPERTY = "chaos_alignment"
-const VALUE = TEST_CHAOS_ALIGNMENTS[1].code
+const PROPERTY = "sex"
+const VALUE = SEXES[1].code
+
+//TODO P2 Clean data from character page, since it is mostly unnecesary, primarily on render

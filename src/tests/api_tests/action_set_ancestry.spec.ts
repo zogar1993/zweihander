@@ -16,7 +16,7 @@ describe("set_value ancestry should", () => {
 	it("accept only predefined ancestries", async () => {
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
-		expect(result.statusCode).toBe(400)
+		expect(result.statusCode).toBe(409)
 		expect_character_to_be_unchanged()
 	})
 
