@@ -1,6 +1,7 @@
 import {
 	expect_character_to_be_unchanged,
 	expect_character_to_have_attribute_set,
+	expect_character_to_have_changed,
 	the_saved_character_has,
 	update_character
 } from "@tests/api_tests/utils"
@@ -35,6 +36,25 @@ describe("set_value profession1 should", () => {
 		])
 
 		expect(result.statusCode).toBe(409)
+		expect_character_to_be_unchanged()
+	})
+
+	it("may be sent alongside its archetype", async () => {
+		const result = await update_character(
+			["set_value", PROPERTY, VALUE],
+			["set_value", "archetype", ARCHETYPE.code]
+		)
+
+		expect(result.statusCode).toBe(200)
+		expect_character_to_have_changed({
+			set: { [PROPERTY]: VALUE, archetype: ARCHETYPE.code }
+		})
+	})
+
+	it("accept only strings", async () => {
+		const result = await update_character(["set_value", PROPERTY, 1])
+
+		expect(result.statusCode).toBe(400)
 		expect_character_to_be_unchanged()
 	})
 })

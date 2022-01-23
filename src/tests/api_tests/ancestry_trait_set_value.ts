@@ -46,6 +46,13 @@ describe("set_value ancestry should", () => {
 		expect(result.statusCode).toBe(409)
 		expect_character_to_be_unchanged()
 	})
+
+	it("accept only strings", async () => {
+		const result = await update_character(["set_value", PROPERTY, 1])
+
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
+	})
 })
 
 const ANCESTRY = TEST_ANCESTRIES[1]

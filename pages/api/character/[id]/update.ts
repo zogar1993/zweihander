@@ -53,7 +53,7 @@ export default async function handler(
 			} else throw e
 		}
 	}
-
+	console.log(client_errors)
 	if (server_errors.length > 0) return res.status(500).json(server_errors)
 	if (client_errors.length > 0) return res.status(400).json(client_errors)
 
@@ -104,47 +104,58 @@ const ENDPOINTS: Array<Endpoint> = [
 	},
 	{
 		regex: /^ancestry_trait$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^name$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: false } }
 	},
 	{
 		regex: /^sex$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^archetype$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^order_alignment$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^chaos_alignment$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^profession1$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^profession2$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^profession3$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^social_class$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^upbringing$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^corruption$/,
@@ -199,11 +210,13 @@ const ENDPOINTS: Array<Endpoint> = [
 	},
 	{
 		regex: /^avatar$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	},
 	{
 		regex: /^thumbnail/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: true } }
 	}
 ]
 
@@ -276,6 +289,12 @@ async function getActionResult(action: UpdateAction) {
 				if (Number.isInteger(max) && value > max!)
 					throw ["client", action, `max is ${max}`]
 			}
+		} else if (validations.string) {
+			const { nullable } = validations.string
+			if (action.value === null) {
+				if (!nullable) throw ["client", action, "must not be null"]
+			} else if (typeof action.value !== "string")
+				throw ["client", action, "must be a string"]
 		}
 	}
 
