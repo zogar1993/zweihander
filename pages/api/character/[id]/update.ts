@@ -3,10 +3,12 @@ import getAncestries from "@core/actions/GetAncestries"
 import getArchetypes from "@core/actions/GetArchetypes"
 import getChaosAlignments from "@core/actions/GetChaosAlignments"
 import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
+import getMagicSchools from "@core/actions/GetMagicSchools"
 import getOrderAlignments from "@core/actions/GetOrderAlignments"
 import getProfessions from "@core/actions/GetProfessions"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { getByCode } from "@core/domain/general/GetByCode"
 import { hasByCode } from "@core/domain/general/HasByCode"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
@@ -53,14 +55,20 @@ export default async function handler(
 			} else throw e
 		}
 	}
-	console.log(client_errors)
+
 	if (server_errors.length > 0) return res.status(500).json(server_errors)
 	if (client_errors.length > 0) return res.status(400).json(client_errors)
 
 	const character = await getCharacterSheetOfId(id)
-	const changed = applyActionsToCharacter(character, actions)
+	let changed
+	try {
+		changed = applyActionsToCharacter(character, actions)
+	} catch (e) {
+		//TODO P3 this may be a tad to generic
+		return res.status(409).json("failed to apply actions to character")
+	}
 	const conflict_errors = await validateModel(changed)
-
+	console.log(conflict_errors)
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
 	await updateCharacter(id, flattenResults(results))
@@ -192,21 +200,24 @@ const ENDPOINTS: Array<Endpoint> = [
 	{
 		regex: new RegExp(`^talents$`),
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
-		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT
+		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
+		validations: { array_strings: {} }
 	},
 	{
 		regex: new RegExp(`^focuses.${regexCodes(SKILL_DEFINITIONS)}$`),
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
 		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
-		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT
+		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT,
+		validations: { array_strings: {} }
 	},
 	{
 		regex: new RegExp(`^spells.*$`), //TODO DOING use schools
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
 		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
-		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT
+		delete_property: SIMPLE_DELETE_PROPERTY_ENDPOINT,
+		validations: { array_strings: {} }
 	},
 	{
 		regex: /^avatar$/,
@@ -235,6 +246,7 @@ export type Endpoint = {
 			max?: number
 		}
 		string?: { nullable?: boolean }
+		array_strings?: {}
 	}
 }
 
@@ -295,6 +307,21 @@ async function getActionResult(action: UpdateAction) {
 				if (!nullable) throw ["client", action, "must not be null"]
 			} else if (typeof action.value !== "string")
 				throw ["client", action, "must be a string"]
+		} else if (validations.array_strings) {
+			switch (action.action) {
+				case "set_value":
+					if (
+						!Array.isArray(action.value) ||
+						!action.value.every(x => typeof x === "string")
+					)
+						throw ["client", action, "must be an array of strings"]
+					break
+				case "add_to_array":
+				case "remove_from_array":
+					if (typeof action.value !== "string")
+						throw ["client", action, "must be a string"]
+					break
+			}
 		}
 	}
 
@@ -309,6 +336,7 @@ async function validateModel(character: SanitizedCharacterSheet) {
 	const professions = await getProfessions()
 	const chaos_aligments = await getChaosAlignments()
 	const order_aligments = await getOrderAlignments()
+	const schools = await getMagicSchools()
 	const ancestry_traits =
 		character.ancestry === null
 			? []
@@ -322,6 +350,26 @@ async function validateModel(character: SanitizedCharacterSheet) {
 					?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
 
 	return [
+		verifyNoDuplicateValues("talents", character),
+		...Object.keys(character.spells).flatMap(school => {
+			const school_errors = verifyIsWithin(school, schools, `spells.${school}`)
+			return [
+				school_errors.length
+					? school_errors
+					: character["spells"][school]!.flatMap(spell =>
+							verifyIsWithin(
+								spell,
+								//TODO P3 this seems a little redundant
+								getByCode(school, schools).spells,
+								`spells.${school}`
+							)
+					  ),
+				verifyNoDuplicateValues(`spells.${school}` as any, character)
+			]
+		}),
+		...Object.keys(character.focuses).map((x: any) =>
+			verifyNoDuplicateValues(`focuses.${x}` as any, character)
+		),
 		verifyDependencyIsNotNull("ancestry_trait", "ancestry", character),
 		verifyDependencyIsNotNull("profession1", "archetype", character),
 		verifyDependencyIsNotNull("profession2", "profession1", character),
@@ -338,6 +386,18 @@ async function validateModel(character: SanitizedCharacterSheet) {
 		verifyIsNullOrWithin("upbringing", UPBRINGINGS, character),
 		verifyIsNullOrWithin("sex", SEXES, character)
 	].flatMap(x => x)
+}
+
+function verifyNoDuplicateValues(
+	property: keyof SanitizedCharacterSheet,
+	character: SanitizedCharacterSheet
+) {
+	const parts = property.split(".")
+	const array = getDeepPropertyValue(parts, character) as Array<string>
+	const set = new Set(array)
+	if (array.length !== set.size)
+		return [`cannot set a duplicate value into ${property}`]
+	return []
 }
 
 function verifyDependencyIsNotNull(
@@ -360,4 +420,20 @@ function verifyIsNullOrWithin(
 		if (!hasByCode(character[property] as string, collection))
 			return [`'${character[property]}' is not a valid ${property}`]
 	return []
+}
+
+function verifyIsWithin(
+	value: string,
+	collection: Array<{ code: string }>,
+	prop: string
+) {
+	if (!hasByCode(value as string, collection))
+		return [`'${value}' is not a valid ${prop}`]
+	return []
+}
+
+function getDeepPropertyValue(parts: Array<string>, obj: any): any {
+	return parts.length === 1
+		? obj[parts[0]]
+		: getDeepPropertyValue(parts.slice(1), obj[parts[0]])
 }

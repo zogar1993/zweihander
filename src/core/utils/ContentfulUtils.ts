@@ -37,7 +37,7 @@ const usify = (data: any) => {
 	return result
 }
 
-//TODO P2 make this tidier
+//TODO P2 make this tidier and avoid race condition
 let _client: ContentfulClientApi | null = null
 const client = () => {
 	if (_client) return _client

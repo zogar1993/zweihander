@@ -1,4 +1,4 @@
-import handler, { UpdateAction } from "@api/character/[id]/update"
+import handler from "@api/character/[id]/update"
 import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet
@@ -11,6 +11,7 @@ import {
 	TEST_ANCESTRIES,
 	TEST_ARCHETYPES,
 	TEST_CHAOS_ALIGNMENTS,
+	TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
 	TEST_PROFESSIONS
 } from "../../web_tests/character_sheet_reducer/utils/collections"
@@ -28,6 +29,7 @@ permamock("@core/actions/GetProfessions", TEST_PROFESSIONS)
 permamock("@core/actions/GetArchetypes", TEST_ARCHETYPES)
 permamock("@core/actions/GetOrderAlignments", TEST_ORDER_ALIGNMENTS)
 permamock("@core/actions/GetChaosAlignments", TEST_CHAOS_ALIGNMENTS)
+permamock("@core/actions/GetMagicSchools", TEST_MAGIC_SCHOOLS)
 
 getCharacterSheetOfId.mockReturnValue(Promise.resolve(DEFAULT_CHARACTER_SHEET))
 
@@ -84,16 +86,6 @@ export async function update_character(...body: Array<UpdateActionBlock>) {
 	)
 
 	return result
-}
-
-export function character_sheet_request(body: Array<UpdateAction>) {
-	return {
-		method: "POST",
-		query: {
-			id: CHARACTER_ID
-		},
-		body: JSON.stringify(body)
-	} as unknown as NextApiRequest
 }
 
 export function expect_character_to_have_attribute_set(

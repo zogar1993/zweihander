@@ -18,4 +18,4 @@ describe("delete_property spell should", () => {
 
 const SCHOOL = TEST_MAGIC_SCHOOLS[1]
 const PROPERTY = `spells.${SCHOOL.code}`
-const IRRELEVANT_VALUE = "irrelevant"
+const IRRELEVANT_VALUE = SCHOOL.spells[4].code
