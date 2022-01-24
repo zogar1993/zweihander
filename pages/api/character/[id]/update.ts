@@ -12,6 +12,7 @@ import { getByCode } from "@core/domain/general/GetByCode"
 import { hasByCode } from "@core/domain/general/HasByCode"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
+import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 import updateCharacter, {
 	UpdateCharacterProps
 } from "@core/utils/UpdateCharacter"
@@ -64,11 +65,10 @@ export default async function handler(
 	try {
 		changed = applyActionsToCharacter(character, actions)
 	} catch (e) {
-		//TODO P3 this may be a tad to generic
+		//TODO P3 this may be a tad too generic
 		return res.status(409).json("failed to apply actions to character")
 	}
 	const conflict_errors = await validateModel(changed)
-	console.log(conflict_errors)
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
 	await updateCharacter(id, flattenResults(results))
@@ -212,7 +212,7 @@ const ENDPOINTS: Array<Endpoint> = [
 		validations: { array_strings: {} }
 	},
 	{
-		regex: new RegExp(`^spells.*$`), //TODO DOING use schools
+		regex: new RegExp(`^spells.*$`),
 		add_to_array: SIMPLE_ADD_TO_ARRAY_ENDPOINT,
 		remove_from_array: SIMPLE_REMOVE_FROM_ARRAY_ENDPOINT,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
@@ -430,10 +430,4 @@ function verifyIsWithin(
 	if (!hasByCode(value as string, collection))
 		return [`'${value}' is not a valid ${prop}`]
 	return []
-}
-
-function getDeepPropertyValue(parts: Array<string>, obj: any): any {
-	return parts.length === 1
-		? obj[parts[0]]
-		: getDeepPropertyValue(parts.slice(1), obj[parts[0]])
 }

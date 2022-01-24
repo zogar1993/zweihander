@@ -4,7 +4,7 @@ import sanitizeCharacterSheet, {
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import {
 	BoundFunctions,
-	fireEvent,
+	fireEvent, getByText,
 	queries,
 	render,
 	screen,
@@ -137,4 +137,8 @@ export async function update_character_api_was_called_with_2(
 	await waitFor(() => expect(calls.length).toBe(1))
 	expect(calls[0][0]).toBe(CHARACTER_ID)
 	expect(calls[0][1]).toStrictEqual(actions)
+}
+
+export async function then_tag_exists(text: string) {
+	screen.getByText(text)
 }

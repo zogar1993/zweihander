@@ -1,4 +1,6 @@
+import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { getByCode } from "@core/domain/general/GetByCode"
+import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
 	SEXES,
 	SOCIAL_CLASSES,
@@ -8,20 +10,22 @@ import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
 	TEST_ARCHETYPES,
 	TEST_CHAOS_ALIGNMENTS,
+	TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
-	TEST_PROFESSIONS
+	TEST_PROFESSIONS,
+	TEST_TALENTS
 } from "./utils/collections"
 import {
 	click_menu_item,
 	render_character_sheet,
 	then_dots_is_checked_on,
 	then_number_input_has_a_value_of,
+	then_tag_exists,
 	then_textbox_has_a_value_of
 } from "./utils/utils"
 
 describe("Character Sheet Screen should", () => {
 	it("show character values on load", async () => {
-		//TODO DOING lacks some properties and empty scenario
 		await render_character_sheet(A_CHARACTER_SHEET)
 
 		await then_textbox_has_a_value_of("Name", NAME)
@@ -35,10 +39,53 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name)
 		await then_textbox_has_a_value_of("Chaos Alignment", CHAOS_ALIGNMENT.name)
 		await then_textbox_has_a_value_of("Order Alignment", ORDER_ALIGNMENT.name)
+		await then_dots_is_checked_on(`${SKILL.name} Ranks`, SKILL_RANKS)
+		await then_dots_is_checked_on(
+			`${ATTRIBUTE.name} Advances`,
+			ATTRIBUTE_ADVANCES
+		)
+		await then_number_input_has_a_value_of(
+			`${ATTRIBUTE.name} Base`,
+			ATTRIBUTE_BASE
+		)
 		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
 		await then_dots_is_checked_on("Chaos Ranks", CHAOS_RANKS)
 		await then_dots_is_checked_on("Order Ranks", ORDER_RANKS)
 		await then_number_input_has_a_value_of("Corruption", CORRUPTION)
+		await click_menu_item(ACCORDION_ITEM.TALENTS)
+		await then_tag_exists(TALENT_1.name)
+		await then_tag_exists(TALENT_2.name)
+		await click_menu_item(ACCORDION_ITEM.FOCUSES)
+		await then_tag_exists(FOCUS_1)
+		await then_tag_exists(FOCUS_2)
+		await then_tag_exists(FOCUS_3)
+		await click_menu_item(ACCORDION_ITEM.SPELLS)
+		await then_tag_exists(SPELL_1.name)
+		await then_tag_exists(SPELL_2.name)
+		await then_tag_exists(SPELL_3.name)
+	})
+
+	it("show correct defaults for an empty character sheet", async () => {
+		await render_character_sheet({})
+
+		await then_textbox_has_a_value_of("Name", "")
+		//await then_number_input_has_a_value_of("Age", 0)
+		await then_textbox_has_a_value_of("Sex", "")
+		await then_textbox_has_a_value_of("Social Class", "")
+		await then_textbox_has_a_value_of("Upbringing", "")
+		await then_textbox_has_a_value_of("Archetype", "")
+		await then_textbox_has_a_value_of("Profession 1", "")
+		await then_textbox_has_a_value_of("Profession 2", "")
+		await then_textbox_has_a_value_of("Profession 3", "")
+		await then_textbox_has_a_value_of("Chaos Alignment", "")
+		await then_textbox_has_a_value_of("Order Alignment", "")
+		//await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
+		//await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
+		await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
+		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
+		//await then_dots_is_checked_on("Chaos Ranks", 0)
+		//await then_dots_is_checked_on("Order Ranks", 0)
+		//await then_number_input_has_a_value_of("Corruption", 0)
 	})
 })
 
@@ -60,6 +107,24 @@ const CHAOS_RANKS = 6
 const ORDER_RANKS = 2
 const CORRUPTION = 7
 
+const TALENT_1 = TEST_TALENTS[1]
+const TALENT_2 = TEST_TALENTS[2]
+const SCHOOL_1 = TEST_MAGIC_SCHOOLS[1]
+const SCHOOL_2 = TEST_MAGIC_SCHOOLS[2]
+const SPELL_1 = SCHOOL_1.spells[1]
+const SPELL_2 = SCHOOL_1.spells[2]
+const SPELL_3 = SCHOOL_2.spells[1]
+const FOCUS_SKILL_1 = SKILL_DEFINITIONS[1]
+const FOCUS_SKILL_2 = SKILL_DEFINITIONS[2]
+const FOCUS_1 = "focus 1"
+const FOCUS_2 = "focus 2"
+const FOCUS_3 = "focus 3"
+const SKILL = SKILL_DEFINITIONS[1]
+const ATTRIBUTE = ATTRIBUTE_DEFINITIONS[1]
+const ATTRIBUTE_BASE = 47
+const ATTRIBUTE_ADVANCES = 2
+const SKILL_RANKS = 1
+
 const A_CHARACTER_SHEET = {
 	name: NAME,
 	age: AGE,
@@ -74,5 +139,20 @@ const A_CHARACTER_SHEET = {
 	order_alignment: ORDER_ALIGNMENT.code,
 	chaos_ranks: CHAOS_RANKS,
 	order_ranks: ORDER_RANKS,
-	corruption: CORRUPTION
+	corruption: CORRUPTION,
+	talents: [TALENT_1.code, TALENT_2.code],
+	focuses: {
+		[FOCUS_SKILL_1.code]: [FOCUS_1, FOCUS_2],
+		[FOCUS_SKILL_2.code]: [FOCUS_3]
+	},
+	spells: {
+		[SCHOOL_1.code]: [SPELL_1.code, SPELL_2.code],
+		[SCHOOL_2.code]: [SPELL_3.code]
+	},
+	attributes: {
+		[ATTRIBUTE.code]: { base: ATTRIBUTE_BASE, advances: ATTRIBUTE_ADVANCES }
+	},
+	skills: {
+		[SKILL.code]: { ranks: SKILL_RANKS }
+	}
 }

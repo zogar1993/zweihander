@@ -1,8 +1,9 @@
-import getAlignments from "@core/actions/GetAlignments"
 import getAncestries from "@core/actions/GetAncestries"
 import getArchetypes from "@core/actions/GetArchetypes"
+import getChaosAlignments from "@core/actions/GetChaosAlignments"
 import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import getMagicSchools from "@core/actions/GetMagicSchools"
+import getOrderAlignments from "@core/actions/GetOrderAlignments"
 import getProfessions from "@core/actions/GetProfessions"
 import getTalents from "@core/actions/GetTalents"
 import CharacterSheetScreen, {
@@ -22,7 +23,8 @@ export async function getServerSideProps({
 	const professions = await getProfessions()
 	const schools = await getMagicSchools()
 	const archetypes = await getArchetypes()
-	const alignments = await getAlignments()
+	const orderAlignments = await getOrderAlignments()
+	const chaosAlignments = await getChaosAlignments()
 	const character = await getCharacterSheetOfId(characterId)
 	return {
 		props: {
@@ -32,8 +34,8 @@ export async function getServerSideProps({
 			professions,
 			schools,
 			archetypes,
-			orderAlignments: alignments.filter(x => x.type === "order"),
-			chaosAlignments: alignments.filter(x => x.type === "chaos")
+			orderAlignments,
+			chaosAlignments
 		}
 	}
 }

@@ -40,18 +40,21 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 	res.status(200)
 }
 
-//TODO P1 visual glitch on css first paint
-//TODO P1 Handle responses for failures
-//TODO P1 how to be atomic on mongodb
-//TODO P1 add authentication
-//TODO P1 add undo redo
-//TODO P1 add trackers
-//TODO P1 add journal
-//TODO P1 add settings
-//TODO P2 config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
-//TODO P2 do skeleton for characters
-//TODO P0 finish first release character sheet styling
 //TODO P0 style misc accordion
+//TODO P0 finish first release character sheet styling
+//TODO P0 fix tags to be removed in real time (they work on refresh)
+//TODO P1 add settings
+//TODO P1 add journal
+//TODO P1 add trackers
+//TODO P1 do skeleton for characters
+//TODO P1 visual glitch on css first paint
+//TODO P1 talents with ' have a bad name (like Arbalest'S Speed)
+//TODO P2 Handle responses for failures
+//TODO P2 add undo redo
+//TODO P2 add authentication
+//TODO P3 how to be atomic on mongodb
+//TODO P4 config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
+//TODO P3 Remove used options from tag inputs
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
 	const { id } = req.query

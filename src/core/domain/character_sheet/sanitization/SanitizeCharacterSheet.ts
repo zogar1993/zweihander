@@ -16,7 +16,7 @@ export default function sanitizeCharacterSheet(
 	return {
 		id: raw.id!,
 		name: raw.name || "",
-		age: raw.age || 30,
+		age: raw.age || 0,
 		sex: raw.sex || null,
 		social_class: raw.social_class || null,
 		upbringing: raw.upbringing || null,
