@@ -5,7 +5,10 @@ import { PageTitle } from "@web/components/general/PageTitle"
 import SpellCards from "@web/components/magic/SpellCards"
 import React from "react"
 
-export default function ({ source, school }: {
+export default function MagicSourceWithOneSchoolScreen({
+	source,
+	school
+}: {
 	source: MagicSource
 	school: MagicSchool
 }) {
