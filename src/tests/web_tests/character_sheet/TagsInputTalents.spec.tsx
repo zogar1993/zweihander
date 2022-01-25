@@ -1,4 +1,3 @@
-import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { fireEvent } from "@testing-library/react"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import { TEST_TALENTS } from "./utils/collections"

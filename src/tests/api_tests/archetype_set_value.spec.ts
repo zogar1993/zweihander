@@ -3,7 +3,7 @@ import {
 	expect_character_to_have_attribute_set,
 	update_character
 } from "@tests/api_tests/utils"
-import { TEST_ARCHETYPES } from "../web_tests/character_sheet_reducer/utils/collections"
+import { TEST_ARCHETYPES } from "../web_tests/character_sheet/utils/collections"
 
 describe("set_value archetype should", () => {
 	it("change the archetype of the character", async () => {

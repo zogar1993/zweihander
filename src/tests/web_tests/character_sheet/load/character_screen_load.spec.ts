@@ -2,19 +2,13 @@ import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITI
 import { getByCode } from "@core/domain/general/GetByCode"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
-	SEXES,
-	SOCIAL_CLASSES,
-	UPBRINGINGS
-} from "@web/components/character_sheet/bio/Constants"
-import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
-import {
 	TEST_ARCHETYPES,
 	TEST_CHAOS_ALIGNMENTS,
 	TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
 	TEST_PROFESSIONS,
 	TEST_TALENTS
-} from "./utils/collections"
+} from "@tests/web_tests/character_sheet/utils/collections"
 import {
 	click_menu_item,
 	render_character_sheet,
@@ -22,7 +16,13 @@ import {
 	then_number_input_has_a_value_of,
 	then_tag_exists,
 	then_textbox_has_a_value_of
-} from "./utils/utils"
+} from "@tests/web_tests/character_sheet/utils/utils"
+import {
+	SEXES,
+	SOCIAL_CLASSES,
+	UPBRINGINGS
+} from "@web/components/character_sheet/bio/Constants"
+import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 describe("Character Sheet Screen should", () => {
 	it("show character values on load", async () => {

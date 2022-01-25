@@ -4,7 +4,7 @@ import {
 	the_saved_character_has,
 	update_character
 } from "@tests/api_tests/utils"
-import { TEST_ANCESTRIES } from "../web_tests/character_sheet_reducer/utils/collections"
+import { TEST_ANCESTRIES } from "../web_tests/character_sheet/utils/collections"
 
 describe("set_value ancestry should", () => {
 	it("change the ancestry trait of the character", async () => {

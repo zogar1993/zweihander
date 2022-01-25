@@ -14,8 +14,8 @@ import {
 	TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
 	TEST_PROFESSIONS
-} from "../../web_tests/character_sheet_reducer/utils/collections"
-import { DEFAULT_CHARACTER_SHEET } from "../../web_tests/character_sheet_reducer/utils/utils"
+} from "../../web_tests/character_sheet/utils/collections"
+import { DEFAULT_CHARACTER_SHEET } from "../../web_tests/character_sheet/utils/utils"
 import { permamock } from "./Permamock"
 
 export const updateCharacterSpy = jest.spyOn(UpdateCharacter, "default")

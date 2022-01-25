@@ -3,7 +3,7 @@ import {
 	expect_character_to_have_attribute_set,
 	update_character
 } from "@tests/api_tests/utils"
-import { TEST_MAGIC_SCHOOLS } from "@tests/web_tests/character_sheet_reducer/utils/collections"
+import { TEST_MAGIC_SCHOOLS } from "@tests/web_tests/character_sheet/utils/collections"
 
 describe("add_to_array spell should", () => {
 	it("set_value spell to the character", async () => {

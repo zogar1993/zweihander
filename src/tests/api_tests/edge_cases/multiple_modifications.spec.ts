@@ -2,7 +2,7 @@ import {
 	expect_character_to_have_changed,
 	update_character
 } from "@tests/api_tests/utils"
-import { TEST_MAGIC_SCHOOLS } from "@tests/web_tests/character_sheet_reducer/utils/collections"
+import { TEST_MAGIC_SCHOOLS } from "@tests/web_tests/character_sheet/utils/collections"
 
 describe("Character Update API should", () => {
 	it("when sending multiple actions, apply them all", async () => {

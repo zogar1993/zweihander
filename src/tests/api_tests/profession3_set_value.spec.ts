@@ -7,7 +7,7 @@ import {
 import {
 	TEST_ARCHETYPES,
 	TEST_PROFESSIONS
-} from "../web_tests/character_sheet_reducer/utils/collections"
+} from "../web_tests/character_sheet/utils/collections"
 
 describe("set_value profession3 should", () => {
 	it("change the third profession of the character", async () => {
