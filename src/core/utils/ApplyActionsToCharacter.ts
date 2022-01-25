@@ -20,7 +20,7 @@ export default function applyActionsToCharacter(
 				const array = container[last_part]
 				if (!Array.isArray(array))
 					throw Error(`'${JSON.stringify(array)}' is not an array`)
-				container[last_part] = array.filter((x, i) => i !== value)
+				container[last_part] = array.filter(x => x !== value)
 				break
 			}
 			case "add_to_array": {

@@ -1,4 +1,5 @@
 import { Item } from "@core/domain/Item"
+import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
@@ -10,8 +11,8 @@ export default function RemovableItems({
 		<>
 			{items.map(item => {
 				return (
-					<React.Fragment key={item.code}>
-						<span>{item.name}</span>
+					<TagGroup key={item.code}>
+						<TagGroupName>{item.name}</TagGroupName>
 						<TagContainer>
 							{item.items.map(sub => (
 								<Tag
@@ -22,7 +23,7 @@ export default function RemovableItems({
 								</Tag>
 							))}
 						</TagContainer>
-					</React.Fragment>
+					</TagGroup>
 				)
 			})}
 		</>
@@ -34,9 +35,20 @@ type RemovableItemsProps = {
 	removeItem: (params: { item: string; key: string }) => void
 }
 
+const TagGroup = styled.div`
+	display: flex;
+	flex-direction: column;
+`
+
+const TagGroupName = styled.span`
+	font-size: 26px;
+	font-family: ${theme.fonts.stylish};
+	text-align: center;
+`
+
 const TagContainer = styled.span`
-  display: flex;
-  flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
 `
 
 const Tag = styled.span`

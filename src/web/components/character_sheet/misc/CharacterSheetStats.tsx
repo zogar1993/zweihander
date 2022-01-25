@@ -6,13 +6,13 @@ import styled from "styled-components"
 export default function CharacterSheetStats() {
 	const { character } = useCharacterSheetState()
 	return (
-		<Grid columns={3}>
-			<BoxedNumber name="Enc. Limit" value={character.encumbrance_limit} />
+		<Grid columns={2}>
 			<BoxedNumber name="Initiative" value={character.initiative} />
 			<BoxedNumber name="Movement" value={character.movement} />
-			<BoxedNumber name="Experience" value={character.spent_experience} />
 			<BoxedNumber name="Max. Focuses" value={character.maximum_focuses} />
 			<BoxedNumber name="Max. Langs." value={character.maximum_languages} />
+			<BoxedNumber name="Enc. Limit" value={character.encumbrance_limit} />
+			<BoxedNumber name="Experience" value={character.spent_experience} />
 		</Grid>
 	)
 }
@@ -29,4 +29,5 @@ const BoxedNumber = ({ name, value }: { name: string; value: number }) => {
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 `
