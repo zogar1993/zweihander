@@ -52,8 +52,8 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 //TODO P3 how to be atomic on mongodb
 //TODO P3 Remove used options from tag inputs
 //TODO P3 add ancestries vectors to menu
-//TODO P3 check that SWR is used correctly
-//TODO P4 config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
+//TODO P4 check that SWR is used correctly
+//TODO P4 check this works correctly https://github.com/vercel/next.js/issues/30802
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
 	const { id } = req.query
