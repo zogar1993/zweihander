@@ -41,7 +41,6 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 }
 
 //TODO P0 style misc accordion
-//TODO P0 finish first release character sheet styling
 //TODO P1 add settings
 //TODO P1 add journal
 //TODO P1 add trackers
