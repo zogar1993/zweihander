@@ -62,6 +62,10 @@ const AttributesSection = styled.div`
 	justify-content: space-evenly;
 	align-items: center;
 	gap: ${theme.spacing.separation};
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 
 const Attribute = styled.div`
