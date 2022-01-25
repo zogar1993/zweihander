@@ -9,7 +9,7 @@ describe("set_value name should", () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result.statusCode).toBe(200)
-		expect_character_to_have_attribute_set({ name: VALUE })
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
 	it("accept only strings", async () => {

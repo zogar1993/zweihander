@@ -141,8 +141,11 @@ export async function update_character_api_was_called_with_2(
 	expect(calls[0][1]).toStrictEqual(actions)
 }
 
-export async function then_tag_exists(text: string) {
-	screen.getByText(text)
+export async function then_tag_exists(
+	text: string,
+	functions: BoundFunctions<typeof queries> = screen
+) {
+	functions.getByText(text)
 }
 
 export async function press_ctrl_z() {

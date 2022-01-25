@@ -121,6 +121,11 @@ const ENDPOINTS: Array<Endpoint> = [
 		validations: { string: { nullable: false } }
 	},
 	{
+		regex: /^journal$/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: false } }
+	},
+	{
 		regex: /^sex$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
 		validations: { string: { nullable: true } }

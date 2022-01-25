@@ -5,4 +5,5 @@ export const ACCORDION_ITEM = Object.freeze({
 	SPELLS: "Spells",
 	FOCUSES: "Focuses",
 	SPECIAL_RULES: "Special Rules",
+	JOURNAL: "Journal",
 })

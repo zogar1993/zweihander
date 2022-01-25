@@ -41,9 +41,7 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 }
 
 //TODO P1 add settings
-//TODO P1 add journal
 //TODO P1 add trackers
-//TODO P1 add special rules
 //TODO P1 do skeleton for characters
 //TODO P1 visual glitch on css first paint
 //TODO P1 talents with ' have a bad name (like Arbalest'S Speed)
@@ -54,6 +52,7 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 //TODO P3 how to be atomic on mongodb
 //TODO P3 Remove used options from tag inputs
 //TODO P3 add ancestries vectors to menu
+//TODO P3 check that SWR is used correctly
 //TODO P4 config SWC to replace Babel https://github.com/ixartz/Next-js-Boilerplate/issues/20
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
