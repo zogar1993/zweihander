@@ -1,6 +1,7 @@
 import Accordion from "@web/components/Accordion"
 import CharacterSheetAlignment from "@web/components/character_sheet/misc/CharacterSheetAlignment"
 import CharacterSheetFocuses from "@web/components/character_sheet/misc/CharacterSheetFocuses"
+import CharacterSheetSpecialRules from "@web/components/character_sheet/misc/CharacterSheetSpecialRules"
 import CharacterSheetSpells from "@web/components/character_sheet/misc/CharacterSheetSpells"
 import CharacterSheetStats from "@web/components/character_sheet/misc/CharacterSheetStats"
 import CharacterSheetTalents from "@web/components/character_sheet/misc/CharacterSheetTalents"
@@ -30,6 +31,10 @@ export default function CharacterSheetMisc() {
 				{
 					name: ACCORDION_ITEM.SPELLS,
 					content: <CharacterSheetSpells />
+				},
+				{
+					name: ACCORDION_ITEM.SPECIAL_RULES,
+					content: <CharacterSheetSpecialRules />
 				}
 			]}
 		/>

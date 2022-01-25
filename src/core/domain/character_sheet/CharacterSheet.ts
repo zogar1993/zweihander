@@ -470,6 +470,7 @@ export type SpecialRule = {
 	effect: string
 }
 
+//TODO change tags for spell descriptions
 function formatSpells(
 	spells: CharacterSpells,
 	schools: Array<MagicSchool>

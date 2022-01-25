@@ -22,11 +22,6 @@ export default function CharacterSheetBio() {
 	const dispatch = useCharacterSheetDispatcher()
 	return (
 		<Bio>
-			<Field
-				label="Name"
-				value={character.name}
-				onBlur={value => dispatch({ type: ActionType.SetName, payload: value })}
-			/>
 			<AvatarContainer>
 				<Avatar
 					src={character.avatar || "/character/bandit.png"}
@@ -40,23 +35,30 @@ export default function CharacterSheetBio() {
 				/>
 				<FlexColumn>
 					<Field
-						type="number"
-						label="Age"
-						value={character.age}
-						min={0}
-						onBlur={value =>
-							dispatch({ type: ActionType.SetAge, payload: value })
-						}
+						label="Name"
+						value={character.name}
+						onBlur={value => dispatch({ type: ActionType.SetName, payload: value })}
 					/>
-					<Field
-						type="combobox"
-						label="Sex"
-						options={SEXES}
-						value={character.sex}
-						onChange={value =>
-							dispatch({ type: ActionType.SetSex, payload: value })
-						}
-					/>
+					<SexAgeContainer>
+						<Field
+							type="combobox"
+							label="Sex"
+							options={SEXES}
+							value={character.sex}
+							onChange={value =>
+								dispatch({ type: ActionType.SetSex, payload: value })
+							}
+						/>
+						<Field
+							type="number"
+							label="Age"
+							value={character.age}
+							min={0}
+							onBlur={value =>
+								dispatch({ type: ActionType.SetAge, payload: value })
+							}
+						/>
+					</SexAgeContainer>
 					<Field
 						type="combobox"
 						label="Social Class"
@@ -103,13 +105,19 @@ export default function CharacterSheetBio() {
 
 const AvatarContainer = styled.div`
 	display: grid;
-	grid-template-columns: 143px 1fr;
+	grid-template-columns: 1fr 1fr;
 	gap: ${theme.spacing.separation};
 `
 
 const FlexColumn = styled.div`
 	display: flex;
 	flex-direction: column;
+	gap: ${theme.spacing.separation};
+`
+
+const SexAgeContainer = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 40px;
 	gap: ${theme.spacing.separation};
 `
 

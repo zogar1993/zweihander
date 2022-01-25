@@ -27,10 +27,10 @@ const SkillsSection = styled.div`
 	grid-area: skills;
 	display: grid;
 	gap: ${theme.spacing.separation};
-	grid-template-columns: 1fr;
+	grid-template-columns: 1fr 1fr;
 
 	@media (max-width: 768px) {
-		flex-direction: column;
+    grid-template-columns: 1fr;
 	}
 `
 

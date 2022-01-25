@@ -4,11 +4,14 @@ import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
-export default function SpecialRuleCard({ trait }: { trait: Trait }) {
+export default function SpecialRuleCard({
+	trait,
+	hideDescription
+}: SpecialRuleCardProps) {
 	return (
 		<TraitBox>
 			<CardTitle>{trait.name}</CardTitle>
-			<Description>{trait.description}</Description>
+			{hideDescription || <Description>{trait.description}</Description>}
 			<PropertyList>
 				<Property name="Effect">{trait.effect}</Property>
 			</PropertyList>
@@ -71,3 +74,5 @@ type PropertyProps = {
 	name: string
 	children: string
 }
+
+type SpecialRuleCardProps = { trait: Trait; hideDescription?: boolean }

@@ -21,7 +21,7 @@ export default function CharacterSheetSpells() {
 	}, [schools, school])
 
 	return (
-		<div>
+		<>
 			<Field
 				label="School"
 				type="combobox"
@@ -53,6 +53,6 @@ export default function CharacterSheetSpells() {
 					})
 				}
 			/>
-		</div>
+		</>
 	)
 }

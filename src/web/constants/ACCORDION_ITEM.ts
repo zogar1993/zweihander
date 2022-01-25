@@ -3,5 +3,6 @@ export const ACCORDION_ITEM = Object.freeze({
 	TALENTS: "Talents",
 	STATS: "Stats",
 	SPELLS: "Spells",
-	FOCUSES: "Focuses"
+	FOCUSES: "Focuses",
+	SPECIAL_RULES: "Special Rules",
 })

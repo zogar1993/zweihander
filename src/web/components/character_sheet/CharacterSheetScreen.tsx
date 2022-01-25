@@ -41,31 +41,30 @@ export default function CharacterSheetScreen(props: CharacterSheetScreenProps) {
 		</CharacterSheetContext.Provider>
 	)
 }
-
-export const BLOCK_WIDTH = "255px"
+export const BLOCK_WIDTH = "276px"
 export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
 
 const Layout = styled.div`
-  display: grid;
-  width: ${DESKTOP_MAX_WIDTH};
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 87px 395px;
-  gap: ${theme.spacing.separation};
-  grid-template-areas:
+	display: grid;
+	width: ${DESKTOP_MAX_WIDTH};
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: 87px 395px;
+	gap: ${theme.spacing.separation};
+	grid-template-areas:
 		"bio attributes attributes attributes"
 		"bio skills skills misc";
 
-  @media (max-width: 768px) {
-    grid-template-columns: minmax(0, 1fr);
-    width: 100%;
-    grid-template-areas:
+	@media (max-width: 768px) {
+		grid-template-columns: minmax(0, 1fr);
+		width: 100%;
+		grid-template-areas:
 			"bio"
 			"peril-tracker"
 			"damage-tracker"
 			"attributes"
 			"skills"
 			"misc";
-  }
+	}
 `
 
 export type CharacterSheetScreenProps = {

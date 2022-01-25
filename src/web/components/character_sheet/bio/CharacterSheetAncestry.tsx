@@ -41,4 +41,8 @@ const Container = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: ${theme.spacing.separation};
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
 `
