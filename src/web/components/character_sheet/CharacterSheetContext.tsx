@@ -150,8 +150,22 @@ function characterSheetReducer(
 			const tier1Professions = calculateTier1Professions(action.payload, state)
 			return { ...newState, tier1Professions }
 		}
-		case ActionType.SetProfession1:
-			return forwardChange(["set_value", "profession1", action.payload])
+		case ActionType.SetProfession1: {
+			if (state._character.archetype === null) {
+				const isProfessionsArchetype = (archetype: Archetype) =>
+					archetype.professions["Main Gauche"].some(
+						x => x.profession === action.payload
+					)
+				return forwardChange(
+					[
+						"set_value",
+						"archetype",
+						state.archetypes.find(isProfessionsArchetype)!.code
+					],
+					["set_value", "profession1", action.payload]
+				)
+			} else return forwardChange(["set_value", "profession1", action.payload])
+		}
 		case ActionType.SetProfession2:
 			return forwardChange(["set_value", "profession2", action.payload])
 		case ActionType.SetProfession3:
