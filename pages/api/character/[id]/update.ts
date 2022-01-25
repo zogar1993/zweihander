@@ -335,7 +335,9 @@ async function getActionResult(action: UpdateAction) {
 
 type InternalError = ["client" | "server", UpdateAction, string]
 
-async function validateModel(character: SanitizedCharacterSheet) {
+async function validateModel(
+	character: SanitizedCharacterSheet
+): Promise<Array<string>> {
 	const ancestries = await getAncestries()
 	const archetypes = await getArchetypes()
 	const professions = await getProfessions()
@@ -356,23 +358,18 @@ async function validateModel(character: SanitizedCharacterSheet) {
 
 	return [
 		verifyNoDuplicateValues("talents", character),
-		...Object.keys(character.spells).flatMap(school => {
+		Object.keys(character.spells).flatMap(school => {
 			const school_errors = verifyIsWithin(school, schools, `spells.${school}`)
+			if (school_errors.length > 0) return school_errors
+			const spells = getByCode(school, schools).spells
 			return [
-				school_errors.length
-					? school_errors
-					: character["spells"][school]!.flatMap(spell =>
-							verifyIsWithin(
-								spell,
-								//TODO P3 this seems a little redundant
-								getByCode(school, schools).spells,
-								`spells.${school}`
-							)
-					  ),
+				character["spells"][school]!.flatMap(spell =>
+					verifyIsWithin(spell, spells, `spells.${school}`)
+				),
 				verifyNoDuplicateValues(`spells.${school}` as any, character)
-			]
+			].flatMap(x => x)
 		}),
-		...Object.keys(character.focuses).map((x: any) =>
+		Object.keys(character.focuses).flatMap((x: any) =>
 			verifyNoDuplicateValues(`focuses.${x}` as any, character)
 		),
 		verifyDependencyIsNotNull("ancestry_trait", "ancestry", character),

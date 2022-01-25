@@ -24,6 +24,7 @@ export default function CharacterSheetJournal() {
 
 	return (
 		<TextArea
+			aria-label="Journal"
 			ref={ref}
 			value={text}
 			onChange={e => setText(e.target.value)}
@@ -34,7 +35,7 @@ export default function CharacterSheetJournal() {
 		/>
 	)
 }
-//TODO should resize from start, and avoid onFocus resize
+//TODO should resize from start, and avoid onFocus resize, may be related to @next/next/no-document-import-in-page
 
 const TextArea = styled.textarea`
 	outline: none;
