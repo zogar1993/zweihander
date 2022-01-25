@@ -4,7 +4,7 @@ import sanitizeCharacterSheet, {
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import {
 	BoundFunctions,
-	fireEvent, getByText,
+	fireEvent,
 	queries,
 	render,
 	screen,
@@ -31,7 +31,9 @@ export const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
 export const useRouterSpy = jest.spyOn(router, "useRouter")
 useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 
-export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({ id: CHARACTER_ID })
+export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
+	id: CHARACTER_ID
+})
 
 export async function render_character_sheet(
 	character: Partial<UnsanitizedCharacterSheetData> = {}
@@ -141,4 +143,8 @@ export async function update_character_api_was_called_with_2(
 
 export async function then_tag_exists(text: string) {
 	screen.getByText(text)
+}
+
+export async function press_ctrl_z() {
+	fireEvent.keyDown(document, { ctrlKey: true, key: "z" })
 }

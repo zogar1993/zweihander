@@ -40,6 +40,7 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 	res.status(200)
 }
 
+//TODO P0 add mobile responsive
 //TODO P1 add settings
 //TODO P1 add journal
 //TODO P1 add trackers
@@ -48,7 +49,6 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 //TODO P1 visual glitch on css first paint
 //TODO P1 talents with ' have a bad name (like Arbalest'S Speed)
 //TODO P2 Handle responses for failures
-//TODO P2 add undo redo
 //TODO P2 add authentication
 //TODO P3 how to be atomic on mongodb
 //TODO P3 Remove used options from tag inputs

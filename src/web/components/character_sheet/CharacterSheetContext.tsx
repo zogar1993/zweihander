@@ -18,6 +18,7 @@ import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Talent } from "@core/domain/Talent"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
+import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, useContext, useReducer } from "react"
@@ -35,6 +36,7 @@ const PLACEHOLDER_CHARACTER_SHEET = Object.freeze({
 const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	_character: sanitizeCharacterSheet({}),
 	character: PLACEHOLDER_CHARACTER_SHEET,
+
 	professions: [],
 	talents: [],
 	schools: [],
@@ -42,8 +44,11 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	archetypes: [],
 	chaosAlignments: [],
 	orderAlignments: [],
+
 	ancestryTraits: [],
-	tier1Professions: []
+	tier1Professions: [],
+
+	undoActions: []
 }) as CharacterSheetState
 
 export const CharacterSheetContext = React.createContext({
@@ -65,6 +70,8 @@ type CharacterSheetState = {
 	archetypes: Array<Archetype>
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
+
+	undoActions: Array<Array<UpdateAction>>
 }
 
 export function useCharacterSheetReducer(props: PayloadInitialize) {
@@ -78,7 +85,8 @@ export function useCharacterSheetReducer(props: PayloadInitialize) {
 		tier1Professions: calculateTier1Professions(
 			props.character.archetype,
 			props
-		)
+		),
+		undoActions: []
 	}
 	return useReducer(characterSheetReducer, state)
 }
@@ -95,98 +103,123 @@ function characterSheetReducer(
 	state: CharacterSheetState,
 	action: CharacterSheetAction
 ) {
-	const change = (...changes: Array<UpdateActionBlock>) =>
-		changeFromCharacterSheet(blocksToObjects(changes), state)
+	const forwardChange = (
+		...blocks: Array<UpdateActionBlock>
+	): CharacterSheetState => {
+		const changes = blocksToObjects(blocks)
+		const undoActions = generateUndoActions(changes, state._character)
+		const result = changeFromCharacterSheet(changes, state)
+		return { ...result, undoActions: [...result.undoActions, undoActions] }
+	}
+
+	const undoLastChange = (): CharacterSheetState => {
+		const undoActions = state.undoActions
+		if (undoActions.length === 0) return state
+		const action = undoActions[undoActions.length - 1]
+		const result = changeFromCharacterSheet(action, state)
+		return { ...result, undoActions: undoActions.slice(0, -1) }
+	}
+
 	switch (action.type) {
 		case ActionType.SetName:
-			return change(["set_value", "name", action.payload])
+			return forwardChange(["set_value", "name", action.payload])
 		case ActionType.SetAvatar: {
 			const { avatar, thumbnail } = action.payload
-			return change(
+			return forwardChange(
 				["set_value", "avatar", avatar],
 				["set_value", "thumbnail", thumbnail]
 			)
 		}
 		case ActionType.SetAge:
-			return change(["set_value", "age", action.payload])
+			return forwardChange(["set_value", "age", action.payload])
 		case ActionType.SetSex:
-			return change(["set_value", "sex", action.payload])
+			return forwardChange(["set_value", "sex", action.payload])
 		case ActionType.SetUpbringing:
-			return change(["set_value", "upbringing", action.payload])
+			return forwardChange(["set_value", "upbringing", action.payload])
 		case ActionType.SetSocialClass:
-			return change(["set_value", "social_class", action.payload])
+			return forwardChange(["set_value", "social_class", action.payload])
 		case ActionType.SetAncestry: {
-			const newState = change(["set_value", "ancestry", action.payload])
+			const newState = forwardChange(["set_value", "ancestry", action.payload])
 			const ancestryTraits = calculateAncestryTraits(action.payload, state)
 			return { ...newState, ancestryTraits }
 		}
 		case ActionType.SetAncestryTrait:
-			return change(["set_value", "ancestry_trait", action.payload])
+			return forwardChange(["set_value", "ancestry_trait", action.payload])
 		case ActionType.SetArchetype: {
-			const newState = change(["set_value", "archetype", action.payload])
+			const newState = forwardChange(["set_value", "archetype", action.payload])
 			const tier1Professions = calculateTier1Professions(action.payload, state)
 			return { ...newState, tier1Professions }
 		}
 		case ActionType.SetProfession1:
-			return change(["set_value", "profession1", action.payload])
+			return forwardChange(["set_value", "profession1", action.payload])
 		case ActionType.SetProfession2:
-			return change(["set_value", "profession2", action.payload])
+			return forwardChange(["set_value", "profession2", action.payload])
 		case ActionType.SetProfession3:
-			return change(["set_value", "profession3", action.payload])
+			return forwardChange(["set_value", "profession3", action.payload])
 		case ActionType.SetChaosAlignment:
-			return change(["set_value", "chaos_alignment", action.payload])
+			return forwardChange(["set_value", "chaos_alignment", action.payload])
 		case ActionType.SetOrderAlignment:
-			return change(["set_value", "order_alignment", action.payload])
+			return forwardChange(["set_value", "order_alignment", action.payload])
 		case ActionType.SetAttributeBase: {
 			const { attribute, value } = action.payload
-			return change(["set_value", `attributes.${attribute}.base`, value])
+			return forwardChange(["set_value", `attributes.${attribute}.base`, value])
 		}
 		case ActionType.SetAttributeAdvancements: {
 			const { attribute, value } = action.payload
-			return change(["set_value", `attributes.${attribute}.advances`, value])
+			return forwardChange([
+				"set_value",
+				`attributes.${attribute}.advances`,
+				value
+			])
 		}
 		case ActionType.SetSkillRanks: {
 			const { skill, value } = action.payload
-			return change(["set_value", `skills.${skill}.ranks`, value])
+			return forwardChange(["set_value", `skills.${skill}.ranks`, value])
 		}
 		case ActionType.SetOrderRanks:
-			return change(["set_value", "order_ranks", action.payload])
+			return forwardChange(["set_value", "order_ranks", action.payload])
 		case ActionType.SetChaosRanks:
-			return change(["set_value", "chaos_ranks", action.payload])
+			return forwardChange(["set_value", "chaos_ranks", action.payload])
 		case ActionType.SetCorruption:
-			return change(["set_value", "corruption", action.payload])
+			return forwardChange(["set_value", "corruption", action.payload])
 		case ActionType.AddFocus: {
 			const { skill, focus } = action.payload
 			const list = state._character.focuses[skill]!
-			if (list) return change(["add_to_array", `focuses.${skill}`, focus])
-			else return change(["set_value", `focuses.${skill}`, [focus]])
+			if (list)
+				return forwardChange(["add_to_array", `focuses.${skill}`, focus])
+			else return forwardChange(["set_value", `focuses.${skill}`, [focus]])
 		}
 		case ActionType.RemoveFocus: {
 			const { skill, focus } = action.payload
 			const list = state._character.focuses[skill]!
 			if (list.length === 1)
-				return change(["delete_property", `focuses.${skill}`])
-			else return change(["remove_from_array", `focuses.${skill}`, focus])
+				return forwardChange(["delete_property", `focuses.${skill}`])
+			else
+				return forwardChange(["remove_from_array", `focuses.${skill}`, focus])
 		}
 		case ActionType.AddSpell: {
 			const { spell, school } = action.payload
 			const list = state._character.spells[school]
-			if (list) return change(["add_to_array", `spells.${school}`, spell])
-			else return change(["set_value", `spells.${school}`, [spell]])
+			if (list)
+				return forwardChange(["add_to_array", `spells.${school}`, spell])
+			else return forwardChange(["set_value", `spells.${school}`, [spell]])
 		}
 		case ActionType.RemoveSpell: {
 			const { spell, school } = action.payload
 			const list = state._character.spells[school]!
 			if (list.length === 1)
-				return change(["delete_property", `spells.${school}`])
-			else return change(["remove_from_array", `spells.${school}`, spell])
+				return forwardChange(["delete_property", `spells.${school}`])
+			else
+				return forwardChange(["remove_from_array", `spells.${school}`, spell])
 		}
 		case ActionType.AddTalent: {
-			return change(["add_to_array", `talents`, action.payload])
+			return forwardChange(["add_to_array", `talents`, action.payload])
 		}
 		case ActionType.RemoveTalent: {
-			return change(["remove_from_array", `talents`, action.payload])
+			return forwardChange(["remove_from_array", `talents`, action.payload])
 		}
+		case ActionType.UndoLastAction:
+			return undoLastChange()
 		default:
 			return state
 	}
@@ -230,7 +263,8 @@ export enum ActionType {
 	AddFocus,
 	RemoveFocus,
 	AddTalent,
-	RemoveTalent
+	RemoveTalent,
+	UndoLastAction
 }
 
 type PayloadInitialize = {
@@ -290,6 +324,7 @@ type CharacterSheetAction =
 	  }
 	| { type: ActionType.AddTalent; payload: string }
 	| { type: ActionType.RemoveTalent; payload: string }
+	| { type: ActionType.UndoLastAction }
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
@@ -304,6 +339,29 @@ function changeFromCharacterSheet(
 		_character: character,
 		character: calculateCharacterSheet({ ...state, character })
 	}
+}
+
+function generateUndoActions(
+	changes: Array<UpdateAction>,
+	character: SanitizedCharacterSheet
+): Array<UpdateAction> {
+	return changes.map(({ action, property, value }) => {
+		switch (action) {
+			case "add_to_array":
+				return { action: "remove_from_array", property, value }
+			case "remove_from_array":
+				return { action: "add_to_array", property, value }
+			case "set_value": {
+				const old = getDeepPropertyValue(property.split("."), character)
+				return old === undefined
+					? { action: "delete_property", property }
+					: { action: "set_value", property, value: old }
+			}
+			case "delete_property":
+				const old = getDeepPropertyValue(property.split("."), character)
+				return { action: "set_value", property, value: old }
+		}
+	})
 }
 
 function calculateAncestryTraits(
