@@ -37,5 +37,5 @@ export default function CharacterSheetSkill({
 
 const Container = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 60px 40px;
+	grid-template-columns: 1fr 60px 30px;
 `

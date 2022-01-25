@@ -16,35 +16,38 @@ export default function CharacterSheetAttributes() {
 			{character.attributes.map(attribute => (
 				<Attribute key={attribute.code}>
 					<Name>{attribute.name}</Name>
-					<CircularNumberInput
-						value={attribute.base}
-						onBlur={value =>
-							dispatch({
-								type: ActionType.SetAttributeBase,
-								payload: { attribute: attribute.code, value: value }
-							})
-						}
-						min={28}
-						max={55}
-						aria-label={`${attribute.name} Base`}
-					/>
-					<Dots
-						value={attribute.advances}
-						total={6}
-						coloring={({ value, number }) => {
-							if (attribute.profession_advances >= number && number > value)
-								return "palegreen"
-						}}
-						onChange={value =>
-							dispatch({
-								type: ActionType.SetAttributeAdvancements,
-								payload: { attribute: attribute.code, value: value }
-							})
-						}
-						aria-label={`${attribute.name} Advances`}
-					/>
+					<FormsContainer>
+						<CircularNumberInput
+							value={attribute.base}
+							onBlur={value =>
+								dispatch({
+									type: ActionType.SetAttributeBase,
+									payload: { attribute: attribute.code, value: value }
+								})
+							}
+							min={28}
+							max={55}
+							aria-label={`${attribute.name} Base`}
+						/>
+						<Dots
+							value={attribute.advances}
+							total={6}
+							coloring={({ value, number }) => {
+								if (attribute.profession_advances >= number && number > value)
+									return "palegreen"
+							}}
+							onChange={value =>
+								dispatch({
+									type: ActionType.SetAttributeAdvancements,
+									payload: { attribute: attribute.code, value: value }
+								})
+							}
+							rows={3}
+							aria-label={`${attribute.name} Advances`}
+						/>
+					</FormsContainer>
 					<BonusContainer>
-						<span>bonus</span>
+						<span>{`bonus: `}</span>
 						<span>{attribute.bonus}</span>
 					</BonusContainer>
 				</Attribute>
@@ -55,8 +58,9 @@ export default function CharacterSheetAttributes() {
 
 const AttributesSection = styled.div`
 	grid-area: attributes;
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
 	gap: ${theme.spacing.separation};
 `
 
@@ -68,7 +72,15 @@ const Attribute = styled.div`
 `
 
 const Name = styled.span`
-	font-size: 16px;
+	font-size: 20px;
+`
+
+const FormsContainer = styled.div`
+	display: flex;
+	gap: ${theme.spacing.separation};
+	width: 100%;
+	justify-content: center;
+	align-items: center;
 `
 
 const BonusContainer = styled.div``

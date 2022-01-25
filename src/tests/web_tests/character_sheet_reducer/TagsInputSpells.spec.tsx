@@ -20,8 +20,6 @@ describe("Spells Tag Input should", () => {
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
 		await select_combobox_item("School", SCHOOL, context)
 		await select_combobox_item("Spell", NEW_SPELL, context)
-		const button = context.getByRole("button")
-		fireEvent.click(button)
 
 		await update_character_api_was_called_with([
 			{
@@ -40,8 +38,6 @@ describe("Spells Tag Input should", () => {
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
 		await select_combobox_item("School", SCHOOL, context)
 		await select_combobox_item("Spell", NEW_SPELL, context)
-		const button = context.getByRole("button")
-		fireEvent.click(button)
 
 		await update_character_api_was_called_with([
 			{

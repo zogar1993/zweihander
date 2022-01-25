@@ -27,7 +27,7 @@ export default function applyActionsToCharacter(
 				const array = container[last_part]
 				if (!Array.isArray(array))
 					throw Error(`'${JSON.stringify(array)}' is not an array`)
-				container[last_part] = [...array, value]
+				array.push(value)
 				break
 			}
 			case "delete_property":

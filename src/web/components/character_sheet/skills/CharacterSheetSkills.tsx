@@ -25,15 +25,16 @@ export default function CharacterSheetSkills() {
 
 const SkillsSection = styled.div`
 	grid-area: skills;
-	display: flex;
+	display: grid;
 	gap: ${theme.spacing.separation};
-	justify-content: space-between;
+	grid-template-columns: 1fr 1fr;
 `
 
 const SkillsHalf = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};
+	justify-content: space-evenly;
 `
 
 function splitHalves<T>(array: Array<T>) {
