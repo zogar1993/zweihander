@@ -56,4 +56,6 @@ const Tag = styled.span`
 	border-radius: 4px;
 	padding: 3px 5px 3px 5px;
 	margin: 2px;
+	user-select: none;
+	cursor: pointer;
 `

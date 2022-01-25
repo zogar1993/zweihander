@@ -11,7 +11,6 @@ import { useEffect, useState } from "react"
 
 export default function CharacterSheetSpells() {
 	const [school, setSchool] = useState<string | null>(null)
-	const [spell, setSpell] = useState<string | null>(null)
 	const { character, schools } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const [spells, setSpells] = useState<Array<Spell>>([])
@@ -20,10 +19,6 @@ export default function CharacterSheetSpells() {
 		if (school === null) setSpells([])
 		else setSpells(getByCode(school, schools).spells)
 	}, [schools, school])
-
-	useEffect(() => {
-		setSpell(null)
-	}, [spells])
 
 	return (
 		<div>
@@ -38,23 +33,17 @@ export default function CharacterSheetSpells() {
 			<Field
 				label="Spell"
 				type="combobox"
-				value={spell}
+				value={null}
 				options={spells}
-				onChange={setSpell}
+				onChange={code =>
+					dispatch({
+						type: ActionType.AddSpell,
+						payload: { school: school!, spell: code! }
+					})
+				}
 				disabled={school === null}
 				unclearable
 			/>
-			<button
-				disabled={spell === "" || school === null}
-				onClick={() =>
-					dispatch({
-						type: ActionType.AddSpell,
-						payload: { school: school!, spell: spell! }
-					})
-				}
-			>
-				Add
-			</button>
 			<RemovableItems
 				items={character.schools}
 				removeItem={({ item, key }) =>
