@@ -8,6 +8,7 @@ export type Ancestry = {
 	family: string
 	traits: Array<AncestryTrait>
 	attribute_bonuses: AttributeBonuses
+	icon: string
 }
 
 export type AncestryTrait = {

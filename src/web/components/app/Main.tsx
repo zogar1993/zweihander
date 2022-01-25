@@ -75,10 +75,10 @@ const screens = ({
 	{ path: "characters", name: "Characters", icon: "/menu/child.png" },
 	{
 		name: "Ancestries",
-		icon: "/menu/dwarf.png",
+		icon: "/menu/family-tree.png",
 		items: ancestries.map(ancestry => ({
 			name: ancestry.name,
-			icon: "/menu/dwarf.png",
+			icon: ancestry.icon,
 			path: `ancestries/${ancestry.code}`
 		}))
 	},
