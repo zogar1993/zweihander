@@ -40,23 +40,24 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 	res.status(200)
 }
 
-//TODO P1 add settings
-//TODO P1 add trackers
-//TODO P1 do skeleton for characters
-//TODO P1 add create character
-//TODO P1 add delete character
+//TODO P0 add settings
+//TODO P0 add trackers
+//TODO P0 do skeleton for characters
+//TODO P0 add create character
+//TODO P0 talents with ' have a bad name (like Arbalest'S Speed)
+//TODO P0 Remove used options from tag inputs
+//TODO P0 add authentication
+//TODO P0 Do test for react avatar and thumbnail
 
+//TODO P1 add delete character
 //TODO P1 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
 
-//TODO P1 talents with ' have a bad name (like Arbalest'S Speed)
 //TODO P3 add magic spells modal
 
-//TODO P1 make hierarchies of talents for professions
-//TODO P3 Remove used options from tag inputs
+//TODO P3 make hierarchies of talents for professions
 //TODO P3 check for strict experience expenditure
 
 //TODO P2 Handle responses for failures
-//TODO P2 add authentication
 //TODO P3 how to be atomic on mongodb
 
 //TODO P4 check that SWR is used correctly

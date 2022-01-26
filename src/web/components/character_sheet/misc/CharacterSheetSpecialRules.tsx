@@ -1,4 +1,4 @@
-import SpecialRuleCard from "@web/components/card/SpecialRuleCard"
+import EffectCard from "@web/components/card/EffectCard"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import theme from "@web/theme/theme"
 import styled from "styled-components"
@@ -9,20 +9,14 @@ export default function CharacterSheetSpecialRules() {
 	return (
 		<Container>
 			{character.special_rules.map((rule, i) => (
-				<SpecialRuleCard
-					key={i.toString()}
-					trait={rule}
-					hideDescription={true}
-				/>
+				<EffectCard key={i.toString()} trait={rule} />
 			))}
 		</Container>
 	)
 }
 
-//TODO P4 hide description would not be necesary if description was not sent ;)
-
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: ${theme.spacing.separation}
+	gap: ${theme.spacing.separation};
 `

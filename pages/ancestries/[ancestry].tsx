@@ -1,7 +1,7 @@
 import getAncestries from "@core/actions/GetAncestries"
 import { Ancestry } from "@core/domain/Ancestry"
 import { Trait } from "@web/components/ancestry/AncestryTraitCard"
-import SpecialRuleCard from "@web/components/card/SpecialRuleCard"
+import TraitCard from "@web/components/card/TraitCard"
 import Grid from "@web/components/general/Grid"
 import { PageTitle } from "@web/components/general/PageTitle"
 import theme from "@web/theme/theme"
@@ -17,7 +17,7 @@ export default function AncestriesScreen({ ancestry }: any) {
 				<SubSectionTitle>Traits</SubSectionTitle>
 				<Grid columns={3} mobile-columns={1}>
 					{ancestry.traits.map((trait: Trait) => (
-						<SpecialRuleCard key={trait.name} trait={trait} />
+						<TraitCard key={trait.name} trait={trait} />
 					))}
 				</Grid>
 			</section>

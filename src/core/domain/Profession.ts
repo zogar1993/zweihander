@@ -19,7 +19,7 @@ export type ProfessionAdvances = {
 
 export type Trait = {
 	name: string
-	code?: string
+	code: string
 	description: string
 	effect: string
 }

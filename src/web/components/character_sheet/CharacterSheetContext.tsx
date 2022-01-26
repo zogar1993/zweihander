@@ -139,7 +139,10 @@ function characterSheetReducer(
 		case ActionType.SetSocialClass:
 			return forwardChange(["set_value", "social_class", action.payload])
 		case ActionType.SetAncestry: {
-			const newState = forwardChange(["set_value", "ancestry", action.payload])
+			const newState = forwardChange(
+				["set_value", "ancestry_trait", null],
+				["set_value", "ancestry", action.payload]
+			)
 			const ancestryTraits = calculateAncestryTraits(action.payload, state)
 			return { ...newState, ancestryTraits }
 		}

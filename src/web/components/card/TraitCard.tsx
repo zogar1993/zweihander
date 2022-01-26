@@ -1,32 +1,20 @@
 import { Trait } from "@web/components/ancestry/AncestryTraitCard"
-import { CardTitle } from "@web/components/general/CardTitle"
-import theme from "@web/theme/theme"
+import { Card } from "@web/components/card/Card"
+import { CardTitle } from "@web/components/card/CardTitle"
 import React from "react"
 import styled from "styled-components"
 
-export default function SpecialRuleCard({
-	trait,
-	hideDescription
-}: SpecialRuleCardProps) {
+export default function TraitCard({ trait }: SpecialRuleCardProps) {
 	return (
-		<TraitBox>
+		<Card>
 			<CardTitle>{trait.name}</CardTitle>
-			{hideDescription || <Description>{trait.description}</Description>}
+			<Description>{trait.description}</Description>
 			<PropertyList>
 				<Property name="Effect">{trait.effect}</Property>
 			</PropertyList>
-		</TraitBox>
+		</Card>
 	)
 }
-
-const TraitBox = styled.article`
-	display: flex;
-	flex-direction: column;
-	gap: ${theme.spacing.separation};
-	border: 1px solid lightgray;
-	border-radius: ${theme.borders.radius};
-	padding: ${theme.spacing.separation} calc(3 * ${theme.spacing.separation});
-`
 
 const Description = styled.p`
 	font-style: italic;
@@ -34,7 +22,6 @@ const Description = styled.p`
 `
 
 const PropertyList = styled.dl`
-	font-family: Arial, Times, serif;
 	font-size: 16px;
 	color: black;
 `
@@ -75,4 +62,4 @@ type PropertyProps = {
 	children: string
 }
 
-type SpecialRuleCardProps = { trait: Trait; hideDescription?: boolean }
+type SpecialRuleCardProps = { trait: Trait }

@@ -16,6 +16,11 @@ describe("Ancestry Combobox should", () => {
 		await update_character_api_was_called_with([
 			{
 				action: "set_value",
+				property: "ancestry_trait",
+				value: null
+			},
+			{
+				action: "set_value",
 				property: "ancestry",
 				value: NEW_CHARACTER_ANCESTRY.code
 			}

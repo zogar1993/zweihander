@@ -1,4 +1,4 @@
-import { Ancestry } from "@core/domain/Ancestry"
+import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
@@ -8,16 +8,15 @@ import { MagicSchool } from "@core/domain/MagicSchool"
 import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
-import { Principle } from "@core/domain/Spell"
-import { Talent } from "@core/domain/Talent"
+import { Principle, Spell } from "@core/domain/Spell"
 import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 
 type Props = {
 	character: SanitizedCharacterSheet
-	ancestries: Array<Ancestry>
-	professions: Array<Profession>
-	schools: Array<MagicSchool>
-	talents: Array<Talent>
+	ancestries: Array<AncestryTech>
+	professions: Array<ProfessionTech>
+	schools: Array<MagicSchoolTech>
+	talents: Array<TalentTech>
 }
 
 export enum Flip {
@@ -96,8 +95,8 @@ export function calculateCharacterSheet({
 
 type GetAttributeProps = {
 	character: SanitizedCharacterSheet
-	ancestry: Ancestry | null
-	professions: Array<Profession>
+	ancestry: AncestryTech | null
+	professions: Array<ProfessionTech>
 }
 
 function getAttributes({
@@ -136,9 +135,9 @@ function getAttributes({
 
 type GetSpecialRulesProps = {
 	character: SanitizedCharacterSheet
-	talents: Array<Talent>
-	professions: Array<Profession>
-	ancestry: Ancestry | null
+	talents: Array<TalentTech>
+	professions: Array<ProfessionTech>
+	ancestry: AncestryTech | null
 }
 
 function getSpecialRules({
@@ -159,7 +158,7 @@ function getSpecialRules({
 
 type GetProfessionsProps = {
 	character: SanitizedCharacterSheet
-	professions: Array<Profession>
+	professions: Array<ProfessionTech>
 }
 
 function getProfessions({ character, professions }: GetProfessionsProps) {
@@ -170,7 +169,7 @@ function getProfessions({ character, professions }: GetProfessionsProps) {
 
 type GetSkillProps = {
 	character: SanitizedCharacterSheet
-	professions: Array<Profession>
+	professions: Array<ProfessionTech>
 	getAttribute: (code: AttributeCode) => Attribute
 }
 
@@ -208,7 +207,7 @@ function getSkills({
 
 type SpentExperienceProps = {
 	character: SanitizedCharacterSheet
-	schools: Array<MagicSchool>
+	schools: Array<MagicSchoolTech>
 	attributes: Array<Attribute>
 	skills: Array<Skill>
 }
@@ -466,14 +465,13 @@ export type CalculatedSkill = {
 
 export type SpecialRule = {
 	name: string
-	description: string
 	effect: string
 }
 
-//TODO change tags for spell descriptions
+//TODO P0 change tags for spell descriptions
 function formatSpells(
 	spells: CharacterSpells,
-	schools: Array<MagicSchool>
+	schools: Array<MagicSchoolTech>
 ): CalculatedCharacterSheet["schools"] {
 	return Object.keys(spells).map(key => {
 		const school = getByCode(key, schools)
@@ -504,7 +502,7 @@ function formatFocuses(focuses: Focuses): CalculatedCharacterSheet["focuses"] {
 
 function formatTalents(
 	values: Array<string>,
-	talents: Array<Talent>
+	talents: Array<TalentTech>
 ): CalculatedCharacterSheet["talents"] {
 	return [
 		{
@@ -517,3 +515,26 @@ function formatTalents(
 		}
 	]
 }
+
+export type AncestryTraitTech = Pick<
+	AncestryTrait,
+	"name" | "code" | "effect" | "from" | "to"
+>
+export type TraitTech = Pick<AncestryTrait, "name" | "code" | "effect">
+export type AncestryTech = Pick<
+	Ancestry,
+	"name" | "code" | "attribute_bonuses"
+> & {
+	traits: Array<AncestryTraitTech>
+}
+
+export type ProfessionTech = Pick<Profession, "name" | "code" | "advances"> & {
+	traits: Array<TraitTech>
+}
+
+export type SpellTech = Pick<Spell, "name" | "code" | "principle" | "effect">
+export type MagicSchoolTech = Pick<MagicSchool, "name" | "code" | "source"> & {
+	spells: Array<SpellTech>
+}
+
+export type TalentTech = TraitTech

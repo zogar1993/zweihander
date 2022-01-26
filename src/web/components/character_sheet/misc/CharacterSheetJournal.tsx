@@ -35,7 +35,7 @@ export default function CharacterSheetJournal() {
 		/>
 	)
 }
-//TODO should resize from start, and avoid onFocus resize, may be related to @next/next/no-document-import-in-page
+//TODO P0 should resize from start, and avoid onFocus resize, may be related to @next/next/no-document-import-in-page
 
 const TextArea = styled.textarea`
 	outline: none;

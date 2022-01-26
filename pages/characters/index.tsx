@@ -1,7 +1,7 @@
 import { getCharacters } from "@core/actions/GetCharacters"
 import Grid from "@web/components/general/Grid"
 import Link from "@web/components/general/Link"
-import RedirectionToCharacterSheetInterceptor from "@web/components/redirect_loaders/RedirectionToCharacterSheetInterceptor"
+import RedirectLoaderCharacterScreen from "@web/components/redirect_loaders/RedirectLoaderCharacterScreen"
 import theme from "@web/theme/theme"
 import Image from "next/image"
 import React from "react"
@@ -13,7 +13,7 @@ export default function CharactersScreen({
 	characters: Array<CharacterSheetTag>
 }) {
 	return (
-		<RedirectionToCharacterSheetInterceptor>
+		<RedirectLoaderCharacterScreen>
 			<Grid columns={5} mobile-columns={1}>
 				{characters.map(character => (
 					<Card href={`characters/${character.id}`} key={character.id}>
@@ -35,7 +35,7 @@ export default function CharactersScreen({
 					</Card>
 				))}
 			</Grid>
-		</RedirectionToCharacterSheetInterceptor>
+		</RedirectLoaderCharacterScreen>
 	)
 }
 

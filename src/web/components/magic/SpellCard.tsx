@@ -1,12 +1,13 @@
 import { Spell } from "@core/domain/Spell"
-import { CardTitle } from "@web/components/general/CardTitle"
+import { Card } from "@web/components/card/Card"
+import { CardTitle } from "@web/components/card/CardTitle"
 import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
 export default function SpellCard({ spell }: Props) {
 	return (
-		<Section>
+		<CardContainer>
 			<CardTitle>{spell.name}</CardTitle>
 			<TagContainer>
 				<Tag>{spell.school}</Tag>
@@ -14,7 +15,7 @@ export default function SpellCard({ spell }: Props) {
 				<Tag>{spell.distance_tag}</Tag>
 			</TagContainer>
 			<Paragraph>{spell.description}</Paragraph>
-		</Section>
+		</CardContainer>
 	)
 }
 
@@ -22,19 +23,8 @@ type Props = {
 	spell: Spell
 }
 
-const Section = styled.section`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: ${theme.spacing.separation};
-
-	border: 1px solid lightgray;
-	border-radius: ${theme.borders.radius};
-	padding: ${theme.spacing.separation} calc(3 * ${theme.spacing.separation});
+const CardContainer = styled(Card)`
 	min-width: 200px;
-
-	user-select: none;
-	cursor: pointer;
 `
 
 const TagContainer = styled.div`

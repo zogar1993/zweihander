@@ -29,6 +29,3 @@ describe("set_value thumbnail should", () => {
 
 const PROPERTY = "thumbnail"
 const VALUE = "an_encoded_image"
-
-//TODO P3 Do test for react avatar and thumbnail
-//TODO P3 Move thumbnail generation to node
