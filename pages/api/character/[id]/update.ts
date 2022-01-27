@@ -69,13 +69,11 @@ export default async function handler(
 	const preexisting_errors = await validateModel(character)
 	if (preexisting_errors.length > 0) return res.status(500).json(server_errors)
 
-	let changed
-	try {
-		changed = applyActionsToCharacter(character, actions)
-	} catch (e) {
-		//TODO P0 this may be a tad too generic
-		return res.status(409).json("failed to apply actions to character")
-	}
+	const array_errors = validateArrayErrors(character, actions)
+	if (array_errors.length > 0) return res.status(409).json(array_errors)
+
+	const changed = applyActionsToCharacter(character, actions)
+
 	const conflict_errors = await validateModel(changed)
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
@@ -363,8 +361,8 @@ async function validateModel(
 		character.archetype === null
 			? []
 			: archetypes
-			.find(x => x.code === character.archetype)
-			?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
+					.find(x => x.code === character.archetype)
+					?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
 
 	return [
 		verifyNoDuplicateValues("talents", character),
@@ -445,4 +443,21 @@ function verifyIsWithin(
 	if (!hasByCode(value as string, collection))
 		return [`'${value}' is not a valid ${prop}`]
 	return []
+}
+
+function validateArrayErrors(
+	character: SanitizedCharacterSheet,
+	actions: Array<UpdateAction>
+) {
+	return actions
+		.filter(
+			x => x.action === "add_to_array" || x.action === "remove_from_array"
+		)
+		.filter(
+			x => getDeepPropertyValue(x.property.split("."), character) === undefined
+		)
+		.map(
+			x =>
+				`you need to set_value to ${x.property} first in order to ${x.action}`
+		)
 }
