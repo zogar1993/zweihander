@@ -6,6 +6,7 @@ import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import getMagicSchools from "@core/actions/GetMagicSchools"
 import getOrderAlignments from "@core/actions/GetOrderAlignments"
 import getProfessions from "@core/actions/GetProfessions"
+import getTalents from "@core/actions/GetTalents"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
@@ -31,11 +32,14 @@ export default async function handler(
 	if (Array.isArray(id)) return res.status(500)
 
 	const actions = JSON.parse(req.body) as Array<UpdateAction>
-	if (!Array.isArray(actions)) return res.status(500)
+	if (!Array.isArray(actions) || actions.length === 0) return res.status(400)
 
 	const client_errors: Array<[UpdateAction, string]> = []
 	const server_errors: Array<[UpdateAction, string]> = []
 	const results: Array<UpdateCharacterProps> = []
+
+	if (new Set(actions.map(x => x.property)).size < actions.length)
+		return res.status(400)
 
 	for (const action of actions) {
 		try {
@@ -61,11 +65,15 @@ export default async function handler(
 	if (client_errors.length > 0) return res.status(400).json(client_errors)
 
 	const character = await getCharacterSheetOfId(id)
+
+	const preexisting_errors = await validateModel(character)
+	if (preexisting_errors.length > 0) return res.status(500).json(server_errors)
+
 	let changed
 	try {
 		changed = applyActionsToCharacter(character, actions)
 	} catch (e) {
-		//TODO P3 this may be a tad too generic
+		//TODO P0 this may be a tad too generic
 		return res.status(409).json("failed to apply actions to character")
 	}
 	const conflict_errors = await validateModel(changed)
@@ -75,11 +83,11 @@ export default async function handler(
 	res.status(200)
 }
 
-export type UpdateAction = {
+export type UpdateAction = Readonly<{
 	action: "set_value" | "remove_from_array" | "add_to_array" | "delete_property"
 	property: string
 	value?: any
-}
+}>
 
 type EndpointFunc = (property: string, payload?: any) => UpdateCharacterProps
 
@@ -344,6 +352,8 @@ async function validateModel(
 	const chaos_aligments = await getChaosAlignments()
 	const order_aligments = await getOrderAlignments()
 	const schools = await getMagicSchools()
+	const talents = await getTalents()
+
 	const ancestry_traits =
 		character.ancestry === null
 			? []
@@ -353,11 +363,14 @@ async function validateModel(
 		character.archetype === null
 			? []
 			: archetypes
-					.find(x => x.code === character.archetype)
-					?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
+			.find(x => x.code === character.archetype)
+			?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
 
 	return [
 		verifyNoDuplicateValues("talents", character),
+		character.talents.flatMap(talent =>
+			verifyIsWithin(talent, talents, "talents")
+		),
 		Object.keys(character.spells).flatMap(school => {
 			const school_errors = verifyIsWithin(school, schools, `spells.${school}`)
 			if (school_errors.length > 0) return school_errors

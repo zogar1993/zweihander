@@ -1,7 +1,7 @@
 import theme from "@web/theme/theme"
 import styled, { css } from "styled-components"
 
-//TODO maybe create a card link?
+//TODO P2 maybe create a card link?
 
 export const Card = styled.article`
 	display: flex;

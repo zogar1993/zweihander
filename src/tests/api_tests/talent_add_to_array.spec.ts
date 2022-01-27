@@ -4,6 +4,7 @@ import {
 	the_saved_character_has,
 	update_character
 } from "@tests/api_tests/utils"
+import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
 
 describe("add_to_array talent should", () => {
 	it("add the talent to the character", async () => {
@@ -35,7 +36,18 @@ describe("add_to_array talent should", () => {
 		expect(result.statusCode).toBe(409)
 		expect_character_to_be_unchanged()
 	})
+
+	it("accept only predefined talents", async () => {
+		const result = await update_character([
+			"add_to_array",
+			PROPERTY,
+			"whatever"
+		])
+
+		expect(result.statusCode).toBe(409)
+		expect_character_to_be_unchanged()
+	})
 })
 
 const PROPERTY = "talents"
-const VALUE = "a_talent"
+const VALUE = TEST_TALENTS[1].code

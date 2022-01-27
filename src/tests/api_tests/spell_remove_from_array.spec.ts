@@ -53,9 +53,9 @@ describe("remove_from_array spell should", () => {
 		the_saved_character_has({ spells: { [SCHOOL.code]: [VALUE] } })
 
 		const result = await update_character([
-			"set_value",
+			"remove_from_array",
 			`spells.whatever`,
-			[VALUE]
+			VALUE
 		])
 
 		expect(result.statusCode).toBe(409)

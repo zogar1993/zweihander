@@ -13,7 +13,8 @@ import {
 	TEST_CHAOS_ALIGNMENTS,
 	TEST_MAGIC_SCHOOLS,
 	TEST_ORDER_ALIGNMENTS,
-	TEST_PROFESSIONS
+	TEST_PROFESSIONS,
+	TEST_TALENTS
 } from "../../web_tests/character_sheet/utils/collections"
 import { DEFAULT_CHARACTER_SHEET } from "../../web_tests/character_sheet/utils/utils"
 import { permamock } from "./Permamock"
@@ -30,6 +31,7 @@ permamock("@core/actions/GetArchetypes", TEST_ARCHETYPES)
 permamock("@core/actions/GetOrderAlignments", TEST_ORDER_ALIGNMENTS)
 permamock("@core/actions/GetChaosAlignments", TEST_CHAOS_ALIGNMENTS)
 permamock("@core/actions/GetMagicSchools", TEST_MAGIC_SCHOOLS)
+permamock("@core/actions/GetTalents", TEST_TALENTS)
 
 getCharacterSheetOfId.mockReturnValue(Promise.resolve(DEFAULT_CHARACTER_SHEET))
 

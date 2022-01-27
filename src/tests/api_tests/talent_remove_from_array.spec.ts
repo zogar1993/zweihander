@@ -4,6 +4,7 @@ import {
 	the_saved_character_has,
 	update_character
 } from "@tests/api_tests/utils"
+import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
 
 describe("remove_from_array talent should", () => {
 	it("remove the talent from the character", async () => {
@@ -39,4 +40,4 @@ describe("remove_from_array talent should", () => {
 })
 
 const PROPERTY = "talents"
-const VALUE = "a_talent"
+const VALUE = TEST_TALENTS[1].code
