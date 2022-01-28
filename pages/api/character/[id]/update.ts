@@ -347,8 +347,8 @@ async function validateModel(
 	const ancestries = await getAncestries()
 	const archetypes = await getArchetypes()
 	const professions = await getProfessions()
-	const chaos_aligments = await getChaosAlignments()
-	const order_aligments = await getOrderAlignments()
+	const chaos_alignments = await getChaosAlignments()
+	const order_alignments = await getOrderAlignments()
 	const schools = await getMagicSchools()
 	const talents = await getTalents()
 
@@ -393,8 +393,8 @@ async function validateModel(
 		verifyIsNullOrWithin("profession1", first_professions, character),
 		verifyIsNullOrWithin("profession2", professions, character),
 		verifyIsNullOrWithin("profession3", professions, character),
-		verifyIsNullOrWithin("order_alignment", order_aligments, character),
-		verifyIsNullOrWithin("chaos_alignment", chaos_aligments, character),
+		verifyIsNullOrWithin("order_alignment", order_alignments, character),
+		verifyIsNullOrWithin("chaos_alignment", chaos_alignments, character),
 		verifyIsNullOrWithin("social_class", SOCIAL_CLASSES, character),
 		verifyIsNullOrWithin("upbringing", UPBRINGINGS, character),
 		verifyIsNullOrWithin("sex", SEXES, character)

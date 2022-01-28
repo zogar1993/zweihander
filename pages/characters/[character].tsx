@@ -23,7 +23,7 @@ export default function CharacterScreen(props: CharacterSheetScreenProps) {
 export async function getServerSideProps({
 	params: { character: characterId }
 }: any) {
-	//TODO This is almost twice as good as not having it, but best way may be to
+	//TODO P2 This is almost twice as good as not having it, but best way may be to
 	// move collections to client fetch and send both calculated and non calculated
 	// and may also make effects on demand. Nvm, it seems that the biggest culprit is Avatar.
 	const ancestries: Array<AncestryTech> = (await getAncestries()).map(x => ({

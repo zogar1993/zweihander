@@ -5,7 +5,6 @@ import styled, { css } from "styled-components"
 
 export const MENU_WIDTH_EXTENDED = "190px"
 export const MENU_WIDTH_COLLAPSED = "48px"
-const FOOTER_HEIGHT = "0px"
 const OUTER_Z_INDEX = 1
 
 const NoStyleButton = styled.button`
@@ -236,7 +235,7 @@ const SubItemLink = styled(Link)<{ show: boolean }>`
 const MenuElement = styled.div<{ show: boolean }>`
 	user-select: none;
 	position: sticky;
-	height: calc(100vh - ${FOOTER_HEIGHT});
+	height: calc(100vh);
 	width: ${({ show }) => (show ? MENU_WIDTH_EXTENDED : MENU_WIDTH_COLLAPSED)};
 	background-color: ${theme.colors.menu.background};
 	transition: width 0.4s;

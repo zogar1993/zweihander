@@ -56,7 +56,7 @@ export default function CharacterSheetAlignment() {
 		</Container>
 	)
 }
-//TODO P2 everything on this page may have a legit label
+//TODO P3 everything on this page may have a legit label
 const Label = styled.label`
 	font-family: ${theme.fonts.common};
 	font-size: 12px;

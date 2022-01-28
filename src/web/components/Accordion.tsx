@@ -1,5 +1,6 @@
+import { Z_INDEX_LEVEL } from "@web/constants/ACCORDION_ITEM"
 import theme from "@web/theme/theme"
-import React, { ReactNode, useState } from "react"
+import React, { ReactNode, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 export type AccordionItemType = {
@@ -14,16 +15,24 @@ export default function Accordion({
 }) {
 	return (
 		<AccordionContainer role="tablist">
-			{items.map(item => (
-				<AccordionItem item={item} key={item.name} />
+			{items.map((item, i) => (
+				<AccordionItem item={item} key={item.name} z={items.length - i} />
 			))}
 		</AccordionContainer>
 	)
 }
 
-function AccordionItem({ item }: { item: AccordionItemType }) {
+function AccordionItem({ item, z }: { item: AccordionItemType; z: number }) {
 	const [open, setOpen] = useState(false)
+	const [height, setHeight] = useState(0)
 	const id = `accordion-tab-(${item.name.toLowerCase()})`
+
+	const ref = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		setHeight(ref.current!.offsetHeight)
+	}, [open])
+
 	return (
 		<ItemContainer key={item.name}>
 			<AccordionItemTab
@@ -37,6 +46,9 @@ function AccordionItem({ item }: { item: AccordionItemType }) {
 				role="tabpanel"
 				aria-expanded={open}
 				aria-labelledby={id}
+				ref={ref}
+				height={height}
+				z={z}
 			>
 				{item.content}
 			</AccordionItemContent>
@@ -47,13 +59,18 @@ function AccordionItem({ item }: { item: AccordionItemType }) {
 const AccordionContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 1px;
 	border-radius: ${theme.borders.radius};
 	border: 1px gray solid;
 	grid-area: misc;
 	background-color: gray;
 	overflow-y: auto;
 	overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    display: none;
+    appearance: none;
+    width: 6px;
+  }
 `
 
 const AccordionItemTab = styled.button`
@@ -66,12 +83,23 @@ const AccordionItemTab = styled.button`
 	background-color: lightgray;
 	user-select: none;
 	cursor: pointer;
+	position: relative;
+	z-index: ${Z_INDEX_LEVEL.COMPONENT};
 `
 
-const AccordionItemContent = styled.div<{ "aria-expanded": boolean }>`
+const AccordionItemContent = styled.div<{
+	"aria-expanded": boolean
+	height: number
+	z: number
+}>`
 	background-color: whitesmoke;
-	${({ "aria-expanded": expanded }) => (expanded ? "" : "display: none")};
 	padding: ${theme.spacing.separation};
+	margin-top: ${({ "aria-expanded": expanded, height }) =>
+		expanded ? 0 : `-${height - 1}px`};
+	transition: 0.4s ease-in-out;
+	z-index: ${({ z }) => Z_INDEX_LEVEL.CONTAINER + z};
+	position: relative;
+	border-bottom: 1px solid gray;
 `
 
 const ItemContainer = styled.div`

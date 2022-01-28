@@ -41,24 +41,25 @@ async function patch(req: NextApiRequest, res: NextApiResponse) {
 }
 
 //TODO P0 add settings
-//TODO P0 add trackers
-//TODO P0 do skeleton for characters
-//TODO P0 add create character
-//TODO P0 talents with ' have a bad name (like Arbalest'S Speed)
 //TODO P0 Remove used options from tag inputs
+//TODO P0 do skeleton for characters
+//TODO P0 talents with ' have a bad name (like Arbalest'S Speed)
+
+//TODO P0 add trackers
+//TODO P0 add create character
 //TODO P0 add authentication
-//TODO P0 Do test for react avatar and thumbnail
+//TODO P0 add magic spells modal
+//TODO P0 add fix comboboxes of accordion
 
 //TODO P1 add delete character
-//TODO P1 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
 
-//TODO P3 add magic spells modal
-
-//TODO P3 make hierarchies of talents for professions
-//TODO P3 check for strict experience expenditure
-
+//TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
 //TODO P2 Handle responses for failures
 //TODO P3 how to be atomic on mongodb
+
+//TODO P4 Do test for react avatar and thumbnail
+//TODO P4 make hierarchies of talents for professions
+//TODO P4 check for strict experience expenditure
 
 //TODO P4 check that SWR is used correctly
 //TODO P4 check this works correctly https://github.com/vercel/next.js/issues/30802
