@@ -2,9 +2,9 @@ import { fireEvent } from "@testing-library/react"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import { TEST_TALENTS } from "./utils/collections"
 import {
+	change_combobox_item,
 	click_menu_item,
 	render_character_sheet,
-	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -16,7 +16,7 @@ describe("Talents Tag Input should", () => {
 		await render_character_sheet()
 
 		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		await select_combobox_item("Talent", NEW_TALENT, context)
+		await change_combobox_item("Talent", NEW_TALENT, context)
 
 		await update_character_api_was_called_with([
 			{

@@ -3,28 +3,28 @@ import {
 	expect_character_to_have_attribute_set,
 	update_character
 } from "@tests/api_tests/utils"
-import { TEST_ANCESTRIES } from "../web_tests/character_sheet/utils/collections"
+import { SETTINGS_SKILL_ORDER } from "@web/components/character_sheet/bio/Constants"
 
-describe("set_value ancestry should", () => {
-	it("change the ancestry of the character", async () => {
+describe("set_value settings.skill_order should", () => {
+	it("change the skill_order settings of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result.statusCode).toBe(200)
 		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
-	it("accept only predefined ancestries", async () => {
+	it("accept only predefined skills orders", async () => {
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
 		expect(result.statusCode).toBe(409)
 		expect_character_to_be_unchanged()
 	})
 
-	it("accept null", async () => {
+	it("not accept null", async () => {
 		const result = await update_character(["set_value", PROPERTY, null])
 
-		expect(result.statusCode).toBe(200)
-		expect_character_to_have_attribute_set({ ancestry: null })
+		expect(result.statusCode).toBe(400)
+		expect_character_to_be_unchanged()
 	})
 
 	it("accept only strings", async () => {
@@ -35,5 +35,5 @@ describe("set_value ancestry should", () => {
 	})
 })
 
-const PROPERTY = "ancestry"
-const VALUE = TEST_ANCESTRIES[1].code
+const PROPERTY = "settings.skill_order"
+const VALUE = SETTINGS_SKILL_ORDER[1].code

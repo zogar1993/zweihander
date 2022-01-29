@@ -2,10 +2,10 @@ import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { fireEvent } from "@testing-library/react"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
+	change_combobox_item,
 	change_textbox_value,
 	click_menu_item,
 	render_character_sheet,
-	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -19,7 +19,7 @@ describe("Focuses Tag Input should", () => {
 		await render_character_sheet()
 
 		const context = await click_menu_item(ACCORDION_ITEM.FOCUSES)
-		await select_combobox_item("Skill", SKILL, context)
+		await change_combobox_item("Skill", SKILL, context)
 		await change_textbox_value("Focus", NEW_FOCUS, context)
 		const button = context.getByRole("button")
 		fireEvent.click(button)
@@ -39,7 +39,7 @@ describe("Focuses Tag Input should", () => {
 		})
 
 		const context = await click_menu_item(ACCORDION_ITEM.FOCUSES)
-		await select_combobox_item("Skill", SKILL, context)
+		await change_combobox_item("Skill", SKILL, context)
 		await change_textbox_value("Focus", NEW_FOCUS, context)
 		const button = context.getByRole("button")
 		fireEvent.click(button)

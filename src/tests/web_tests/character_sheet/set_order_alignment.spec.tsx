@@ -1,7 +1,7 @@
 import { TEST_ORDER_ALIGNMENTS } from "./utils/collections"
 import {
+	change_combobox_item,
 	render_character_sheet,
-	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -11,7 +11,7 @@ describe("Order Alignment Combobox should", () => {
 	it("send a 'set_value|order_alignment' action on change", async () => {
 		await render_character_sheet()
 
-		await select_combobox_item("Order Alignment", NEW_ALIGNMENT)
+		await change_combobox_item("Order Alignment", NEW_ALIGNMENT)
 
 		await update_character_api_was_called_with([
 			{

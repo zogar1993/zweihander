@@ -13,7 +13,7 @@ describe("set_value ancestry should", () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result.statusCode).toBe(200)
-		expect_character_to_have_attribute_set({ ancestry_trait: VALUE })
+		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
 	it("accept null", async () => {

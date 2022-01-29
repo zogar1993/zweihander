@@ -1,7 +1,7 @@
 import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 import {
+	change_combobox_item,
 	render_character_sheet,
-	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -11,7 +11,7 @@ describe("Upbringing Combobox should", () => {
 	it("send a 'set_value|sex' action on change", async () => {
 		await render_character_sheet()
 
-		await select_combobox_item("Upbringing", NEW_CHARACTER_UPBRINGING)
+		await change_combobox_item("Upbringing", NEW_CHARACTER_UPBRINGING)
 
 		await update_character_api_was_called_with([
 			{

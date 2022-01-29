@@ -61,3 +61,8 @@ export const UPBRINGINGS = [
 		attribute: "intelligence"
 	}
 ]
+
+export const SETTINGS_SKILL_ORDER = [
+	{ name: "Alphabetic", code: "alphabetic" },
+	{ name: "By Attribute", code: "by_attribute" }
+] as const

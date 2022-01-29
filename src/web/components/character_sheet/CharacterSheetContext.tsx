@@ -239,6 +239,12 @@ function characterSheetReducer(
 			return undoLastChange()
 		case ActionType.SetJournal:
 			return forwardChange(["set_value", "journal", action.payload])
+		case ActionType.SetSettings:
+			return forwardChange([
+				"set_value",
+				"settings.skill_order",
+				action.payload.skill_order
+			])
 		default:
 			return state
 	}
@@ -284,7 +290,8 @@ export enum ActionType {
 	AddTalent,
 	RemoveTalent,
 	UndoLastAction,
-	SetJournal
+	SetJournal,
+	SetSettings
 }
 
 type PayloadInitialize = {
@@ -346,6 +353,7 @@ type CharacterSheetAction =
 	| { type: ActionType.RemoveTalent; payload: string }
 	| { type: ActionType.UndoLastAction }
 	| { type: ActionType.SetJournal; payload: string }
+	| { type: ActionType.SetSettings; payload: { skill_order: string } }
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,

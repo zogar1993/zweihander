@@ -18,6 +18,7 @@ import updateCharacter, {
 	UpdateCharacterProps
 } from "@core/utils/UpdateCharacter"
 import {
+	SETTINGS_SKILL_ORDER,
 	SEXES,
 	SOCIAL_CLASSES,
 	UPBRINGINGS
@@ -239,8 +240,15 @@ const ENDPOINTS: Array<Endpoint> = [
 		regex: /^thumbnail/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
 		validations: { string: { nullable: true } }
+	},
+	{
+		regex: /^settings.skill_order/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: false } }
 	}
 ]
+
+//TODO add autofiller of old character sheets to keep them consistent on db
 
 function regexCodes(array: ReadonlyArray<{ code: string }>) {
 	return `(${array.map(x => x.code).join("|")})`
@@ -397,7 +405,12 @@ async function validateModel(
 		verifyIsNullOrWithin("chaos_alignment", chaos_alignments, character),
 		verifyIsNullOrWithin("social_class", SOCIAL_CLASSES, character),
 		verifyIsNullOrWithin("upbringing", UPBRINGINGS, character),
-		verifyIsNullOrWithin("sex", SEXES, character)
+		verifyIsNullOrWithin("sex", SEXES, character),
+		verifyIsNullOrWithin(
+			"skill_order",
+			SETTINGS_SKILL_ORDER,
+			character.settings
+		)
 	].flatMap(x => x)
 }
 
@@ -424,13 +437,13 @@ function verifyDependencyIsNotNull(
 	return []
 }
 
-function verifyIsNullOrWithin(
-	property: keyof SanitizedCharacterSheet,
-	collection: Array<{ code: string }>,
-	character: SanitizedCharacterSheet
+function verifyIsNullOrWithin<T>(
+	property: keyof T,
+	collection: ReadonlyArray<{ code: string }>,
+	character: T
 ) {
 	if (character[property] !== null)
-		if (!hasByCode(character[property] as string, collection))
+		if (!hasByCode(character[property] as any, collection))
 			return [`'${character[property]}' is not a valid ${property}`]
 	return []
 }

@@ -96,7 +96,7 @@ const AccordionItemContent = styled.div<{
 	padding: ${theme.spacing.separation};
 	margin-top: ${({ "aria-expanded": expanded, height }) =>
 		expanded ? 0 : `-${height - 1}px`};
-	transition: 0.4s ease-in-out;
+	transition: 0.2s ease-out;
 	z-index: ${({ z }) => Z_INDEX_LEVEL.CONTAINER + z};
 	position: relative;
 	border-bottom: 1px solid gray;

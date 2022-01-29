@@ -5,7 +5,8 @@ export const ACCORDION_ITEM = {
 	SPELLS: "Spells",
 	FOCUSES: "Focuses",
 	SPECIAL_RULES: "Special Rules",
-	JOURNAL: "Journal"
+	JOURNAL: "Journal",
+	SETTINGS: "Settings"
 } as const
 
 export const Z_INDEX_LEVEL = {

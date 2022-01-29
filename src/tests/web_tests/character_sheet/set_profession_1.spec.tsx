@@ -1,7 +1,7 @@
 import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "./utils/collections"
 import {
+	change_combobox_item,
 	render_character_sheet,
-	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -14,7 +14,7 @@ describe("Profession 1 Combobox should", () => {
 	it("send a 'set_value|profession1' action on change", async () => {
 		await render_character_sheet({ archetype: ARCHETYPE.code })
 
-		await select_combobox_item("Profession 1", NEW_PROFESSION_1)
+		await change_combobox_item("Profession 1", NEW_PROFESSION_1)
 
 		await update_character_api_was_called_with([
 			{
@@ -27,7 +27,7 @@ describe("Profession 1 Combobox should", () => {
 	it("send a 'set_value|archetype' if it was not set", async () => {
 		await render_character_sheet()
 
-		await select_combobox_item("Profession 1", NEW_PROFESSION_1)
+		await change_combobox_item("Profession 1", NEW_PROFESSION_1)
 
 		await update_character_api_was_called_with([
 			{

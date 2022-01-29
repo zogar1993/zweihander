@@ -2,9 +2,9 @@ import { fireEvent } from "@testing-library/react"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import { TEST_MAGIC_SCHOOLS } from "./utils/collections"
 import {
+	change_combobox_item,
 	click_menu_item,
 	render_character_sheet,
-	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -18,8 +18,8 @@ describe("Spells Tag Input should", () => {
 		await render_character_sheet()
 
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await select_combobox_item("School", SCHOOL, context)
-		await select_combobox_item("Spell", NEW_SPELL, context)
+		await change_combobox_item("School", SCHOOL, context)
+		await change_combobox_item("Spell", NEW_SPELL, context)
 
 		await update_character_api_was_called_with([
 			{
@@ -36,8 +36,8 @@ describe("Spells Tag Input should", () => {
 		})
 
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await select_combobox_item("School", SCHOOL, context)
-		await select_combobox_item("Spell", NEW_SPELL, context)
+		await change_combobox_item("School", SCHOOL, context)
+		await change_combobox_item("Spell", NEW_SPELL, context)
 
 		await update_character_api_was_called_with([
 			{

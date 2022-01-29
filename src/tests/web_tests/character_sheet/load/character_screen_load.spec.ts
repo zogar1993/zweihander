@@ -18,6 +18,7 @@ import {
 	then_textbox_has_a_value_of
 } from "@tests/web_tests/character_sheet/utils/utils"
 import {
+	SETTINGS_SKILL_ORDER,
 	SEXES,
 	SOCIAL_CLASSES,
 	UPBRINGINGS
@@ -63,6 +64,8 @@ describe("Character Sheet Screen should", () => {
 		await then_tag_exists(SPELL_1.name)
 		await then_tag_exists(SPELL_2.name)
 		await then_tag_exists(SPELL_3.name)
+		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
+		await then_textbox_has_a_value_of("Skill Order", SKILL_ORDER.name)
 	})
 
 	it("show correct defaults for an empty character sheet", async () => {
@@ -86,6 +89,12 @@ describe("Character Sheet Screen should", () => {
 		//await then_dots_is_checked_on("Chaos Ranks", 0)
 		//await then_dots_is_checked_on("Order Ranks", 0)
 		//await then_number_input_has_a_value_of("Corruption", 0)
+		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
+		await then_textbox_has_a_value_of(
+			"Skill Order",
+			getByCode("alphabetic", SETTINGS_SKILL_ORDER).name
+		)
+		//TODO Fix number tests at 0
 	})
 })
 
@@ -124,6 +133,7 @@ const ATTRIBUTE = ATTRIBUTE_DEFINITIONS[1]
 const ATTRIBUTE_BASE = 47
 const ATTRIBUTE_ADVANCES = 2
 const SKILL_RANKS = 1
+const SKILL_ORDER = SETTINGS_SKILL_ORDER[1]
 
 const A_CHARACTER_SHEET = {
 	name: NAME,
@@ -154,5 +164,8 @@ const A_CHARACTER_SHEET = {
 	},
 	skills: {
 		[SKILL.code]: { ranks: SKILL_RANKS }
+	},
+	settings: {
+		skill_order: SKILL_ORDER.code
 	}
 }

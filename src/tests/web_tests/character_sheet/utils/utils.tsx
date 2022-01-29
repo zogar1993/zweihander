@@ -73,7 +73,7 @@ export async function change_number_input_value(name: string, value: number) {
 	fireEvent.blur(number_input)
 }
 
-export async function select_combobox_item(
+export async function change_combobox_item(
 	name: string,
 	item: ComboBoxItem,
 	functions: BoundFunctions<typeof queries> = screen

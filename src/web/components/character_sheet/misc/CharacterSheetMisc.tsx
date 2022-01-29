@@ -2,6 +2,7 @@ import Accordion from "@web/components/Accordion"
 import CharacterSheetAlignment from "@web/components/character_sheet/misc/CharacterSheetAlignment"
 import CharacterSheetFocuses from "@web/components/character_sheet/misc/CharacterSheetFocuses"
 import CharacterSheetJournal from "@web/components/character_sheet/misc/CharacterSheetJournal"
+import CharacterSheetSettings from "@web/components/character_sheet/misc/CharacterSheetSettings"
 import CharacterSheetSpecialRules from "@web/components/character_sheet/misc/CharacterSheetSpecialRules"
 import CharacterSheetSpells from "@web/components/character_sheet/misc/CharacterSheetSpells"
 import CharacterSheetStats from "@web/components/character_sheet/misc/CharacterSheetStats"
@@ -40,6 +41,10 @@ export default function CharacterSheetMisc() {
 				{
 					name: ACCORDION_ITEM.JOURNAL,
 					content: <CharacterSheetJournal />
+				},
+				{
+					name: ACCORDION_ITEM.SETTINGS,
+					content: <CharacterSheetSettings />
 				}
 			]}
 		/>

@@ -1,7 +1,7 @@
 import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "./utils/collections"
 import {
+	change_combobox_item,
 	render_character_sheet,
-	select_combobox_item,
 	update_character_api_was_called_with
 } from "./utils/utils"
 
@@ -20,7 +20,7 @@ describe("Profession 3 Combobox should", () => {
 			profession2: PROFESSION_2.code
 		})
 
-		await select_combobox_item("Profession 3", NEW_PROFESSION_3)
+		await change_combobox_item("Profession 3", NEW_PROFESSION_3)
 
 		await update_character_api_was_called_with([
 			{
