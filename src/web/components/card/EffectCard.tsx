@@ -4,10 +4,10 @@ import { CardTitle } from "@web/components/card/CardTitle"
 import React from "react"
 import styled from "styled-components"
 
-export default function EffectCard({ trait }: SpecialRuleCardProps) {
+export default function EffectCard({ trait, onClick }: SpecialRuleCardProps) {
 	return (
 		<Card>
-			<CardTitle>{trait.name}</CardTitle>
+			<CardTitle onClick={onClick}>{trait.name}</CardTitle>
 			<Effect>{trait.effect}</Effect>
 		</Card>
 	)
@@ -18,4 +18,4 @@ const Effect = styled.p`
 	cursor: text;
 `
 
-type SpecialRuleCardProps = { trait: SpecialRule }
+type SpecialRuleCardProps = { trait: SpecialRule; onClick?: () => void }

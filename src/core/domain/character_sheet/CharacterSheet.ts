@@ -468,7 +468,6 @@ export type SpecialRule = {
 	effect: string
 }
 
-//TODO P0 change tags for spell descriptions
 function formatSpells(
 	spells: CharacterSpells,
 	schools: Array<MagicSchoolTech>
@@ -478,10 +477,7 @@ function formatSpells(
 		return {
 			name: school.name,
 			code: school.code,
-			items: spells[key]!.map(spell => ({
-				code: spell,
-				name: getByCode(spell, school.spells).name
-			}))
+			items: spells[key]!.map(spell => getByCode(spell, school.spells))
 		}
 	})
 }
@@ -508,10 +504,7 @@ function formatTalents(
 		{
 			code: "profession1",
 			name: "Profession 1",
-			items: values.map(talent => ({
-				name: getByCode(talent, talents).name,
-				code: talent
-			}))
+			items: values.map(talent => getByCode(talent, talents))
 		}
 	]
 }
