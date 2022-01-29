@@ -4,7 +4,7 @@ import {
 	click_menu_item,
 	render_character_sheet,
 	update_character_api_was_called_with
-} from "./utils/utils"
+} from "@tests/web_tests/character_sheet/utils/utils"
 
 const VALUE = "the marvelous adventures of count von pumpkin"
 

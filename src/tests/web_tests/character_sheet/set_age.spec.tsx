@@ -2,7 +2,7 @@ import {
 	change_number_input_value,
 	render_character_sheet,
 	update_character_api_was_called_with
-} from "./utils/utils"
+} from "@tests/web_tests/character_sheet/utils/utils"
 
 const NEW_CHARACTER_AGE = 36
 

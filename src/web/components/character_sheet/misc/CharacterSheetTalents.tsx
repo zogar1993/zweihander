@@ -10,7 +10,8 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetTalents() {
-	const { character, talents } = useCharacterSheetState()
+	const { character, comboboxes } = useCharacterSheetState()
+	const { options: talents } = comboboxes.talents
 	const dispatch = useCharacterSheetDispatcher()
 	return (
 		<Container>

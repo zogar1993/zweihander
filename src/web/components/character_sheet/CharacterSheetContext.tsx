@@ -6,7 +6,10 @@ import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITI
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
 	calculateCharacterSheet,
-	CalculatedCharacterSheet
+	CalculatedCharacterSheet,
+	MagicSchoolTech,
+	SpellTech,
+	TalentTech
 } from "@core/domain/character_sheet/CharacterSheet"
 import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet
@@ -45,6 +48,11 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	chaosAlignments: [],
 	orderAlignments: [],
 
+	comboboxes: {
+		schools: { value: null, options: [] },
+		spells: { options: [] },
+		talents: { options: [] }
+	},
 	ancestryTraits: [],
 	tier1Professions: [],
 
@@ -53,13 +61,19 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 
 export const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
-	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
+	dispatch: (() => {
+	}) as Dispatch<CharacterSheetAction>
 })
 
 type CharacterSheetState = {
 	_character: SanitizedCharacterSheet
 	character: CalculatedCharacterSheet
 
+	comboboxes: {
+		schools: { value: string | null; options: Array<MagicSchoolTech> }
+		spells: { options: Array<SpellTech> }
+		talents: { options: Array<TalentTech> }
+	}
 	tier1Professions: Array<Profession>
 	ancestryTraits: Array<AncestryTrait>
 
@@ -81,11 +95,18 @@ export function useCharacterSheetReducer(props: PayloadInitialize) {
 		...props,
 		_character: props.character,
 		character: calculateCharacterSheet(props),
+
 		ancestryTraits: calculateAncestryTraits(props.character.ancestry, props),
 		tier1Professions: calculateTier1Professions(
 			props.character.archetype,
 			props
 		),
+		comboboxes: {
+			schools: { value: null, options: props.schools },
+			spells: { options: [] },
+			talents: { options: getTalentOptions(props.character, props.talents) }
+		},
+
 		undoActions: []
 	}
 	return useReducer(characterSheetReducer, state)
@@ -217,23 +238,31 @@ function characterSheetReducer(
 		case ActionType.AddSpell: {
 			const { spell, school } = action.payload
 			const list = state._character.spells[school]
-			if (list)
-				return forwardChange(["add_to_array", `spells.${school}`, spell])
-			else return forwardChange(["set_value", `spells.${school}`, [spell]])
+			const result = list
+				? forwardChange(["add_to_array", `spells.${school}`, spell])
+				: forwardChange(["set_value", `spells.${school}`, [spell]])
+			return recalculateSpellOptions(result)
 		}
 		case ActionType.RemoveSpell: {
 			const { spell, school } = action.payload
 			const list = state._character.spells[school]!
-			if (list.length === 1)
-				return forwardChange(["delete_property", `spells.${school}`])
-			else
-				return forwardChange(["remove_from_array", `spells.${school}`, spell])
+			const result =
+				list.length === 1
+					? forwardChange(["delete_property", `spells.${school}`])
+					: forwardChange(["remove_from_array", `spells.${school}`, spell])
+			return recalculateSpellOptions(result)
 		}
 		case ActionType.AddTalent: {
-			return forwardChange(["add_to_array", `talents`, action.payload])
+			const result = forwardChange(["add_to_array", `talents`, action.payload])
+			return recalculateTalentOptions(result)
 		}
 		case ActionType.RemoveTalent: {
-			return forwardChange(["remove_from_array", `talents`, action.payload])
+			const result = forwardChange([
+				"remove_from_array",
+				`talents`,
+				action.payload
+			])
+			return recalculateTalentOptions(result)
 		}
 		case ActionType.UndoLastAction:
 			return undoLastChange()
@@ -245,6 +274,26 @@ function characterSheetReducer(
 				"settings.skill_order",
 				action.payload.skill_order
 			])
+		case ActionType.SetComboboxValue: {
+			const { value, combobox } = action.payload
+			const comboboxes = state.comboboxes
+
+			switch (combobox) {
+				case "schools":
+					return {
+						...state,
+						comboboxes: {
+							...comboboxes,
+							spells: {
+								options: getSpellOptions(state._character, state.schools, value)
+							},
+							schools: { ...comboboxes[combobox], value: value }
+						}
+					}
+				default:
+					throw Error(`'${combobox}' is not a valid combobox value`)
+			}
+		}
 		default:
 			return state
 	}
@@ -291,7 +340,8 @@ export enum ActionType {
 	RemoveTalent,
 	UndoLastAction,
 	SetJournal,
-	SetSettings
+	SetSettings,
+	SetComboboxValue
 }
 
 type PayloadInitialize = {
@@ -309,9 +359,9 @@ type PayloadInitialize = {
 type CharacterSheetAction =
 	| { type: ActionType.SetName; payload: string }
 	| {
-			type: ActionType.SetAvatar
-			payload: { avatar: string; thumbnail: string }
-	  }
+	type: ActionType.SetAvatar
+	payload: { avatar: string; thumbnail: string }
+}
 	| { type: ActionType.SetAge; payload: number }
 	| { type: ActionType.SetSex; payload: string | null }
 	| { type: ActionType.SetUpbringing; payload: string | null }
@@ -325,35 +375,39 @@ type CharacterSheetAction =
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
 	| {
-			type: ActionType.SetSkillRanks
-			payload: { skill: SkillCode; value: number }
-	  }
+	type: ActionType.SetSkillRanks
+	payload: { skill: SkillCode; value: number }
+}
 	| {
-			type: ActionType.SetAttributeAdvancements
-			payload: { attribute: AttributeCode; value: number }
-	  }
+	type: ActionType.SetAttributeAdvancements
+	payload: { attribute: AttributeCode; value: number }
+}
 	| {
-			type: ActionType.SetAttributeBase
-			payload: { attribute: AttributeCode; value: number }
-	  }
+	type: ActionType.SetAttributeBase
+	payload: { attribute: AttributeCode; value: number }
+}
 	| { type: ActionType.SetCorruption; payload: number }
 	| { type: ActionType.SetOrderRanks; payload: number }
 	| { type: ActionType.SetChaosRanks; payload: number }
 	| { type: ActionType.AddSpell; payload: { spell: string; school: string } }
 	| {
-			type: ActionType.RemoveSpell
-			payload: { spell: string; school: string }
-	  }
+	type: ActionType.RemoveSpell
+	payload: { spell: string; school: string }
+}
 	| { type: ActionType.AddFocus; payload: { focus: string; skill: SkillCode } }
 	| {
-			type: ActionType.RemoveFocus
-			payload: { focus: string; skill: SkillCode }
-	  }
+	type: ActionType.RemoveFocus
+	payload: { focus: string; skill: SkillCode }
+}
 	| { type: ActionType.AddTalent; payload: string }
 	| { type: ActionType.RemoveTalent; payload: string }
 	| { type: ActionType.UndoLastAction }
 	| { type: ActionType.SetJournal; payload: string }
 	| { type: ActionType.SetSettings; payload: { skill_order: string } }
+	| {
+	type: ActionType.SetComboboxValue
+	payload: { combobox: "schools"; value: string | null }
+}
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
@@ -420,4 +474,55 @@ function calculateTier1Professions(
 		...x,
 		...getByCode(x.profession, professions)
 	}))
+}
+
+function recalculateTalentOptions(
+	state: CharacterSheetState
+): CharacterSheetState {
+	return {
+		...state,
+		comboboxes: {
+			...state.comboboxes,
+			talents: {
+				options: getTalentOptions(state._character, state.talents)
+			}
+		}
+	}
+}
+
+function recalculateSpellOptions(
+	state: CharacterSheetState
+): CharacterSheetState {
+	return {
+		...state,
+		comboboxes: {
+			...state.comboboxes,
+			spells: {
+				options: getSpellOptions(
+					state._character,
+					state.schools,
+					state.comboboxes.schools.value
+				)
+			}
+		}
+	}
+}
+
+function getTalentOptions(
+	character: SanitizedCharacterSheet,
+	talents: Array<Talent>
+) {
+	return talents.filter(x => !character.talents.includes(x.code))
+}
+
+function getSpellOptions(
+	character: SanitizedCharacterSheet,
+	schools: Array<MagicSchoolTech>,
+	school: string | null
+) {
+	if (!school) return []
+	const options = getByCode(school, schools).spells
+	const spells = character.spells[school]!
+	if (!spells) return options
+	return options.filter(x => !spells.includes(x.code))
 }

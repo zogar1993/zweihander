@@ -7,7 +7,7 @@ import {
 	click_menu_item,
 	render_character_sheet,
 	update_character_api_was_called_with
-} from "./utils/utils"
+} from "@tests/web_tests/character_sheet/utils/utils"
 
 const SKILL = SKILL_DEFINITIONS[2]
 const PRE_EXISTING_FOCUS_1 = "existing focus 1"

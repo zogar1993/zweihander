@@ -3,7 +3,7 @@ import {
 	change_combobox_item,
 	render_character_sheet,
 	update_character_api_was_called_with
-} from "./utils/utils"
+} from "@tests/web_tests/character_sheet/utils/utils"
 
 const ARCHETYPE = TEST_ARCHETYPES[0]
 const NEW_PROFESSION_1 = TEST_PROFESSIONS.find(

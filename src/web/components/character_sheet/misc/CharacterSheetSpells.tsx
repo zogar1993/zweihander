@@ -1,5 +1,3 @@
-import { getByCode } from "@core/domain/general/GetByCode"
-import { Spell } from "@core/domain/Spell"
 import {
 	ActionType,
 	useCharacterSheetDispatcher,
@@ -7,18 +5,12 @@ import {
 } from "@web/components/character_sheet/CharacterSheetContext"
 import RemovableItems from "@web/components/RemovableItems"
 import { Field } from "misevi"
-import { useEffect, useState } from "react"
 
 export default function CharacterSheetSpells() {
-	const [school, setSchool] = useState<string | null>(null)
-	const { character, schools } = useCharacterSheetState()
+	const { character, comboboxes } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
-	const [spells, setSpells] = useState<Array<Spell>>([])
-
-	useEffect(() => {
-		if (school === null) setSpells([])
-		else setSpells(getByCode(school, schools).spells)
-	}, [schools, school])
+	const { value: school, options: schools } = comboboxes.schools
+	const { options: spells } = comboboxes.spells
 
 	return (
 		<>
@@ -26,7 +18,12 @@ export default function CharacterSheetSpells() {
 				label="School"
 				type="combobox"
 				options={schools}
-				onChange={setSchool}
+				onChange={value =>
+					dispatch({
+						type: ActionType.SetComboboxValue,
+						payload: { combobox: "schools", value }
+					})
+				}
 				value={school}
 				unclearable
 			/>

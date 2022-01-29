@@ -1,12 +1,13 @@
-import { fireEvent } from "@testing-library/react"
-import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
-import { TEST_MAGIC_SCHOOLS } from "./utils/collections"
+import { fireEvent, waitFor } from "@testing-library/react"
 import {
 	change_combobox_item,
 	click_menu_item,
+	is_a_combobox_option,
 	render_character_sheet,
 	update_character_api_was_called_with
-} from "./utils/utils"
+} from "@tests/web_tests/character_sheet/utils/utils"
+import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
+import { TEST_MAGIC_SCHOOLS } from "./utils/collections"
 
 const SCHOOL = TEST_MAGIC_SCHOOLS[2]
 const PRE_EXISTING_SPELL_1 = SCHOOL.spells[1]
@@ -83,5 +84,99 @@ describe("Spells Tag Input should", () => {
 				value: PRE_EXISTING_SPELL_2.code
 			}
 		])
+	})
+
+	it("not have preexisting values as eligible", async () => {
+		await render_character_sheet({
+			spells: { [SCHOOL.code]: [PRE_EXISTING_SPELL_1.code] }
+		})
+		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
+		await change_combobox_item("School", SCHOOL, context)
+
+		await waitFor(async () =>
+			expect(
+				await is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+			).toBeFalsy()
+		)
+	})
+
+	it("not have newly added value as eligible (first item addition)", async () => {
+		await render_character_sheet()
+		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
+		await change_combobox_item("School", SCHOOL, context)
+		await change_combobox_item("Spell", NEW_SPELL, context)
+
+		await waitFor(async () =>
+			expect(
+				await is_a_combobox_option("Spell", NEW_SPELL, context)
+			).toBeFalsy()
+		)
+	})
+
+	it("not have newly added value as eligible (non first item addition)", async () => {
+		await render_character_sheet({
+			spells: { [SCHOOL.code]: [PRE_EXISTING_SPELL_1.code] }
+		})
+		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
+		await change_combobox_item("School", SCHOOL, context)
+		await change_combobox_item("Spell", NEW_SPELL, context)
+
+		await waitFor(
+			async () =>
+				 expect(
+					 await is_a_combobox_option("Spell", NEW_SPELL, context)
+				).toBeFalsy()
+		)
+	})
+
+	it("have removed value as eligible (last item removal)", async () => {
+		await render_character_sheet({
+			spells: { [SCHOOL.code]: [PRE_EXISTING_SPELL_1.code] }
+		})
+		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
+		await change_combobox_item("School", SCHOOL, context)
+		fireEvent.click(context.getByText(PRE_EXISTING_SPELL_1.name))
+
+		await waitFor(async () =>
+			expect(
+				await is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+			).toBeTruthy()
+		)
+	})
+
+	it("have removed value as eligible (non last item removal)", async () => {
+		await render_character_sheet({
+			spells: {
+				[SCHOOL.code]: [PRE_EXISTING_SPELL_1.code, PRE_EXISTING_SPELL_2.code]
+			}
+		})
+		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
+		await change_combobox_item("School", SCHOOL, context)
+		fireEvent.click(context.getByText(PRE_EXISTING_SPELL_1.name))
+
+		await waitFor(async () =>
+			expect(
+				await is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+			).toBeTruthy()
+		)
+	})
+
+	it("have removed value as eligible (removal before selecting school)", async () => {
+		await render_character_sheet({
+			spells: {
+				[SCHOOL.code]: [PRE_EXISTING_SPELL_1.code]
+			}
+		})
+		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
+		fireEvent.click(context.getByText(PRE_EXISTING_SPELL_1.name))
+
+		await change_combobox_item("School", SCHOOL, context)
+
+		await waitFor(
+			async () =>
+				await expect(
+					is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+				).toBeTruthy()
+		)
 	})
 })

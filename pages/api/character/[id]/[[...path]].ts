@@ -21,7 +21,6 @@ export default async function handler(
 		}
 }
 
-//TODO P0 Remove used options from tag inputs
 //TODO P0 do skeleton for characters
 
 //TODO P0 add authentication

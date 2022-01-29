@@ -85,6 +85,19 @@ export async function change_combobox_item(
 	fireEvent.click(option)
 }
 
+export async function is_a_combobox_option(
+	name: string,
+	item: ComboBoxItem,
+	functions: BoundFunctions<typeof queries> = screen
+) {
+	const textbox = functions.getByRole("textbox", { name: name })
+	const combobox = textbox.parentElement!
+	textbox.focus()
+	await within(combobox).findByRole("listbox")
+	const option = within(combobox).queryByRole("option", { name: item.name })
+	return !!option
+}
+
 export async function change_dots_value(name: string, value: number) {
 	const group = screen.getByRole("radiogroup", { name: name })
 	const selected = within(group).getByRole("radio", { name: value.toString() })

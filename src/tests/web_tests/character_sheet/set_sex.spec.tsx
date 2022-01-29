@@ -2,7 +2,7 @@ import {
 	change_combobox_item,
 	render_character_sheet,
 	update_character_api_was_called_with
-} from "./utils/utils"
+} from "@tests/web_tests/character_sheet/utils/utils"
 
 const NEW_CHARACTER_SEX = { name: "Female", code: "female" }
 
