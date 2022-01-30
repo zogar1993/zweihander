@@ -248,8 +248,6 @@ const ENDPOINTS: Array<Endpoint> = [
 	}
 ]
 
-//TODO add autofiller of old character sheets to keep them consistent on db
-
 function regexCodes(array: ReadonlyArray<{ code: string }>) {
 	return `(${array.map(x => x.code).join("|")})`
 }

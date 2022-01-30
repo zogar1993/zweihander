@@ -72,7 +72,7 @@ describe("Character Sheet Screen should", () => {
 		await render_character_sheet({})
 
 		await then_textbox_has_a_value_of("Name", "")
-		//await then_number_input_has_a_value_of("Age", 0)
+		await then_number_input_has_a_value_of("Age", 0)
 		await then_textbox_has_a_value_of("Sex", "")
 		await then_textbox_has_a_value_of("Social Class", "")
 		await then_textbox_has_a_value_of("Upbringing", "")
@@ -82,19 +82,18 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_has_a_value_of("Profession 3", "")
 		await then_textbox_has_a_value_of("Chaos Alignment", "")
 		await then_textbox_has_a_value_of("Order Alignment", "")
-		//await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
-		//await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
+		await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
+		await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
 		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
-		//await then_dots_is_checked_on("Chaos Ranks", 0)
-		//await then_dots_is_checked_on("Order Ranks", 0)
-		//await then_number_input_has_a_value_of("Corruption", 0)
+		await then_dots_is_checked_on("Chaos Ranks", 0)
+		await then_dots_is_checked_on("Order Ranks", 0)
+		await then_number_input_has_a_value_of("Corruption", 0)
 		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
 		await then_textbox_has_a_value_of(
 			"Skill Order",
 			getByCode("alphabetic", SETTINGS_SKILL_ORDER).name
 		)
-		//TODO Fix number tests at 0
 	})
 })
 

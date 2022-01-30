@@ -1,13 +1,14 @@
 import { Ancestry } from "@core/domain/Ancestry"
 import { MagicSource } from "@core/domain/MagicSource"
 import Menu, { MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
+import RedirectLoaderCharactersScreen from "@web/components/redirect_loaders/RedirectLoaderCharactersScreen"
 import useCollection from "@web/hooks/UseCollection"
 import theme from "@web/theme/theme"
-import React, { ReactNode, useState } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 
 export type MainProps = {
-	children: ReactNode
+	children: JSX.Element
 }
 
 export default function Main({ children }: MainProps) {
@@ -25,7 +26,11 @@ export default function Main({ children }: MainProps) {
 					onShowChange={value => setShow(value)}
 				/>
 				<Section>
-					<SectionContainer show={show}>{children}</SectionContainer>
+					<SectionContainer show={show}>
+						<RedirectLoaderCharactersScreen>
+							{children}
+						</RedirectLoaderCharactersScreen>
+					</SectionContainer>
 				</Section>
 			</PageContent>
 		</React.StrictMode>

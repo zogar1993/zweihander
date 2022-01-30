@@ -16,7 +16,7 @@ import CharacterSheetScreen, {
 } from "@web/components/character_sheet/CharacterSheetScreen"
 import React from "react"
 
-export default function CharacterScreen(props: CharacterSheetScreenProps) {
+export default function CharacterPage(props: CharacterSheetScreenProps) {
 	return <CharacterSheetScreen {...props} />
 }
 
