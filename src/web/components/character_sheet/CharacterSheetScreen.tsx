@@ -49,6 +49,7 @@ const Layout = styled.div`
 	width: ${DESKTOP_MAX_WIDTH};
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: 87px 395px;
+	max-height: 486px;
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
 		"bio attributes attributes attributes"

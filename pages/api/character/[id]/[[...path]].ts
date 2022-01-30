@@ -28,7 +28,7 @@ export default async function handler(
 //TODO P0 add create character
 //TODO P0 add magic spells modal
 //TODO P0 add fix comboboxes of accordion
-//TODO P0 add fix accordion expanded on start
+//TODO P0 add
 
 //TODO P1 add delete character
 

@@ -24,12 +24,14 @@ export default function Accordion({
 
 function AccordionItem({ item, z }: { item: AccordionItemType; z: number }) {
 	const [open, setOpen] = useState(false)
-	const [height, setHeight] = useState(0)
+	const [initialized, setInitialized] = useState(false)
+	const [height, setHeight] = useState<number>(0)
 	const id = `accordion-tab-(${item.name.toLowerCase()})`
 
 	const ref = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
+		if (open) setInitialized(true)
 		setHeight(ref.current!.offsetHeight)
 	}, [open])
 
@@ -47,17 +49,20 @@ function AccordionItem({ item, z }: { item: AccordionItemType; z: number }) {
 				aria-expanded={open}
 				aria-labelledby={id}
 				ref={ref}
-				height={height}
-				z={z}
+				$height={height}
+				initialized={initialized}
+				$z={z}
 			>
 				{item.content}
 			</AccordionItemContent>
+			<ItemDelimiter />
 		</ItemContainer>
 	)
 }
 
 const AccordionContainer = styled.div`
 	display: flex;
+	position: relative;
 	flex-direction: column;
 	border-radius: ${theme.borders.radius};
 	border: 1px gray solid;
@@ -66,11 +71,11 @@ const AccordionContainer = styled.div`
 	overflow-y: auto;
 	overflow-x: hidden;
 
-  ::-webkit-scrollbar {
-    display: none;
-    appearance: none;
-    width: 6px;
-  }
+	::-webkit-scrollbar {
+		display: none;
+		appearance: none;
+		width: 6px;
+	}
 `
 
 const AccordionItemTab = styled.button`
@@ -89,19 +94,31 @@ const AccordionItemTab = styled.button`
 
 const AccordionItemContent = styled.div<{
 	"aria-expanded": boolean
-	height: number
-	z: number
+	$height: number
+	initialized: boolean
+	$z: number
 }>`
 	background-color: whitesmoke;
 	padding: ${theme.spacing.separation};
-	margin-top: ${({ "aria-expanded": expanded, height }) =>
-		expanded ? 0 : `-${height - 1}px`};
-	transition: 0.2s ease-out;
-	z-index: ${({ z }) => Z_INDEX_LEVEL.CONTAINER + z};
-	position: relative;
-	border-bottom: 1px solid gray;
+	margin-top: ${({ "aria-expanded": expanded, $height }) =>
+		expanded ? 0 : `-${$height}px`};
+	transition: 0.2s ease-out margin-top;
+	z-index: ${({ $z }) => Z_INDEX_LEVEL.CONTAINER + $z};
+	position: ${({ initialized }) => (initialized ? "relative" : "absolute")};
+	opacity: ${({ initialized }) => (initialized ? 1 : 0)};
 `
 
 const ItemContainer = styled.div`
 	width: 100%;
+
+	//this makes the last delimiter disappear
+	:last-child > :last-child {
+		display: none;
+	}
+`
+
+const ItemDelimiter = styled.div`
+	position: relative;
+	z-index: ${Z_INDEX_LEVEL.COMPONENT};
+	border-bottom: 1px solid gray;
 `
