@@ -1,9 +1,10 @@
 import Grid from "@web/components/general/Grid"
 import Link from "@web/components/general/Link"
 import theme from "@web/theme/theme"
+import { SKELETON_ANIMATION_CSS } from "misevi"
 import Image from "next/image"
 import React from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 
 export default function CharactersScreen({
 	characters
@@ -17,7 +18,7 @@ export default function CharactersScreen({
 							<CardTitle>{character.name || "unnamed"}</CardTitle>
 							<CardBody>
 								<Avatar
-									src={character.avatar || "/character/bandit.png"}
+									src={character.avatar || "/characters/bandit.png"}
 									alt="Avatar"
 									width={70}
 									height={70}
@@ -88,27 +89,6 @@ type CharacterSheetTag = {
 	profession2: string
 	profession3: string
 }
-
-export const SKELETON_ANIMATION_CSS = css`
-	cursor: wait;
-	background-image: linear-gradient(
-		-45deg,
-		gainsboro 40%,
-		white 50%,
-		gainsboro 60%
-	);
-	animation: moving-box 1s reverse infinite;
-	animation-timing-function: linear;
-	background-size: 350% 350%;
-	@keyframes moving-box {
-		from {
-			background-position: -30%;
-		}
-		to {
-			background-position: 130%;
-		}
-	}
-`
 
 const Skeleton = styled.div`
 	${SKELETON_ANIMATION_CSS};

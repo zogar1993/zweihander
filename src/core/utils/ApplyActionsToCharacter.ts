@@ -1,4 +1,4 @@
-import { UpdateAction } from "@api/character/[id]/update"
+import { UpdateAction } from "@api/characters/[id]/update"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 

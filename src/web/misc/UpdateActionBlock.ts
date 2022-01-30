@@ -1,4 +1,4 @@
-import { UpdateAction } from "@api/character/[id]/update"
+import { UpdateAction } from "@api/characters/[id]/update"
 
 export type UpdateActionBlock = Readonly<[UpdateAction["action"], string, any?]>
 

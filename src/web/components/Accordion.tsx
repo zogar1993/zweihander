@@ -6,23 +6,35 @@ import styled from "styled-components"
 export type AccordionItemType = {
 	name: string
 	content: ReactNode
+	hide?: boolean
 }
 
-export default function Accordion({
-	items
-}: {
-	items: Array<AccordionItemType>
-}) {
+export default function Accordion({ items, disabled }: AccordionProps) {
 	return (
 		<AccordionContainer role="tablist">
-			{items.map((item, i) => (
-				<AccordionItem item={item} key={item.name} z={items.length - i} />
-			))}
+			{items
+				.filter(x => !x.hide)
+				.map((item, i) => (
+					<AccordionItem
+						item={item}
+						key={item.name}
+						z={items.length - i}
+						disabled={disabled}
+					/>
+				))}
 		</AccordionContainer>
 	)
 }
 
-function AccordionItem({ item, z }: { item: AccordionItemType; z: number }) {
+function AccordionItem({
+	item,
+	z,
+	disabled
+}: {
+	item: AccordionItemType
+	z: number
+	disabled: boolean
+}) {
 	const [open, setOpen] = useState(false)
 	const [initialized, setInitialized] = useState(false)
 	const [height, setHeight] = useState<number>(0)
@@ -41,6 +53,7 @@ function AccordionItem({ item, z }: { item: AccordionItemType; z: number }) {
 				onClick={() => setOpen(open => !open)}
 				role="tab"
 				id={id}
+				disabled={disabled}
 			>
 				{item.name}
 			</AccordionItemTab>
@@ -90,6 +103,8 @@ const AccordionItemTab = styled.button`
 	cursor: pointer;
 	position: relative;
 	z-index: ${Z_INDEX_LEVEL.COMPONENT};
+
+	${({ disabled }) => (disabled ? "cursor: wait" : "")};
 `
 
 const AccordionItemContent = styled.div<{
@@ -122,3 +137,8 @@ const ItemDelimiter = styled.div`
 	z-index: ${Z_INDEX_LEVEL.COMPONENT};
 	border-bottom: 1px solid gray;
 `
+
+export type AccordionProps = {
+	items: Array<AccordionItemType>
+	disabled: boolean
+}

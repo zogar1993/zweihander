@@ -1,4 +1,4 @@
-import handler from "@api/character/[id]/update"
+import handler from "@api/characters/[id]/update"
 import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet

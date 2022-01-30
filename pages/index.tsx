@@ -1,3 +1,4 @@
+
 export default function Home() {
-	return null
+	return <img src="party.jpg" alt="pc party"/>
 }

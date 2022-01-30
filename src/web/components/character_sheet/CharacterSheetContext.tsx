@@ -1,4 +1,4 @@
-import { UpdateAction } from "@api/character/[id]/update"
+import { UpdateAction } from "@api/characters/[id]/update"
 import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
@@ -23,6 +23,7 @@ import { Talent } from "@core/domain/Talent"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
+import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, useContext, useReducer } from "react"
 
@@ -55,14 +56,16 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	},
 	ancestryTraits: [],
 	tier1Professions: [],
+	modals: {
+		confirmation: null
+	},
 
 	undoActions: []
 }) as CharacterSheetState
 
 export const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
-	dispatch: (() => {
-	}) as Dispatch<CharacterSheetAction>
+	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
 })
 
 type CharacterSheetState = {
@@ -76,6 +79,9 @@ type CharacterSheetState = {
 	}
 	tier1Professions: Array<Profession>
 	ancestryTraits: Array<AncestryTrait>
+	modals: {
+		confirmation: Confirmation | null
+	}
 
 	talents: Array<Talent>
 	professions: Array<Profession>
@@ -105,6 +111,9 @@ export function useCharacterSheetReducer(props: PayloadInitialize) {
 			schools: { value: null, options: props.schools },
 			spells: { options: [] },
 			talents: { options: getTalentOptions(props.character, props.talents) }
+		},
+		modals: {
+			confirmation: null
 		},
 
 		undoActions: []
@@ -294,6 +303,11 @@ function characterSheetReducer(
 					throw Error(`'${combobox}' is not a valid combobox value`)
 			}
 		}
+		case ActionType.SetConfirmationModal:
+			return {
+				...state,
+				modals: { ...state.modals, confirmation: action.payload }
+			}
 		default:
 			return state
 	}
@@ -341,7 +355,8 @@ export enum ActionType {
 	UndoLastAction,
 	SetJournal,
 	SetSettings,
-	SetComboboxValue
+	SetComboboxValue,
+	SetConfirmationModal
 }
 
 type PayloadInitialize = {
@@ -359,9 +374,9 @@ type PayloadInitialize = {
 type CharacterSheetAction =
 	| { type: ActionType.SetName; payload: string }
 	| {
-	type: ActionType.SetAvatar
-	payload: { avatar: string; thumbnail: string }
-}
+			type: ActionType.SetAvatar
+			payload: { avatar: string; thumbnail: string }
+	  }
 	| { type: ActionType.SetAge; payload: number }
 	| { type: ActionType.SetSex; payload: string | null }
 	| { type: ActionType.SetUpbringing; payload: string | null }
@@ -375,39 +390,40 @@ type CharacterSheetAction =
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
 	| {
-	type: ActionType.SetSkillRanks
-	payload: { skill: SkillCode; value: number }
-}
+			type: ActionType.SetSkillRanks
+			payload: { skill: SkillCode; value: number }
+	  }
 	| {
-	type: ActionType.SetAttributeAdvancements
-	payload: { attribute: AttributeCode; value: number }
-}
+			type: ActionType.SetAttributeAdvancements
+			payload: { attribute: AttributeCode; value: number }
+	  }
 	| {
-	type: ActionType.SetAttributeBase
-	payload: { attribute: AttributeCode; value: number }
-}
+			type: ActionType.SetAttributeBase
+			payload: { attribute: AttributeCode; value: number }
+	  }
 	| { type: ActionType.SetCorruption; payload: number }
 	| { type: ActionType.SetOrderRanks; payload: number }
 	| { type: ActionType.SetChaosRanks; payload: number }
 	| { type: ActionType.AddSpell; payload: { spell: string; school: string } }
 	| {
-	type: ActionType.RemoveSpell
-	payload: { spell: string; school: string }
-}
+			type: ActionType.RemoveSpell
+			payload: { spell: string; school: string }
+	  }
 	| { type: ActionType.AddFocus; payload: { focus: string; skill: SkillCode } }
 	| {
-	type: ActionType.RemoveFocus
-	payload: { focus: string; skill: SkillCode }
-}
+			type: ActionType.RemoveFocus
+			payload: { focus: string; skill: SkillCode }
+	  }
 	| { type: ActionType.AddTalent; payload: string }
 	| { type: ActionType.RemoveTalent; payload: string }
 	| { type: ActionType.UndoLastAction }
 	| { type: ActionType.SetJournal; payload: string }
 	| { type: ActionType.SetSettings; payload: { skill_order: string } }
 	| {
-	type: ActionType.SetComboboxValue
-	payload: { combobox: "schools"; value: string | null }
-}
+			type: ActionType.SetComboboxValue
+			payload: { combobox: "schools"; value: string | null }
+	  }
+	| { type: ActionType.SetConfirmationModal; payload: Confirmation | null }
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
@@ -526,3 +542,5 @@ function getSpellOptions(
 	if (!spells) return options
 	return options.filter(x => !spells.includes(x.code))
 }
+
+export type Confirmation = Omit<ConfirmationModalProps, "active">

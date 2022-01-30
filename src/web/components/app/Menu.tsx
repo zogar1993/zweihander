@@ -1,4 +1,5 @@
 import Link from "@web/components/general/Link"
+import NoStyleButton from "@web/components/unstyled/NoStyleButton"
 import theme from "@web/theme/theme"
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
@@ -6,17 +7,6 @@ import styled, { css } from "styled-components"
 export const MENU_WIDTH_EXTENDED = "190px"
 export const MENU_WIDTH_COLLAPSED = "48px"
 const OUTER_Z_INDEX = 1
-
-const NoStyleButton = styled.button`
-	padding: 0;
-	border: 0;
-	line-height: 0;
-	font: inherit;
-	color: inherit;
-	background-color: transparent;
-	cursor: pointer;
-	outline: none;
-`
 
 export default function Menu({ logo, menu, onShowChange }: MenuProps) {
 	const [openMenu, setOpenMenu] = useState<string | null>(null)

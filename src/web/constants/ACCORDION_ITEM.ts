@@ -6,7 +6,8 @@ export const ACCORDION_ITEM = {
 	FOCUSES: "Focuses",
 	SPECIAL_RULES: "Special Rules",
 	JOURNAL: "Journal",
-	SETTINGS: "Settings"
+	SETTINGS: "Settings",
+	DANGER_ZONE: "Danger Zone"
 } as const
 
 export const Z_INDEX_LEVEL = {

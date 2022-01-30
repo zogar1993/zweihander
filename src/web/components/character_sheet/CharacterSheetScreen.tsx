@@ -7,6 +7,7 @@ import { Profession } from "@core/domain/Profession"
 import { Talent } from "@core/domain/Talent"
 import CharacterSheetBio from "@web/components/character_sheet/bio/CharacterSheetBio"
 import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
+import CharacterSheetConfirmationModal from "@web/components/character_sheet/CharacterSheetConfirmationModal"
 import {
 	ActionType,
 	CharacterSheetContext,
@@ -32,6 +33,7 @@ export default function CharacterSheetScreen(props: CharacterSheetScreenProps) {
 
 	return (
 		<CharacterSheetContext.Provider value={{ state, dispatch }}>
+			<CharacterSheetConfirmationModal />
 			<Layout>
 				<CharacterSheetBio />
 				<CharacterSheetAttributes />

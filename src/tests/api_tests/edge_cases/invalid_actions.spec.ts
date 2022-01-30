@@ -1,4 +1,4 @@
-import { UpdateAction } from "@api/character/[id]/update"
+import { UpdateAction } from "@api/characters/[id]/update"
 import {
 	expect_character_to_be_unchanged,
 	update_character

@@ -24,7 +24,7 @@ export default function CharacterSheetBio() {
 		<Bio>
 			<AvatarContainer>
 				<Avatar
-					src={character.avatar || "/character/bandit.png"}
+					src={character.avatar || "/characters/bandit.png"}
 					alt="Avatar"
 					onChange={(avatar, thumbnail) =>
 						dispatch({
@@ -37,7 +37,9 @@ export default function CharacterSheetBio() {
 					<Field
 						label="Name"
 						value={character.name}
-						onBlur={value => dispatch({ type: ActionType.SetName, payload: value })}
+						onBlur={value =>
+							dispatch({ type: ActionType.SetName, payload: value })
+						}
 					/>
 					<SexAgeContainer>
 						<Field

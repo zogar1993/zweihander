@@ -1,4 +1,4 @@
-import { UpdateAction } from "@api/character/[id]/update"
+import { UpdateAction } from "@api/characters/[id]/update"
 import sanitizeCharacterSheet, {
 	UnsanitizedCharacterSheetData
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
@@ -11,6 +11,7 @@ import {
 	waitFor,
 	within
 } from "@testing-library/react"
+import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
@@ -28,6 +29,7 @@ import {
 
 export const CHARACTER_ID = "an_id"
 export const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
+export const deleteCharacterOfIdSpy = jest.spyOn(deleteCharacterOfId, "default")
 export const useRouterSpy = jest.spyOn(router, "useRouter")
 useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 
@@ -163,4 +165,15 @@ export async function then_tag_exists(
 
 export async function press_ctrl_z() {
 	fireEvent.keyDown(document, { ctrlKey: true, key: "z" })
+}
+
+export async function delete_character_api_was_called() {
+	const calls = updateCharacterOfIdSpy.mock.calls
+	await waitFor(() => expect(calls.length).toBe(1))
+	expect(calls[0][0]).toBe(CHARACTER_ID)
+}
+
+export async function delete_character_api_was_not_called() {
+	const calls = updateCharacterOfIdSpy.mock.calls
+	await waitFor(() => expect(calls.length).toBe(0))
 }

@@ -1,10 +1,10 @@
-import { UpdateAction } from "@api/character/[id]/update"
+import { UpdateAction } from "@api/characters/[id]/update"
 
 export default async function updateCharacterOfId(
 	id: string,
 	changes: Array<UpdateAction>
 ) {
-	await fetch(`/api/character/${id}/update`, {
+	await fetch(`/api/characters/${id}/update`, {
 		method: "POST",
 		body: JSON.stringify(changes)
 	})

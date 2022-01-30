@@ -1,5 +1,7 @@
 import Accordion from "@web/components/Accordion"
+import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import CharacterSheetAlignment from "@web/components/character_sheet/misc/CharacterSheetAlignment"
+import CharacterSheetDangerZone from "@web/components/character_sheet/misc/CharacterSheetDangerZone"
 import CharacterSheetFocuses from "@web/components/character_sheet/misc/CharacterSheetFocuses"
 import CharacterSheetJournal from "@web/components/character_sheet/misc/CharacterSheetJournal"
 import CharacterSheetSettings from "@web/components/character_sheet/misc/CharacterSheetSettings"
@@ -11,8 +13,11 @@ import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import styled from "styled-components"
 
 export default function CharacterSheetMisc() {
+	const { character } = useCharacterSheetState()
+
 	return (
 		<MiscAccordion
+			disabled={character.corruption === undefined} //Arbitrary property selection
 			items={[
 				{
 					name: ACCORDION_ITEM.ALIGNMENT,
@@ -36,7 +41,8 @@ export default function CharacterSheetMisc() {
 				},
 				{
 					name: ACCORDION_ITEM.SPECIAL_RULES,
-					content: <CharacterSheetSpecialRules />
+					content: <CharacterSheetSpecialRules />,
+					hide: character.special_rules.length === 0
 				},
 				{
 					name: ACCORDION_ITEM.JOURNAL,
@@ -45,6 +51,10 @@ export default function CharacterSheetMisc() {
 				{
 					name: ACCORDION_ITEM.SETTINGS,
 					content: <CharacterSheetSettings />
+				},
+				{
+					name: ACCORDION_ITEM.DANGER_ZONE,
+					content: <CharacterSheetDangerZone />
 				}
 			]}
 		/>
