@@ -28,7 +28,8 @@ export const TEST_ANCESTRIES: Array<Ancestry> = Array.from(
 		effect: `ancestry_${n}_trait_${m}_effect`,
 		from: 10 * (m - 1) + 1,
 		to: 10 * m
-	}))
+	})),
+	icon: ""
 }))
 
 export const TEST_PROFESSIONS: Array<Profession> = Array.from(
