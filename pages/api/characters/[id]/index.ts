@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
+import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -26,7 +26,6 @@ export default async function handler(
 
 //TODO P0 add trackers
 //TODO P0 add create character
-//TODO P0 add magic spells modal
 
 //TODO P0 check why response fromserver never comes
 
@@ -40,9 +39,10 @@ export default async function handler(
 //TODO P4 make hierarchies of talents for professions
 //TODO P4 check for strict experience expenditure
 
+//TODO P4 doing CTRL + z leaves currently edited combobox weird (happens with profession chains)
 //TODO P0 add authentication
 //TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
-//TODO P0 check that SWR is used correctly
+//TODO P2 check that SWR is used correctly
 //TODO P4 check this works correctly https://github.com/vercel/next.js/issues/30802
 //TODO P4 dont allow characters screen redirection to self
 

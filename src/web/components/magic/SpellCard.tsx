@@ -5,9 +5,9 @@ import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
-export default function SpellCard({ spell }: Props) {
+export default function SpellCard({ spell, onClick }: Props) {
 	return (
-		<CardContainer>
+		<CardContainer onClick={onClick}>
 			<CardTitle>{spell.name}</CardTitle>
 			<TagContainer>
 				<Tag>{spell.school}</Tag>
@@ -21,6 +21,7 @@ export default function SpellCard({ spell }: Props) {
 
 type Props = {
 	spell: Spell
+	onClick: () => void
 }
 
 const CardContainer = styled(Card)`

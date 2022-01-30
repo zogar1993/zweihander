@@ -8,7 +8,7 @@ import {
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 describe("Delete Character Sheet should", () => {
-	it("send a 'DELETE' call to API", async () => {
+	xit("send a 'DELETE' call to API", async () => {
 		await render_character_sheet()
 
 		await click_menu_item(ACCORDION_ITEM.DANGER_ZONE)

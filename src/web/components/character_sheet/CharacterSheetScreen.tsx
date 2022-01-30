@@ -24,8 +24,10 @@ export default function CharacterSheetScreen(props: CharacterSheetScreenProps) {
 
 	useEffect(() => {
 		const handler = (event: any) => {
-			if (event.ctrlKey && event.key === "z")
+			if (event.ctrlKey && event.key === "z") {
 				dispatch({ type: ActionType.UndoLastAction })
+				event.preventDefault()
+			}
 		}
 		document.addEventListener("keydown", handler)
 		return () => document.removeEventListener("keydown", handler)

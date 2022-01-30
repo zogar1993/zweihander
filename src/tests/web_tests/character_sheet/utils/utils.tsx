@@ -42,6 +42,8 @@ export async function render_character_sheet(
 ) {
 	updateCharacterOfIdSpy.mockReset()
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve())
+	deleteCharacterOfIdSpy.mockReset()
+	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	render(
 		<CharacterSheetScreen
 			character={sanitizeCharacterSheet({
@@ -168,12 +170,12 @@ export async function press_ctrl_z() {
 }
 
 export async function delete_character_api_was_called() {
-	const calls = updateCharacterOfIdSpy.mock.calls
+	const calls = deleteCharacterOfIdSpy.mock.calls
 	await waitFor(() => expect(calls.length).toBe(1))
 	expect(calls[0][0]).toBe(CHARACTER_ID)
 }
 
 export async function delete_character_api_was_not_called() {
-	const calls = updateCharacterOfIdSpy.mock.calls
+	const calls = deleteCharacterOfIdSpy.mock.calls
 	await waitFor(() => expect(calls.length).toBe(0))
 }
