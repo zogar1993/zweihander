@@ -29,7 +29,7 @@ export default async function handler(
 
 //TODO P2 Handle responses for failures
 //TODO P3 how to be atomic on mongodb
-//TODO add autofiller of old character sheets to keep them consistent on db
+//TODO P0 add autofiller of old character sheets to keep them consistent on db
 
 //TODO P4 Do test for react avatar and thumbnail
 //TODO P0 add fix comboboxes of accordion
@@ -42,7 +42,6 @@ export default async function handler(
 //TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
 //TODO P4 check that SWR is used correctly
 //TODO P4 check this works correctly https://github.com/vercel/next.js/issues/30802
-//TODO P4 check this linting issue https://stackoverflow.com/questions/69061240/nextjs-importing-next-document-outside-of-pages-document-error
 //TODO P4 dont allow characters screen redirection to self
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
