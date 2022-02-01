@@ -30,4 +30,6 @@ export type ShallowCharacterSheet = {
 	profession3: string | null
 	mercy: string | null
 	settings: CharacterSheetSettings
+
+	created_by?: string
 }

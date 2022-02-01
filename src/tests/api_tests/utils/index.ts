@@ -24,6 +24,11 @@ export const getCharacterSheetOfId = jest.spyOn(
 	GetCharacterSheetOfId,
 	"default"
 )
+export const withApiAuthRequiredSpy = jest.spyOn(
+	require("@auth0/nextjs-auth0"),
+	"withApiAuthRequired"
+)
+withApiAuthRequiredSpy.mockImplementation(x => x)
 
 permamock("@core/actions/GetAncestries", TEST_ANCESTRIES)
 permamock("@core/actions/GetProfessions", TEST_PROFESSIONS)

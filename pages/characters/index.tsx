@@ -1,11 +1,10 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 import { getCharacters } from "@core/actions/GetCharacters"
-import CharactersScreen, {
-	CharactersScreenProps
-} from "@web/components/character_sheet/CharactersScreen"
+import CharactersScreen from "@web/components/character_sheet/CharactersScreen"
 import RedirectLoaderCharacterScreen from "@web/components/redirect_loaders/RedirectLoaderCharacterScreen"
 import React from "react"
 
-export default function CharactersPage({ characters }: CharactersScreenProps) {
+export default function CharactersPage({ characters }: any) {
 	return (
 		<RedirectLoaderCharacterScreen>
 			<CharactersScreen characters={characters} />
@@ -13,11 +12,9 @@ export default function CharactersPage({ characters }: CharactersScreenProps) {
 	)
 }
 
-export async function getServerSideProps() {
-	const characters = await getCharacters()
-	return {
-		props: {
-			characters
-		}
+export const getServerSideProps = withPageAuthRequired({
+	getServerSideProps: async () => {
+		const characters = await getCharacters()
+		return { props: { characters } }
 	}
-}
+})

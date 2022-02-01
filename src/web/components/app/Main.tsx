@@ -1,6 +1,8 @@
+import { useUser } from "@auth0/nextjs-auth0"
 import { Ancestry } from "@core/domain/Ancestry"
 import { MagicSource } from "@core/domain/MagicSource"
 import Menu, { MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
+import { LoadingModal } from "@web/components/redirect_loaders/LoadingModalContext"
 import RedirectLoaderCharactersScreen from "@web/components/redirect_loaders/RedirectLoaderCharactersScreen"
 import useCollection from "@web/hooks/UseCollection"
 import theme from "@web/theme/theme"
@@ -13,6 +15,7 @@ export type MainProps = {
 
 export default function Main({ children }: MainProps) {
 	const [show, setShow] = useState<boolean>(true)
+	const user = useUser().user
 
 	const ancestries = useCollection<Ancestry>("ancestries")
 	const magicSources = useCollection<MagicSource>("magic-sources")
@@ -22,14 +25,16 @@ export default function Main({ children }: MainProps) {
 			<PageContent>
 				<Menu
 					logo="/ZweihanderLogo.png"
-					menu={screens({ ancestries, magicSources })}
+					menu={screens({ ancestries, magicSources, user })}
 					onShowChange={value => setShow(value)}
 				/>
 				<Section>
 					<SectionContainer show={show}>
-						<RedirectLoaderCharactersScreen>
-							{children}
-						</RedirectLoaderCharactersScreen>
+						<LoadingModal>
+							<RedirectLoaderCharactersScreen>
+								{children}
+							</RedirectLoaderCharactersScreen>
+						</LoadingModal>
 					</SectionContainer>
 				</Section>
 			</PageContent>
@@ -72,10 +77,12 @@ const SectionContainer = styled.div<{ show: boolean }>`
 
 const screens = ({
 	ancestries,
-	magicSources
+	magicSources,
+	user
 }: {
 	ancestries: Array<Ancestry>
 	magicSources: Array<MagicSource>
+	user: any
 }): Array<MenuItem> => [
 	{ path: "characters", name: "Characters", icon: "/menu/child.png" },
 	{
@@ -104,5 +111,8 @@ const screens = ({
 			}`
 		}))
 	},
-	{ path: "creatures", name: "Creatures", icon: "/menu/monster.png" }
+	{ path: "creatures", name: "Creatures", icon: "/menu/monster.png" },
+	...(user
+		? [{ path: "api/auth/logout", name: "Log Out", icon: "/menu/logout.png" }]
+		: [])
 ]

@@ -12,6 +12,7 @@ export default function RedirectLoaderCharactersScreen({
 
 	useEffect(() => {
 		const handleRouteChange = (url: string) => {
+			if (router.route === "/characters") return
 			if (url.match(/^\/characters$/)) setIsRedirecting(true)
 		}
 		const completeRedirect = () => setIsRedirecting(false)

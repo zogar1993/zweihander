@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { withApiAuthRequired } from "@auth0/nextjs-auth0"
 import getAncestries from "@core/actions/GetAncestries"
 import getArchetypes from "@core/actions/GetArchetypes"
 import getChaosAlignments from "@core/actions/GetChaosAlignments"
@@ -25,10 +26,10 @@ import {
 } from "@web/components/character_sheet/bio/Constants"
 import type { NextApiRequest, NextApiResponse } from "next"
 
-export default async function handler(
+export default withApiAuthRequired(async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
-) {
+): Promise<any> {
 	const id = req.query.id
 	if (Array.isArray(id)) return res.status(500)
 
@@ -79,8 +80,8 @@ export default async function handler(
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
 	await updateCharacter(id, flattenResults(results))
-	res.status(200)
-}
+	res.status(200).json({})
+})
 
 export type UpdateAction = Readonly<{
 	action: "set_value" | "remove_from_array" | "add_to_array" | "delete_property"

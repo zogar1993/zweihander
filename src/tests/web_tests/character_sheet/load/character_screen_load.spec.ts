@@ -64,7 +64,7 @@ describe("Character Sheet Screen should", () => {
 		await then_tag_exists(SPELL_1.name)
 		await then_tag_exists(SPELL_2.name)
 		await then_tag_exists(SPELL_3.name)
-		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
+		await click_menu_item(ACCORDION_ITEM.SETTINGS)
 		await then_textbox_has_a_value_of("Skill Order", SKILL_ORDER.name)
 	})
 
