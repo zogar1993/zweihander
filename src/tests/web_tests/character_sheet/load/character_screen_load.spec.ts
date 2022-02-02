@@ -66,7 +66,7 @@ describe("Character Sheet Screen should", () => {
 		await then_tag_exists(SPELL_3.name)
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
 		await then_textbox_has_a_value_of("Skill Order", SKILL_ORDER.name)
-	})
+	}, 10000)
 
 	it("show correct defaults for an empty character sheet", async () => {
 		await render_character_sheet({})
@@ -94,7 +94,7 @@ describe("Character Sheet Screen should", () => {
 			"Skill Order",
 			getByCode("alphabetic", SETTINGS_SKILL_ORDER).name
 		)
-	})
+	}, 10000)
 })
 
 const NAME = "Linuar"

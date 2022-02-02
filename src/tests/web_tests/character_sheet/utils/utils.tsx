@@ -34,7 +34,8 @@ export const useRouterSpy = jest.spyOn(router, "useRouter")
 useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 
 export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
-	id: CHARACTER_ID
+	id: CHARACTER_ID,
+	created_by: "alistair.grout"
 })
 
 export async function render_character_sheet(

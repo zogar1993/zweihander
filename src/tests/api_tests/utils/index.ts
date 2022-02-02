@@ -1,4 +1,5 @@
 import handler from "@api/characters/[id]/update"
+import * as auth0 from "@auth0/nextjs-auth0"
 import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet
@@ -24,11 +25,10 @@ export const getCharacterSheetOfId = jest.spyOn(
 	GetCharacterSheetOfId,
 	"default"
 )
-export const withApiAuthRequiredSpy = jest.spyOn(
-	require("@auth0/nextjs-auth0"),
-	"withApiAuthRequired"
-)
-withApiAuthRequiredSpy.mockImplementation(x => x)
+export const withApiAuthRequiredSpy = jest.spyOn(auth0, "getSession")
+withApiAuthRequiredSpy.mockImplementation(() => ({
+	user: { nickname: DEFAULT_CHARACTER_SHEET.created_by }
+}))
 
 permamock("@core/actions/GetAncestries", TEST_ANCESTRIES)
 permamock("@core/actions/GetProfessions", TEST_PROFESSIONS)

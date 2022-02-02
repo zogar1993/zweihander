@@ -278,11 +278,14 @@ function characterSheetReducer(
 		case ActionType.SetJournal:
 			return forwardChange(["set_value", "journal", action.payload])
 		case ActionType.SetSettings:
-			return forwardChange([
-				"set_value",
-				"settings.skill_order",
-				action.payload.skill_order
-			])
+			const entries = Object.entries(action.payload)
+			return forwardChange(
+				...entries.map(
+					([key, value]) =>
+						["set_value", `settings.${key}`, value] as UpdateActionBlock
+				)
+			)
+
 		case ActionType.SetComboboxValue: {
 			const { value, combobox } = action.payload
 			const comboboxes = state.comboboxes
@@ -418,7 +421,10 @@ type CharacterSheetAction =
 	| { type: ActionType.RemoveTalent; payload: string }
 	| { type: ActionType.UndoLastAction }
 	| { type: ActionType.SetJournal; payload: string }
-	| { type: ActionType.SetSettings; payload: { skill_order: string } }
+	| {
+			type: ActionType.SetSettings
+			payload: { skill_order?: string; visibility?: string }
+	  }
 	| {
 			type: ActionType.SetComboboxValue
 			payload: { combobox: "schools"; value: string | null }

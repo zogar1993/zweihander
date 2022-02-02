@@ -10,11 +10,17 @@ import {
 } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 
+const DEFAULT_SETTINGS = {
+	skill_order: "alphabetic",
+	visibility: "public"
+} as const
+
 export default function sanitizeCharacterSheet(
 	raw: UnsanitizedCharacterSheetData
 ): SanitizedCharacterSheet {
 	return {
 		id: raw.id!,
+		created_by: raw.created_by || "alistairgrout",//TODO remove when fully implemented
 		name: raw.name || "",
 		age: raw.age || 0,
 		sex: raw.sex || null,
@@ -42,7 +48,9 @@ export default function sanitizeCharacterSheet(
 		profession2: raw.profession2 || null,
 		profession3: raw.profession3 || null,
 		mercy: raw.mercy || null,
-		settings: raw.settings || { skill_order: "alphabetic" }
+		settings: raw.settings
+			? { ...DEFAULT_SETTINGS, ...raw.settings }
+			: DEFAULT_SETTINGS
 	}
 }
 

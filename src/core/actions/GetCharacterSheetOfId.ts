@@ -34,7 +34,8 @@ export default async function getCharacterSheetOfId(id: string) {
 					focuses: 1,
 					mercy: 1,
 					journal: 1,
-					settings: 1
+					settings: 1,
+					created_by: 1
 				}
 			}
 		)

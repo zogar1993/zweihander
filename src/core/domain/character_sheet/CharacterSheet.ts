@@ -381,7 +381,11 @@ type Skill = {
 }
 
 export type SkillOrder = "alphabetic" | "by_attribute"
-export type CharacterSheetSettings = { skill_order: SkillOrder }
+export type Visibility = "public" | "private"
+export type CharacterSheetSettings = {
+	skill_order: SkillOrder
+	visibility: Visibility
+}
 export type SchoolCode = string
 export type SpellCode = string
 export type CharacterSpells = Partial<Record<SchoolCode, Array<SpellCode>>>

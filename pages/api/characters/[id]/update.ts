@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { withApiAuthRequired } from "@auth0/nextjs-auth0"
+import { getSession } from "@auth0/nextjs-auth0"
 import getAncestries from "@core/actions/GetAncestries"
 import getArchetypes from "@core/actions/GetArchetypes"
 import getChaosAlignments from "@core/actions/GetChaosAlignments"
@@ -20,16 +20,20 @@ import updateCharacter, {
 } from "@core/utils/UpdateCharacter"
 import {
 	SETTINGS_SKILL_ORDER,
+	SETTINGS_VISIBILITY,
 	SEXES,
 	SOCIAL_CLASSES,
 	UPBRINGINGS
 } from "@web/components/character_sheet/bio/Constants"
 import type { NextApiRequest, NextApiResponse } from "next"
 
-export default withApiAuthRequired(async function handler(
+export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<any> {
+	const session = await getSession(req, res)
+	if (!session) return res.status(401).json({})
+
 	const id = req.query.id
 	if (Array.isArray(id)) return res.status(500)
 
@@ -68,6 +72,9 @@ export default withApiAuthRequired(async function handler(
 
 	const character = await getCharacterSheetOfId(id)
 
+	if (session.user.nickname !== character.created_by)
+		return res.status(403).json({})
+
 	const preexisting_errors = await validateModel(character)
 	if (preexisting_errors.length > 0) return res.status(500).json(server_errors)
 
@@ -81,7 +88,7 @@ export default withApiAuthRequired(async function handler(
 
 	await updateCharacter(id, flattenResults(results))
 	res.status(200).json({})
-})
+}
 
 export type UpdateAction = Readonly<{
 	action: "set_value" | "remove_from_array" | "add_to_array" | "delete_property"
@@ -244,6 +251,11 @@ const ENDPOINTS: Array<Endpoint> = [
 	},
 	{
 		regex: /^settings.skill_order/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { string: { nullable: false } }
+	},
+	{
+		regex: /^settings.visibility/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
 		validations: { string: { nullable: false } }
 	}
@@ -409,7 +421,8 @@ async function validateModel(
 			"skill_order",
 			SETTINGS_SKILL_ORDER,
 			character.settings
-		)
+		),
+		verifyIsNullOrWithin("visibility", SETTINGS_VISIBILITY, character.settings)
 	].flatMap(x => x)
 }
 

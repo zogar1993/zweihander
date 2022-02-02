@@ -1,31 +1,40 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { withApiAuthRequired } from "@auth0/nextjs-auth0"
+import { getSession } from "@auth0/nextjs-auth0"
 import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
 import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import type { NextApiRequest, NextApiResponse } from "next"
 
-export default withApiAuthRequired(async function handler(
+export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
+	const session = await getSession(req, res)
+	if (!session) return res.status(401).json({})
+
 	const id = req.query.id
-	if (Array.isArray(id)) {
-		res.status(500)
-		return
-	}
+	if (Array.isArray(id)) return res.status(500)
 
 	if (!req.query.path)
 		switch (req.method) {
-			case "GET":
-				return await getHandler(req, res)
-			case "DELETE":
-				return await deleteHandler(req, res)
+			case "GET": {
+				const character = await getCharacterSheetOfId(id as string)
+				if (character.settings.visibility === "private")
+					if (session.user.nickname !== character.created_by)
+						return res.status(403).json({})
+
+				return res.status(200).json(character)
+			}
+			case "DELETE": {
+				const character = await getCharacterSheetOfId(id as string) //TODO could bring only what is necessary instead
+				if (session.user.nickname !== character.created_by)
+					return res.status(403).json({})
+				await deleteCharacterSheetOfId(id as string)
+				return res.status(200).json({})
+			}
 			default:
 				res.status(405)
 		}
-})
-
-//TODO P0 add authentication
+}
 
 //TODO P0 add trackers
 
@@ -44,15 +53,3 @@ export default withApiAuthRequired(async function handler(
 //TODO P2 check that SWR is used correctly
 //TODO P4 check this works correctly https://github.com/vercel/next.js/issues/30802
 //TODO P4 see why next cant send 204 status codes
-
-async function getHandler(req: NextApiRequest, res: NextApiResponse) {
-	const { id } = req.query
-	const character = await getCharacterSheetOfId(id as string)
-	res.status(200).json(character)
-}
-
-async function deleteHandler(req: NextApiRequest, res: NextApiResponse) {
-	const { id } = req.query
-	await deleteCharacterSheetOfId(id as string)
-	res.status(200).json({})
-}

@@ -13,7 +13,9 @@ export async function getCharacters() {
 					profession1: 1,
 					profession2: 1,
 					profession3: 1,
-					thumbnail: 1
+					thumbnail: 1,
+					created_by: 1,
+					"settings.visibility": 1
 				}
 			}
 		)
@@ -26,7 +28,9 @@ export async function getCharacters() {
 		ancestry: toTitle(x.ancestry),
 		profession1: toTitle(x.profession1),
 		profession2: toTitle(x.profession2),
-		profession3: toTitle(x.profession3)
+		profession3: toTitle(x.profession3),
+		created_by: x.created_by || null,
+		visibility: x.settings?.visibility || null
 	}))
 }
 

@@ -66,3 +66,8 @@ export const SETTINGS_SKILL_ORDER = [
 	{ name: "Alphabetic", code: "alphabetic" },
 	{ name: "By Attribute", code: "by_attribute" }
 ] as const
+
+export const SETTINGS_VISIBILITY = [
+	{ name: "Public", code: "public" },
+	{ name: "Private", code: "private" }
+] as const
