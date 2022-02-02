@@ -17,6 +17,7 @@ export default function Main({ children }: MainProps) {
 	const [show, setShow] = useState<boolean>(true)
 	const user = useUser().user
 
+//TODO look for other way of loading these
 	const ancestries = useCollection<Ancestry>("ancestries")
 	const magicSources = useCollection<MagicSource>("magic-sources")
 

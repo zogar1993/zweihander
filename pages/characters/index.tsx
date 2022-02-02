@@ -5,6 +5,7 @@ import RedirectLoaderCharacterScreen from "@web/components/redirect_loaders/Redi
 import React from "react"
 
 export default function CharactersPage({ characters }: any) {
+//TODO move to CSR
 	return (
 		<RedirectLoaderCharacterScreen>
 			<CharactersScreen characters={characters} />

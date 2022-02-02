@@ -32,20 +32,21 @@ export default async function handler(
 	res: NextApiResponse
 ): Promise<any> {
 	const session = await getSession(req, res)
-	if (!session) return res.status(401).json({})
+	if (!session) return res.status(401).end()
 
 	const id = req.query.id
-	if (Array.isArray(id)) return res.status(500)
+	if (Array.isArray(id)) return res.status(500).end()
 
 	const actions = JSON.parse(req.body) as Array<UpdateAction>
-	if (!Array.isArray(actions) || actions.length === 0) return res.status(400)
+	if (!Array.isArray(actions) || actions.length === 0)
+		return res.status(400).end()
 
 	const client_errors: Array<[UpdateAction, string]> = []
 	const server_errors: Array<[UpdateAction, string]> = []
 	const results: Array<UpdateCharacterProps> = []
 
 	if (new Set(actions.map(x => x.property)).size < actions.length)
-		return res.status(400)
+		return res.status(400).json(["there can only be one action per property"])
 
 	for (const action of actions) {
 		try {

@@ -43,8 +43,8 @@ export default function CharactersScreen({
 									<CardInfo>
 										<CardInfoLine>{character.ancestry}</CardInfoLine>
 										<CardInfoLine>{character.profession1}</CardInfoLine>
-										<CardInfoLine>{character.profession2}</CardInfoLine>
-										<CardInfoLine>{character.profession3}</CardInfoLine>
+										<CardInfoLine>owner: {character.created_by}</CardInfoLine>
+										<CardInfoLine>{character.visibility}</CardInfoLine>
 									</CardInfo>
 								</CardBody>
 							</Card>
@@ -106,6 +106,8 @@ type CharacterSheetTag = {
 	profession1: string
 	profession2: string
 	profession3: string
+	created_by: string
+	visibility: string
 }
 
 const Skeleton = styled.div`

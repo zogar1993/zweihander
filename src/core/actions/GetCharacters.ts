@@ -22,7 +22,6 @@ export async function getCharacters() {
 		.toArray()
 
 	return result.map(({ _id, thumbnail, ...x }) => ({
-		...x,
 		id: _id.toString(),
 		avatar: thumbnail || null,
 		ancestry: toTitle(x.ancestry),
