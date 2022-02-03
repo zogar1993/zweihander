@@ -1,3 +1,4 @@
+import { CharacterPreview } from "@core/actions/GetCharacters"
 import createCharacter from "@web/api_calls/CreateCharacter"
 import Button from "@web/components/general/Button"
 import Grid from "@web/components/general/Grid"
@@ -95,19 +96,7 @@ const Avatar = styled(Image)`
 `
 
 export type CharactersScreenProps = {
-	characters: Array<CharacterSheetTag>
-}
-
-type CharacterSheetTag = {
-	id: string
-	name: string
-	avatar: string | null
-	ancestry: string
-	profession1: string
-	profession2: string
-	profession3: string
-	created_by: string
-	visibility: string
+	characters: Array<CharacterPreview> | undefined
 }
 
 const Skeleton = styled.div`

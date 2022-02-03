@@ -39,7 +39,7 @@ export default async function handler(
 //TODO P0 add trackers
 
 //TODO P2 Handle responses for failures
-//TODO P0 how to be atomic on mongodb
+//TODO P1 how to be atomic on mongodb
 //TODO P0 add autofiller of old character sheets to keep them consistent on db
 
 //TODO P4 Do test for react avatar and thumbnail

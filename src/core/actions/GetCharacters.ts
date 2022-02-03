@@ -1,6 +1,7 @@
+import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import getMongoDBClient from "@core/utils/GetMongoDBClient"
 
-export async function getCharacters() {
+export async function getCharacters(): Promise<Array<CharacterPreview>> {
 	const client = await getMongoDBClient()
 	const result = await client
 		.collection("CHARACTERS")
@@ -23,12 +24,13 @@ export async function getCharacters() {
 
 	return result.map(({ _id, thumbnail, ...x }) => ({
 		id: _id.toString(),
+		created_by: x.created_by || null,
+		name: x.name,
 		avatar: thumbnail || null,
 		ancestry: toTitle(x.ancestry),
 		profession1: toTitle(x.profession1),
 		profession2: toTitle(x.profession2),
 		profession3: toTitle(x.profession3),
-		created_by: x.created_by || null,
 		visibility: x.settings?.visibility || null
 	}))
 }
@@ -41,3 +43,15 @@ function toTitle(value: string | null) {
 		.map(x => x[0].toUpperCase() + x.substring(1))
 		.join(" ")
 }
+
+export type CharacterPreview = Pick<
+	SanitizedCharacterSheet,
+	| "id"
+	| "name"
+	| "avatar"
+	| "ancestry"
+	| "profession1"
+	| "profession2"
+	| "profession3"
+	| "created_by"
+> & { visibility: SanitizedCharacterSheet["settings"]["visibility"] }

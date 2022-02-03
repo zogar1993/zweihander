@@ -12,13 +12,11 @@ export default async function handler(
 	const session = await getSession(req, res)
 	if (!session) return res.status(401).end()
 	const username = session.user.nickname
-	console.log(session.user.nickname)
 
 	if (!req.query.path)
 		switch (req.method) {
 			case "GET":
 				const characters = await getCharacters() //TODO do this directly on DB
-				console.log(characters)
 				const filtered = characters.filter(
 					x => x.visibility !== "private" || x.created_by === username
 				)

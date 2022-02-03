@@ -3,7 +3,6 @@ import { Ancestry } from "@core/domain/Ancestry"
 import { MagicSource } from "@core/domain/MagicSource"
 import Menu, { MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
 import { LoadingModal } from "@web/components/redirect_loaders/LoadingModalContext"
-import RedirectLoaderCharactersScreen from "@web/components/redirect_loaders/RedirectLoaderCharactersScreen"
 import useCollection from "@web/hooks/UseCollection"
 import theme from "@web/theme/theme"
 import React, { useState } from "react"
@@ -17,9 +16,9 @@ export default function Main({ children }: MainProps) {
 	const [show, setShow] = useState<boolean>(true)
 	const user = useUser().user
 
-//TODO look for other way of loading these
-	const ancestries = useCollection<Ancestry>("ancestries")
-	const magicSources = useCollection<MagicSource>("magic-sources")
+	//TODO look for other way of loading these
+	const ancestries = useCollection<Ancestry>("ancestries") ?? []
+	const magicSources = useCollection<MagicSource>("magic-sources") ?? []
 
 	return (
 		<React.StrictMode>
@@ -31,11 +30,7 @@ export default function Main({ children }: MainProps) {
 				/>
 				<Section>
 					<SectionContainer show={show}>
-						<LoadingModal>
-							<RedirectLoaderCharactersScreen>
-								{children}
-							</RedirectLoaderCharactersScreen>
-						</LoadingModal>
+						<LoadingModal>{children}</LoadingModal>
 					</SectionContainer>
 				</Section>
 			</PageContent>
