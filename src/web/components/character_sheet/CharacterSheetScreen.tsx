@@ -20,6 +20,7 @@ import React, { useEffect } from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetScreen(props: CharacterSheetScreenProps) {
+	//TODO move to CSR
 	const [state, dispatch] = useCharacterSheetReducer(props)
 
 	useEffect(() => {

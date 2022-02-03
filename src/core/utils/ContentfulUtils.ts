@@ -1,5 +1,4 @@
 import * as contentful from "contentful"
-import { ContentfulClientApi } from "contentful"
 
 export function importify(entries: Array<any>, type: string) {
 	return {
@@ -37,20 +36,14 @@ const usify = (data: any) => {
 	return result
 }
 
-//TODO P2 make this tidier and avoid race condition
-let _client: ContentfulClientApi | null = null
-const client = () => {
-	if (_client) return _client
-	_client = contentful.createClient({
-		space: process.env.CONTENTFUL_SPACE!,
-		accessToken: process.env.CONTENTFUL_ACCESS_TOKEN!
-	})
-	return _client
-}
+const client = contentful.createClient({
+	space: process.env.CONTENTFUL_SPACE || "just_so_tests_dont_fail",
+	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || "just_so_tests_dont_fail"
+})
 
 export async function fetchEntries<T>(type: string): Promise<Array<T>> {
 	//These are the max values for both limit and include at the time
-	const response = await client().getEntries({
+	const response = await client.getEntries({
 		content_type: type,
 		limit: 1000,
 		include: 10
