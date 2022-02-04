@@ -20,7 +20,7 @@ export default function sanitizeCharacterSheet(
 ): SanitizedCharacterSheet {
 	return {
 		id: raw.id!,
-		created_by: raw.created_by || "alistairgrout",//TODO remove when fully implemented
+		created_by: raw.created_by!,
 		name: raw.name || "",
 		age: raw.age || 0,
 		sex: raw.sex || null,
