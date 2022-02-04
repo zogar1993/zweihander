@@ -29,6 +29,8 @@ export default async function getCharacterSheetOfId(id: string) {
 					order_ranks: 1,
 					chaos_ranks: 1,
 					corruption: 1,
+					peril: 1,
+					damage: 1,
 					talents: 1,
 					spells: 1,
 					focuses: 1,

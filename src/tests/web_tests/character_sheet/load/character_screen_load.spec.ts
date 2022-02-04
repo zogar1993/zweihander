@@ -18,7 +18,10 @@ import {
 	then_textbox_has_a_value_of
 } from "@tests/web_tests/character_sheet/utils/utils"
 import {
+	DAMAGE_CONDITIONS,
+	PERIL_CONDITIONS,
 	SETTINGS_SKILL_ORDER,
+	SETTINGS_VISIBILITY,
 	SEXES,
 	SOCIAL_CLASSES,
 	UPBRINGINGS
@@ -40,6 +43,8 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name)
 		await then_textbox_has_a_value_of("Chaos Alignment", CHAOS_ALIGNMENT.name)
 		await then_textbox_has_a_value_of("Order Alignment", ORDER_ALIGNMENT.name)
+		await then_textbox_has_a_value_of("Peril Condition", PERIL_CONDITION.name)
+		await then_textbox_has_a_value_of("Damage Condition", DAMAGE_CONDITION.name)
 		await then_dots_is_checked_on(`${SKILL.name} Ranks`, SKILL_RANKS)
 		await then_dots_is_checked_on(
 			`${ATTRIBUTE.name} Advances`,
@@ -66,6 +71,7 @@ describe("Character Sheet Screen should", () => {
 		await then_tag_exists(SPELL_3.name)
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
 		await then_textbox_has_a_value_of("Skill Order", SKILL_ORDER.name)
+		await then_textbox_has_a_value_of("Visibility", VISIBILITY.name)
 	}, 10000)
 
 	it("show correct defaults for an empty character sheet", async () => {
@@ -82,6 +88,14 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_has_a_value_of("Profession 3", "")
 		await then_textbox_has_a_value_of("Chaos Alignment", "")
 		await then_textbox_has_a_value_of("Order Alignment", "")
+		await then_textbox_has_a_value_of(
+			"Peril Condition",
+			PERIL_CONDITIONS[0].name
+		)
+		await then_textbox_has_a_value_of(
+			"Damage Condition",
+			DAMAGE_CONDITIONS[0].name
+		)
 		await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
 		await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
@@ -93,6 +107,10 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_has_a_value_of(
 			"Skill Order",
 			getByCode("alphabetic", SETTINGS_SKILL_ORDER).name
+		)
+		await then_textbox_has_a_value_of(
+			"Visibility",
+			getByCode("public", SETTINGS_VISIBILITY).name
 		)
 	}, 10000)
 })
@@ -133,6 +151,9 @@ const ATTRIBUTE_BASE = 47
 const ATTRIBUTE_ADVANCES = 2
 const SKILL_RANKS = 1
 const SKILL_ORDER = SETTINGS_SKILL_ORDER[1]
+const VISIBILITY = SETTINGS_VISIBILITY[1]
+const PERIL_CONDITION = PERIL_CONDITIONS[1]
+const DAMAGE_CONDITION = DAMAGE_CONDITIONS[1]
 
 const A_CHARACTER_SHEET = {
 	name: NAME,
@@ -165,6 +186,9 @@ const A_CHARACTER_SHEET = {
 		[SKILL.code]: { ranks: SKILL_RANKS }
 	},
 	settings: {
-		skill_order: SKILL_ORDER.code
-	}
+		skill_order: SKILL_ORDER.code,
+		visibility: VISIBILITY.code
+	},
+	damage: DAMAGE_CONDITION.code,
+	peril: PERIL_CONDITION.code
 }

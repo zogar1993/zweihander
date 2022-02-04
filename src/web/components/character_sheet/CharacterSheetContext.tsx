@@ -34,7 +34,9 @@ const PLACEHOLDER_CHARACTER_SHEET = Object.freeze({
 	schools: [],
 	talents: [],
 	special_rules: [] as any,
-	settings: {}
+	settings: {},
+	peril: {},
+	damage: {}
 }) as unknown as CalculatedCharacterSheet
 
 const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
@@ -273,6 +275,10 @@ function characterSheetReducer(
 			])
 			return recalculateTalentOptions(result)
 		}
+		case ActionType.SetPerilCondition:
+			return forwardChange(["set_value", "peril", action.payload])
+		case ActionType.SetDamageCondition:
+			return forwardChange(["set_value", "damage", action.payload])
 		case ActionType.UndoLastAction:
 			return undoLastChange()
 		case ActionType.SetJournal:
@@ -359,7 +365,9 @@ export enum ActionType {
 	SetJournal,
 	SetSettings,
 	SetComboboxValue,
-	SetConfirmationModal
+	SetConfirmationModal,
+	SetPerilCondition,
+	SetDamageCondition
 }
 
 type PayloadInitialize = {
@@ -430,6 +438,8 @@ type CharacterSheetAction =
 			payload: { combobox: "schools"; value: string | null }
 	  }
 	| { type: ActionType.SetConfirmationModal; payload: Confirmation | null }
+	| { type: ActionType.SetPerilCondition; payload: number | null }
+	| { type: ActionType.SetDamageCondition; payload: number | null }
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,

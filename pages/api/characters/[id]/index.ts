@@ -37,8 +37,7 @@ export default async function handler(
 		}
 }
 
-//TODO P0 add trackers
-
+//TODO P0 do readonly character sheet
 //TODO P2 Handle responses for failures
 //TODO P1 how to be atomic on mongodb
 //TODO P0 add autofiller of old character sheets to keep them consistent on db

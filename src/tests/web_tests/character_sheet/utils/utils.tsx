@@ -15,7 +15,10 @@ import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
-import { ComboBoxItem } from "misevi/dist/components/inner_components/ComboBox"
+import {
+	ComboBoxItem,
+	ComboboxValidCode
+} from "misevi/dist/components/inner_components/ComboBox"
 import * as router from "next/router"
 import {
 	TEST_ANCESTRIES,
@@ -78,9 +81,9 @@ export async function change_number_input_value(name: string, value: number) {
 	fireEvent.blur(number_input)
 }
 
-export async function change_combobox_item(
+export async function change_combobox_item<T extends ComboboxValidCode>(
 	name: string,
-	item: ComboBoxItem,
+	item: ComboBoxItem<T>,
 	functions: BoundFunctions<typeof queries> = screen
 ) {
 	const textbox = functions.getByRole("textbox", { name: name })
@@ -90,9 +93,9 @@ export async function change_combobox_item(
 	fireEvent.click(option)
 }
 
-export async function is_a_combobox_option(
+export async function is_a_combobox_option<T extends ComboboxValidCode>(
 	name: string,
-	item: ComboBoxItem,
+	item: ComboBoxItem<T>,
 	functions: BoundFunctions<typeof queries> = screen
 ) {
 	const textbox = functions.getByRole("textbox", { name: name })

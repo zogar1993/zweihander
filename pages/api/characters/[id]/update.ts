@@ -118,7 +118,7 @@ const SIMPLE_DELETE_PROPERTY_ENDPOINT = (property: string) => {
 const ENDPOINTS: Array<Endpoint> = [
 	{
 		regex: /^age$/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT, //TODO simplify these
 		validations: { number: { nullable: false, min: 0 } }
 	},
 	{
@@ -259,6 +259,16 @@ const ENDPOINTS: Array<Endpoint> = [
 		regex: /^settings.visibility/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
 		validations: { string: { nullable: false } }
+	},
+	{
+		regex: /^peril/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 0, max: 5 } }
+	},
+	{
+		regex: /^damage/,
+		set_value: SIMPLE_SET_VALUE_ENDPOINT,
+		validations: { number: { nullable: false, min: 0, max: 5 } }
 	}
 ]
 

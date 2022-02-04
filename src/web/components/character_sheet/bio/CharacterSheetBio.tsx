@@ -1,6 +1,8 @@
 import CharacterSheetAncestry from "@web/components/character_sheet/bio/CharacterSheetAncestry"
 import CharacterSheetProfessions from "@web/components/character_sheet/bio/CharacterSheetProfessions"
 import {
+	DAMAGE_CONDITIONS,
+	PERIL_CONDITIONS,
 	SEXES,
 	SOCIAL_CLASSES,
 	UPBRINGINGS
@@ -18,7 +20,7 @@ import styled from "styled-components"
 export default function CharacterSheetBio() {
 	const { character, orderAlignments, chaosAlignments } =
 		useCharacterSheetState()
-
+		
 	const dispatch = useCharacterSheetDispatcher()
 	return (
 		<Bio>
@@ -83,24 +85,46 @@ export default function CharacterSheetBio() {
 			/>
 			<CharacterSheetAncestry />
 			<CharacterSheetProfessions />
-			<Field
-				type="combobox"
-				label="Order Alignment"
-				options={orderAlignments}
-				value={character.order_alignment}
-				onChange={value =>
-					dispatch({ type: ActionType.SetOrderAlignment, payload: value })
-				}
-			/>
-			<Field
-				type="combobox"
-				label="Chaos Alignment"
-				options={chaosAlignments}
-				value={character.chaos_alignment}
-				onChange={value =>
-					dispatch({ type: ActionType.SetChaosAlignment, payload: value })
-				}
-			/>
+			<TwoColumns>
+				<Field
+					type="combobox"
+					label="Order Alignment"
+					options={orderAlignments}
+					value={character.order_alignment}
+					onChange={value =>
+						dispatch({ type: ActionType.SetOrderAlignment, payload: value })
+					}
+				/>
+				<Field
+					type="combobox"
+					label="Chaos Alignment"
+					options={chaosAlignments}
+					value={character.chaos_alignment}
+					onChange={value =>
+						dispatch({ type: ActionType.SetChaosAlignment, payload: value })
+					}
+				/>
+				<Field
+					type="combobox"
+					label="Peril Condition"
+					options={PERIL_CONDITIONS}
+					value={character.peril.value}
+					onChange={value =>
+						dispatch({ type: ActionType.SetPerilCondition, payload: value })
+					}
+					unclearable
+				/>
+				<Field
+					type="combobox"
+					label="Damage Condition"
+					options={DAMAGE_CONDITIONS}
+					value={character.damage.value}
+					onChange={value =>
+						dispatch({ type: ActionType.SetDamageCondition, payload: value })
+					}
+					unclearable
+				/>
+			</TwoColumns>
 		</Bio>
 	)
 }
@@ -128,4 +152,14 @@ const Bio = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};
+`
+
+const TwoColumns = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: ${theme.spacing.separation};
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
 `
