@@ -12,7 +12,7 @@ describe("Character Update API should", () => {
 			"Ragoz"
 		])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 })

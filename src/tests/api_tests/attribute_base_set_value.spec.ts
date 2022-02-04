@@ -9,56 +9,56 @@ describe("set_value attributes.{code}.base should", () => {
 	it("change the attribute base of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
 	it("accept only numbers", async () => {
 		const result = await update_character(["set_value", PROPERTY, "a_string"])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
 	it("accept only integers", async () => {
 		const result = await update_character(["set_value", PROPERTY, 2.5])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
 	it("not accept null", async () => {
 		const result = await update_character(["set_value", PROPERTY, null])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
 	it("not accept lower than 28", async () => {
 		const result = await update_character(["set_value", PROPERTY, 27])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
 	it("accept minimum 28", async () => {
 		const result = await update_character(["set_value", PROPERTY, 28])
 
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 		expect_character_to_have_attribute_set({ [PROPERTY]: 28 })
 	})
 
 	it("not accept higher than 55", async () => {
 		const result = await update_character(["set_value", PROPERTY, 56])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
 	it("accept maximum 55", async () => {
 		const result = await update_character(["set_value", PROPERTY, 55])
 
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 		expect_character_to_have_attribute_set({ [PROPERTY]: 55 })
 	})
 
@@ -69,7 +69,7 @@ describe("set_value attributes.{code}.base should", () => {
 			VALUE
 		])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 })

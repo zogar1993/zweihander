@@ -17,7 +17,7 @@ describe("Character Update API should", () => {
 			["delete_property", PROPERTY_4]
 		)
 
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 		expect_character_to_have_changed({
 			set: {
 				[PROPERTY_1]: PROPERTY_1_VALUE,
@@ -34,7 +34,7 @@ describe("Character Update API should", () => {
 			["remove_from_array", PROPERTY_3, PROPERTY_3_VALUE_B]
 		)
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
@@ -44,7 +44,7 @@ describe("Character Update API should", () => {
 			["add_to_array", PROPERTY_3, PROPERTY_3_VALUE_B]
 		)
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 })

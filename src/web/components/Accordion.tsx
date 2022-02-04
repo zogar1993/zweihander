@@ -8,7 +8,7 @@ export type AccordionItemType = {
 	content: ReactNode
 	hide?: boolean
 }
-
+//TODO Fix issue with scrolling
 export default function Accordion({ items, disabled }: AccordionProps) {
 	return (
 		<AccordionContainer role="tablist">

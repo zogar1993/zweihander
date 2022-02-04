@@ -17,7 +17,7 @@ describe("remove_from_array focus should", () => {
 		])
 
 		expect_character_to_have_item_removed({ [PROPERTY]: VALUE })
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 	})
 
 	it("accept only strings", async () => {
@@ -25,7 +25,7 @@ describe("remove_from_array focus should", () => {
 
 		const result = await update_character(["remove_from_array", PROPERTY, 1])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
@@ -34,7 +34,7 @@ describe("remove_from_array focus should", () => {
 
 		const result = await update_character(["remove_from_array", PROPERTY, null])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
@@ -45,7 +45,7 @@ describe("remove_from_array focus should", () => {
 			VALUE
 		])
 
-		expect(result.statusCode).toBe(409)
+		expect(result).toHaveStatusCode(409)
 		expect_character_to_be_unchanged()
 	})
 
@@ -58,7 +58,7 @@ describe("remove_from_array focus should", () => {
 			VALUE
 		])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 })

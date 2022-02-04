@@ -17,7 +17,7 @@ describe("set_value profession2 should", () => {
 		})
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
@@ -29,7 +29,7 @@ describe("set_value profession2 should", () => {
 
 		const result = await update_character(["set_value", PROPERTY, null])
 
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 		expect_character_to_have_attribute_set({ [PROPERTY]: null })
 	})
 
@@ -41,7 +41,7 @@ describe("set_value profession2 should", () => {
 
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
-		expect(result.statusCode).toBe(409)
+		expect(result).toHaveStatusCode(409)
 		expect_character_to_be_unchanged()
 	})
 
@@ -50,14 +50,14 @@ describe("set_value profession2 should", () => {
 
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
-		expect(result.statusCode).toBe(409)
+		expect(result).toHaveStatusCode(409)
 		expect_character_to_be_unchanged()
 	})
 
 	it("accept only strings", async () => {
 		const result = await update_character(["set_value", PROPERTY, 1])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 })

@@ -10,7 +10,7 @@ describe("Character Update API should", () => {
 
 		const result = await update_character(VALID_UPDATE_ACTION)
 
-		expect(result.statusCode).toBe(500)
+		expect(result).toHaveStatusCode(500)
 		expect_character_to_be_unchanged()
 	})
 })

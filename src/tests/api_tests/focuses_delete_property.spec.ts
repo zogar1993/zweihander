@@ -12,7 +12,7 @@ describe("delete_property focus should", () => {
 		const result = await update_character(["delete_property", PROPERTY])
 
 		expect_character_to_have_property_deleted(PROPERTY)
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 	})
 })
 

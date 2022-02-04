@@ -87,7 +87,7 @@ export async function update_character(...body: Array<UpdateActionBlock>) {
 		end() {
 			this.ended = true
 		}
-	} as any as NextApiResponse
+	} as any as TestNextApiResponse
 
 	await handler(request, result)
 
@@ -132,4 +132,9 @@ export function expect_character_to_have_changed(change: UpdateCharacterProps) {
 
 export function expect_character_to_be_unchanged() {
 	expect(updateCharacterSpy.mock.calls.length).toBe(0)
+}
+
+export type TestNextApiResponse = NextApiResponse & {
+	ended: boolean
+	body: any
 }

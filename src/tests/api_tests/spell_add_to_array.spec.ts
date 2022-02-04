@@ -13,7 +13,7 @@ describe("add_to_array spell should", () => {
 		const result = await update_character(["add_to_array", PROPERTY, VALUE])
 
 		expect_character_to_have_item_added({ [PROPERTY]: VALUE })
-		expect(result.statusCode).toBe(200)
+		expect(result).toHaveStatusCode(200)
 	})
 
 	it("accept only strings", async () => {
@@ -21,7 +21,7 @@ describe("add_to_array spell should", () => {
 
 		const result = await update_character(["add_to_array", PROPERTY, 1])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
@@ -30,7 +30,7 @@ describe("add_to_array spell should", () => {
 
 		const result = await update_character(["add_to_array", PROPERTY, null])
 
-		expect(result.statusCode).toBe(400)
+		expect(result).toHaveStatusCode(400)
 		expect_character_to_be_unchanged()
 	})
 
@@ -39,14 +39,14 @@ describe("add_to_array spell should", () => {
 
 		const result = await update_character(["add_to_array", PROPERTY, VALUE])
 
-		expect(result.statusCode).toBe(409)
+		expect(result).toHaveStatusCode(409)
 		expect_character_to_be_unchanged()
 	})
 
 	it("fail when character has no preexisting array", async () => {
 		const result = await update_character(["add_to_array", PROPERTY, VALUE])
 
-		expect(result.statusCode).toBe(409)
+		expect(result).toHaveStatusCode(409)
 		expect_character_to_be_unchanged()
 	})
 
@@ -59,7 +59,7 @@ describe("add_to_array spell should", () => {
 			VALUE
 		])
 
-		expect(result.statusCode).toBe(409)
+		expect(result).toHaveStatusCode(409)
 		expect_character_to_be_unchanged()
 	})
 
@@ -72,7 +72,7 @@ describe("add_to_array spell should", () => {
 			"whatever"
 		])
 
-		expect(result.statusCode).toBe(409)
+		expect(result).toHaveStatusCode(409)
 		expect_character_to_be_unchanged()
 	})
 })
