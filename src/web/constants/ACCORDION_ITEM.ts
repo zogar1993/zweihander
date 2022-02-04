@@ -11,10 +11,9 @@ export const ACCORDION_ITEM = {
 } as const
 
 export const Z_INDEX_LEVEL = {
-	CONTAINER: 0,
-	COMPONENT: 100,
-	MENU: 200,
-	DROPDOWN: 300,
-	MODAL: 400,
-	POPUP: 500
+	COMPONENT: 0,
+	MENU: 100,
+	DROPDOWN: 200,
+	MODAL: 300,
+	POPUP: 400
 }

@@ -8,6 +8,7 @@ describe("Character Update API should", () => {
 		const result = await update_character()
 
 		expect(result.statusCode).toBe(400)
+		//TODO create custom matcher for status code expectations
 		expect_character_to_be_unchanged()
 	})
 })

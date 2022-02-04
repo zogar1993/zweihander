@@ -12,7 +12,8 @@ export type AccordionItemType = {
 export default function Accordion({ items, disabled }: AccordionProps) {
 	return (
 		<AccordionContainer role="tablist">
-			{items
+			{[...items]
+				.reverse()
 				.filter(x => !x.hide)
 				.map((item, i) => (
 					<AccordionItem
@@ -76,13 +77,15 @@ function AccordionItem({
 const AccordionContainer = styled.div`
 	display: flex;
 	position: relative;
-	flex-direction: column;
+	flex-direction: column-reverse;
+	justify-content: flex-end;
 	border-radius: ${theme.borders.radius};
 	border: 1px gray solid;
 	grid-area: misc;
 	background-color: gray;
 	overflow-y: auto;
 	overflow-x: hidden;
+	isolation: isolate;
 
 	::-webkit-scrollbar {
 		display: none;
@@ -102,7 +105,7 @@ const AccordionItemTab = styled.button`
 	user-select: none;
 	cursor: pointer;
 	position: relative;
-	z-index: ${Z_INDEX_LEVEL.COMPONENT};
+	z-index: ${Z_INDEX_LEVEL.MENU};
 
 	${({ disabled }) => (disabled ? "cursor: wait" : "")};
 `
@@ -118,7 +121,6 @@ const AccordionItemContent = styled.div<{
 	margin-top: ${({ "aria-expanded": expanded, $height }) =>
 		expanded ? 0 : `-${$height}px`};
 	transition: 0.2s ease-out margin-top;
-	z-index: ${({ $z }) => Z_INDEX_LEVEL.CONTAINER + $z};
 	position: ${({ initialized }) => (initialized ? "relative" : "absolute")};
 	opacity: ${({ initialized }) => (initialized ? 1 : 0)};
 `
@@ -127,14 +129,14 @@ const ItemContainer = styled.div`
 	width: 100%;
 
 	//this makes the last delimiter disappear
-	:last-child > :last-child {
+	:first-child > :last-child {
 		display: none;
 	}
 `
 
 const ItemDelimiter = styled.div`
 	position: relative;
-	z-index: ${Z_INDEX_LEVEL.COMPONENT};
+	z-index: ${Z_INDEX_LEVEL.MENU};
 	border-bottom: 1px solid gray;
 `
 

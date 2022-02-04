@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react"
 import styled from "styled-components"
 
 const LoadingModalContext = React.createContext({
-	setLoading: (value: boolean) => {}
+	setLoading: (_: boolean) => {}
 })
 
 export function useSetLoadingModal() {

@@ -74,13 +74,18 @@ export async function update_character(...body: Array<UpdateActionBlock>) {
 		body: JSON.stringify(blocksToObjects(body))
 	} as unknown as NextApiRequest
 	const result = {
+		ended: false,
 		status(code: number) {
 			this.statusCode = code
 			return result
 		},
 		json(body: any) {
 			this.body = body
+			this.ended = true
 			return result
+		},
+		end() {
+			this.ended = true
 		}
 	} as any as NextApiResponse
 

@@ -25,7 +25,8 @@ export default async function handler(
 				return res.status(200).json(character)
 			}
 			case "DELETE": {
-				const character = await getCharacterSheetOfId(id as string) //TODO could bring only what is necessary instead
+				const character = await getCharacterSheetOfId(id as string)
+				//TODO P0 could bring only what is necessary instead
 				if (session.user.nickname !== character.created_by)
 					return res.status(403).end()
 				await deleteCharacterSheetOfId(id as string)
@@ -43,7 +44,6 @@ export default async function handler(
 //TODO P0 add autofiller of old character sheets to keep them consistent on db
 
 //TODO P4 Do test for react avatar and thumbnail
-//TODO P0 add fix comboboxes of accordion
 
 //TODO P4 make hierarchies of talents for professions
 //TODO P4 check for strict experience expenditure
