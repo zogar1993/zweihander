@@ -62,6 +62,7 @@ const Layout = styled.div`
 
 	@media (max-width: 768px) {
 		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: none;
 		width: 100%;
 		grid-template-areas:
 			"bio"
@@ -70,6 +71,7 @@ const Layout = styled.div`
 			"attributes"
 			"skills"
 			"misc";
+		max-height: none;
 	}
 `
 

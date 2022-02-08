@@ -27,7 +27,6 @@ export default async function handler(
 		return res.status(400).end()
 
 	const client_errors: Array<[UpdateAction, string]> = []
-	const server_errors: Array<[UpdateAction, string]> = []
 	const results: Array<UpdateCharacterProps> = []
 
 	if (new Set(actions.map(x => x.property)).size < actions.length)
@@ -37,23 +36,11 @@ export default async function handler(
 		try {
 			results.push(await getActionResult(action))
 		} catch (e: any) {
-			if (Array.isArray(e)) {
-				const [type, ...error] = e as InternalError
-				switch (type) {
-					case "client": //TODO this is an exceptional... exception, find other way to handle
-						client_errors.push(error)
-						break
-					case "server":
-						server_errors.push(error)
-						break
-					default:
-						throw e
-				}
-			} else throw e
+			if (!Array.isArray(e)) throw e
+			client_errors.push(e as InternalError)
 		}
 	}
 
-	if (server_errors.length > 0) return res.status(500).json(server_errors)
 	if (client_errors.length > 0) return res.status(400).json(client_errors)
 
 	const character = await getCharacterSheetOfId(id)
@@ -62,7 +49,8 @@ export default async function handler(
 		return res.status(403).json({})
 
 	const preexisting_errors = await validateModel(character)
-	if (preexisting_errors.length > 0) return res.status(500).json(server_errors)
+	if (preexisting_errors.length > 0)
+		return res.status(500).json(preexisting_errors)
 
 	const array_errors = validateArrayErrors(character, actions)
 	if (array_errors.length > 0) return res.status(409).json(array_errors)

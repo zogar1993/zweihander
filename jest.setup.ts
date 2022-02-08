@@ -11,10 +11,17 @@ expect.extend({
 		if (!ended)
 			return { pass: false, message: () => "Server response was not ended" }
 
+		const payload =
+			typeof body === "string"
+				? body
+				: Array.isArray(body)
+				? body.join("\n")
+				: ""
 		if (statusCode !== status)
 			return {
 				pass: false,
-				message: () => `Expected status code ${statusCode} to be ${status}`
+				message: () =>
+					`Expected status code ${statusCode} to be ${status}\n${payload}`
 			}
 
 		return {

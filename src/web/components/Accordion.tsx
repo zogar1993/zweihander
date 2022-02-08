@@ -8,19 +8,18 @@ export type AccordionItemType = {
 	content: ReactNode
 	hide?: boolean
 }
-//TODO Fix issue with scrolling
+
 export default function Accordion({ items, disabled }: AccordionProps) {
 	return (
 		<AccordionContainer role="tablist">
-			{[...items]
-				.reverse()
+			{items
 				.filter(x => !x.hide)
 				.map((item, i) => (
 					<AccordionItem
 						item={item}
 						key={item.name}
-						z={items.length - i}
 						disabled={disabled}
+						z={items.length - i + 1}
 					/>
 				))}
 		</AccordionContainer>
@@ -29,16 +28,17 @@ export default function Accordion({ items, disabled }: AccordionProps) {
 
 function AccordionItem({
 	item,
-	z,
-	disabled
+	disabled,
+	z
 }: {
 	item: AccordionItemType
-	z: number
 	disabled: boolean
+	z: number
 }) {
 	const [open, setOpen] = useState(false)
 	const [initialized, setInitialized] = useState(false)
 	const [height, setHeight] = useState<number>(0)
+	const [focused, setFocused] = useState(false)
 	const id = `accordion-tab-(${item.name.toLowerCase()})`
 
 	const ref = useRef<HTMLDivElement>(null)
@@ -65,6 +65,9 @@ function AccordionItem({
 				ref={ref}
 				$height={height}
 				initialized={initialized}
+				onFocus={() => setFocused(true)}
+				onBlur={() => setFocused(false)}
+				focused={focused}
 				$z={z}
 			>
 				{item.content}
@@ -77,15 +80,13 @@ function AccordionItem({
 const AccordionContainer = styled.div`
 	display: flex;
 	position: relative;
-	flex-direction: column-reverse;
-	justify-content: flex-end;
+	flex-direction: column;
 	border-radius: ${theme.borders.radius};
 	border: 1px gray solid;
 	grid-area: misc;
 	background-color: gray;
 	overflow-y: auto;
 	overflow-x: hidden;
-	isolation: isolate;
 
 	::-webkit-scrollbar {
 		display: none;
@@ -114,6 +115,7 @@ const AccordionItemContent = styled.div<{
 	"aria-expanded": boolean
 	$height: number
 	initialized: boolean
+	focused: boolean
 	$z: number
 }>`
 	background-color: whitesmoke;
@@ -123,13 +125,15 @@ const AccordionItemContent = styled.div<{
 	transition: 0.2s ease-out margin-top;
 	position: ${({ initialized }) => (initialized ? "relative" : "absolute")};
 	opacity: ${({ initialized }) => (initialized ? 1 : 0)};
+	${({ focused, $z }) =>
+		focused ? "" : `z-index: ${Z_INDEX_LEVEL.COMPONENT + $z}`};
 `
 
 const ItemContainer = styled.div`
 	width: 100%;
 
 	//this makes the last delimiter disappear
-	:first-child > :last-child {
+	:last-child > :last-child {
 		display: none;
 	}
 `
