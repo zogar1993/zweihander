@@ -1,4 +1,4 @@
-import { getMagicSources } from "@core/actions/GetMagicSources"
+import getMagicSources from "@core/actions/GetMagicSources"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { MagicSource } from "@core/domain/MagicSource"
 import { PageTitle } from "@web/components/general/PageTitle"

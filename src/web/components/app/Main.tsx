@@ -1,24 +1,27 @@
 import { useUser } from "@auth0/nextjs-auth0"
-import { Ancestry } from "@core/domain/Ancestry"
-import { MagicSource } from "@core/domain/MagicSource"
-import Menu, { MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
+import Menu, {
+	LeafItem,
+	MENU_WIDTH_EXTENDED,
+	MenuItem
+} from "@web/components/app/Menu"
 import { LoadingModal } from "@web/components/redirect_loaders/LoadingModalContext"
-import useCollection from "@web/hooks/UseCollection"
 import theme from "@web/theme/theme"
 import React, { useState } from "react"
 import styled from "styled-components"
 
 export type MainProps = {
 	children: JSX.Element
+	ancestries: Array<LeafItem>
+	magicSources: Array<LeafItem>
 }
 
-export default function Main({ children }: MainProps) {
+export default function Main({
+	children,
+	ancestries,
+	magicSources
+}: MainProps) {
 	const [show, setShow] = useState<boolean>(true)
 	const user = useUser().user
-
-	//TODO look for other way of loading these
-	const ancestries = useCollection<Ancestry>("ancestries") ?? []
-	const magicSources = useCollection<MagicSource>("magic-sources") ?? []
 
 	return (
 		<React.StrictMode>
@@ -76,19 +79,15 @@ const screens = ({
 	magicSources,
 	user
 }: {
-	ancestries: Array<Ancestry>
-	magicSources: Array<MagicSource>
+	ancestries: Array<LeafItem>
+	magicSources: Array<LeafItem>
 	user: any
 }): Array<MenuItem> => [
 	{ path: "characters", name: "Characters", icon: "/menu/child.png" },
 	{
 		name: "Ancestries",
 		icon: "/menu/family-tree.png",
-		items: ancestries.map(ancestry => ({
-			name: ancestry.name,
-			icon: ancestry.icon,
-			path: `ancestries/${ancestry.code}`
-		}))
+		items: ancestries
 	},
 	{
 		path: "professions/:profession?",
@@ -99,13 +98,7 @@ const screens = ({
 	{
 		name: "Magic",
 		icon: "/menu/wand.png",
-		items: magicSources.map(source => ({
-			name: source.name,
-			icon: source.icon,
-			path: `magic/${source.code}${
-				source.schools.length > 1 ? `/${source.schools[0].code}` : ""
-			}`
-		}))
+		items: magicSources
 	},
 	{ path: "creatures", name: "Creatures", icon: "/menu/monster.png" },
 	...(user

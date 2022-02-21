@@ -293,14 +293,12 @@ const ItemName = styled.span`
 export type BranchItem = {
 	name: string
 	items: Array<LeafItem>
-	activePaths?: Array<string>
 	icon: any
 }
 
 export type LeafItem = {
 	name: string
 	path: string
-	activePaths?: Array<string>
 	icon: any
 }
 

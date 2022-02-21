@@ -1,7 +1,7 @@
 /** @type {import("next").NextConfig} */
 module.exports = {
-  reactStrictMode: true,
-  experimental: {
-    styledComponents: true
-  }
+	reactStrictMode: true,
+	experimental: {
+		styledComponents: true
+	}
 }

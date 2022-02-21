@@ -1,4 +1,4 @@
-import { getMagicSources } from "@core/actions/GetMagicSources"
+import getMagicSources from "@core/actions/GetMagicSources"
 
 export default async function getMagicSchools() {
 	const sources = await getMagicSources()
