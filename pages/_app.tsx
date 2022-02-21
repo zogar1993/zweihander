@@ -1,11 +1,20 @@
 import { UserProvider } from "@auth0/nextjs-auth0"
 import Main from "@web/components/app/Main"
+import { LeafItem } from "@web/components/app/Menu"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import "../public/fonts.css"
 import "../public/reset.css"
 
-export default function App({ Component, pageProps }: AppProps) {
+const MyApp = ({
+	Component,
+	pageProps,
+	ancestries,
+	magicSources
+}: AppProps & {
+	ancestries: Array<LeafItem>
+	magicSources: Array<LeafItem>
+}) => {
 	return (
 		<UserProvider>
 			<Head>
@@ -13,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
 				<CssPreloadLink href="https://fonts.googleapis.com/css?family=Almendra+SC" />
 				<CssPreloadLink href="https://fonts.googleapis.com/css?family=Almendra" />
 			</Head>
-			<Main>
+			<Main ancestries={ancestries} magicSources={magicSources}>
 				<Component {...pageProps} />
 			</Main>
 		</UserProvider>
@@ -23,3 +32,28 @@ export default function App({ Component, pageProps }: AppProps) {
 function CssPreloadLink({ href }: { href: string }) {
 	return <link rel="preload" href={href} as="font" crossOrigin="" />
 }
+
+MyApp.getInitialProps = async ({ isServer }: { isServer: boolean }) => {
+	if (!isServer) return {}
+	const getAncestries = await import("@core/actions/GetAncestries")
+	const getMagicSources = await import("@core/actions/GetMagicSources")
+	const ancestries: Array<LeafItem> = (await getAncestries.default()).map(
+		x => ({
+			name: x.name,
+			icon: x.icon,
+			path: `ancestries/${x.code}`
+		})
+	)
+	const magicSources: Array<LeafItem> = (await getMagicSources.default()).map(
+		x => ({
+			name: x.name,
+			icon: x.icon,
+			path: `magic/${x.code}${
+				x.schools.length > 1 ? `/${x.schools[0].code}` : ""
+			}`
+		})
+	)
+	return { ancestries, magicSources }
+}
+
+export default MyApp
