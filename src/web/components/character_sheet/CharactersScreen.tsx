@@ -19,7 +19,7 @@ export default function CharactersScreen({
 	const create = async () => {
 		setLoading(true)
 		const path = await createCharacter()
-		router.push(path)
+		await router.push(path)
 		setLoading(false)
 	}
 

@@ -2,6 +2,7 @@ import { Spell } from "@core/domain/Spell"
 import Grid from "@web/components/general/Grid"
 import SpellCard from "@web/components/magic/SpellCard"
 import ItemsModal from "@web/components/modal/ItemsModal"
+import theme from "@web/theme/theme"
 import { useRouter } from "next/router"
 import React, { ReactNode } from "react"
 import styled from "styled-components"
@@ -49,50 +50,39 @@ function SpellModalContent(item: Spell): ReactNode {
 			<Paragraph handwritten italic>
 				{item.description}
 			</Paragraph>
-			<Property font="Almendra" name="Principle">
+			<Property name="Principle">
 				{item.principle}
 			</Property>
-			<Property font="Almendra" name="Distance">
+			<Property name="Distance">
 				{item.distance}
 			</Property>
-			<Property font="Almendra" name="Reagents">
+			<Property name="Reagents">
 				{item.reagents}
 			</Property>
-			<Property font="Almendra" name="Duration">
+			<Property name="Duration">
 				{item.duration}
 			</Property>
-			<Property font="Almendra" name="Effect">
+			<Property name="Effect">
 				{item.effect}
 			</Property>
-			<Property font="Almendra" name="Critical Success">
+			<Property name="Critical Success">
 				{item.critical_success}
 			</Property>
-			<Property font="Almendra" name="Critical Failure">
+			<Property name="Critical Failure">
 				{item.critical_failure}
 			</Property>
 		</>
 	)
 }
 
-const Paragraph = styled.p<ParagraphProps>`
-	font-weight: ${props => (props.bold ? "bold" : "none")};
-	font-style: ${props => (props.italic ? "italic" : "none")};
-	font-size: ${props => (props.small ? "small" : "medium")};
+const Paragraph = styled.p`
 	color: black;
 `
 
-type ParagraphProps = {
-	font?: string
-	handwritten?: boolean
-	small?: boolean
-	italic?: boolean
-	bold?: boolean
-}
-
-function Property({ name, font, small, children }: PropertyProps) {
+function Property({ name, children }: PropertyProps) {
 	return (
-		<Paragraph small={small} font={font}>
-			<PropertyName small={small} font={font}>
+		<Paragraph>
+			<PropertyName>
 				{name}:{" "}
 			</PropertyName>
 			{children}
@@ -102,24 +92,11 @@ function Property({ name, font, small, children }: PropertyProps) {
 
 type PropertyProps = {
 	name: string
-	font?: string
 	children: ReactNode
-	small?: boolean
 }
 
-const PropertyName = styled.span<SpanProps>`
-	font-family: ${({ font }) => (font ? `${font}, ` : "")}Times, serif;
+const PropertyName = styled.span`
+	font-family: ${theme.fonts.stylish};
 	font-weight: bold;
-	font-size: ${props => size(props)};
 	color: black;
 `
-
-type SpanProps = {
-	font?: string
-	small?: boolean
-}
-
-function size(props: SpanProps) {
-	if (props.small) return "12px"
-	return undefined
-}
