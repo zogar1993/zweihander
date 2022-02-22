@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { getSession } from "@auth0/nextjs-auth0"
 import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
 import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
@@ -49,5 +48,4 @@ export default async function handler(
 
 //TODO P4 doing CTRL + z leaves currently edited combobox weird (happens with profession chains)
 //TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
-//TODO P0 check that SWR is used correctly
 //TODO P4 check this works correctly https://github.com/vercel/next.js/issues/30802

@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import getTalents from "@core/actions/GetTalents"
 import { Talent } from "@core/domain/Talent"
 import type { NextApiRequest, NextApiResponse } from "next"

@@ -23,4 +23,4 @@ export default function RedirectLoaderCharacterScreen({
 	return children
 }
 
-//TODO move knowledge to Contentful
+//TODO P3 move knowledge to Contentful

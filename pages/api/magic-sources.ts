@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import getMagicSources from "@core/actions/GetMagicSources"
 import { MagicSource } from "@core/domain/MagicSource"
 import type { NextApiRequest, NextApiResponse } from "next"

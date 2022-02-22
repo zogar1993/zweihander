@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { getSession } from "@auth0/nextjs-auth0"
 import createCharacter from "@core/actions/CreateCharacter"
 import { getCharacters } from "@core/actions/GetCharacters"
@@ -16,7 +15,7 @@ export default async function handler(
 	if (!req.query.path)
 		switch (req.method) {
 			case "GET":
-				const characters = await getCharacters() //TODO do this directly on DB
+				const characters = await getCharacters() //TODO P0 do this directly on DB
 				const filtered = characters.filter(
 					x => x.visibility !== "private" || x.created_by === username
 				)

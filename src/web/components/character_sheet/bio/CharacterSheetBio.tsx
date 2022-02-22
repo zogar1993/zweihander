@@ -20,7 +20,7 @@ import styled from "styled-components"
 export default function CharacterSheetBio() {
 	const { character, orderAlignments, chaosAlignments } =
 		useCharacterSheetState()
-		
+
 	const dispatch = useCharacterSheetDispatcher()
 	return (
 		<Bio>

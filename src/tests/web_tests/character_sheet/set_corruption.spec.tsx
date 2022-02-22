@@ -1,10 +1,10 @@
-import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
 	change_number_input_value,
 	click_menu_item,
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
+import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 const NEW_CHARACTER_CORRUPTION = 6
 

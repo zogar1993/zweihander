@@ -111,7 +111,7 @@ export const TEST_MAGIC_SCHOOLS: Array<MagicSchool> = Array.from(
 	spells: Array.from(Array(5).keys(), m => m + 1).map(m => ({
 		name: `Magic School ${n} Spell ${m}`,
 		code: `magic_school_${n}_spell_${m}`
-	})) as unknown as Array<Spell>,
+	})) as unknown as Array<Spell>
 }))
 
 export const TEST_TALENTS: Array<Talent> = Array.from(

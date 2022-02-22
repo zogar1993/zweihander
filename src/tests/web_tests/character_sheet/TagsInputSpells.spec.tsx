@@ -121,11 +121,10 @@ describe("Spells Tag Input should", () => {
 		await change_combobox_item("School", SCHOOL, context)
 		await change_combobox_item("Spell", NEW_SPELL, context)
 
-		await waitFor(
-			async () =>
-				 expect(
-					 await is_a_combobox_option("Spell", NEW_SPELL, context)
-				).toBeFalsy()
+		await waitFor(async () =>
+			expect(
+				await is_a_combobox_option("Spell", NEW_SPELL, context)
+			).toBeFalsy()
 		)
 	})
 

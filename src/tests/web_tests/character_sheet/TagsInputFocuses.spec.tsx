@@ -1,6 +1,5 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { fireEvent } from "@testing-library/react"
-import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
 	change_combobox_item,
 	change_textbox_value,
@@ -8,6 +7,7 @@ import {
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
+import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 const SKILL = SKILL_DEFINITIONS[2]
 const PRE_EXISTING_FOCUS_1 = "existing focus 1"

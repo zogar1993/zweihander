@@ -1,13 +1,15 @@
 import { UpdateAction } from "@api/characters/[id]/update"
 import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
-import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
+	AncestryTech,
+	AncestryTraitTech,
 	calculateCharacterSheet,
 	CalculatedCharacterSheet,
 	MagicSchoolTech,
+	ProfessionTech,
 	SpellTech,
 	TalentTech
 } from "@core/domain/character_sheet/CharacterSheet"
@@ -15,11 +17,8 @@ import sanitizeCharacterSheet, {
 	SanitizedCharacterSheet
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
-import { MagicSchool } from "@core/domain/MagicSchool"
-import { Profession } from "@core/domain/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
-import { Talent } from "@core/domain/Talent"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
@@ -79,16 +78,16 @@ type CharacterSheetState = {
 		spells: { options: Array<SpellTech> }
 		talents: { options: Array<TalentTech> }
 	}
-	tier1Professions: Array<Profession>
-	ancestryTraits: Array<AncestryTrait>
+	tier1Professions: Array<ProfessionTech>
+	ancestryTraits: Array<AncestryTraitTech>
 	modals: {
 		confirmation: Confirmation | null
 	}
 
-	talents: Array<Talent>
-	professions: Array<Profession>
-	ancestries: Array<Ancestry>
-	schools: Array<MagicSchool>
+	talents: Array<TalentTech>
+	professions: Array<ProfessionTech>
+	ancestries: Array<AncestryTech>
+	schools: Array<MagicSchoolTech>
 	archetypes: Array<Archetype>
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
@@ -96,31 +95,8 @@ type CharacterSheetState = {
 	undoActions: Array<Array<UpdateAction>>
 }
 
-export function useCharacterSheetReducer(props: PayloadInitialize) {
-	if (!props.character)
-		return useReducer(characterSheetReducer, PLACEHOLDER_CHARACTER_SHEET_STATE)
-	const state = {
-		...props,
-		_character: props.character,
-		character: calculateCharacterSheet(props),
-
-		ancestryTraits: calculateAncestryTraits(props.character.ancestry, props),
-		tier1Professions: calculateTier1Professions(
-			props.character.archetype,
-			props
-		),
-		comboboxes: {
-			schools: { value: null, options: props.schools },
-			spells: { options: [] },
-			talents: { options: getTalentOptions(props.character, props.talents) }
-		},
-		modals: {
-			confirmation: null
-		},
-
-		undoActions: []
-	}
-	return useReducer(characterSheetReducer, state)
+export function useCharacterSheetReducer() {
+	return useReducer(characterSheetReducer, PLACEHOLDER_CHARACTER_SHEET_STATE)
 }
 
 export function useCharacterSheetState() {
@@ -153,6 +129,33 @@ function characterSheetReducer(
 	}
 
 	switch (action.type) {
+		case ActionType.Initialize: {
+			const props = action.payload
+			return {
+				...props,
+				_character: props.character,
+				character: calculateCharacterSheet(props),
+
+				ancestryTraits: calculateAncestryTraits(
+					props.character.ancestry,
+					props
+				),
+				tier1Professions: calculateTier1Professions(
+					props.character.archetype,
+					props
+				),
+				comboboxes: {
+					schools: { value: null, options: props.schools },
+					spells: { options: [] },
+					talents: { options: getTalentOptions(props.character, props.talents) }
+				},
+				modals: {
+					confirmation: null
+				},
+
+				undoActions: []
+			}
+		}
 		case ActionType.SetName:
 			return forwardChange(["set_value", "name", action.payload])
 		case ActionType.SetAvatar: {
@@ -334,6 +337,7 @@ export default function addPartialRecordItemToArray<Item, Key extends string>(
 }
 
 export enum ActionType {
+	Initialize,
 	SetName,
 	SetAvatar,
 	SetAge,
@@ -370,19 +374,20 @@ export enum ActionType {
 	SetDamageCondition
 }
 
-type PayloadInitialize = {
+export type CharacterSheetProps = {
 	character: SanitizedCharacterSheet
 
-	talents: Array<Talent>
-	professions: Array<Profession>
-	ancestries: Array<Ancestry>
-	schools: Array<MagicSchool>
+	talents: Array<TalentTech>
+	professions: Array<ProfessionTech>
+	ancestries: Array<AncestryTech>
+	schools: Array<MagicSchoolTech>
 	archetypes: Array<Archetype>
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
 }
 
-type CharacterSheetAction =
+export type CharacterSheetAction =
+	| { type: ActionType.Initialize; payload: CharacterSheetProps }
 	| { type: ActionType.SetName; payload: string }
 	| {
 			type: ActionType.SetAvatar
@@ -482,14 +487,14 @@ function generateUndoActions(
 function calculateAncestryTraits(
 	ancestry: string | null,
 	state: Pick<CharacterSheetState, "ancestries">
-): Array<AncestryTrait> {
+): Array<AncestryTraitTech> {
 	return ancestry === null ? [] : getByCode(ancestry, state.ancestries).traits
 }
 
 function calculateTier1Professions(
 	archetype: string | null,
 	state: Pick<CharacterSheetState, "professions" | "archetypes">
-): Array<Profession> {
+): Array<ProfessionTech> {
 	const { professions, archetypes } = state
 	if (archetype === null) {
 		return professions.filter(profession =>
@@ -542,7 +547,7 @@ function recalculateSpellOptions(
 
 function getTalentOptions(
 	character: SanitizedCharacterSheet,
-	talents: Array<Talent>
+	talents: Array<TalentTech>
 ) {
 	return talents.filter(x => !character.talents.includes(x.code))
 }

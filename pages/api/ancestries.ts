@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import getAncestries from "@core/actions/GetAncestries"
 import { Ancestry } from "@core/domain/Ancestry"
 import type { NextApiRequest, NextApiResponse } from "next"

@@ -1,38 +1,27 @@
-import { Alignment } from "@core/actions/GetAlignments"
-import { Archetype } from "@core/actions/GetArchetypes"
-import { Ancestry } from "@core/domain/Ancestry"
-import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
-import { MagicSchool } from "@core/domain/MagicSchool"
-import { Profession } from "@core/domain/Profession"
-import { Talent } from "@core/domain/Talent"
 import CharacterSheetBio from "@web/components/character_sheet/bio/CharacterSheetBio"
 import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
 import CharacterSheetConfirmationModal from "@web/components/character_sheet/CharacterSheetConfirmationModal"
 import {
 	ActionType,
 	CharacterSheetContext,
+	CharacterSheetProps,
 	useCharacterSheetReducer
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useCtrlZ from "@web/components/character_sheet/hooks/useCtrlZ"
+import useInitializeCharacterSheetReducer from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
 import CharacterSheetSkills from "@web/components/character_sheet/skills/CharacterSheetSkills"
 import theme from "@web/theme/theme"
-import React, { useEffect } from "react"
+import React from "react"
 import styled from "styled-components"
 
-export default function CharacterSheetScreen(props: CharacterSheetScreenProps) {
-	//TODO move to CSR
-	const [state, dispatch] = useCharacterSheetReducer(props)
+export default function CharacterSheetScreen(
+	props: Partial<CharacterSheetProps>
+) {
+	const [state, dispatch] = useCharacterSheetReducer()
+	useInitializeCharacterSheetReducer(props, dispatch)
 
-	useEffect(() => {
-		const handler = (event: any) => {
-			if (event.ctrlKey && event.key === "z") {
-				dispatch({ type: ActionType.UndoLastAction })
-				event.preventDefault()
-			}
-		}
-		document.addEventListener("keydown", handler)
-		return () => document.removeEventListener("keydown", handler)
-	}, [])
+	useCtrlZ(() => dispatch({ type: ActionType.UndoLastAction }))
 
 	return (
 		<CharacterSheetContext.Provider value={{ state, dispatch }}>
@@ -74,14 +63,3 @@ const Layout = styled.div`
 		max-height: none;
 	}
 `
-
-export type CharacterSheetScreenProps = {
-	character: SanitizedCharacterSheet
-	talents: Array<Talent>
-	professions: Array<Profession>
-	ancestries: Array<Ancestry>
-	schools: Array<MagicSchool>
-	archetypes: Array<Archetype>
-	orderAlignments: Array<Alignment>
-	chaosAlignments: Array<Alignment>
-}
