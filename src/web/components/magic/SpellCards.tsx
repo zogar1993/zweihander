@@ -47,9 +47,9 @@ type Props = {
 function SpellModalContent(item: Spell): ReactNode {
 	return (
 		<>
-			<Paragraph handwritten italic>
+			<Description>
 				{item.description}
-			</Paragraph>
+			</Description>
 			<Property name="Principle">
 				{item.principle}
 			</Property>
@@ -76,7 +76,13 @@ function SpellModalContent(item: Spell): ReactNode {
 }
 
 const Paragraph = styled.p`
+  color: black;
+`
+
+const Description = styled.p`
 	color: black;
+	font-family: ${theme.fonts.handwritten};
+	font-style: italic;
 `
 
 function Property({ name, children }: PropertyProps) {
