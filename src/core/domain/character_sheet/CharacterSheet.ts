@@ -435,6 +435,7 @@ export type CalculatedCharacterSheet = Readonly<{
 	special_rules: Array<SpecialRule>
 
 	settings: CharacterSheetSettings
+	created_by: string
 }>
 
 type ConditionTrack = {

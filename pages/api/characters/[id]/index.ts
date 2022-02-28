@@ -25,7 +25,7 @@ export default async function handler(
 			}
 			case "DELETE": {
 				const character = await getCharacterSheetOfId(id as string)
-				//TODO P0 could bring only what is necessary instead
+				//TODO P1  could bring only what is necessary instead
 				if (session.user.nickname !== character.created_by)
 					return res.status(403).end()
 				await deleteCharacterSheetOfId(id as string)
@@ -36,10 +36,10 @@ export default async function handler(
 		}
 }
 
-//TODO P0 do readonly character sheet
-//TODO P2 Handle responses for failures
 //TODO P1 how to be atomic on mongodb
-//TODO P0 add autofiller of old character sheets to keep them consistent on db
+
+//TODO P2 Handle responses for failures
+//TODO P1 add autofiller of old character sheets to keep them consistent on db
 
 //TODO P4 Do test for react avatar and thumbnail
 

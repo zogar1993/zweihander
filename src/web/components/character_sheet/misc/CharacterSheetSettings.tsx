@@ -7,11 +7,13 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import { Field } from "misevi"
 
 export default function CharacterSheetSettings() {
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
+	const isOwner = useIsOwner()
 
 	return (
 		<>
@@ -27,6 +29,7 @@ export default function CharacterSheetSettings() {
 					})
 				}}
 				unclearable
+				disabled={!isOwner}
 			/>
 			<Field
 				label="Visibility"
@@ -40,6 +43,7 @@ export default function CharacterSheetSettings() {
 					})
 				}}
 				unclearable
+				disabled={!isOwner}
 			/>
 		</>
 	)

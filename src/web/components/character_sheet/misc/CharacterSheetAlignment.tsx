@@ -3,6 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import theme from "@web/theme/theme"
 import { CircularNumberInput, Dots } from "misevi"
 import styled from "styled-components"
@@ -10,6 +11,8 @@ import styled from "styled-components"
 export default function CharacterSheetAlignment() {
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
+	const isOwner = useIsOwner()
+
 	return (
 		<Container>
 			<RanksContainer>
@@ -24,6 +27,7 @@ export default function CharacterSheetAlignment() {
 						})
 					}
 					aria-label={`Order Ranks`}
+					disabled={!isOwner}
 				/>
 				<Label>Chaos Ranks</Label>
 				<Dots
@@ -36,6 +40,7 @@ export default function CharacterSheetAlignment() {
 						})
 					}
 					aria-label={`Chaos Ranks`}
+					disabled={!isOwner}
 				/>
 			</RanksContainer>
 			<CorruptionContainer>
@@ -51,6 +56,7 @@ export default function CharacterSheetAlignment() {
 						})
 					}
 					aria-label={`Corruption`}
+					disabled={!isOwner}
 				/>
 			</CorruptionContainer>
 		</Container>

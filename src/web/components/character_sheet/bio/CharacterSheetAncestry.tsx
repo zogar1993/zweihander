@@ -3,6 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
 import React from "react"
@@ -11,6 +12,7 @@ import styled from "styled-components"
 export default function CharacterSheetAncestry() {
 	const { character, ancestries, ancestryTraits } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
+	const isOwner = useIsOwner()
 
 	return (
 		<Container>
@@ -22,6 +24,7 @@ export default function CharacterSheetAncestry() {
 				onChange={value =>
 					dispatch({ type: ActionType.SetAncestry, payload: value })
 				}
+				disabled={!isOwner}
 			/>
 			<Field
 				type="combobox"
@@ -31,7 +34,7 @@ export default function CharacterSheetAncestry() {
 				onChange={value =>
 					dispatch({ type: ActionType.SetAncestryTrait, payload: value })
 				}
-				disabled={character.ancestry === null}
+				disabled={character.ancestry === null || !isOwner}
 			/>
 		</Container>
 	)

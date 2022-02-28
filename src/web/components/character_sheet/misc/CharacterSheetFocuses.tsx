@@ -5,6 +5,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import RemovableItems from "@web/components/RemovableItems"
 import { Field } from "misevi"
 import { useState } from "react"
@@ -14,31 +15,36 @@ export default function CharacterSheetFocuses() {
 	const [focus, setFocus] = useState<string>("")
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
+	const isOwner = useIsOwner()
 
 	return (
 		<div>
-			<Field
-				label="Skill"
-				type="combobox"
-				options={SKILL_DEFINITIONS}
-				onChange={(value: SkillCode | null) => {
-					setSkill(value)
-				}}
-				value={skill}
-				unclearable
-			/>
-			<Field label="Focus" value={focus} onBlur={setFocus} />
-			<button
-				disabled={focus === "" || skill === null}
-				onClick={() =>
-					dispatch({
-						type: ActionType.AddFocus,
-						payload: { focus, skill: skill! }
-					})
-				}
-			>
-				Add
-			</button>
+			{isOwner && (
+				<>
+					<Field
+						label="Skill"
+						type="combobox"
+						options={SKILL_DEFINITIONS}
+						onChange={(value: SkillCode | null) => {
+							setSkill(value)
+						}}
+						value={skill}
+						unclearable
+					/>
+					<Field label="Focus" value={focus} onBlur={setFocus} />
+					<button
+						disabled={focus === "" || skill === null}
+						onClick={() =>
+							dispatch({
+								type: ActionType.AddFocus,
+								payload: { focus, skill: skill! }
+							})
+						}
+					>
+						Add
+					</button>
+				</>
+			)}
 			<RemovableItems
 				items={character.focuses}
 				removeItem={({ item, key }) =>

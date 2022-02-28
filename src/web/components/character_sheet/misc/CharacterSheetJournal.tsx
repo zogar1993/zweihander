@@ -3,6 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import theme from "@web/theme/theme"
 import { useCallback, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
@@ -12,6 +13,7 @@ export default function CharacterSheetJournal() {
 	const dispatch = useCharacterSheetDispatcher()
 	const [text, setText] = useState(character.journal)
 	const ref = useRef<HTMLTextAreaElement>(null)
+	const isOwner = useIsOwner()
 
 	const resize = useCallback(() => {
 		ref.current!.style.height = "inherit" //important to shrink on delete
@@ -31,6 +33,7 @@ export default function CharacterSheetJournal() {
 			onBlur={() => {
 				dispatch({ type: ActionType.SetJournal, payload: text })
 			}}
+			disabled={!isOwner}
 		/>
 	)
 }

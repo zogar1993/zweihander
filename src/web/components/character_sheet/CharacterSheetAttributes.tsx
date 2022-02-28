@@ -3,6 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import theme from "@web/theme/theme"
 import { CircularNumberInput, Dots } from "misevi"
 import React from "react"
@@ -11,6 +12,8 @@ import styled from "styled-components"
 export default function CharacterSheetAttributes() {
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
+	const isOwner = useIsOwner()
+	
 	return (
 		<AttributesSection>
 			{character.attributes.map(attribute => (
@@ -28,6 +31,7 @@ export default function CharacterSheetAttributes() {
 							min={28}
 							max={55}
 							aria-label={`${attribute.name} Base`}
+							disabled={!isOwner}
 						/>
 						<Dots
 							value={attribute.advances}
@@ -44,6 +48,7 @@ export default function CharacterSheetAttributes() {
 							}
 							rows={3}
 							aria-label={`${attribute.name} Advances`}
+							disabled={!isOwner}
 						/>
 					</FormsContainer>
 					<BonusContainer>
@@ -63,9 +68,9 @@ const AttributesSection = styled.div`
 	align-items: center;
 	gap: ${theme.spacing.separation};
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
 `
 
 const Attribute = styled.div`

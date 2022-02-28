@@ -3,6 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import RemovableItems from "@web/components/RemovableItems"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
@@ -13,21 +14,25 @@ export default function CharacterSheetTalents() {
 	const { character, comboboxes } = useCharacterSheetState()
 	const { options: talents } = comboboxes.talents
 	const dispatch = useCharacterSheetDispatcher()
+	const isOwner = useIsOwner()
+
 	return (
 		<Container>
-			<Field
-				label="Talent"
-				type="combobox"
-				options={talents}
-				onChange={value =>
-					dispatch({
-						type: ActionType.AddTalent,
-						payload: value as string
-					})
-				}
-				value={null}
-				unclearable
-			/>
+			{isOwner && (
+				<Field
+					label="Talent"
+					type="combobox"
+					options={talents}
+					onChange={value =>
+						dispatch({
+							type: ActionType.AddTalent,
+							payload: value as string
+						})
+					}
+					value={null}
+					unclearable
+				/>
+			)}
 			<RemovableItems
 				items={character.talents}
 				removeItem={({ item }) =>

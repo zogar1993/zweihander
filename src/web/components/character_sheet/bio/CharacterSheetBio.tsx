@@ -12,6 +12,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import theme from "@web/theme/theme"
 import { Avatar, Field } from "misevi"
 import React from "react"
@@ -20,6 +21,7 @@ import styled from "styled-components"
 export default function CharacterSheetBio() {
 	const { character, orderAlignments, chaosAlignments } =
 		useCharacterSheetState()
+	const isOwner = useIsOwner()
 
 	const dispatch = useCharacterSheetDispatcher()
 	return (
@@ -34,6 +36,7 @@ export default function CharacterSheetBio() {
 							payload: { avatar, thumbnail }
 						})
 					}
+					//TODO add disabled for avatar disabled={!isOwner}
 				/>
 				<FlexColumn>
 					<Field
@@ -42,6 +45,7 @@ export default function CharacterSheetBio() {
 						onBlur={value =>
 							dispatch({ type: ActionType.SetName, payload: value })
 						}
+						disabled={!isOwner}
 					/>
 					<SexAgeContainer>
 						<Field
@@ -52,6 +56,7 @@ export default function CharacterSheetBio() {
 							onChange={value =>
 								dispatch({ type: ActionType.SetSex, payload: value })
 							}
+							disabled={!isOwner}
 						/>
 						<Field
 							type="number"
@@ -61,6 +66,7 @@ export default function CharacterSheetBio() {
 							onBlur={value =>
 								dispatch({ type: ActionType.SetAge, payload: value })
 							}
+							disabled={!isOwner}
 						/>
 					</SexAgeContainer>
 					<Field
@@ -71,6 +77,7 @@ export default function CharacterSheetBio() {
 						onChange={value =>
 							dispatch({ type: ActionType.SetSocialClass, payload: value })
 						}
+						disabled={!isOwner}
 					/>
 				</FlexColumn>
 			</AvatarContainer>
@@ -82,6 +89,7 @@ export default function CharacterSheetBio() {
 				onChange={value =>
 					dispatch({ type: ActionType.SetUpbringing, payload: value })
 				}
+				disabled={!isOwner}
 			/>
 			<CharacterSheetAncestry />
 			<CharacterSheetProfessions />
@@ -94,6 +102,7 @@ export default function CharacterSheetBio() {
 					onChange={value =>
 						dispatch({ type: ActionType.SetOrderAlignment, payload: value })
 					}
+					disabled={!isOwner}
 				/>
 				<Field
 					type="combobox"
@@ -103,6 +112,7 @@ export default function CharacterSheetBio() {
 					onChange={value =>
 						dispatch({ type: ActionType.SetChaosAlignment, payload: value })
 					}
+					disabled={!isOwner}
 				/>
 				<Field
 					type="combobox"
@@ -113,6 +123,7 @@ export default function CharacterSheetBio() {
 						dispatch({ type: ActionType.SetPerilCondition, payload: value })
 					}
 					unclearable
+					disabled={!isOwner}
 				/>
 				<Field
 					type="combobox"
@@ -123,6 +134,7 @@ export default function CharacterSheetBio() {
 						dispatch({ type: ActionType.SetDamageCondition, payload: value })
 					}
 					unclearable
+					disabled={!isOwner}
 				/>
 			</TwoColumns>
 		</Bio>

@@ -192,3 +192,5 @@ const A_CHARACTER_SHEET = {
 	damage: DAMAGE_CONDITION.code,
 	peril: PERIL_CONDITION.code
 }
+
+//TODO add tests for provider and fix current with userprovider

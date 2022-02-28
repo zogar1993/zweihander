@@ -3,6 +3,7 @@ import {
 	ActionType,
 	useCharacterSheetDispatcher
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import { Dots } from "misevi"
 import styled from "styled-components"
 
@@ -12,6 +13,8 @@ export default function CharacterSheetSkill({
 	skill: CalculatedSkill
 }) {
 	const dispatch = useCharacterSheetDispatcher()
+	const isOwner = useIsOwner()
+
 	return (
 		<Container>
 			<span>{skill.name}</span>
@@ -29,6 +32,7 @@ export default function CharacterSheetSkill({
 						return "palegreen"
 				}}
 				aria-label={`${skill.name} Ranks`}
+				disabled={!isOwner}
 			/>
 			<span>{skill.chance}</span>
 		</Container>

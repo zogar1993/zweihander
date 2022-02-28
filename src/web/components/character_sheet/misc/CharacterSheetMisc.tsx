@@ -1,5 +1,6 @@
 import Accordion from "@web/components/Accordion"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import CharacterSheetAlignment from "@web/components/character_sheet/misc/CharacterSheetAlignment"
 import CharacterSheetDangerZone from "@web/components/character_sheet/misc/CharacterSheetDangerZone"
 import CharacterSheetFocuses from "@web/components/character_sheet/misc/CharacterSheetFocuses"
@@ -14,6 +15,7 @@ import styled from "styled-components"
 
 export default function CharacterSheetMisc() {
 	const { character } = useCharacterSheetState()
+	const isOwner = useIsOwner()
 
 	return (
 		<MiscAccordion
@@ -54,7 +56,8 @@ export default function CharacterSheetMisc() {
 				},
 				{
 					name: ACCORDION_ITEM.DANGER_ZONE,
-					content: <CharacterSheetDangerZone />
+					content: <CharacterSheetDangerZone />,
+					hide: !isOwner
 				}
 			]}
 		/>
@@ -64,3 +67,5 @@ export default function CharacterSheetMisc() {
 const MiscAccordion = styled(Accordion)`
 	grid-area: misc;
 `
+
+//TODO hide talents spells and focuses when there are none and you are not owner
