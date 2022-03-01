@@ -30,7 +30,8 @@ export default function CharacterSheetBio() {
 				<Avatar
 					src={character.avatar || "/characters/bandit.png"}
 					alt="Avatar"
-					onChange={(avatar, thumbnail) =>
+					resizes={[70 * 2, 143 * 2]}
+					onChange={(_, [thumbnail, avatar]) =>
 						dispatch({
 							type: ActionType.SetAvatar,
 							payload: { avatar, thumbnail }
