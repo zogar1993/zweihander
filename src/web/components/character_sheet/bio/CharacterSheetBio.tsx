@@ -37,7 +37,7 @@ export default function CharacterSheetBio() {
 							payload: { avatar, thumbnail }
 						})
 					}
-					//TODO add disabled for avatar disabled={!isOwner}
+					disabled={!isOwner}
 				/>
 				<FlexColumn>
 					<Field
