@@ -193,4 +193,4 @@ const A_CHARACTER_SHEET = {
 	peril: PERIL_CONDITION.code
 }
 
-//TODO add tests for provider and fix current with userprovider
+//TODO P1 add tests for provider

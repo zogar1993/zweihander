@@ -68,4 +68,4 @@ const MiscAccordion = styled(Accordion)`
 	grid-area: misc;
 `
 
-//TODO hide talents spells and focuses when there are none and you are not owner
+//TODO P1 hide talents spells and focuses when there are none and you are not owner

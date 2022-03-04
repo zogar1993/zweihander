@@ -127,6 +127,8 @@ const AccordionItemContent = styled.div<{
 	opacity: ${({ initialized }) => (initialized ? 1 : 0)};
 	${({ focused, $z }) =>
 		focused ? "" : `z-index: ${Z_INDEX_LEVEL.COMPONENT + $z}`};
+	${({ "aria-expanded": expanded }) =>
+		expanded ? "" : "pointer-events: none"};
 `
 
 const ItemContainer = styled.div`

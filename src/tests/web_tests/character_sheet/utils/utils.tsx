@@ -1,4 +1,5 @@
 import { UpdateAction } from "@api/characters/[id]/update"
+import { UserProvider } from "@auth0/nextjs-auth0"
 import sanitizeCharacterSheet, {
 	UnsanitizedCharacterSheetData
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
@@ -49,19 +50,21 @@ export async function render_character_sheet(
 	deleteCharacterOfIdSpy.mockReset()
 	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	render(
-		<CharacterSheetScreen
-			character={sanitizeCharacterSheet({
-				...DEFAULT_CHARACTER_SHEET,
-				...character
-			})}
-			schools={TEST_MAGIC_SCHOOLS}
-			ancestries={TEST_ANCESTRIES}
-			archetypes={TEST_ARCHETYPES}
-			chaosAlignments={TEST_CHAOS_ALIGNMENTS}
-			orderAlignments={TEST_ORDER_ALIGNMENTS}
-			professions={TEST_PROFESSIONS}
-			talents={TEST_TALENTS}
-		/>
+		<UserProvider user={{ nickname: DEFAULT_CHARACTER_SHEET.created_by }}>
+			<CharacterSheetScreen
+				character={sanitizeCharacterSheet({
+					...DEFAULT_CHARACTER_SHEET,
+					...character
+				})}
+				schools={TEST_MAGIC_SCHOOLS}
+				ancestries={TEST_ANCESTRIES}
+				archetypes={TEST_ARCHETYPES}
+				chaosAlignments={TEST_CHAOS_ALIGNMENTS}
+				orderAlignments={TEST_ORDER_ALIGNMENTS}
+				professions={TEST_PROFESSIONS}
+				talents={TEST_TALENTS}
+			/>
+		</UserProvider>
 	)
 }
 

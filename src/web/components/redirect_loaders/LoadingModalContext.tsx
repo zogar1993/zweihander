@@ -33,7 +33,7 @@ export function LoadingModal({ children }: { children: JSX.Element }) {
 	)
 }
 
-//TODO P3 remove extra backgrounds
+//TODO P1 remove extra backgrounds
 const Background = styled.div`
 	position: absolute;
 	width: 100vw;

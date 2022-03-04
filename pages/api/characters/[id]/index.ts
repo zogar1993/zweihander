@@ -25,7 +25,7 @@ export default async function handler(
 			}
 			case "DELETE": {
 				const character = await getCharacterSheetOfId(id as string)
-				//TODO P1  could bring only what is necessary instead
+				//TODO P0  could bring only what is necessary instead
 				if (session.user.nickname !== character.created_by)
 					return res.status(403).end()
 				await deleteCharacterSheetOfId(id as string)
@@ -36,17 +36,16 @@ export default async function handler(
 		}
 }
 
-//TODO P1 how to be atomic on mongodb
+//TODO P0 how to be atomic on mongodb
+//TODO P0 fix issue with menu: expand ancestries -> click characters -> ancestries bugged
+
+//TODO P1 Do test for react avatar and thumbnail
+//TODO P1 check this works correctly https://github.com/vercel/next.js/issues/30802
 
 //TODO P2 Handle responses for failures
-//TODO P1 add autofiller of old character sheets to keep them consistent on db
-
-//TODO P4 Do test for react avatar and thumbnail
+//TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
 
 //TODO P4 make hierarchies of talents for professions
 //TODO P4 check for strict experience expenditure
 
-//TODO P4 doing CTRL + z leaves currently edited combobox weird (happens with profession chains)
-//TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
-//TODO P4 check this works correctly https://github.com/vercel/next.js/issues/30802
-//TODO fix issue with menu: expand ancestries -> click characters -> ancestries bugged
+//TODO P? add autofiller of old character sheets to keep them consistent on db
