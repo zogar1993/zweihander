@@ -1,6 +1,8 @@
 import { getSession } from "@auth0/nextjs-auth0"
 import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
-import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
+import getCharacterSheetOfId, {
+	getCharacterSheetMeta
+} from "@core/actions/GetCharacterSheetOfId"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -24,8 +26,7 @@ export default async function handler(
 				return res.status(200).json(character)
 			}
 			case "DELETE": {
-				const character = await getCharacterSheetOfId(id as string)
-				//TODO P0  could bring only what is necessary instead
+				const character = await getCharacterSheetMeta(id as string)
 				if (session.user.nickname !== character.created_by)
 					return res.status(403).end()
 				await deleteCharacterSheetOfId(id as string)
