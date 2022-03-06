@@ -15,11 +15,8 @@ export default async function handler(
 	if (!req.query.path)
 		switch (req.method) {
 			case "GET":
-				const characters = await getCharacters() //TODO P0 do this directly on DB
-				const filtered = characters.filter(
-					x => x.visibility !== "private" || x.created_by === username
-				)
-				return res.status(200).json(filtered)
+				const characters = await getCharacters(username)
+				return res.status(200).json(characters)
 			case "POST":
 				const id = await createCharacter(
 					sanitizeCharacterSheet({ created_by: username })

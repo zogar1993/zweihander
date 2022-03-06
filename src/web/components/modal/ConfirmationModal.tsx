@@ -17,7 +17,7 @@ export default function ConfirmationModal({
 			<Background show={active} />
 			{active ? (
 				<ModalCard>
-					{text}
+					<span>{text}</span>
 					<ButtonContainer>
 						<Button onClick={onConfirm}>{confirmationText}</Button>
 						<Button onClick={onCancel}>Cancel</Button>
@@ -49,6 +49,9 @@ const ModalCard = styled.div`
 		max-height: 100vh;
 	}
 	background-color: white;
+	padding: calc(${theme.spacing.separation} * 2);
+	gap: calc(${theme.spacing.separation} * 2);
+	border-radius: ${theme.borders.radius};
 `
 
 const ButtonContainer = styled.div`

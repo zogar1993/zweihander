@@ -51,5 +51,5 @@ export default async function handler(
 
 //TODO P? add autofiller of old character sheets to keep them consistent on db
 
-//TODO make prettier delete confirmation panel
 //TODO see why hermanos macana are darker when delete
+//TODO make google auth more explicit

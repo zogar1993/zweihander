@@ -1,23 +1,14 @@
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import getMongoDBClient from "@core/utils/GetMongoDBClient"
 
-export async function getCharacters(): Promise<Array<CharacterPreview>> {
+export async function getCharacters(
+	username: string
+): Promise<Array<CharacterPreview>> {
 	const client = await getMongoDBClient()
 	const result = await client
 		.collection("CHARACTERS")
 		.find(
-			{
-				//			$filter: {
-				//				input: [1, "a", 2, null, 3.1, NumberLong(4), "5"],
-				//				as: "num",n
-				//				cond: {
-				//					$and: [
-				//						{ $gte: ["$$num", NumberLong("-9223372036854775807")] },
-				//						{ $lte: ["$$num", NumberLong("9223372036854775807")] }
-				//					]
-				//				}
-				//			}
-			},
+			{ $or: [{ created_by: username }, { visibility: { $ne: "private" } }] },
 			{
 				projection: {
 					name: 1,
