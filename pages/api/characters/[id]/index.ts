@@ -50,3 +50,6 @@ export default async function handler(
 //TODO P4 check for strict experience expenditure
 
 //TODO P? add autofiller of old character sheets to keep them consistent on db
+
+//TODO make prettier delete confirmation panel
+//TODO see why hermanos macana are darker when delete

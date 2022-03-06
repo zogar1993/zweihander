@@ -31,15 +31,18 @@ export default function CharacterSheetMisc() {
 				},
 				{
 					name: ACCORDION_ITEM.TALENTS,
-					content: <CharacterSheetTalents />
+					content: <CharacterSheetTalents />,
+					hide: !isOwner && character.talents.length === 0
 				},
 				{
 					name: ACCORDION_ITEM.FOCUSES,
-					content: <CharacterSheetFocuses />
+					content: <CharacterSheetFocuses />,
+					hide: !isOwner && character.focuses.length === 0
 				},
 				{
 					name: ACCORDION_ITEM.SPELLS,
-					content: <CharacterSheetSpells />
+					content: <CharacterSheetSpells />,
+					hide: !isOwner && character.schools.length === 0
 				},
 				{
 					name: ACCORDION_ITEM.SPECIAL_RULES,
@@ -67,5 +70,3 @@ export default function CharacterSheetMisc() {
 const MiscAccordion = styled(Accordion)`
 	grid-area: misc;
 `
-
-//TODO P1 hide talents spells and focuses when there are none and you are not owner
