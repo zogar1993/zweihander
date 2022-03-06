@@ -1,5 +1,6 @@
 import React, { ReactNode, useCallback, useEffect, useState } from "react"
 import styled, { css } from "styled-components"
+import { Background } from "./Background"
 import Dialog from "./Dialog"
 import Title from "./Title"
 
@@ -67,7 +68,7 @@ export default function ItemsModal<T extends Item>({
 					e.preventDefault()
 					break
 				case "Escape":
-					hide && hide()
+					hide()
 					e.preventDefault()
 					break
 			}
@@ -101,17 +102,6 @@ type Props<T> = {
 	navigate: (path?: string) => void
 	children: (show: (item: T) => void) => ReactNode
 }
-
-const Background = styled.div<{ show: boolean }>`
-	position: absolute;
-	width: 100vw;
-	height: 100vh;
-	left: 0;
-	top: 0;
-	background-color: rgba(10, 10, 10, 0.86);
-	opacity: ${({ show }) => (show ? 1 : 0)};
-	transition: ${({ show }) => (show ? "ease-out" : "ease-in")} 0.4s;
-`
 
 const ModalCard = styled.div<{ animation?: string }>`
 	display: flex;

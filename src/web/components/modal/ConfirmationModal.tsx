@@ -2,6 +2,7 @@ import Button from "@web/components/general/Button"
 import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
+import { Background } from "./Background"
 import Dialog from "./Dialog"
 
 export default function ConfirmationModal({
@@ -34,17 +35,6 @@ export type ConfirmationModalProps = {
 	text: string
 	active: boolean
 }
-
-const Background = styled.div<{ show: boolean }>`
-	position: absolute;
-	width: 100vw;
-	height: 100vh;
-	left: 0;
-	top: 0;
-	background-color: rgba(10, 10, 10, 0.86);
-	opacity: ${({ show }) => (show ? 1 : 0)};
-	transition: ${({ show }) => (show ? "ease-out" : "ease-in")} 0.4s;
-`
 
 const ModalCard = styled.div`
 	display: flex;
