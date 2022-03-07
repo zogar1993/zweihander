@@ -18,7 +18,7 @@ export default async function handler(
 	if (!req.query.path)
 		switch (req.method) {
 			case "GET": {
-				const character = await getCharacterSheetOfId(id as string)
+				const character = await getCharacterSheetOfId(id)
 				if (character.settings.visibility === "private")
 					if (session.user.nickname !== character.created_by)
 						return res.status(403).end()
@@ -26,10 +26,10 @@ export default async function handler(
 				return res.status(200).json(character)
 			}
 			case "DELETE": {
-				const character = await getCharacterSheetMeta(id as string)
+				const character = await getCharacterSheetMeta(id)
 				if (session.user.nickname !== character.created_by)
 					return res.status(403).end()
-				await deleteCharacterSheetOfId(id as string)
+				await deleteCharacterSheetOfId(id)
 				return res.status(204).end()
 			}
 			default:
@@ -37,7 +37,6 @@ export default async function handler(
 		}
 }
 
-//TODO P0 how to be atomic on mongodb
 
 //TODO P1 Do test for react avatar and thumbnail
 
@@ -51,6 +50,9 @@ export default async function handler(
 
 //TODO see why hermanos macana are darker when delete
 //TODO make google auth more explicit
+
+//Tareas paja
+//TODO P0 how to be atomic on mongodb
 //TODO add professions
 //TODO add creatures
 //TODO add images to ancestries

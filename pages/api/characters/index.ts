@@ -11,6 +11,8 @@ export default async function handler(
 	const session = await getSession(req, res)
 	if (!session) return res.status(401).end()
 	const username = session.user.nickname
+	console.log(session)
+	console.log(session.user)
 
 	if (!req.query.path)
 		switch (req.method) {

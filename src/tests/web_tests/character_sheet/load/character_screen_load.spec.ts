@@ -13,9 +13,12 @@ import {
 	click_menu_item,
 	render_character_sheet,
 	then_dots_is_checked_on,
+	then_menu_item_is_not_shown,
 	then_number_input_has_a_value_of,
+	then_number_input_is_disabled,
 	then_tag_exists,
-	then_textbox_has_a_value_of
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled
 } from "@tests/web_tests/character_sheet/utils/utils"
 import {
 	DAMAGE_CONDITIONS,
@@ -103,7 +106,7 @@ describe("Character Sheet Screen should", () => {
 		await then_dots_is_checked_on("Chaos Ranks", 0)
 		await then_dots_is_checked_on("Order Ranks", 0)
 		await then_number_input_has_a_value_of("Corruption", 0)
-		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
+		await click_menu_item(ACCORDION_ITEM.SETTINGS)
 		await then_textbox_has_a_value_of(
 			"Skill Order",
 			getByCode("alphabetic", SETTINGS_SKILL_ORDER).name
@@ -112,6 +115,35 @@ describe("Character Sheet Screen should", () => {
 			"Visibility",
 			getByCode("public", SETTINGS_VISIBILITY).name
 		)
+	}, 10000)
+
+	it("show all fields as disabled when character is not yours", async () => {
+		await render_character_sheet({}, "another_user")
+
+		await then_textbox_is_disabled("Name")
+		await then_number_input_is_disabled("Age")
+		await then_textbox_is_disabled("Sex")
+		await then_textbox_is_disabled("Social Class")
+		await then_textbox_is_disabled("Upbringing")
+		await then_textbox_is_disabled("Archetype")
+		await then_textbox_is_disabled("Profession 1")
+		await then_textbox_is_disabled("Profession 2")
+		await then_textbox_is_disabled("Profession 3")
+		await then_textbox_is_disabled("Chaos Alignment")
+		await then_textbox_is_disabled("Order Alignment")
+		await then_textbox_is_disabled("Peril Condition")
+		await then_textbox_is_disabled("Damage Condition")
+		//await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
+		//await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
+		//await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
+		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
+		//await then_dots_is_checked_on("Chaos Ranks", 0)
+		//await then_dots_is_checked_on("Order Ranks", 0)
+		await then_number_input_is_disabled("Corruption")
+		await click_menu_item(ACCORDION_ITEM.SETTINGS)
+		await then_textbox_is_disabled("Skill Order")
+		await then_textbox_is_disabled("Visibility")
+		await then_menu_item_is_not_shown(ACCORDION_ITEM.DANGER_ZONE)
 	}, 10000)
 })
 
@@ -192,5 +224,3 @@ const A_CHARACTER_SHEET = {
 	damage: DAMAGE_CONDITION.code,
 	peril: PERIL_CONDITION.code
 }
-
-//TODO P1 add tests for provider

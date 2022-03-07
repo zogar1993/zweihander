@@ -3,12 +3,6 @@ import theme from "@web/theme/theme"
 import React, { ReactNode, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
-export type AccordionItemType = {
-	name: string
-	content: ReactNode
-	hide?: boolean
-}
-
 export default function Accordion({ items, disabled }: AccordionProps) {
 	return (
 		<AccordionContainer role="tablist">
@@ -24,6 +18,12 @@ export default function Accordion({ items, disabled }: AccordionProps) {
 				))}
 		</AccordionContainer>
 	)
+}
+
+export type AccordionItemType = {
+	name: string
+	content: ReactNode
+	hide?: boolean
 }
 
 function AccordionItem({

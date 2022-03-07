@@ -15,7 +15,6 @@ import {
 import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
-import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import {
 	ComboBoxItem,
 	ComboboxValidCode
@@ -43,14 +42,17 @@ export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 })
 
 export async function render_character_sheet(
-	character: Partial<UnsanitizedCharacterSheetData> = {}
+	character: Partial<UnsanitizedCharacterSheetData> = {},
+	nickname?: string
 ) {
 	updateCharacterOfIdSpy.mockReset()
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	deleteCharacterOfIdSpy.mockReset()
 	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	render(
-		<UserProvider user={{ nickname: DEFAULT_CHARACTER_SHEET.created_by }}>
+		<UserProvider
+			user={{ nickname: nickname || DEFAULT_CHARACTER_SHEET.created_by }}
+		>
 			<CharacterSheetScreen
 				character={sanitizeCharacterSheet({
 					...DEFAULT_CHARACTER_SHEET,
@@ -141,24 +143,9 @@ export async function click_menu_item(name: string) {
 	return within(content)
 }
 
-export async function get_accordion_item_content(name: string) {
-	const menuitem = screen.getByRole("tab", { name: name })
-	return menuitem.parentElement!.children[1]! as HTMLElement
-}
-
 export async function update_character_api_was_called_with(
 	actions: Array<UpdateAction>
 ) {
-	const calls = updateCharacterOfIdSpy.mock.calls
-	await waitFor(() => expect(calls.length).toBe(1))
-	expect(calls[0][0]).toBe(CHARACTER_ID)
-	expect(calls[0][1]).toStrictEqual(actions)
-}
-
-export async function update_character_api_was_called_with_2(
-	...blocks: Array<UpdateActionBlock>
-) {
-	const actions = blocksToObjects(blocks)
 	const calls = updateCharacterOfIdSpy.mock.calls
 	await waitFor(() => expect(calls.length).toBe(1))
 	expect(calls[0][0]).toBe(CHARACTER_ID)
@@ -185,4 +172,19 @@ export async function delete_character_api_was_called() {
 export async function delete_character_api_was_not_called() {
 	const calls = deleteCharacterOfIdSpy.mock.calls
 	await waitFor(() => expect(calls.length).toBe(0))
+}
+
+export async function then_textbox_is_disabled(name: string) {
+	const checkbox = screen.getByRole("textbox", { name: name })
+	await waitFor(() => expect(checkbox).toBeDisabled())
+}
+
+export async function then_number_input_is_disabled(name: string) {
+	const checkbox = screen.getByRole("spinbutton", { name: name })
+	await waitFor(() => expect(checkbox).toBeDisabled())
+}
+
+export async function then_menu_item_is_not_shown(name: string) {
+	const menuitem = screen.queryByRole("tab", { name: name })
+	expect(menuitem).not.toBeInTheDocument()
 }
