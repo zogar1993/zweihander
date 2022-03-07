@@ -33,25 +33,14 @@ function CssPreloadLink({ href }: { href: string }) {
 	return <link rel="preload" href={href} as="font" crossOrigin="" />
 }
 
-App.getInitialProps = async ({ctx}: {ctx: any}) => {
-	if (!ctx.req) return {ancestries: [], magicSources: []}
-	const getAncestries = await import("@core/actions/GetAncestries")
-	const getMagicSources = await import("@core/actions/GetMagicSources")
-	const ancestries: Array<LeafItem> = (await getAncestries.default()).map(
-		x => ({
-			name: x.name,
-			icon: x.icon,
-			path: `ancestries/${x.code}`
-		})
-	)
-	const magicSources: Array<LeafItem> = (await getMagicSources.default()).map(
-		x => ({
-			name: x.name,
-			icon: x.icon,
-			path: `magic/${x.code}${x.schools.length > 1 ? `/${x.schools[0].code}` : ""}`
-		})
-	)
-	return { ancestries, magicSources }
+App.getInitialProps = async ({ ctx }: { ctx: any }) => {
+	if (ctx.req) {
+		const { default: getSubmenus } = await import("@core/actions/GetSubmenus")
+		return await getSubmenus()
+	} else {
+		const result = await fetch(`/api/submenus`, { method: "GET" })
+		return result.json()
+	}
 }
 
 export default App

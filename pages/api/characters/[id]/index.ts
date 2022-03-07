@@ -38,10 +38,8 @@ export default async function handler(
 }
 
 //TODO P0 how to be atomic on mongodb
-//TODO P0 fix issue with menu: expand ancestries -> click characters -> ancestries bugged
 
 //TODO P1 Do test for react avatar and thumbnail
-//TODO P1 check this works correctly https://github.com/vercel/next.js/issues/30802
 
 //TODO P2 Handle responses for failures
 //TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
@@ -53,3 +51,6 @@ export default async function handler(
 
 //TODO see why hermanos macana are darker when delete
 //TODO make google auth more explicit
+//TODO add professions
+//TODO add creatures
+//TODO add images to ancestries
