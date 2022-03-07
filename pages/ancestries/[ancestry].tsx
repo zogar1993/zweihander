@@ -8,10 +8,11 @@ import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
-export default function AncestriesScreen({ ancestry }: any) {
+export default function AncestriesScreen({ ancestry }: { ancestry: Ancestry }) {
 	return (
 		<>
 			<PageTitle>{ancestry.name}</PageTitle>
+			<img src={ancestry.image} alt={ancestry.code} />
 			<Paragraph>{ancestry.description}</Paragraph>
 			<section>
 				<SubSectionTitle>Traits</SubSectionTitle>

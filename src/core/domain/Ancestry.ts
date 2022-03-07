@@ -9,6 +9,7 @@ export type Ancestry = {
 	traits: Array<AncestryTrait>
 	attribute_bonuses: AttributeBonuses
 	icon: string
+	image: string
 }
 
 export type AncestryTrait = {

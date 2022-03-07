@@ -37,7 +37,6 @@ export default async function handler(
 		}
 }
 
-
 //TODO P1 Do test for react avatar and thumbnail
 
 //TODO P2 Handle responses for failures
@@ -49,10 +48,8 @@ export default async function handler(
 //TODO P? add autofiller of old character sheets to keep them consistent on db
 
 //TODO see why hermanos macana are darker when delete
-//TODO make google auth more explicit
+//TODO P? make google auth more explicit
 
-//Tareas paja
 //TODO P0 how to be atomic on mongodb
-//TODO add professions
-//TODO add creatures
-//TODO add images to ancestries
+//TODO P1 add professions
+//TODO P1 add creatures
