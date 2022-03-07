@@ -51,5 +51,4 @@ export default async function handler(
 //TODO P? make google auth more explicit
 
 //TODO P0 how to be atomic on mongodb
-//TODO P1 add professions
 //TODO P1 add creatures
