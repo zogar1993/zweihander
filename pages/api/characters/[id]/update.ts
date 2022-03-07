@@ -59,7 +59,7 @@ export default async function handler(
 	const conflict_errors = await validateModel(changed)
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
-	await updateCharacter(id, flattenResults(results))
+	await updateCharacter(id, null, flattenResults(results))
 	res.status(200).json({})
 }
 

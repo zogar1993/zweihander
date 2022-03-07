@@ -12,7 +12,7 @@ export default function AncestriesScreen({ ancestry }: { ancestry: Ancestry }) {
 	return (
 		<>
 			<PageTitle>{ancestry.name}</PageTitle>
-			<img src={ancestry.image} alt={ancestry.code} />
+			<img src={ancestry.image} alt={ancestry.code} key={ancestry.code} />
 			<Paragraph>{ancestry.description}</Paragraph>
 			<section>
 				<SubSectionTitle>Traits</SubSectionTitle>

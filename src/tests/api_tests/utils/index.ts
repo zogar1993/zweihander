@@ -127,7 +127,8 @@ export function expect_character_to_have_changed(change: UpdateCharacterProps) {
 	expect(calls.length).toStrictEqual(1)
 	const call = calls[0]
 	expect(call[0]).toStrictEqual(CHARACTER_ID)
-	expect(call[1]).toStrictEqual(change)
+	expect(call[1]).toStrictEqual(null)
+	expect(call[2]).toStrictEqual(change)
 }
 
 export function expect_character_to_be_unchanged() {

@@ -50,7 +50,8 @@ export default function sanitizeCharacterSheet(
 		mercy: raw.mercy || null,
 		settings: raw.settings
 			? { ...DEFAULT_SETTINGS, ...raw.settings }
-			: DEFAULT_SETTINGS
+			: DEFAULT_SETTINGS,
+		updated_at: raw.updated_at || null
 	}
 }
 

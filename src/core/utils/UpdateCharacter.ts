@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb"
 
 export default async function updateCharacter(
 	id: string,
+	timestamp: string | null,
 	{ set, pull, push, unset }: UpdateCharacterProps
 ) {
 	const client = await getMongoDBClient()

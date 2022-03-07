@@ -90,7 +90,7 @@ const screens = ({
 		items: ancestries
 	},
 	{
-		path: "professions/:profession?",
+		path: "professions",
 		name: "Professions",
 		icon: "/menu/businessman.png"
 	},

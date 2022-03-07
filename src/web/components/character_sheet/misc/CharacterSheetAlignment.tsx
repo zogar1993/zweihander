@@ -26,7 +26,7 @@ export default function CharacterSheetAlignment() {
 							payload: value
 						})
 					}
-					aria-label={`Order Ranks`}
+					aria-label="Order Ranks"
 					disabled={!isOwner}
 				/>
 				<Label>Chaos Ranks</Label>
@@ -39,7 +39,7 @@ export default function CharacterSheetAlignment() {
 							payload: value
 						})
 					}
-					aria-label={`Chaos Ranks`}
+					aria-label="Chaos Ranks"
 					disabled={!isOwner}
 				/>
 			</RanksContainer>
@@ -55,14 +55,14 @@ export default function CharacterSheetAlignment() {
 							payload: value
 						})
 					}
-					aria-label={`Corruption`}
+					aria-label="Corruption"
 					disabled={!isOwner}
 				/>
 			</CorruptionContainer>
 		</Container>
 	)
 }
-//TODO P3 everything on this page may have a legit label
+
 const Label = styled.label`
 	font-family: ${theme.fonts.common};
 	font-size: 12px;

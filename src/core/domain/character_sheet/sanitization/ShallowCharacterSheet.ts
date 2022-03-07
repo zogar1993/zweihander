@@ -31,4 +31,5 @@ export type ShallowCharacterSheet = {
 	mercy: string | null
 	settings: CharacterSheetSettings
 	created_by: string
+	updated_at: string | null
 }
