@@ -37,8 +37,6 @@ export default async function handler(
 		}
 }
 
-//TODO P1 Do test for react avatar and thumbnail
-
 //TODO P2 Handle responses for failures
 //TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
 
@@ -47,8 +45,9 @@ export default async function handler(
 
 //TODO P? add autofiller of old character sheets to keep them consistent on db
 
-//TODO see why hermanos macana are darker when delete
 //TODO P? make google auth more explicit
 
-//TODO P0 how to be atomic on mongodb
+//TODO P1 Do test for react avatar and thumbnail
+//TODO see why hermanos macana are darker when delete Jueves
+//TODO P0 how to be atomic on mongodb Jueves
 //TODO P1 add creatures

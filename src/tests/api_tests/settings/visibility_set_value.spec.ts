@@ -9,7 +9,7 @@ describe("set_value settings.visibility should", () => {
 	it("change the visibility settings of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 

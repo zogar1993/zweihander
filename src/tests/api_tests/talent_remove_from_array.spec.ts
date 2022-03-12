@@ -16,8 +16,8 @@ describe("remove_from_array talent should", () => {
 			VALUE
 		])
 
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_item_removed({ [PROPERTY]: VALUE })
-		expect(result).toHaveStatusCode(200)
 	})
 
 	it("accept only strings", async () => {

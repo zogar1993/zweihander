@@ -8,14 +8,14 @@ describe("set_value upbringing should", () => {
 	it("change the upbringing of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ upbringing: VALUE })
 	})
 
 	it("accept null", async () => {
 		const result = await update_character(["set_value", PROPERTY, null])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ upbringing: null })
 	})
 

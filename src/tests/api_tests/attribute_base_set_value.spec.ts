@@ -9,7 +9,7 @@ describe("set_value attributes.{code}.base should", () => {
 	it("change the attribute base of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
@@ -44,7 +44,7 @@ describe("set_value attributes.{code}.base should", () => {
 	it("accept minimum 28", async () => {
 		const result = await update_character(["set_value", PROPERTY, 28])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: 28 })
 	})
 
@@ -58,7 +58,7 @@ describe("set_value attributes.{code}.base should", () => {
 	it("accept maximum 55", async () => {
 		const result = await update_character(["set_value", PROPERTY, 55])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: 55 })
 	})
 

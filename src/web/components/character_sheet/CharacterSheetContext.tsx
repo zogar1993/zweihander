@@ -450,7 +450,7 @@ function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
 	state: CharacterSheetState
 ) {
-	updateCharacterOfId(state.character.id, changes)
+	updateCharacterOfId(state.character.id, state.character.updated_at, changes)
 
 	const character = applyActionsToCharacter(state._character, changes)
 

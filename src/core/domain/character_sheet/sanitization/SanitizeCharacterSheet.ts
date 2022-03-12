@@ -51,7 +51,8 @@ export default function sanitizeCharacterSheet(
 		settings: raw.settings
 			? { ...DEFAULT_SETTINGS, ...raw.settings }
 			: DEFAULT_SETTINGS,
-		updated_at: raw.updated_at || null
+		created_at: raw.created_at,
+		updated_at: raw.updated_at!
 	}
 }
 

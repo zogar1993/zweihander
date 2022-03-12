@@ -1,4 +1,4 @@
-import handler from "@api/characters/[id]/update"
+import handler, { UpdateAction } from "@api/characters/[id]/update"
 import * as auth0 from "@auth0/nextjs-auth0"
 import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import sanitizeCharacterSheet, {
@@ -30,13 +30,21 @@ withApiAuthRequiredSpy.mockImplementation(() => ({
 	user: { nickname: DEFAULT_CHARACTER_SHEET.created_by }
 }))
 
-permamock("@core/actions/GetAncestries", TEST_ANCESTRIES)
-permamock("@core/actions/GetProfessions", TEST_PROFESSIONS)
-permamock("@core/actions/GetArchetypes", TEST_ARCHETYPES)
-permamock("@core/actions/GetOrderAlignments", TEST_ORDER_ALIGNMENTS)
-permamock("@core/actions/GetChaosAlignments", TEST_CHAOS_ALIGNMENTS)
-permamock("@core/actions/GetMagicSchools", TEST_MAGIC_SCHOOLS)
-permamock("@core/actions/GetTalents", TEST_TALENTS)
+permamock("@core/actions/GetAncestries", Promise.resolve(TEST_ANCESTRIES))
+permamock("@core/actions/GetProfessions", Promise.resolve(TEST_PROFESSIONS))
+permamock("@core/actions/GetArchetypes", Promise.resolve(TEST_ARCHETYPES))
+permamock(
+	"@core/actions/GetOrderAlignments",
+	Promise.resolve(TEST_ORDER_ALIGNMENTS)
+)
+permamock(
+	"@core/actions/GetChaosAlignments",
+	Promise.resolve(TEST_CHAOS_ALIGNMENTS)
+)
+permamock("@core/actions/GetMagicSchools", Promise.resolve(TEST_MAGIC_SCHOOLS))
+permamock("@core/actions/GetTalents", Promise.resolve(TEST_TALENTS))
+const NEW_UPDATE_TIME = "2022-03-12T21:18:48.685Z"
+permamock("@core/utils/Now", NEW_UPDATE_TIME)
 
 getCharacterSheetOfId.mockReturnValue(Promise.resolve(DEFAULT_CHARACTER_SHEET))
 
@@ -63,6 +71,19 @@ export function the_saved_character_has(
 }
 
 export async function update_character(...body: Array<UpdateActionBlock>) {
+	return update_character_full({
+		update_actions: blocksToObjects(body),
+		last_modified: DEFAULT_CHARACTER_SHEET.updated_at
+	})
+}
+
+export async function update_character_full({
+	update_actions = [],
+	last_modified = DEFAULT_CHARACTER_SHEET.updated_at
+}: {
+	update_actions: Array<UpdateAction>
+	last_modified: string | null
+}) {
 	updateCharacterSpy.mockReset()
 	updateCharacterSpy.mockReturnValue(Promise.resolve())
 
@@ -71,7 +92,8 @@ export async function update_character(...body: Array<UpdateActionBlock>) {
 		query: {
 			id: CHARACTER_ID
 		},
-		body: JSON.stringify(blocksToObjects(body))
+		body: JSON.stringify(update_actions),
+		headers: { "if-unmodified-since": last_modified || undefined }
 	} as unknown as NextApiRequest
 	const result = {
 		ended: false,
@@ -82,6 +104,9 @@ export async function update_character(...body: Array<UpdateActionBlock>) {
 		json(body: any) {
 			this.body = body
 			this.ended = true
+			return result
+		},
+		setHeader(key: string, value: string) {
 			return result
 		},
 		end() {
@@ -123,11 +148,13 @@ export function expect_character_to_have_property_deleted(change: string) {
 }
 
 export function expect_character_to_have_changed(change: UpdateCharacterProps) {
+	if (change.set) change.set.updated_at = NEW_UPDATE_TIME
+	else change.set = { updated_at: NEW_UPDATE_TIME }
 	const calls = updateCharacterSpy.mock.calls
 	expect(calls.length).toStrictEqual(1)
 	const call = calls[0]
 	expect(call[0]).toStrictEqual(CHARACTER_ID)
-	expect(call[1]).toStrictEqual(null)
+	expect(call[1]).toStrictEqual(DEFAULT_CHARACTER_SHEET.updated_at)
 	expect(call[2]).toStrictEqual(change)
 }
 

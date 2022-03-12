@@ -13,7 +13,7 @@ describe("set_value profession1 should", () => {
 
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
 	})
 
@@ -22,7 +22,7 @@ describe("set_value profession1 should", () => {
 
 		const result = await update_character(["set_value", PROPERTY, null])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: null })
 	})
 
@@ -45,7 +45,7 @@ describe("set_value profession1 should", () => {
 			["set_value", "archetype", ARCHETYPE.code]
 		)
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_changed({
 			set: { [PROPERTY]: VALUE, archetype: ARCHETYPE.code }
 		})

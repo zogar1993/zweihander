@@ -6,6 +6,7 @@ import { UpdateActionCode } from "@core/api/UpdateActionCode"
 import { validateArrayErrors } from "@core/api/ValidateArrayErrors"
 import { validateModel } from "@core/api/ValidateModel"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
+import now from "@core/utils/Now"
 import updateCharacter, {
 	UpdateCharacterProps
 } from "@core/utils/UpdateCharacter"
@@ -20,6 +21,9 @@ export default async function handler(
 
 	const id = req.query.id
 	if (Array.isArray(id)) return res.status(500).end()
+
+	const last_modified = req.headers["if-unmodified-since"]
+	if (!last_modified) return res.status(400).end()
 
 	const actions = JSON.parse(req.body) as Array<UpdateAction>
 	if (!Array.isArray(actions) || actions.length === 0)
@@ -59,8 +63,11 @@ export default async function handler(
 	const conflict_errors = await validateModel(changed)
 	if (conflict_errors.length > 0) return res.status(409).json(conflict_errors)
 
-	await updateCharacter(id, null, flattenResults(results))
-	res.status(200).json({})
+	const new_update_time = now()
+	results.push({ set: { updated_at: new_update_time } })
+
+	await updateCharacter(id, last_modified, flattenResults(results))
+	res.status(204).setHeader("last-modified", new_update_time).end()
 }
 
 export type UpdateAction = Readonly<{

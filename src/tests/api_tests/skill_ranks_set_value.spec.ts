@@ -9,8 +9,8 @@ describe("set_value skills.{code}.ranks should", () => {
 	it("change the skill ranks of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: VALUE })
-		expect(result).toHaveStatusCode(200)
 	})
 
 	it("accept only numbers", async () => {
@@ -44,7 +44,7 @@ describe("set_value skills.{code}.ranks should", () => {
 	it("accept minimum 0", async () => {
 		const result = await update_character(["set_value", PROPERTY, 0])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: 0 })
 	})
 
@@ -58,7 +58,7 @@ describe("set_value skills.{code}.ranks should", () => {
 	it("accept maximum 3", async () => {
 		const result = await update_character(["set_value", PROPERTY, 3])
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_attribute_set({ [PROPERTY]: 3 })
 	})
 

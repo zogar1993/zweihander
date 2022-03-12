@@ -11,8 +11,6 @@ export default async function handler(
 	const session = await getSession(req, res)
 	if (!session) return res.status(401).end()
 	const username = session.user.nickname
-	console.log(session)
-	console.log(session.user)
 
 	if (!req.query.path)
 		switch (req.method) {
@@ -20,8 +18,13 @@ export default async function handler(
 				const characters = await getCharacters(username)
 				return res.status(200).json(characters)
 			case "POST":
+				const creation_time = new Date().toISOString()
 				const id = await createCharacter(
-					sanitizeCharacterSheet({ created_by: username })
+					sanitizeCharacterSheet({
+						created_by: username,
+						created_at: creation_time,
+						updated_at: creation_time
+					})
 				)
 				return res.status(201).json(`"/characters/${id}"`)
 			default:

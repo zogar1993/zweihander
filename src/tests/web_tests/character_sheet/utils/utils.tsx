@@ -38,7 +38,8 @@ useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 
 export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 	id: CHARACTER_ID,
-	created_by: "alistair.grout"
+	created_by: "alistair.grout",
+	updated_at: "2022-03-12T16:24:50.462Z"
 })
 
 export async function render_character_sheet(
@@ -149,7 +150,8 @@ export async function update_character_api_was_called_with(
 	const calls = updateCharacterOfIdSpy.mock.calls
 	await waitFor(() => expect(calls.length).toBe(1))
 	expect(calls[0][0]).toBe(CHARACTER_ID)
-	expect(calls[0][1]).toStrictEqual(actions)
+	expect(calls[0][1]).toBe(DEFAULT_CHARACTER_SHEET.updated_at)
+	expect(calls[0][2]).toStrictEqual(actions)
 }
 
 export async function then_tag_exists(

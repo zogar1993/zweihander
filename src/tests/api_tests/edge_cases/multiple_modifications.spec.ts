@@ -17,7 +17,7 @@ describe("Character Update API should", () => {
 			["delete_property", PROPERTY_4]
 		)
 
-		expect(result).toHaveStatusCode(200)
+		expect(result).toHaveStatusCode(204)
 		expect_character_to_have_changed({
 			set: {
 				[PROPERTY_1]: PROPERTY_1_VALUE,
