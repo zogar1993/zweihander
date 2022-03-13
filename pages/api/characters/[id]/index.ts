@@ -47,6 +47,12 @@ export default async function handler(
 
 //TODO P? make google auth more explicit
 
-//TODO P1 Do test for react avatar and thumbnail
-//TODO see why hermanos macana are darker when delete
-//TODO P1 add creatures
+//TODO Do test for react avatar and thumbnail
+//TODO fix hermanos macana are darker when delete
+
+//TODO add book distinction
+//TODO add creatures
+//TODO add weapons
+//TODO restyle character screen
+//TODO add authentication to every endpoint and page
+//TODO add undo on react for failing server changes

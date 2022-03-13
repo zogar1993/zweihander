@@ -1,12 +1,13 @@
 import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
-import { Ancestry } from "@core/domain/Ancestry"
-import { MagicSchool } from "@core/domain/MagicSchool"
-import { Profession } from "@core/domain/Profession"
-import { Spell } from "@core/domain/Spell"
-import { Talent } from "@core/domain/Talent"
+import {
+	AncestryTech,
+	MagicSchoolTech,
+	ProfessionTech,
+	TalentTech
+} from "@core/domain/character_sheet/CharacterSheet"
 
-export const TEST_ANCESTRIES: Array<Ancestry> = Array.from(
+export const TEST_ANCESTRIES: Array<AncestryTech> = Array.from(
 	Array(10).keys(),
 	n => n + 1
 ).map(n => ({
@@ -32,7 +33,7 @@ export const TEST_ANCESTRIES: Array<Ancestry> = Array.from(
 	icon: ""
 }))
 
-export const TEST_PROFESSIONS: Array<Profession> = Array.from(
+export const TEST_PROFESSIONS: Array<ProfessionTech> = Array.from(
 	Array(50).keys(),
 	n => n + 1
 ).map(n => ({
@@ -101,7 +102,7 @@ export const TEST_ORDER_ALIGNMENTS: Array<Alignment> = Array.from(
 	partner: `order_alignment_${n}`
 }))
 
-export const TEST_MAGIC_SCHOOLS: Array<MagicSchool> = Array.from(
+export const TEST_MAGIC_SCHOOLS: Array<MagicSchoolTech> = Array.from(
 	Array(10).keys(),
 	n => n + 1
 ).map(n => ({
@@ -110,11 +111,13 @@ export const TEST_MAGIC_SCHOOLS: Array<MagicSchool> = Array.from(
 	source: `arcana`,
 	spells: Array.from(Array(5).keys(), m => m + 1).map(m => ({
 		name: `Magic School ${n} Spell ${m}`,
-		code: `magic_school_${n}_spell_${m}`
-	})) as unknown as Array<Spell>
+		code: `magic_school_${n}_spell_${m}`,
+		effect: `magic_school_${n}_spell_${m}_effect`,
+		principle: "Petty"
+	}))
 }))
 
-export const TEST_TALENTS: Array<Talent> = Array.from(
+export const TEST_TALENTS: Array<TalentTech> = Array.from(
 	Array(40).keys(),
 	n => n + 1
 ).map(n => ({
