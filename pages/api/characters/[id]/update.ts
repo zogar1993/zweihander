@@ -66,7 +66,12 @@ export default async function handler(
 	const new_update_time = now()
 	results.push({ set: { updated_at: new_update_time } })
 
-	await updateCharacter(id, last_modified, flattenResults(results))
+	try {
+		await updateCharacter(id, last_modified, flattenResults(results))
+	} catch (e) {
+		const error = e as Error
+		return res.status(500).json(error.message)
+	}
 	res.status(204).setHeader("last-modified", new_update_time).end()
 }
 

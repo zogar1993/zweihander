@@ -48,6 +48,5 @@ export default async function handler(
 //TODO P? make google auth more explicit
 
 //TODO P1 Do test for react avatar and thumbnail
-//TODO see why hermanos macana are darker when delete Jueves
-//TODO P0 how to be atomic on mongodb Jueves
+//TODO see why hermanos macana are darker when delete
 //TODO P1 add creatures

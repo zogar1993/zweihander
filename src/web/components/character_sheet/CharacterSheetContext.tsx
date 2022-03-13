@@ -23,6 +23,7 @@ import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
+import newMessageQueue, { MessageQueue } from "@web/message_queue/MessageQueue"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, useContext, useReducer } from "react"
 
@@ -61,7 +62,8 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 		confirmation: null
 	},
 
-	undoActions: []
+	undoActions: [],
+	messageQueue: newMessageQueue({ pass: "" })
 }) as CharacterSheetState
 
 export const CharacterSheetContext = React.createContext({
@@ -93,6 +95,7 @@ type CharacterSheetState = {
 	chaosAlignments: Array<Alignment>
 
 	undoActions: Array<Array<UpdateAction>>
+	messageQueue: MessageQueue
 }
 
 export function useCharacterSheetReducer() {
@@ -152,8 +155,8 @@ function characterSheetReducer(
 				modals: {
 					confirmation: null
 				},
-
-				undoActions: []
+				undoActions: [],
+				messageQueue: newMessageQueue({ pass: props.character.updated_at })
 			}
 		}
 		case ActionType.SetName:
@@ -450,7 +453,9 @@ function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
 	state: CharacterSheetState
 ) {
-	updateCharacterOfId(state.character.id, state.character.updated_at, changes)
+	state.messageQueue.push(async pass =>
+		updateCharacterOfId(state.character.id, pass, changes)
+	)
 
 	const character = applyActionsToCharacter(state._character, changes)
 

@@ -17,9 +17,15 @@ export default async function updateCharacter(
 	if (push) patch["$push"] = push
 	if (unset) patch["$unset"] = unsets
 
-	await client
+	const result = await client
 		.collection("CHARACTERS")
-		.updateOne({ _id: new ObjectId(id) }, patch)
+		.updateOne({ _id: new ObjectId(id), updated_at: timestamp }, patch)
+
+	if (result.modifiedCount === 0)
+		throw Error(
+			"No modifications were made. " +
+				"This is most likely because of an old 'if-unmodified-since' value."
+		)
 }
 
 export type UpdateCharacterProps = {

@@ -5,11 +5,11 @@ export default async function updateCharacterOfId(
 	last_modified: string,
 	changes: Array<UpdateAction>
 ) {
-	await fetch(`/api/characters/${id}/update`, {
+	const response = await fetch(`/api/characters/${id}/update`, {
 		method: "POST",
 		body: JSON.stringify(changes),
-		headers: {
-			"if-unmodified-since": last_modified
-		}
+		headers: { "if-unmodified-since": last_modified }
 	})
+	if (response.status !== 204) throw Error(await response.json())
+	return response.headers.get("last-modified")!
 }
