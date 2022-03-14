@@ -36,6 +36,7 @@ export const deleteCharacterOfIdSpy = jest.spyOn(deleteCharacterOfId, "default")
 export const useRouterSpy = jest.spyOn(router, "useRouter")
 useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
 
+const NEW_UPDATE_DATE = "2023-01-01T00:00:00Z"
 export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 	id: CHARACTER_ID,
 	created_by: "alistair.grout",
@@ -47,7 +48,7 @@ export async function render_character_sheet(
 	nickname?: string
 ) {
 	updateCharacterOfIdSpy.mockReset()
-	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve())
+	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve(NEW_UPDATE_DATE))
 	deleteCharacterOfIdSpy.mockReset()
 	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	render(
