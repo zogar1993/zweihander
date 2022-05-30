@@ -45,16 +45,14 @@ export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 
 export async function render_character_sheet(
 	character: Partial<UnsanitizedCharacterSheetData> = {},
-	nickname?: string
+	email?: string
 ) {
 	updateCharacterOfIdSpy.mockReset()
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve(NEW_UPDATE_DATE))
 	deleteCharacterOfIdSpy.mockReset()
 	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	render(
-		<UserProvider
-			user={{ nickname: nickname || DEFAULT_CHARACTER_SHEET.created_by }}
-		>
+		<UserProvider user={{ email: email || DEFAULT_CHARACTER_SHEET.created_by }}>
 			<CharacterSheetScreen
 				character={sanitizeCharacterSheet({
 					...DEFAULT_CHARACTER_SHEET,

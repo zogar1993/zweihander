@@ -4,5 +4,5 @@ import { useCharacterSheetState } from "@web/components/character_sheet/Characte
 export default function useIsOwner() {
 	const { character } = useCharacterSheetState()
 	const user = useUser()
-	return user.user?.nickname === character.created_by
+	return user.user?.email === character.created_by
 }

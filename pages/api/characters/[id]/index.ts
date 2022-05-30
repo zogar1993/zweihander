@@ -20,14 +20,14 @@ export default async function handler(
 			case "GET": {
 				const character = await getCharacterSheetOfId(id)
 				if (character.settings.visibility === "private")
-					if (session.user.nickname !== character.created_by)
+					if (session.user.email !== character.created_by)
 						return res.status(403).end()
 
 				return res.status(200).json(character)
 			}
 			case "DELETE": {
 				const character = await getCharacterSheetMeta(id)
-				if (session.user.nickname !== character.created_by)
+				if (session.user.email !== character.created_by)
 					return res.status(403).end()
 				await deleteCharacterSheetOfId(id)
 				return res.status(204).end()
@@ -56,3 +56,4 @@ export default async function handler(
 //TODO make google auth more explicit
 //TODO add authentication to every endpoint and page
 //TODO restyle character screen
+//TODO clean make production ready Google auth https://manage.auth0.com/dashboard/us/dev-n9rzdoj9/connections/social/con_qdQyo5cLkfHDZGnD/settings

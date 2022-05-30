@@ -27,7 +27,7 @@ export const getCharacterSheetOfId = jest.spyOn(
 )
 export const withApiAuthRequiredSpy = jest.spyOn(auth0, "getSession")
 withApiAuthRequiredSpy.mockImplementation(() => ({
-	user: { nickname: DEFAULT_CHARACTER_SHEET.created_by }
+	user: { email: DEFAULT_CHARACTER_SHEET.created_by }
 }))
 
 permamock("@core/actions/GetAncestries", Promise.resolve(TEST_ANCESTRIES))

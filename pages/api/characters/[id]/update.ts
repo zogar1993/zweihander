@@ -48,7 +48,7 @@ export default async function handler(
 
 	const character = await getCharacterSheetOfId(id)
 
-	if (session.user.nickname !== character.created_by)
+	if (session.user.email !== character.created_by)
 		return res.status(403).json({})
 
 	const preexisting_errors = await validateModel(character)
