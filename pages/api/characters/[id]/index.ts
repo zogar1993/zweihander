@@ -45,14 +45,14 @@ export default async function handler(
 
 //TODO P? add autofiller of old character sheets to keep them consistent on db
 
-//TODO P? make google auth more explicit
-
 //TODO Do test for react avatar and thumbnail
 //TODO fix hermanos macana are darker when delete
 
 //TODO add book distinction
 //TODO add creatures
 //TODO add weapons
-//TODO restyle character screen
-//TODO add authentication to every endpoint and page
 //TODO add undo on react for failing server changes
+
+//TODO make google auth more explicit
+//TODO add authentication to every endpoint and page
+//TODO restyle character screen
