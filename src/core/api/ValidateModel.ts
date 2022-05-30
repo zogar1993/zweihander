@@ -113,7 +113,7 @@ function verifyIsNullOrWithin<T>(
 ) {
 	if (character[property] !== null)
 		if (!hasByCode(character[property] as any, collection))
-			return [`'${character[property]}' is not a valid ${property}`]
+			return [`'${character[property]}' is not a valid ${property as string}`]
 	return []
 }
 
