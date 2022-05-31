@@ -94,7 +94,7 @@ export async function change_combobox_item<T extends ComboboxValidCode>(
 	const textbox = functions.getByRole("textbox", { name: name })
 	const combobox = textbox.parentElement!
 	textbox.focus()
-	const option = within(combobox).getByRole("option", { name: item.name })
+	const option = await within(combobox).findByRole("option", { name: item.name })
 	fireEvent.click(option)
 }
 

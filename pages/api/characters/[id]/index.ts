@@ -52,8 +52,11 @@ export default async function handler(
 //TODO add creatures
 //TODO add weapons
 //TODO add undo on react for failing server changes
+//TODO capacidad de transferir un personaje?
 
-//TODO make google auth more explicit
+//TODO remove visibility of emails
+//TODO make private characters distinctive
 //TODO add authentication to every endpoint and page
+//TODO add confirmation to create and authorise an account
 //TODO restyle character screen
 //TODO clean make production ready Google auth https://manage.auth0.com/dashboard/us/dev-n9rzdoj9/connections/social/con_qdQyo5cLkfHDZGnD/settings
