@@ -37,26 +37,30 @@ export default async function handler(
 		}
 }
 
-//TODO P2 Handle responses for failures
 //TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
+//TODO fix hermanos macana are darker when delete
 
 //TODO P4 make hierarchies of talents for professions
 //TODO P4 check for strict experience expenditure
 
-//TODO P? add autofiller of old character sheets to keep them consistent on db
-
 //TODO Do test for react avatar and thumbnail
-//TODO fix hermanos macana are darker when delete
 
 //TODO add book distinction
 //TODO add creatures
 //TODO add weapons
-//TODO add undo on react for failing server changes
-//TODO capacidad de transferir un personaje?
 
-//TODO remove visibility of emails
-//TODO make private characters distinctive
-//TODO add authentication to every endpoint and page
-//TODO add confirmation to create and authorise an account
-//TODO restyle character screen
-//TODO clean make production ready Google auth https://manage.auth0.com/dashboard/us/dev-n9rzdoj9/connections/social/con_qdQyo5cLkfHDZGnD/settings
+//TODO add undo on react for failing server changes
+//TODO P2 Handle responses for failures
+
+//TODO capacidad de transferir un personaje?
+//TODO P? add autofiller of old character sheets to keep them consistent on db
+
+//TODO P1 add authentication to every endpoint and page
+//TODO P1 remove visibility of emails
+
+//TODO P1 add confirmation to create and authorise an account
+//TODO P1 send error when auth has no email
+
+//TODO P1 make private characters distinctive
+//TODO P1 restyle character screen
+//TODO P1 check best practices for production ready gmail account

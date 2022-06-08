@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 import getAncestries from "@core/actions/GetAncestries"
 import { Ancestry } from "@core/domain/Ancestry"
 import { Trait } from "@web/components/ancestry/AncestryTraitCard"
@@ -8,23 +9,21 @@ import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
-export default function AncestriesScreen({ ancestry }: { ancestry: Ancestry }) {
-	return (
-		<>
-			<PageTitle>{ancestry.name}</PageTitle>
-			<img src={ancestry.image} alt={ancestry.code} key={ancestry.code} />
-			<Paragraph>{ancestry.description}</Paragraph>
-			<section>
-				<SubSectionTitle>Traits</SubSectionTitle>
-				<Grid columns={3} mobile-columns={1}>
-					{ancestry.traits.map((trait: Trait) => (
-						<TraitCard key={trait.name} trait={trait} />
-					))}
-				</Grid>
-			</section>
-		</>
-	)
-}
+export default withPageAuthRequired(({ ancestry }: { ancestry: Ancestry }) => (
+	<>
+		<PageTitle>{ancestry.name}</PageTitle>
+		<img src={ancestry.image} alt={ancestry.code} key={ancestry.code} />
+		<Paragraph>{ancestry.description}</Paragraph>
+		<section>
+			<SubSectionTitle>Traits</SubSectionTitle>
+			<Grid columns={3} mobile-columns={1}>
+				{ancestry.traits.map((trait: Trait) => (
+					<TraitCard key={trait.name} trait={trait} />
+				))}
+			</Grid>
+		</section>
+	</>
+))
 
 export async function getStaticProps({
 	params: { ancestry: ancestryCode }
