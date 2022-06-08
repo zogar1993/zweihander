@@ -1,4 +1,5 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 
-export default function Home() {
-	return <img src="party.jpg" alt="pc party"/>
-}
+export default withPageAuthRequired(() => {
+	return <img src="party.jpg" alt="pc party" />
+})

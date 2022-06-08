@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 import getMagicSources from "@core/actions/GetMagicSources"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { MagicSource } from "@core/domain/MagicSource"
@@ -5,20 +6,16 @@ import { PageTitle } from "@web/components/general/PageTitle"
 import SpellCards from "@web/components/magic/SpellCards"
 import React from "react"
 
-export default function MagicSourceWithOneSchoolScreen({
-	source,
-	school
-}: {
-	source: MagicSource
-	school: MagicSchool
-}) {
-	return (
-		<>
-			<PageTitle>{source.name}</PageTitle>
-			<SpellCards spells={school.spells} />
-		</>
-	)
-}
+export default withPageAuthRequired(
+	({ source, school }: { source: MagicSource; school: MagicSchool }) => {
+		return (
+			<>
+				<PageTitle>{source.name}</PageTitle>
+				<SpellCards spells={school.spells} />
+			</>
+		)
+	}
+)
 
 export async function getStaticProps({ params: { source: sourceCode } }: any) {
 	const sources = await getMagicSources()
