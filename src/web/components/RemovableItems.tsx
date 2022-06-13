@@ -56,7 +56,7 @@ const TagGroup = styled.div`
 
 const TagGroupName = styled.span`
 	font-size: 26px;
-	font-family: ${theme.fonts.stylish};
+	font-family: ${theme.fonts.title};
 	text-align: center;
 `
 

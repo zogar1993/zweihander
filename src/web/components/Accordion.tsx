@@ -101,7 +101,7 @@ const AccordionItemTab = styled.button`
 	height: 36px;
 	min-height: 36px;
 	font-size: 20px;
-	font-family: ${theme.fonts.stylish};
+	font-family: ${theme.fonts.title};
 	background-color: lightgray;
 	user-select: none;
 	cursor: pointer;

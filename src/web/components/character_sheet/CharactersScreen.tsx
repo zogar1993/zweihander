@@ -95,7 +95,7 @@ const CardInfoLine = styled.span`
 `
 
 const CardTitle = styled.span`
-	font-family: ${theme.fonts.stylish};
+	font-family: ${theme.fonts.title};
 	font-size: 20px;
 	text-align: center;
 	color: ${theme.colors.text};

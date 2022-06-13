@@ -49,8 +49,7 @@ const light = {
 	},
 	fonts: {
 		handwritten: "Patrick Hand, Times, serif",
-		title: "Almendra SC, Times, serif",
-		stylish: "Almendra, Times, serif",
+		title: "Almendra, Times, serif",
 		common: "Arial, Times, serif"
 	},
 	borders: {

@@ -144,7 +144,7 @@ type PropertyProps = {
 }
 
 const PropertyName = styled.span`
-	font-family: ${theme.fonts.stylish};
+	font-family: ${theme.fonts.title};
 	font-weight: bold;
 	color: black;
 `

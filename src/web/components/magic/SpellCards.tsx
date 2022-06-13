@@ -47,36 +47,20 @@ type Props = {
 function SpellModalContent(item: Spell): ReactNode {
 	return (
 		<>
-			<Description>
-				{item.description}
-			</Description>
-			<Property name="Principle">
-				{item.principle}
-			</Property>
-			<Property name="Distance">
-				{item.distance}
-			</Property>
-			<Property name="Reagents">
-				{item.reagents}
-			</Property>
-			<Property name="Duration">
-				{item.duration}
-			</Property>
-			<Property name="Effect">
-				{item.effect}
-			</Property>
-			<Property name="Critical Success">
-				{item.critical_success}
-			</Property>
-			<Property name="Critical Failure">
-				{item.critical_failure}
-			</Property>
+			<Description>{item.description}</Description>
+			<Property name="Principle">{item.principle}</Property>
+			<Property name="Distance">{item.distance}</Property>
+			<Property name="Reagents">{item.reagents}</Property>
+			<Property name="Duration">{item.duration}</Property>
+			<Property name="Effect">{item.effect}</Property>
+			<Property name="Critical Success">{item.critical_success}</Property>
+			<Property name="Critical Failure">{item.critical_failure}</Property>
 		</>
 	)
 }
 
 const Paragraph = styled.p`
-  color: black;
+	color: black;
 `
 
 const Description = styled.p`
@@ -88,9 +72,7 @@ const Description = styled.p`
 function Property({ name, children }: PropertyProps) {
 	return (
 		<Paragraph>
-			<PropertyName>
-				{name}:{" "}
-			</PropertyName>
+			<PropertyName>{name}: </PropertyName>
 			{children}
 		</Paragraph>
 	)
@@ -102,7 +84,7 @@ type PropertyProps = {
 }
 
 const PropertyName = styled.span`
-	font-family: ${theme.fonts.stylish};
+	font-family: ${theme.fonts.title};
 	font-weight: bold;
 	color: black;
 `

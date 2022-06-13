@@ -19,7 +19,6 @@ const App = ({
 		<UserProvider>
 			<Head>
 				<CssPreloadLink href="https://fonts.googleapis.com/css?family=Patrick+Hand" />
-				<CssPreloadLink href="https://fonts.googleapis.com/css?family=Almendra+SC" />
 				<CssPreloadLink href="https://fonts.googleapis.com/css?family=Almendra" />
 			</Head>
 			<Main ancestries={ancestries} magicSources={magicSources}>

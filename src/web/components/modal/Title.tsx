@@ -1,9 +1,9 @@
+import theme from "@web/theme/theme"
 import styled from "styled-components"
 
 const Title = styled.h3<Props>`
-	font-family: ${({ font }) => (font ? `${font}, ` : "")}Times, serif;
-	font-weight: ${props => (props.bold ? "bold" : "normal")};
-	font-size: ${props => props["font-size"] || "26px"};
+	font-family: ${theme.fonts.title};
+	font-size: 26px;
 	text-align: center;
 	color: black;
 	text-transform: capitalize;
@@ -11,7 +11,5 @@ const Title = styled.h3<Props>`
 export default Title
 
 type Props = {
-  font?: string
-  bold?: boolean
-  'font-size'?: string
+	"font-size"?: string
 }

@@ -62,7 +62,8 @@ export default async function handler(
 //TODO P1 add confirmation to create and authorise an account
 
 //TODO P1 restyle character screen
-//TODO P1 check best practices for production ready gmail account
-//TODO P1 add test for professions
-//TODO P1 add test for magics
-//TODO P1 add test for ancestries
+
+//TODO P2 add test for professions
+//TODO P2 add test for magics
+//TODO P2 add test for ancestries
+//TODO P2 check best practices for production ready gmail account

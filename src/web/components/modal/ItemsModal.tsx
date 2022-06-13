@@ -146,7 +146,7 @@ function Card<T extends Item>({ item, render, animation }: CardProps<T>) {
 	return (
 		<ModalCard animation={animation}>
 			<ModalHeader>
-				<Title font="Almendra SC">{item?.name}</Title>
+				<Title>{item?.name}</Title>
 			</ModalHeader>
 			<ModalBody>{render(item)}</ModalBody>
 			<ModalFooter />
