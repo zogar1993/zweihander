@@ -39,6 +39,7 @@ export default async function handler(
 
 //TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
 //TODO fix hermanos macana are darker when delete
+//TODO make characters screen prettier
 
 //TODO P4 make hierarchies of talents for professions
 //TODO P4 check for strict experience expenditure
@@ -60,6 +61,8 @@ export default async function handler(
 //TODO P1 add confirmation to create and authorise an account
 //TODO P1 send error when auth has no email
 
-//TODO P1 make private characters distinctive
 //TODO P1 restyle character screen
 //TODO P1 check best practices for production ready gmail account
+//TODO P1 add test for professions
+//TODO P1 add test for magics
+//TODO P1 add test for ancestries

@@ -1,3 +1,4 @@
+import { useUser } from "@auth0/nextjs-auth0"
 import { CharacterPreview } from "@core/actions/GetCharacters"
 import createCharacter from "@web/api_calls/CreateCharacter"
 import Button from "@web/components/general/Button"
@@ -14,6 +15,7 @@ import styled from "styled-components"
 export default function CharactersScreen({
 	characters
 }: CharactersScreenProps) {
+	const { user } = useUser()
 	const router = useRouter()
 	const setLoading = useSetLoadingModal()
 	const create = async () => {
@@ -32,7 +34,12 @@ export default function CharactersScreen({
 							<Skeleton key={i.toString()} />
 					  ))
 					: characters.map(character => (
-							<Card href={`characters/${character.id}`} key={character.id}>
+							<Card
+								href={`characters/${character.id}`}
+								key={character.id}
+								personal={user?.email === character.created_by}
+								isPrivate={character.visibility === "private"}
+							>
 								<CardTitle>{character.name || "unnamed"}</CardTitle>
 								<CardBody>
 									<Avatar
@@ -55,7 +62,10 @@ export default function CharactersScreen({
 	)
 }
 
-const Card = styled(Link)`
+const Card = styled(Link)<{ personal: boolean; isPrivate: boolean }>`
+	${({ personal, isPrivate }) =>
+		personal ? `background-color: ${isPrivate ? "green" : "palegreen"}` : ""};
+
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};
