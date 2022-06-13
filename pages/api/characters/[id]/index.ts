@@ -49,6 +49,7 @@ export default async function handler(
 //TODO add book distinction
 //TODO add creatures
 //TODO add weapons
+//TODO add alternative mercy
 
 //TODO add undo on react for failing server changes
 //TODO P2 Handle responses for failures
@@ -59,7 +60,6 @@ export default async function handler(
 //TODO P1 remove visibility of emails
 
 //TODO P1 add confirmation to create and authorise an account
-//TODO P1 send error when auth has no email
 
 //TODO P1 restyle character screen
 //TODO P1 check best practices for production ready gmail account

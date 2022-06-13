@@ -35,19 +35,22 @@ export default function CharacterSheetScreen(
 		</CharacterSheetContext.Provider>
 	)
 }
+
 export const BLOCK_WIDTH = "276px"
+const INPUT_HEIGHT = "45px"
+const HEIGHT_1 = `calc((${INPUT_HEIGHT} * 9) + (${theme.spacing.separation} * 8))`
+const HEIGHT_1_B = `calc((${HEIGHT_1} * 2) + (${theme.spacing.separation}))`
 export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
 
 const Layout = styled.div`
 	display: grid;
 	width: ${DESKTOP_MAX_WIDTH};
 	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: 87px 395px;
-	max-height: 486px;
+	grid-template-rows: ${HEIGHT_1_B} 1fr;
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
-		"bio attributes attributes attributes"
-		"bio skills skills misc";
+		"bio attributes skills"
+		"misc misc misc";
 
 	@media (max-width: 768px) {
 		grid-template-columns: minmax(0, 1fr);
@@ -55,8 +58,6 @@ const Layout = styled.div`
 		width: 100%;
 		grid-template-areas:
 			"bio"
-			"peril-tracker"
-			"damage-tracker"
 			"attributes"
 			"skills"
 			"misc";

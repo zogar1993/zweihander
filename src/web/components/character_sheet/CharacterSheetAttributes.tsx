@@ -13,7 +13,7 @@ export default function CharacterSheetAttributes() {
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsOwner()
-	
+
 	return (
 		<AttributesSection>
 			{character.attributes.map(attribute => (
@@ -64,18 +64,13 @@ export default function CharacterSheetAttributes() {
 const AttributesSection = styled.div`
 	grid-area: attributes;
 	display: flex;
+	flex-direction: column;
 	justify-content: space-evenly;
-	align-items: center;
 	gap: ${theme.spacing.separation};
-
-	@media (max-width: 768px) {
-		flex-direction: column;
-	}
 `
 
 const Attribute = styled.div`
 	display: flex;
-	flex-direction: column;
 	gap: ${theme.spacing.separation};
 	align-items: center;
 `
