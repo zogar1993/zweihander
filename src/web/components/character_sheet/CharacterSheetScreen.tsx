@@ -10,7 +10,6 @@ import {
 import useCtrlZ from "@web/components/character_sheet/hooks/useCtrlZ"
 import useInitializeCharacterSheetReducer from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
-import CharacterSheetSkills from "@web/components/character_sheet/skills/CharacterSheetSkills"
 import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
@@ -29,7 +28,6 @@ export default function CharacterSheetScreen(
 			<Layout>
 				<CharacterSheetBio />
 				<CharacterSheetAttributes />
-				<CharacterSheetSkills />
 				<CharacterSheetMisc />
 			</Layout>
 		</CharacterSheetContext.Provider>
@@ -49,8 +47,8 @@ const Layout = styled.div`
 	grid-template-rows: ${HEIGHT_1_B} 1fr;
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
-		"bio attributes skills"
-		"misc misc misc";
+		"bio attributes"
+		"misc misc";
 
 	@media (max-width: 768px) {
 		grid-template-columns: minmax(0, 1fr);

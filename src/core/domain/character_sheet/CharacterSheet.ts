@@ -54,8 +54,6 @@ export function calculateCharacterSheet({
 
 	const getAttribute = (code: AttributeCode) => getByCode(code, attributes)
 
-	const skills = getSkills({ character, getAttribute, professions: profs })
-
 	const special_rules = getSpecialRules({
 		character,
 		talents,
@@ -69,16 +67,14 @@ export function calculateCharacterSheet({
 		schools: formatSpells(character.spells, schools),
 		focuses: formatFocuses(character.focuses),
 		talents: formatTalents(character.talents, talents),
-		skills: orderSkills(skills, character.settings.skill_order),
-		encumbrance_limit: 3 + getAttribute("brawn").bonus,
-		initiative: 3 + getAttribute("perception").bonus,
-		movement: 3 + getAttribute("agility").bonus,
 		spent_experience: spentExperience({
 			character,
-			skills,
 			attributes,
 			schools
 		}),
+		encumbrance_limit: 3 + getAttribute("brawn").bonus,
+		initiative: 3 + getAttribute("perception").bonus,
+		movement: 3 + getAttribute("agility").bonus,
 		damage: {
 			value: character.damage,
 			threshold: getAttribute("brawn").bonus
@@ -103,32 +99,55 @@ function getAttributes({
 	character,
 	ancestry,
 	professions
-}: GetAttributeProps): Array<Attribute> {
-	const codes = Object.keys(character.attributes) as Array<AttributeCode>
-	return codes.map(code => {
-		const {
-			base: raw_base,
-			advances,
-			...definition
-		} = character.attributes[code]
-		const ancestry_bonus = ancestry?.attribute_bonuses[code] || 0
-		const mercy = character.mercy === code
+}: GetAttributeProps): Array<CalculatedAttribute> {
+	return ATTRIBUTE_DEFINITIONS.map(attribute => {
+		const { base: raw_base, advances } = character.attributes[attribute.code]
+		const ancestry_bonus = ancestry?.attribute_bonuses[attribute.code] || 0
+		const mercy = character.mercy === attribute.code
 		const base = mercy ? 42 : raw_base
 		const bonus = Math.floor(base / 10) + advances + ancestry_bonus
 		const profession_advances = professions
-			.map(x => x.advances.bonus_advances[code] || 0)
+			.map(x => x.advances.bonus_advances[attribute.code] || 0)
 			.reduce((x, y) => x + y, 0)
 
+		const skills = SKILL_DEFINITIONS.filter(
+			skill => skill.attribute === attribute.code
+		).map(skill => {
+			const { ranks } = character.skills[skill.code]
+			const is_incapacitated = () => character.peril === Peril.Incapacitated
+			const relevant_ranks = () =>
+				character.peril >= Peril.Ignore1SkillRank //TODO faltan los ignore 2 and 3 skill ranks
+					? Math.max(0, ranks - (character.peril - 1))
+					: ranks
+			const profession_ranks = professions
+				.map(
+					profession =>
+						profession.advances.skill_ranks.includes(skill.code)
+							? 1
+							: (0 as number) //TODO this is ugly
+				)
+				.reduce((x, y) => x + y, 0)
+
+			return {
+				...skill,
+				ranks,
+				chance: is_incapacitated() ? 0 : base + relevant_ranks() * 10,
+				profession_ranks,
+				has_focuses: !!character.focuses[skill.code],
+				flip: skill.special && ranks === 0 ? Flip.ToFail : Flip.None
+			}
+		})
+
 		return {
-			...definition,
-			code: code,
+			...attribute,
 			base,
 			advances,
 			bonus,
 			ancestry_bonus,
 			profession_advances,
 			mercy_possible: raw_base < 42,
-			mercy: mercy
+			mercy: mercy,
+			skills: skills
 		}
 	})
 }
@@ -151,6 +170,7 @@ function getSpecialRules({
 	)
 	return [
 		...(ancestry_trait ? [ancestry_trait] : []),
+		//TODO filter is in place to remove old talents. Could be removed with migration
 		...character.talents.filter(x => x).map(x => getByCode(x!, talents)),
 		...professions.flatMap(x => x.traits)
 	]
@@ -167,57 +187,15 @@ function getProfessions({ character, professions }: GetProfessionsProps) {
 		.map(code => getByCode(code!, professions))
 }
 
-type GetSkillProps = {
-	character: SanitizedCharacterSheet
-	professions: Array<ProfessionTech>
-	getAttribute: (code: AttributeCode) => Attribute
-}
-
-function getSkills({
-	character,
-	professions,
-	getAttribute
-}: GetSkillProps): Array<Skill> {
-	const codes = Object.keys(character.skills) as Array<SkillCode>
-	return codes.map(code => {
-		const { ranks, ...definition } = character.skills[code]
-		const attribute = getAttribute(definition.attribute)
-		const is_incapacitated = () => character.peril === Peril.Incapacitated
-		const relevant_ranks = () =>
-			character.peril >= Peril.Ignore1SkillRank
-				? Math.max(0, ranks - (character.peril - 1))
-				: ranks
-		const profession_ranks = professions
-			.map(profession =>
-				profession.advances.skill_ranks.includes(code) ? 1 : (0 as number)
-			)
-			.reduce((x, y) => x + y, 0)
-
-		return {
-			...definition,
-			code: code,
-			ranks,
-			chance: is_incapacitated() ? 0 : attribute.base + relevant_ranks() * 10,
-			profession_ranks,
-			has_focuses: !!character.focuses[code],
-			flip: definition.special && ranks === 0 ? Flip.ToFail : Flip.None
-		}
-	})
-}
-
-type SpentExperienceProps = {
-	character: SanitizedCharacterSheet
-	schools: Array<MagicSchoolTech>
-	attributes: Array<Attribute>
-	skills: Array<Skill>
-}
-
 function spentExperience({
 	character,
 	schools,
-	attributes,
-	skills
-}: SpentExperienceProps): number {
+	attributes
+}: {
+	character: SanitizedCharacterSheet
+	schools: Array<MagicSchoolTech>
+	attributes: Array<CalculatedAttribute>
+}): number {
 	let profession1_talents_amount = 0
 	profession1_talents_amount += character.talents[0] === null ? 0 : 1
 	profession1_talents_amount += character.talents[1] === null ? 0 : 1
@@ -234,8 +212,10 @@ function spentExperience({
 	const favored_attribute = UPBRINGINGS.find(
 		x => x.code === character.upbringing
 	)?.attribute
-	const favored_skills = skills
-		.filter(x => x.attribute === favored_attribute)
+
+	const favored_skills = attributes
+		.filter(attribute => attribute.code === favored_attribute)
+		.flatMap(attribute => attribute.skills)
 		.map(x => x.code)
 
 	const spells = { Petty: 0, Lesser: 0, Greater: 0 }
@@ -253,7 +233,6 @@ function spentExperience({
 		profession1: character.profession1,
 		profession2: character.profession2,
 		profession3: character.profession3,
-		skills: skills,
 		attributes: attributes,
 		focuses: character.focuses,
 		favored_skills: favored_skills,
@@ -264,18 +243,10 @@ function spentExperience({
 	})
 }
 
-function orderSkills(skills: Array<Skill>, order: SkillOrder) {
-	if (order === "alphabetic") return skills
-	return ATTRIBUTE_DEFINITIONS.map(attr =>
-		skills.filter(skill => skill.attribute === attr.code)
-	).flatMap(x => x)
-}
-
 function calculateExperience({
 	profession1,
 	profession2,
 	profession3,
-	skills,
 	attributes,
 	profession1_talents_amount,
 	profession2_talents_amount,
@@ -283,18 +254,34 @@ function calculateExperience({
 	focuses,
 	spells,
 	favored_skills
-}: CalculateExperienceProps): number {
+}: {
+	profession1: string | null
+	profession2: string | null
+	profession3: string | null
+	attributes: Array<CalculatedAttribute>
+	profession1_talents_amount: number
+	profession2_talents_amount: number
+	profession3_talents_amount: number
+	focuses: Partial<Record<SkillCode, Array<string>>>
+	favored_skills: Array<SkillCode>
+	spells: Partial<Record<Principle, number>>
+}): number {
 	let experience = 0
 
 	if (profession1) experience += 100
 	if (profession2) experience += 200
 	if (profession3) experience += 300
 
-	skills.forEach(skill => {
-		if (skill.ranks >= 1) experience += skill.profession_ranks >= 1 ? 100 : 200
-		if (skill.ranks >= 2) experience += skill.profession_ranks >= 2 ? 200 : 400
-		if (skill.ranks >= 3) experience += skill.profession_ranks >= 3 ? 300 : 600
-	})
+	attributes
+		.flatMap(attribute => attribute.skills)
+		.forEach(skill => {
+			if (skill.ranks >= 1)
+				experience += skill.profession_ranks >= 1 ? 100 : 200
+			if (skill.ranks >= 2)
+				experience += skill.profession_ranks >= 2 ? 200 : 400
+			if (skill.ranks >= 3)
+				experience += skill.profession_ranks >= 3 ? 300 : 600
+		})
 
 	attributes.forEach(attribute => {
 		if (attribute.advances >= 1)
@@ -325,20 +312,6 @@ function calculateExperience({
 	})
 
 	return experience
-}
-
-export type CalculateExperienceProps = {
-	profession1: string | null
-	profession2: string | null
-	profession3: string | null
-	skills: Array<{ ranks: number; profession_ranks: number }>
-	attributes: Array<{ advances: number; profession_advances: number }>
-	profession1_talents_amount: number
-	profession2_talents_amount: number
-	profession3_talents_amount: number
-	focuses: Partial<Record<SkillCode, Array<string>>>
-	favored_skills: Array<SkillCode>
-	spells: Partial<Record<Principle, number>>
 }
 
 function partialRecordKeys<Key extends string, Value>(
@@ -423,7 +396,6 @@ export type CalculatedCharacterSheet = Readonly<{
 	damage: ConditionTrack
 	peril: ConditionTrack
 	attributes: Array<CalculatedAttribute>
-	skills: Array<CalculatedSkill>
 	talents: Array<Item & { items: Array<Item> }>
 	ancestry_trait: string | null
 
@@ -455,6 +427,7 @@ export type CalculatedAttribute = {
 	ancestry_bonus: number
 
 	mercy_possible: boolean
+	skills: Array<CalculatedSkill>
 }
 
 export type CalculatedSkill = {
@@ -466,7 +439,6 @@ export type CalculatedSkill = {
 	chance: number
 	flip: Flip
 	has_focuses: boolean
-	attribute: AttributeCode
 }
 
 export type SpecialRule = {

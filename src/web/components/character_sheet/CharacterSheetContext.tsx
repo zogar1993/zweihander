@@ -27,9 +27,11 @@ import newMessageQueue, { MessageQueue } from "@web/message_queue/MessageQueue"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, useContext, useReducer } from "react"
 
-const PLACEHOLDER_CHARACTER_SHEET = Object.freeze({
-	skills: SKILL_DEFINITIONS as any,
-	attributes: ATTRIBUTE_DEFINITIONS as any,
+const PLACEHOLDER_CALCULATED_CHARACTER_SHEET = Object.freeze({
+	attributes: ATTRIBUTE_DEFINITIONS.map(attribute => ({
+		...attribute,
+		skills: SKILL_DEFINITIONS
+	})) as any,
 	focuses: [],
 	schools: [],
 	talents: [],
@@ -41,7 +43,7 @@ const PLACEHOLDER_CHARACTER_SHEET = Object.freeze({
 
 const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	_character: sanitizeCharacterSheet({}),
-	character: PLACEHOLDER_CHARACTER_SHEET,
+	character: PLACEHOLDER_CALCULATED_CHARACTER_SHEET,
 
 	professions: [],
 	talents: [],

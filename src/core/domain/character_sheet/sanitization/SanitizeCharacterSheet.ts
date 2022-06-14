@@ -94,7 +94,7 @@ type UnsanitizedAttributes = Partial<Record<AttributeCode, RawAttribute>>
 type UnsanitizedTalents = Array<string | null>
 
 export type SanitizedAttribute = RawAttribute &
-	Omit<AttributeDefinition, "code">
+	Omit<AttributeDefinition, "code"> //TODO should sanitized have name?
 export type SanitizedAttributes = Record<AttributeCode, SanitizedAttribute>
 export type SanitizedSkill = RawSkill & Omit<SkillDefinition, "code">
 export type SanitizedSkills = Record<SkillCode, SanitizedSkill>
