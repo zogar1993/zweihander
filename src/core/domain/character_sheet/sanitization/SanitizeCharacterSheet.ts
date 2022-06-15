@@ -1,13 +1,7 @@
-import {
-	ATTRIBUTE_DEFINITIONS,
-	AttributeDefinition
-} from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
+import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import { ShallowCharacterSheet } from "@core/domain/character_sheet/sanitization/ShallowCharacterSheet"
-import {
-	SKILL_DEFINITIONS,
-	SkillDefinition
-} from "@core/domain/skill/SKILL_DEFINITIONS"
+import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 
 const DEFAULT_SETTINGS = {
@@ -56,8 +50,8 @@ export default function sanitizeCharacterSheet(
 	}
 }
 
-function sanitizeAttributes(raw: UnsanitizedAttributes): SanitizedAttributes {
-	const attributes = {} as SanitizedAttributes
+function sanitizeAttributes(raw: Partial<AttributesData>): AttributesData {
+	const attributes = {} as AttributesData
 	ATTRIBUTE_DEFINITIONS.forEach(({ code, ...definition }) => {
 		const attribute = raw[code]
 		const advances = attribute?.advances || 0
@@ -71,8 +65,8 @@ function sanitizeAttributes(raw: UnsanitizedAttributes): SanitizedAttributes {
 	return attributes
 }
 
-function sanitizeSkills(raw: UnsanitizedSkills): SanitizedSkills {
-	const skills = {} as SanitizedSkills
+function sanitizeSkills(raw: Partial<SkillsData>): SkillsData {
+	const skills = {} as SkillsData
 	SKILL_DEFINITIONS.forEach(({ code, ...definition }) => {
 		const { ranks = 0 } = raw[code] || {}
 		skills[code] = { ranks, ...definition }
@@ -81,26 +75,20 @@ function sanitizeSkills(raw: UnsanitizedSkills): SanitizedSkills {
 }
 
 export type UnsanitizedCharacterSheetData = Partial<ShallowCharacterSheet> & {
-	skills?: UnsanitizedSkills
-	attributes?: UnsanitizedAttributes
+	skills?: Partial<SkillsData>
+	attributes?: Partial<AttributesData>
 	talents?: UnsanitizedTalents
 }
 
-type RawSkill = { ranks: number }
-type RawAttribute = { base: number; advances: number }
+type UnsanitizedTalents = Array<string | null> //TODO should go on a talents cleanup
 
-type UnsanitizedSkills = Partial<Record<SkillCode, RawSkill>>
-type UnsanitizedAttributes = Partial<Record<AttributeCode, RawAttribute>>
-type UnsanitizedTalents = Array<string | null>
-
-export type SanitizedAttribute = RawAttribute &
-	Omit<AttributeDefinition, "code"> //TODO should sanitized have name?
-export type SanitizedAttributes = Record<AttributeCode, SanitizedAttribute>
-export type SanitizedSkill = RawSkill & Omit<SkillDefinition, "code">
-export type SanitizedSkills = Record<SkillCode, SanitizedSkill>
+type AttributeData = { base: number; advances: number }
+type SkillData = { ranks: number }
+type AttributesData = Record<AttributeCode, AttributeData>
+type SkillsData = Record<SkillCode, SkillData>
 
 export type SanitizedCharacterSheet = ShallowCharacterSheet & {
-	skills: SanitizedSkills
-	attributes: SanitizedAttributes
+	skills: SkillsData
+	attributes: AttributesData
 	talents: Array<string>
 }
