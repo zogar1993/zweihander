@@ -35,16 +35,12 @@ export default function CharacterSheetScreen(
 }
 
 export const BLOCK_WIDTH = "276px"
-const INPUT_HEIGHT = "45px"
-const HEIGHT_1 = `calc((${INPUT_HEIGHT} * 9) + (${theme.spacing.separation} * 8))`
-const HEIGHT_1_B = `calc((${HEIGHT_1} * 2) + (${theme.spacing.separation}))`
 export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
 
 const Layout = styled.div`
 	display: grid;
 	width: ${DESKTOP_MAX_WIDTH};
 	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: ${HEIGHT_1_B} 1fr;
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
 		"bio attributes"

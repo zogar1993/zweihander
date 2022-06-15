@@ -20,7 +20,7 @@ export default function CharacterSheetAttribute({
 	return (
 		<Attribute>
 			<Name>{attribute.name}</Name>
-			<FormsContainer>
+			<ValuesContainer>
 				<CircularNumberInput
 					value={attribute.base}
 					onBlur={value =>
@@ -55,7 +55,7 @@ export default function CharacterSheetAttribute({
 					<span>bonus</span>
 					<span>{attribute.bonus}</span>
 				</BonusContainer>
-			</FormsContainer>
+			</ValuesContainer>
 		</Attribute>
 	)
 }
@@ -63,23 +63,33 @@ export default function CharacterSheetAttribute({
 const Attribute = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: ${theme.spacing.separation};
+	gap: ${theme.spacing.padding};
 	align-items: center;
+	background-color: ${theme.colors.primary};
+	padding: ${theme.spacing.padding};
 `
 
 const Name = styled.span`
 	font-size: 20px;
 `
 
-const FormsContainer = styled.div`
+const ValuesContainer = styled.div`
 	display: flex;
-	gap: ${theme.spacing.separation};
+	gap: ${theme.spacing.padding};
 	width: 100%;
 	justify-content: center;
 	align-items: center;
+
+	@media (max-width: 768px) {
+		div:nth-child(2) {
+			display: none;
+		}
+	}
 `
 
 const BonusContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	gap: ${theme.spacing.separation};
 `

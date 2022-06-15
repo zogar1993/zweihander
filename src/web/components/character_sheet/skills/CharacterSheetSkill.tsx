@@ -4,6 +4,7 @@ import {
 	useCharacterSheetDispatcher
 } from "@web/components/character_sheet/CharacterSheetContext"
 import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import theme from "@web/theme/theme"
 import { Dots } from "misevi"
 import styled from "styled-components"
 
@@ -17,29 +18,50 @@ export default function CharacterSheetSkill({
 
 	return (
 		<Container>
-			<span>{skill.name}</span>
-			<Dots
-				total={3}
-				value={skill.ranks}
-				onChange={value =>
-					dispatch({
-						type: ActionType.SetSkillRanks,
-						payload: { skill: skill.code, value: value }
-					})
-				}
-				coloring={({ value, number }) => {
-					if (skill.profession_ranks >= number && number > value)
-						return "palegreen"
-				}}
-				aria-label={`${skill.name} Ranks`}
-				disabled={!isOwner}
-			/>
-			<span>{skill.chance}</span>
+			<SkillName>{skill.name}</SkillName>
+			<ValuesContainer>
+				<Dots
+					total={3}
+					value={skill.ranks}
+					onChange={value =>
+						dispatch({
+							type: ActionType.SetSkillRanks,
+							payload: { skill: skill.code, value: value }
+						})
+					}
+					coloring={({ value, number }) => {
+						if (skill.profession_ranks >= number && number > value)
+							return "palegreen"
+					}}
+					aria-label={`${skill.name} Ranks`}
+					disabled={!isOwner}
+				/>
+				<span>{skill.chance}</span>
+			</ValuesContainer>
 		</Container>
 	)
 }
 
 const Container = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 60px 30px;
+	grid-template-columns: 1fr auto;
+	gap: ${theme.spacing.padding};
 `
+
+const SkillName = styled.span`
+	white-space: pre;
+`
+
+const ValuesContainer = styled.span`
+	display: grid;
+	grid-template-columns: 42px 18px;
+	gap: ${theme.spacing.padding};
+
+	@media (max-width: 768px) {
+		grid-template-columns: 0 18px;
+		div:nth-child(1) {
+			visibility: hidden;
+		}
+	}
+`
+//TODO ideally we should remove these children and not just hide them

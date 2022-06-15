@@ -30,7 +30,9 @@ import React, { Dispatch, useContext, useReducer } from "react"
 const PLACEHOLDER_CALCULATED_CHARACTER_SHEET = Object.freeze({
 	attributes: ATTRIBUTE_DEFINITIONS.map(attribute => ({
 		...attribute,
-		skills: SKILL_DEFINITIONS
+		skills: SKILL_DEFINITIONS.filter(
+			skill => attribute.code === skill.attribute
+		)
 	})) as any,
 	focuses: [],
 	schools: [],
@@ -132,10 +134,21 @@ function characterSheetReducer(
 		const result = changeFromCharacterSheet(action, state)
 		return { ...result, undoActions: undoActions.slice(0, -1) }
 	}
-
 	switch (action.type) {
 		case ActionType.Initialize: {
 			const props = action.payload
+			console.log(
+				JSON.stringify(
+					calculateCharacterSheet(props).attributes.map(({ skills, ...x }) => x)
+				)
+			)
+			console.log(
+				JSON.stringify(
+					calculateCharacterSheet(props).attributes.flatMap(
+						({ skills, ...x }) => skills
+					)
+				)
+			)
 			return {
 				...props,
 				_character: props.character,

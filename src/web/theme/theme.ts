@@ -56,7 +56,8 @@ const light = {
 		radius: "6px"
 	},
 	spacing: {
-		separation: "4px"
+		separation: "4px",
+		padding: "8px"
 	},
 	scrollbar: {
 		width: "10px"

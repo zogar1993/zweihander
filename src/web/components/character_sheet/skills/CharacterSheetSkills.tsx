@@ -22,4 +22,6 @@ const SkillsSection = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};
+	background-color: ${theme.colors.primary};
+	padding: ${theme.spacing.padding};
 `
