@@ -454,7 +454,7 @@ export type CharacterSheetAction =
 	| { type: ActionType.SetJournal; payload: string }
 	| {
 			type: ActionType.SetSettings
-			payload: { skill_order?: string; visibility?: string }
+			payload: { visibility?: string }
 	  }
 	| {
 			type: ActionType.SetComboboxValue

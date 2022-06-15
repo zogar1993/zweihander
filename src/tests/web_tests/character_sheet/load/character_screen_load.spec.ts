@@ -23,7 +23,6 @@ import {
 import {
 	DAMAGE_CONDITIONS,
 	PERIL_CONDITIONS,
-	SETTINGS_SKILL_ORDER,
 	SETTINGS_VISIBILITY,
 	SEXES,
 	SOCIAL_CLASSES,
@@ -73,7 +72,6 @@ describe("Character Sheet Screen should", () => {
 		await then_tag_exists(SPELL_2.name)
 		await then_tag_exists(SPELL_3.name)
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
-		await then_textbox_has_a_value_of("Skill Order", SKILL_ORDER.name)
 		await then_textbox_has_a_value_of("Visibility", VISIBILITY.name)
 	}, 10000)
 
@@ -107,10 +105,6 @@ describe("Character Sheet Screen should", () => {
 		await then_dots_is_checked_on("Order Ranks", 0)
 		await then_number_input_has_a_value_of("Corruption", 0)
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
-		await then_textbox_has_a_value_of(
-			"Skill Order",
-			getByCode("alphabetic", SETTINGS_SKILL_ORDER).name
-		)
 		await then_textbox_has_a_value_of(
 			"Visibility",
 			getByCode("public", SETTINGS_VISIBILITY).name
@@ -182,7 +176,6 @@ const ATTRIBUTE = ATTRIBUTE_DEFINITIONS[1]
 const ATTRIBUTE_BASE = 47
 const ATTRIBUTE_ADVANCES = 2
 const SKILL_RANKS = 1
-const SKILL_ORDER = SETTINGS_SKILL_ORDER[1]
 const VISIBILITY = SETTINGS_VISIBILITY[1]
 const PERIL_CONDITION = PERIL_CONDITIONS[1]
 const DAMAGE_CONDITION = DAMAGE_CONDITIONS[1]
@@ -218,7 +211,6 @@ const A_CHARACTER_SHEET = {
 		[SKILL.code]: { ranks: SKILL_RANKS }
 	},
 	settings: {
-		skill_order: SKILL_ORDER.code,
 		visibility: VISIBILITY.code
 	},
 	damage: DAMAGE_CONDITION.code,

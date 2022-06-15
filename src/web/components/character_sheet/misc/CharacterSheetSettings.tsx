@@ -1,7 +1,4 @@
-import {
-	SETTINGS_SKILL_ORDER,
-	SETTINGS_VISIBILITY
-} from "@web/components/character_sheet/bio/Constants"
+import { SETTINGS_VISIBILITY } from "@web/components/character_sheet/bio/Constants"
 import {
 	ActionType,
 	useCharacterSheetDispatcher,
@@ -17,20 +14,6 @@ export default function CharacterSheetSettings() {
 
 	return (
 		<>
-			<Field
-				label="Skill Order"
-				type="combobox"
-				value={character.settings.skill_order}
-				options={SETTINGS_SKILL_ORDER}
-				onChange={value => {
-					dispatch({
-						type: ActionType.SetSettings,
-						payload: { skill_order: value! }
-					})
-				}}
-				unclearable
-				disabled={!isOwner}
-			/>
 			<Field
 				label="Visibility"
 				type="combobox"

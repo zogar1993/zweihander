@@ -67,5 +67,3 @@ export default async function handler(
 //TODO P2 add test for ancestries
 //TODO P2 check best practices for production ready gmail account
 //TODO P2 add tests for missing character sheet calculations
-
-//TODO remove alphabetic settings

@@ -62,30 +62,25 @@ export const UPBRINGINGS = [
 	}
 ]
 
-export const SETTINGS_SKILL_ORDER = [
-	{ name: "Alphabetic", code: "alphabetic" },
-	{ name: "By Attribute", code: "by_attribute" }
-] as const
-
 export const SETTINGS_VISIBILITY = [
 	{ name: "Public", code: "public" },
 	{ name: "Private", code: "private" }
 ] as const
 
 export const PERIL_CONDITIONS = [
-	{code: 0, name: "UNHINDERED"},
-	{code: 1, name: "Imperiled"},
-	{code: 2, name: "Ignore 1 Skill Rank"},
-	{code: 3, name: "Ignore 2 Skill Ranks"},
-	{code: 4, name: "Ignore 3 Skill Ranks"},
-	{code: 5, name: "INCAPACITATED!"}
+	{ code: 0, name: "UNHINDERED" },
+	{ code: 1, name: "Imperiled" },
+	{ code: 2, name: "Ignore 1 Skill Rank" },
+	{ code: 3, name: "Ignore 2 Skill Ranks" },
+	{ code: 4, name: "Ignore 3 Skill Ranks" },
+	{ code: 5, name: "INCAPACITATED!" }
 ]
 
 export const DAMAGE_CONDITIONS = [
-	{code: 0, name: "UNHARMED"},
-	{code: 1, name: "Lightly Wounded"},
-	{code: 2, name: "Moderately Wounded"},
-	{code: 3, name: "Seriously Wounded"},
-	{code: 4, name: "Grievously Wounded"},
-	{code: 5, name: "SLAIN!"}
+	{ code: 0, name: "UNHARMED" },
+	{ code: 1, name: "Lightly Wounded" },
+	{ code: 2, name: "Moderately Wounded" },
+	{ code: 3, name: "Seriously Wounded" },
+	{ code: 4, name: "Grievously Wounded" },
+	{ code: 5, name: "SLAIN!" }
 ]

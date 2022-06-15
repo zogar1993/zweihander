@@ -10,7 +10,6 @@ import { getByCode } from "@core/domain/general/GetByCode"
 import { hasByCode } from "@core/domain/general/HasByCode"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 import {
-	SETTINGS_SKILL_ORDER,
 	SETTINGS_VISIBILITY,
 	SEXES,
 	SOCIAL_CLASSES,
@@ -74,11 +73,6 @@ export async function validateModel(
 		verifyIsNullOrWithin("social_class", SOCIAL_CLASSES, character),
 		verifyIsNullOrWithin("upbringing", UPBRINGINGS, character),
 		verifyIsNullOrWithin("sex", SEXES, character),
-		verifyIsNullOrWithin(
-			"skill_order",
-			SETTINGS_SKILL_ORDER,
-			character.settings
-		),
 		verifyIsNullOrWithin("visibility", SETTINGS_VISIBILITY, character.settings)
 	].flatMap(x => x)
 }

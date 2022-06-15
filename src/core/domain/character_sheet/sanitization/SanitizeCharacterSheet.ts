@@ -5,7 +5,6 @@ import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 
 const DEFAULT_SETTINGS = {
-	skill_order: "alphabetic",
 	visibility: "public"
 } as const
 

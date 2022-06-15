@@ -157,11 +157,6 @@ export const UPDATE_CHARACTER_ENDPOINTS: Array<Endpoint> = [
 		validations: { string: { nullable: true } }
 	},
 	{
-		regex: /^settings.skill_order/,
-		set_value: SIMPLE_SET_VALUE_ENDPOINT,
-		validations: { string: { nullable: false } }
-	},
-	{
 		regex: /^settings.visibility/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,
 		validations: { string: { nullable: false } }

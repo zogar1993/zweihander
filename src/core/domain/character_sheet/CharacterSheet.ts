@@ -347,10 +347,8 @@ type Skill = {
 	attribute: AttributeCode
 }
 
-export type SkillOrder = "alphabetic" | "by_attribute"
 export type Visibility = "public" | "private"
 export type CharacterSheetSettings = {
-	skill_order: SkillOrder
 	visibility: Visibility
 }
 export type SchoolCode = string
