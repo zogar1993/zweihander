@@ -116,17 +116,12 @@ function getAttributes({
 			const { ranks } = character.skills[skill.code]
 			const is_incapacitated = () => character.peril === Peril.Incapacitated
 			const relevant_ranks = () =>
-				character.peril >= Peril.Ignore1SkillRank //TODO faltan los ignore 2 and 3 skill ranks
-					? Math.max(0, ranks - (character.peril - 1))
+				character.peril >= Peril.Ignore1SkillRank
+					? Math.max(0, ranks - (character.peril - 1) /* enum arithmetic */)
 					: ranks
-			const profession_ranks = professions
-				.map(
-					profession =>
-						profession.advances.skill_ranks.includes(skill.code)
-							? 1
-							: (0 as number) //TODO this is ugly
-				)
-				.reduce((x, y) => x + y, 0)
+			const profession_ranks = professions.filter(profession =>
+				profession.advances.skill_ranks.includes(skill.code)
+			).length
 
 			return {
 				...skill,
