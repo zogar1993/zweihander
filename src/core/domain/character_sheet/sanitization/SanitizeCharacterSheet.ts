@@ -9,6 +9,8 @@ const DEFAULT_SETTINGS = {
 	visibility: "public"
 } as const
 
+//TODO Ideally, sanitize would be a test function only, and we would rely on an empty character sheet clonable prototype
+//instead of sanitize we could just validate strongly
 export default function sanitizeCharacterSheet(
 	raw: UnsanitizedCharacterSheetData
 ): SanitizedCharacterSheet {
@@ -29,8 +31,7 @@ export default function sanitizeCharacterSheet(
 		chaos_ranks: raw.chaos_ranks || 0,
 		corruption: raw.corruption || 0,
 		journal: raw.journal || "",
-		talents: (raw.talents?.filter(x => typeof x === "string") ||
-			[]) as Array<string>,
+		talents: raw.talents || [],
 		ancestry_trait: raw.ancestry_trait || null,
 		focuses: raw.focuses || {},
 		spells: raw.spells || {},
@@ -77,10 +78,7 @@ function sanitizeSkills(raw: Partial<SkillsData>): SkillsData {
 export type UnsanitizedCharacterSheetData = Partial<ShallowCharacterSheet> & {
 	skills?: Partial<SkillsData>
 	attributes?: Partial<AttributesData>
-	talents?: UnsanitizedTalents
 }
-
-type UnsanitizedTalents = Array<string | null> //TODO should go on a talents cleanup
 
 type AttributeData = { base: number; advances: number }
 type SkillData = { ranks: number }
@@ -90,5 +88,4 @@ type SkillsData = Record<SkillCode, SkillData>
 export type SanitizedCharacterSheet = ShallowCharacterSheet & {
 	skills: SkillsData
 	attributes: AttributesData
-	talents: Array<string>
 }

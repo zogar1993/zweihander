@@ -165,8 +165,7 @@ function getSpecialRules({
 	)
 	return [
 		...(ancestry_trait ? [ancestry_trait] : []),
-		//TODO filter is in place to remove old talents. Could be removed with migration
-		...character.talents.filter(x => x).map(x => getByCode(x!, talents)),
+		...character.talents.map(x => getByCode(x!, talents)),
 		...professions.flatMap(x => x.traits)
 	]
 }
@@ -487,10 +486,8 @@ export type AncestryTraitTech = Pick<
 	"name" | "code" | "effect" | "from" | "to"
 >
 export type TraitTech = Pick<AncestryTrait, "name" | "code" | "effect">
-export type AncestryTech = Pick<
-	Ancestry,
-	"name" | "code" | "attribute_bonuses"
-> & {
+export type AncestryTech = Pick<Ancestry,
+	"name" | "code" | "attribute_bonuses"> & {
 	traits: Array<AncestryTraitTech>
 }
 

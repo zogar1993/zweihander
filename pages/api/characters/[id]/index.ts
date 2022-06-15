@@ -55,7 +55,6 @@ export default async function handler(
 //TODO P2 Handle responses for failures
 
 //TODO capacidad de transferir un personaje?
-//TODO P? add autofiller of old character sheets to keep them consistent on db
 
 //TODO P1 remove visibility of emails
 
