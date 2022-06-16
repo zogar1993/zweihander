@@ -11,6 +11,13 @@ export default function CharacterSheetAttributes() {
 	return (
 		<AttributesBackground>
 			<AttributesSection>
+				<TitleBackground>
+					<Title>Attributes</Title>
+				</TitleBackground>
+				<TitleBackground>
+					<Title>Skills</Title>
+				</TitleBackground>
+
 				{character.attributes.map(attribute => (
 					<React.Fragment key={attribute.code}>
 						<CharacterSheetAttribute attribute={attribute} />
@@ -27,7 +34,7 @@ const AttributesSection = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	gap: ${theme.spacing.separation};
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: 2fr 3fr;
 
 	div:nth-child(1) {
 		border-top-left-radius: ${theme.borders.radius};
@@ -51,4 +58,16 @@ const AttributesBackground = styled.div`
 	background-color: ${theme.colors.border};
 	border: ${theme.spacing.separation} ${theme.colors.border} solid;
 	border-radius: ${theme.borders.radius};
+`
+
+const Title = styled.span`
+	font-size: 16px;
+`
+
+const TitleBackground = styled.div`
+	display: flex;
+	justify-content: center;
+	justify-self: stretch;
+	background-color: ${theme.colors.primary};
+	padding: ${theme.spacing.separation};
 `

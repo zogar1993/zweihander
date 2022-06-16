@@ -19,49 +19,43 @@ export default function CharacterSheetSkill({
 	return (
 		<Container>
 			<SkillName>{skill.name}</SkillName>
-			<ValuesContainer>
-				<Dots
-					total={3}
-					value={skill.ranks}
-					onChange={value =>
-						dispatch({
-							type: ActionType.SetSkillRanks,
-							payload: { skill: skill.code, value: value }
-						})
-					}
-					coloring={({ value, number }) => {
-						if (skill.profession_ranks >= number && number > value)
-							return "palegreen"
-					}}
-					aria-label={`${skill.name} Ranks`}
-					disabled={!isOwner}
-				/>
-				<span>{skill.chance}</span>
-			</ValuesContainer>
+			<CenteredDots
+				total={3}
+				value={skill.ranks}
+				onChange={value =>
+					dispatch({
+						type: ActionType.SetSkillRanks,
+						payload: { skill: skill.code, value: value }
+					})
+				}
+				coloring={({ value, number }) => {
+					if (skill.profession_ranks >= number && number > value)
+						return "palegreen"
+				}}
+				aria-label={`${skill.name} Ranks`}
+				disabled={!isOwner}
+			/>
+			<span>{skill.chance}</span>
 		</Container>
 	)
 }
 
 const Container = styled.div`
 	display: grid;
-	grid-template-columns: 1fr auto;
+	grid-template-columns: 110px 1fr 18px;
 	gap: ${theme.spacing.padding};
+
+	@media (max-width: 768px) {
+		div:nth-child(2) {
+			visibility: hidden;
+		}
+	}
 `
 
 const SkillName = styled.span`
 	white-space: pre;
 `
 
-const ValuesContainer = styled.span`
-	display: grid;
-	grid-template-columns: 42px 18px;
-	gap: ${theme.spacing.padding};
-
-	@media (max-width: 768px) {
-		grid-template-columns: 0 18px;
-		div:nth-child(1) {
-			visibility: hidden;
-		}
-	}
+const CenteredDots = styled(Dots)`
+	justify-self: center;
 `
-//TODO ideally we should remove these children and not just hide them

@@ -403,7 +403,7 @@ export type CalculatedCharacterSheet = Readonly<{
 	updated_at: string
 }>
 
-type ConditionTrack = {
+export type ConditionTrack = {
 	value: number
 	threshold: number
 }
