@@ -56,7 +56,6 @@ describe("Character Sheet Screen should", () => {
 			`${ATTRIBUTE.name} Base`,
 			ATTRIBUTE_BASE
 		)
-		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
 		await then_dots_is_checked_on("Chaos Ranks", CHAOS_RANKS)
 		await then_dots_is_checked_on("Order Ranks", ORDER_RANKS)
 		await then_number_input_has_a_value_of("Corruption", CORRUPTION)
@@ -100,7 +99,6 @@ describe("Character Sheet Screen should", () => {
 		await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
 		await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
-		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
 		await then_dots_is_checked_on("Chaos Ranks", 0)
 		await then_dots_is_checked_on("Order Ranks", 0)
 		await then_number_input_has_a_value_of("Corruption", 0)
@@ -130,12 +128,10 @@ describe("Character Sheet Screen should", () => {
 		//await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
 		//await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		//await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
-		await click_menu_item(ACCORDION_ITEM.ALIGNMENT)
 		//await then_dots_is_checked_on("Chaos Ranks", 0)
 		//await then_dots_is_checked_on("Order Ranks", 0)
 		await then_number_input_is_disabled("Corruption")
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
-		await then_textbox_is_disabled("Skill Order")
 		await then_textbox_is_disabled("Visibility")
 		await then_menu_item_is_not_shown(ACCORDION_ITEM.DANGER_ZONE)
 	}, 10000)

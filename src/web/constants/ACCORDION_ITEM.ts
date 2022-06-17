@@ -1,5 +1,4 @@
 export const ACCORDION_ITEM = {
-	ALIGNMENT: "Alignment & Corruption",
 	TALENTS: "Talents",
 	STATS: "Stats",
 	SPELLS: "Spells",

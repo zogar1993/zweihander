@@ -1,14 +1,9 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 import getProfessions from "@core/actions/GetProfessions"
-import { Profession } from "@core/domain/Profession"
-import ProfessionCards from "@web/components/professions/ProfessionCards"
+import ProfessionsScreen from "@web/components/professions/ProfessionsScreen"
 import React from "react"
 
-export default withPageAuthRequired(
-	({ professions }: { professions: Array<Profession> }) => {
-		return <ProfessionCards professions={professions} />
-	}
-)
+export default withPageAuthRequired(ProfessionsScreen)
 
 export async function getStaticProps() {
 	const professions = await getProfessions()

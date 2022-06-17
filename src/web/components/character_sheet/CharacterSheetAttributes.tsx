@@ -17,7 +17,6 @@ export default function CharacterSheetAttributes() {
 				<TitleBackground>
 					<Title>Skills</Title>
 				</TitleBackground>
-
 				{character.attributes.map(attribute => (
 					<React.Fragment key={attribute.code}>
 						<CharacterSheetAttribute attribute={attribute} />

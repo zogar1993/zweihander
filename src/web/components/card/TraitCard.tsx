@@ -6,7 +6,7 @@ import styled from "styled-components"
 
 export default function TraitCard({ trait }: SpecialRuleCardProps) {
 	return (
-		<Card>
+		<Card aria-label={trait.name}>
 			<CardTitle>{trait.name}</CardTitle>
 			<Description>{trait.description}</Description>
 			<PropertyList>

@@ -1,7 +1,6 @@
 import Accordion from "@web/components/Accordion"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
-import CharacterSheetAlignment from "@web/components/character_sheet/misc/CharacterSheetAlignment"
 import CharacterSheetDangerZone from "@web/components/character_sheet/misc/CharacterSheetDangerZone"
 import CharacterSheetFocuses from "@web/components/character_sheet/misc/CharacterSheetFocuses"
 import CharacterSheetJournal from "@web/components/character_sheet/misc/CharacterSheetJournal"
@@ -21,10 +20,6 @@ export default function CharacterSheetMisc() {
 		<MiscAccordion
 			disabled={character.corruption === undefined} //Arbitrary property selection
 			items={[
-				{
-					name: ACCORDION_ITEM.ALIGNMENT,
-					content: <CharacterSheetAlignment />
-				},
 				{
 					name: ACCORDION_ITEM.STATS,
 					content: <CharacterSheetStats />

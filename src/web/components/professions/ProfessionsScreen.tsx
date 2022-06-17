@@ -10,7 +10,7 @@ import { useRouter } from "next/router"
 import React, { ReactNode } from "react"
 import styled from "styled-components"
 
-export default function ProfessionCards({ professions }: Props) {
+export default function ProfessionsScreen({ professions }: Props) {
 	const router = useRouter()
 	const navigate = (path?: string) => {
 		const base = `/professions`
@@ -20,7 +20,6 @@ export default function ProfessionCards({ professions }: Props) {
 
 	const profession =
 		professions.find(x => x.code === router.query.profession) || null
-
 	return (
 		<ItemsModal
 			render={ProfessionModalContent}
@@ -50,7 +49,6 @@ type Props = {
 function ProfessionModalContent(item: Profession): ReactNode {
 	return (
 		<>
-			<Description>{item.description}</Description>
 			{item.prerequisite && (
 				<Property name="Prerequisite">{item.prerequisite}</Property>
 			)}
@@ -89,17 +87,21 @@ function ProfessionAdvancesGrid({
 				const value = bonus_advances.hasOwnProperty(code)
 					? bonus_advances[code]
 					: 0
-				return <Property name={name}>{value}</Property>
+				return (
+					<Property name={name} key={code}>
+						{value}
+					</Property>
+				)
 			})}
 			<Heading>Skills</Heading>
 			{skill_ranks.map(code => {
 				const skill = SKILL_DEFINITIONS.find(x => x.code === code)
 				if (!skill) throw Error(`Skill '${code}' not found`)
-				return <span>{skill.name}</span>
+				return <span key={skill.code}>{skill.name}</span>
 			})}
 			<Heading>Talents</Heading>
 			{talents.map(rank => (
-				<span>{rank}</span>
+				<span key={rank}>{rank}</span>
 			))}
 		</VerticalContainer>
 	)
@@ -113,7 +115,7 @@ function ProfessionCard({
 	onClick: () => void
 }) {
 	return (
-		<CardContainer onClick={onClick}>
+		<CardContainer onClick={onClick} aria-label={profession.name}>
 			<CardTitle>{profession.name}</CardTitle>
 			<TagContainer>
 				<Tag>{profession.book}</Tag>
