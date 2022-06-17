@@ -7,14 +7,16 @@ import {
 import {
 	TEST_ARCHETYPES,
 	TEST_PROFESSIONS
-} from "../web_tests/character_sheet/utils/collections"
+} from "@tests/web_tests/character_sheet/utils/collections"
 
-describe("set_value profession2 should", () => {
-	it("change the second profession of the character", async () => {
+describe("set_value profession3 should", () => {
+	it("change the third profession of the character", async () => {
 		the_saved_character_has({
 			archetype: ARCHETYPE.code,
-			profession1: PROFESSION_1
+			profession1: PROFESSION_1,
+			profession2: PROFESSION_2
 		})
+
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result).toHaveStatusCode(204)
@@ -24,7 +26,8 @@ describe("set_value profession2 should", () => {
 	it("accept null", async () => {
 		the_saved_character_has({
 			archetype: ARCHETYPE.code,
-			profession1: PROFESSION_1
+			profession1: PROFESSION_1,
+			profession2: PROFESSION_2
 		})
 
 		const result = await update_character(["set_value", PROPERTY, null])
@@ -36,7 +39,8 @@ describe("set_value profession2 should", () => {
 	it("accept only predefined professions", async () => {
 		the_saved_character_has({
 			archetype: ARCHETYPE.code,
-			profession1: PROFESSION_1
+			profession1: PROFESSION_1,
+			profession2: PROFESSION_2
 		})
 
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
@@ -45,8 +49,11 @@ describe("set_value profession2 should", () => {
 		expect_character_to_be_unchanged()
 	})
 
-	it("fail when no first profession is set", async () => {
-		the_saved_character_has({ archetype: ARCHETYPE.code })
+	it("fail when no second profession is set", async () => {
+		the_saved_character_has({
+			archetype: ARCHETYPE.code,
+			profession1: PROFESSION_1
+		})
 
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
@@ -62,7 +69,8 @@ describe("set_value profession2 should", () => {
 	})
 })
 
-const PROPERTY = "profession2"
+const PROPERTY = "profession3"
 const ARCHETYPE = TEST_ARCHETYPES[1]
 const PROFESSION_1 = ARCHETYPE.professions["Main Gauche"][1].profession
-const VALUE = TEST_PROFESSIONS[2].code
+const PROFESSION_2 = TEST_PROFESSIONS[2].code
+const VALUE = TEST_PROFESSIONS[3].code

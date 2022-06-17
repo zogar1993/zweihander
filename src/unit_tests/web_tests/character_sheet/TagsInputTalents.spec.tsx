@@ -1,5 +1,6 @@
 import { fireEvent, waitFor } from "@testing-library/react"
 import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
+import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
 	change_combobox_item,
 	click_menu_item,
@@ -7,7 +8,6 @@ import {
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
-import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 const PRE_EXISTING_TALENT_1 = TEST_TALENTS[1]
 const PRE_EXISTING_TALENT_2 = TEST_TALENTS[2]

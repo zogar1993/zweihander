@@ -6,8 +6,6 @@ import sanitizeCharacterSheet, {
 } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import * as UpdateCharacter from "@core/utils/UpdateCharacter"
 import { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
-import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
-import { NextApiRequest, NextApiResponse } from "next"
 import {
 	TEST_ANCESTRIES,
 	TEST_ARCHETYPES,
@@ -16,8 +14,10 @@ import {
 	TEST_ORDER_ALIGNMENTS,
 	TEST_PROFESSIONS,
 	TEST_TALENTS
-} from "../../web_tests/character_sheet/utils/collections"
-import { DEFAULT_CHARACTER_SHEET } from "../../web_tests/character_sheet/utils/utils"
+} from "@tests/web_tests/character_sheet/utils/collections"
+import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
+import { NextApiRequest, NextApiResponse } from "next"
+import { DEFAULT_CHARACTER_SHEET } from "@tests/web_tests/character_sheet/utils/utils"
 import { permamock } from "./Permamock"
 
 export const updateCharacterSpy = jest.spyOn(UpdateCharacter, "default")

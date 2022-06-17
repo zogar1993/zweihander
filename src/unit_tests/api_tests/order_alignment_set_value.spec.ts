@@ -3,10 +3,10 @@ import {
 	expect_character_to_have_attribute_set,
 	update_character
 } from "@tests/api_tests/utils"
-import { TEST_ARCHETYPES } from "../web_tests/character_sheet/utils/collections"
+import { TEST_ORDER_ALIGNMENTS } from "@tests/web_tests/character_sheet/utils/collections"
 
-describe("set_value archetype should", () => {
-	it("change the archetype of the character", async () => {
+describe("set_value order_alignment should", () => {
+	it("change the order alignment of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result).toHaveStatusCode(204)
@@ -20,7 +20,7 @@ describe("set_value archetype should", () => {
 		expect_character_to_have_attribute_set({ [PROPERTY]: null })
 	})
 
-	it("accept only predefined archetypes", async () => {
+	it("accept only predefined order alignments", async () => {
 		const result = await update_character(["set_value", PROPERTY, "whatever"])
 
 		expect(result).toHaveStatusCode(409)
@@ -35,5 +35,5 @@ describe("set_value archetype should", () => {
 	})
 })
 
-const PROPERTY = "archetype"
-const VALUE = TEST_ARCHETYPES[1].code
+const PROPERTY = "order_alignment"
+const VALUE = TEST_ORDER_ALIGNMENTS[1].code

@@ -3,10 +3,10 @@ import {
 	expect_character_to_have_attribute_set,
 	update_character
 } from "@tests/api_tests/utils"
-import { TEST_CHAOS_ALIGNMENTS } from "../web_tests/character_sheet/utils/collections"
+import { TEST_ARCHETYPES } from "@tests/web_tests/character_sheet/utils/collections"
 
-describe("set_value chaos_alignment should", () => {
-	it("change the chaos alignment of the character", async () => {
+describe("set_value archetype should", () => {
+	it("change the archetype of the character", async () => {
 		const result = await update_character(["set_value", PROPERTY, VALUE])
 
 		expect(result).toHaveStatusCode(204)
@@ -35,5 +35,5 @@ describe("set_value chaos_alignment should", () => {
 	})
 })
 
-const PROPERTY = "chaos_alignment"
-const VALUE = TEST_CHAOS_ALIGNMENTS[1].code
+const PROPERTY = "archetype"
+const VALUE = TEST_ARCHETYPES[1].code
