@@ -24,7 +24,7 @@ export default withApiAuthRequired(
 							updated_at: creation_time
 						})
 					)
-					return res.status(201).json(`"/characters/${id}"`)
+					return res.status(201).json(`/characters/${id}`)
 				default:
 					return res.status(405).end()
 			}

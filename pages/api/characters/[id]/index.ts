@@ -56,7 +56,6 @@ export default async function handler(
 
 //TODO capacidad de transferir un personaje?
 
-//TODO P2 add test for professions
 //TODO P2 add test for magics
 //TODO P2 add test for ancestries
 //TODO P2 check best practices for production ready gmail account
