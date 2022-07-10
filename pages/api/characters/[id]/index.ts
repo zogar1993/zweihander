@@ -62,7 +62,5 @@ export default async function handler(
 //TODO P2 add tests for missing character sheet calculations
 
 //TODO P1 remove visibility of emails
-
 //TODO P1 add confirmation to create and authorise an account
-
 //TODO P1 restyle character screen

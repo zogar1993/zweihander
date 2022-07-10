@@ -117,7 +117,7 @@ function getAttributes({
 			const is_incapacitated = () => character.peril === Peril.Incapacitated
 			const relevant_ranks = () =>
 				character.peril >= Peril.Ignore1SkillRank
-					? Math.max(0, ranks - (character.peril - 1) /* enum arithmetic */)
+					? Math.max(0, ranks - (character.peril - 1) /* enum arithmetics */)
 					: ranks
 			const profession_ranks = professions.filter(profession =>
 				profession.advances.skill_ranks.includes(skill.code)
