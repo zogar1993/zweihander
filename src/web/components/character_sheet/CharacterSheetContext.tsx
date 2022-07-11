@@ -21,9 +21,7 @@ import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
-import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
-import newMessageQueue, { MessageQueue } from "@web/message_queue/MessageQueue"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, useContext, useReducer } from "react"
 
@@ -66,8 +64,10 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 		confirmation: null
 	},
 
-	undoActions: [],
-	messageQueue: newMessageQueue({ pass: "" })
+	_undoQueue: [],
+	_pendingUpdates: [],
+	nextUpdate: null,
+	updatedAt: ""
 }) as CharacterSheetState
 
 export const CharacterSheetContext = React.createContext({
@@ -75,7 +75,7 @@ export const CharacterSheetContext = React.createContext({
 	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
 })
 
-type CharacterSheetState = {
+export type CharacterSheetState = {
 	_character: SanitizedCharacterSheet
 	character: CalculatedCharacterSheet
 
@@ -98,8 +98,10 @@ type CharacterSheetState = {
 	orderAlignments: Array<Alignment>
 	chaosAlignments: Array<Alignment>
 
-	undoActions: Array<Array<UpdateAction>>
-	messageQueue: MessageQueue
+	_undoQueue: Array<Array<UpdateAction>>
+	_pendingUpdates: Array<Array<UpdateAction>>
+	nextUpdate: Array<UpdateAction> | null
+	updatedAt: string
 }
 
 export function useCharacterSheetReducer() {
@@ -117,22 +119,22 @@ export function useCharacterSheetDispatcher() {
 function characterSheetReducer(
 	state: CharacterSheetState,
 	action: CharacterSheetAction
-) {
+): CharacterSheetState {
 	const forwardChange = (
 		...blocks: Array<UpdateActionBlock>
 	): CharacterSheetState => {
 		const changes = blocksToObjects(blocks)
 		const undoActions = generateUndoActions(changes, state._character)
 		const result = changeFromCharacterSheet(changes, state)
-		return { ...result, undoActions: [...result.undoActions, undoActions] }
+		return { ...result, _undoQueue: [...result._undoQueue, undoActions] }
 	}
 
 	const undoLastChange = (): CharacterSheetState => {
-		const undoActions = state.undoActions
+		const undoActions = state._undoQueue
 		if (undoActions.length === 0) return state
 		const action = undoActions[undoActions.length - 1]
 		const result = changeFromCharacterSheet(action, state)
-		return { ...result, undoActions: undoActions.slice(0, -1) }
+		return { ...result, _undoQueue: undoActions.slice(0, -1) }
 	}
 	switch (action.type) {
 		case ActionType.Initialize: {
@@ -158,8 +160,10 @@ function characterSheetReducer(
 				modals: {
 					confirmation: null
 				},
-				undoActions: [],
-				messageQueue: newMessageQueue({ pass: props.character.updated_at })
+				_undoQueue: [],
+				_pendingUpdates: [],
+				nextUpdate: null,
+				updatedAt: props.character.updated_at
 			}
 		}
 		case ActionType.SetName:
@@ -326,6 +330,11 @@ function characterSheetReducer(
 				...state,
 				modals: { ...state.modals, confirmation: action.payload }
 			}
+		case ActionType.CompleteAction:
+			return {
+				...state,
+				updatedAt: action.payload.updatedAt
+			}
 		default:
 			return state
 	}
@@ -377,7 +386,8 @@ export enum ActionType {
 	SetComboboxValue,
 	SetConfirmationModal,
 	SetPerilCondition,
-	SetDamageCondition
+	SetDamageCondition,
+	CompleteAction
 }
 
 export type CharacterSheetProps = {
@@ -451,21 +461,20 @@ export type CharacterSheetAction =
 	| { type: ActionType.SetConfirmationModal; payload: Confirmation | null }
 	| { type: ActionType.SetPerilCondition; payload: number | null }
 	| { type: ActionType.SetDamageCondition; payload: number | null }
+	| { type: ActionType.CompleteAction; payload: { updatedAt: string } }
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
 	state: CharacterSheetState
 ) {
-	state.messageQueue.push(async pass =>
-		updateCharacterOfId(state.character.id, pass, changes)
-	)
-
 	const character = applyActionsToCharacter(state._character, changes)
-
+	const updates = [...state._pendingUpdates, changes]
 	return {
 		...state,
 		_character: character,
-		character: calculateCharacterSheet({ ...state, character })
+		character: calculateCharacterSheet({ ...state, character }),
+		_pendingUpdates: updates,
+		nextUpdate: updates.length ? updates[0] : null
 	}
 }
 

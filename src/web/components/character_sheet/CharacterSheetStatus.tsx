@@ -4,29 +4,32 @@ import {
 } from "@core/domain/character_sheet/CharacterSheet"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import CharacterSheetAlignment from "@web/components/character_sheet/misc/CharacterSheetAlignment"
+import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
+import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetStatus() {
 	const { character } = useCharacterSheetState()
 	return (
-		<Wea>
-			<ConditionTrackWea
+		<StatusContainer>
+			<ConditionTracker
 				conditions={PERIL_CONDITIONS}
 				condition={character.peril}
 				type="Peril"
 			/>
-			<ConditionTrackWea
+			<ConditionTracker
 				conditions={DAMAGE_CONDITIONS}
 				condition={character.damage}
 				type="Damage"
 			/>
 			<Corruption />
-		</Wea>
+			<CharacterSheetStats />
+		</StatusContainer>
 	)
 }
 
-function ConditionTrackWea({
+function ConditionTracker({
 	conditions,
 	condition,
 	type
@@ -92,7 +95,7 @@ const ValuesContainer = styled.div`
 `
 
 const Text = styled.span``
-const Wea = styled.div`
+const StatusContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};
@@ -152,3 +155,33 @@ export const DAMAGE_CONDITIONS = [
 	{ code: 4, name: "Grievously Wounded" },
 	{ code: 5, name: "SLAIN!" }
 ]
+
+//TODO Style correectly
+function CharacterSheetStats() {
+	const { character } = useCharacterSheetState()
+	return (
+		<Grid columns={2}>
+			<BoxedNumber name="Initiative" value={character.initiative} />
+			<BoxedNumber name="Movement" value={character.movement} />
+			<BoxedNumber name="Max. Focuses" value={character.maximum_focuses} />
+			<BoxedNumber name="Max. Langs." value={character.maximum_languages} />
+			<BoxedNumber name="Enc. Limit" value={character.encumbrance_limit} />
+			<BoxedNumber name="Experience" value={character.spent_experience} />
+		</Grid>
+	)
+}
+
+const BoxedNumber = ({ name, value }: { name: string; value: number }) => {
+	return (
+		<Container>
+			<span>{name}</span>
+			<span>{value}</span>
+		</Container>
+	)
+}
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`

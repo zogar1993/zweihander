@@ -1,5 +1,5 @@
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
-import useEffectAsync from "@web/components/character_sheet/hooks/UseStateAsync"
+import useEffectAsync from "@web/components/character_sheet/hooks/UseEffectAsync"
 import { useState } from "react"
 
 export default function useCharacterSheet(id: string) {

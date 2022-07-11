@@ -8,9 +8,9 @@ import {
 	useCharacterSheetReducer
 } from "@web/components/character_sheet/CharacterSheetContext"
 import CharacterSheetStatus from "@web/components/character_sheet/CharacterSheetStatus"
+import useCharacterUpdatesQueue from "@web/components/character_sheet/hooks/useCharacterUpdatesQueue"
 import useCtrlZ from "@web/components/character_sheet/hooks/useCtrlZ"
-import useInitializeCharacterSheetReducer
-	from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
+import useInitializeCharacterSheetReducer from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
 import theme from "@web/theme/theme"
 import React from "react"
@@ -20,8 +20,9 @@ export default function CharacterSheetScreen(
 	props: Partial<CharacterSheetProps>
 ) {
 	const [state, dispatch] = useCharacterSheetReducer()
-	useInitializeCharacterSheetReducer(props, dispatch)
 
+	useInitializeCharacterSheetReducer(props, dispatch) //TODO this seems like it can be improved
+	useCharacterUpdatesQueue({ state, dispatch })
 	useCtrlZ(() => dispatch({ type: ActionType.UndoLastAction }))
 
 	return (
@@ -41,23 +42,23 @@ export const BLOCK_WIDTH = "276px"
 export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
 
 const Layout = styled.div`
-  display: grid;
-  width: ${DESKTOP_MAX_WIDTH};
-  grid-template-columns: repeat(4, 1fr);
-  gap: ${theme.spacing.separation};
-  grid-template-areas:
+	display: grid;
+	width: ${DESKTOP_MAX_WIDTH};
+	grid-template-columns: repeat(4, 1fr);
+	gap: ${theme.spacing.separation};
+	grid-template-areas:
 		"bio attributes attributes wea"
 		"misc misc misc misc";
 
-  @media (max-width: 768px) {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    width: 100%;
-    grid-template-areas:
+	@media (max-width: 768px) {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: none;
+		width: 100%;
+		grid-template-areas:
 			"bio"
 			"attributes"
 			"skills"
 			"misc";
-    max-height: none;
-  }
+		max-height: none;
+	}
 `

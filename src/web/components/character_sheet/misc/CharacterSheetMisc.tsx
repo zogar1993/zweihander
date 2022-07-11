@@ -7,7 +7,6 @@ import CharacterSheetJournal from "@web/components/character_sheet/misc/Characte
 import CharacterSheetSettings from "@web/components/character_sheet/misc/CharacterSheetSettings"
 import CharacterSheetSpecialRules from "@web/components/character_sheet/misc/CharacterSheetSpecialRules"
 import CharacterSheetSpells from "@web/components/character_sheet/misc/CharacterSheetSpells"
-import CharacterSheetStats from "@web/components/character_sheet/misc/CharacterSheetStats"
 import CharacterSheetTalents from "@web/components/character_sheet/misc/CharacterSheetTalents"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import styled from "styled-components"
@@ -20,10 +19,6 @@ export default function CharacterSheetMisc() {
 		<MiscAccordion
 			disabled={character.corruption === undefined} //Arbitrary property selection
 			items={[
-				{
-					name: ACCORDION_ITEM.STATS,
-					content: <CharacterSheetStats />
-				},
 				{
 					name: ACCORDION_ITEM.TALENTS,
 					content: <CharacterSheetTalents />,
