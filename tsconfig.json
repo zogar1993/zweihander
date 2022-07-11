@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -32,7 +32,7 @@
         "pages/api/*"
       ],
       "@tests/*": [
-        "src/unit_tests/*"
+        "src/tests/*"
       ]
     },
     "incremental": true
