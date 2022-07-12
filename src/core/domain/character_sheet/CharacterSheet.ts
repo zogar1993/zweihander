@@ -1,6 +1,9 @@
 import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
+import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
+import calculateTalents from "@core/domain/character_sheet/calculations/CalculateTalents"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { Item } from "@core/domain/Item"
@@ -41,15 +44,18 @@ export function calculateCharacterSheet({
 	schools,
 	talents
 }: Props): CalculatedCharacterSheet {
-	const ancestry = character.ancestry
-		? getByCode(character.ancestry, ancestries)
-		: null
+	const ancestry = calculateAncestry({ character, ancestries })
+	const _professions = calculateProfessions({ character, professions })
+	const _talents = calculateTalents({
+		character,
+		talents,
+		professions: _professions
+	})
 
-	const profs = getProfessions({ character, professions })
 	const attributes = getAttributes({
 		character,
 		ancestry,
-		professions: profs
+		professions: _professions
 	})
 
 	const getAttribute = (code: AttributeCode) => getByCode(code, attributes)
@@ -57,7 +63,7 @@ export function calculateCharacterSheet({
 	const special_rules = getSpecialRules({
 		character,
 		talents,
-		professions: profs,
+		professions: _professions,
 		ancestry
 	})
 
@@ -66,7 +72,7 @@ export function calculateCharacterSheet({
 		attributes,
 		schools: formatSpells(character.spells, schools),
 		focuses: formatFocuses(character.focuses),
-		talents: formatTalents(character.talents, talents),
+		talents: _talents,
 		spent_experience: spentExperience({
 			character,
 			attributes,
@@ -170,17 +176,6 @@ function getSpecialRules({
 	]
 }
 
-type GetProfessionsProps = {
-	character: SanitizedCharacterSheet
-	professions: Array<ProfessionTech>
-}
-
-function getProfessions({ character, professions }: GetProfessionsProps) {
-	return [character.profession1, character.profession2, character.profession3]
-		.filter(x => x)
-		.map(code => getByCode(code!, professions))
-}
-
 function spentExperience({
 	character,
 	schools,
@@ -190,6 +185,7 @@ function spentExperience({
 	schools: Array<MagicSchoolTech>
 	attributes: Array<CalculatedAttribute>
 }): number {
+	//TODO refactor this to newer talent mechanism
 	let profession1_talents_amount = 0
 	profession1_talents_amount += character.talents[0] === null ? 0 : 1
 	profession1_talents_amount += character.talents[1] === null ? 0 : 1
@@ -322,31 +318,6 @@ function forEachEntryInRecord<Key extends string, Value>(
 	pairs.forEach(func)
 }
 
-type Attribute = {
-	name: string
-	code: AttributeCode
-	base: number
-	advances: number
-	profession_advances: number
-	bonus: number
-	mercy: boolean
-	ancestry_bonus: number
-
-	mercy_possible: boolean
-}
-
-type Skill = {
-	name: string
-	code: SkillCode
-	special: boolean
-	ranks: number
-	profession_ranks: number
-	chance: number
-	flip: Flip
-	has_focuses: boolean
-	attribute: AttributeCode
-}
-
 export type Visibility = "public" | "private"
 export type CharacterSheetSettings = {
 	visibility: Visibility
@@ -466,26 +437,15 @@ function formatFocuses(focuses: Focuses): CalculatedCharacterSheet["focuses"] {
 	})
 }
 
-function formatTalents(
-	values: Array<string>,
-	talents: Array<TalentTech>
-): CalculatedCharacterSheet["talents"] {
-	return [
-		{
-			code: "profession1",
-			name: "Profession 1",
-			items: values.map(talent => getByCode(talent, talents))
-		}
-	]
-}
-
 export type AncestryTraitTech = Pick<
 	AncestryTrait,
 	"name" | "code" | "effect" | "from" | "to"
 >
 export type TraitTech = Pick<AncestryTrait, "name" | "code" | "effect">
-export type AncestryTech = Pick<Ancestry,
-	"name" | "code" | "attribute_bonuses"> & {
+export type AncestryTech = Pick<
+	Ancestry,
+	"name" | "code" | "attribute_bonuses"
+> & {
 	traits: Array<AncestryTraitTech>
 }
 
