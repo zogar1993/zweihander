@@ -6,9 +6,10 @@ import {
 import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
 import theme from "@web/theme/theme"
 import { CircularNumberInput, Dots } from "misevi"
+import React from "react"
 import styled from "styled-components"
 
-export default function CharacterSheetAlignment() {
+export default function CharacterSheetCorruption() {
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsOwner()
@@ -63,18 +64,21 @@ export default function CharacterSheetAlignment() {
 	)
 }
 
+const Container = styled.div`
+	display: flex;
+	gap: ${theme.spacing.separation};
+	justify-content: space-around;
+	width: 100%;
+
+	border: ${theme.spacing.separation} solid ${theme.colors.border};
+	padding: ${theme.spacing.padding};
+	border-radius: ${theme.borders.radius};
+`
+
 const Label = styled.label`
 	font-family: ${theme.fonts.common};
 	font-size: 12px;
 	color: black;
-`
-
-const Container = styled.div`
-	display: flex;
-	gap: ${theme.spacing.separation};
-	justify-content: space-between;
-	align-content: stretch;
-	width: 100%;
 `
 
 const RanksContainer = styled.div`
@@ -85,7 +89,6 @@ const RanksContainer = styled.div`
 `
 
 const CorruptionContainer = styled.div`
-	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

@@ -52,8 +52,8 @@ export default function CharacterSheetAttribute({
 					disabled={!isOwner}
 				/>
 				<BonusContainer>
-					<BoxText>bonus</BoxText>
-					<BoxNumber>{attribute.bonus}</BoxNumber>
+					<BonusText>bonus</BonusText>
+					<BonusValue>{attribute.bonus}</BonusValue>
 				</BonusContainer>
 			</ValuesContainer>
 		</Attribute>
@@ -81,8 +81,9 @@ const ValuesContainer = styled.div`
 	width: 100%;
 
 	@media (max-width: 768px) {
+		grid-template-columns: 1fr 0 1fr;
 		div:nth-child(2) {
-			display: none;
+			visibility: hidden;
 		}
 	}
 `
@@ -94,11 +95,10 @@ const BonusContainer = styled.div`
 	gap: ${theme.spacing.separation};
 `
 
-//TODO replicated with status
-const BoxText = styled.span`
+const BonusText = styled.span`
 	font-size: 12px;
 `
 
-const BoxNumber = styled.span`
+const BonusValue = styled.span`
 	font-family: ${theme.fonts.handwritten};
 `

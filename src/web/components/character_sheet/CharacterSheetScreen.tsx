@@ -6,8 +6,8 @@ import {
 	CharacterSheetContextProvider,
 	CharacterSheetProps
 } from "@web/components/character_sheet/CharacterSheetContext"
-import CharacterSheetStatus from "@web/components/character_sheet/CharacterSheetStatus"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
+import CharacterSheetStatus from "@web/components/character_sheet/status/CharacterSheetStatus"
 import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"

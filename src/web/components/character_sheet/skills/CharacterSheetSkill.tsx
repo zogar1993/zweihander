@@ -46,6 +46,7 @@ const Container = styled.div`
 	gap: ${theme.spacing.padding};
 
 	@media (max-width: 768px) {
+		grid-template-columns: 90px 1fr 18px;
 		div:nth-child(2) {
 			visibility: hidden;
 		}
