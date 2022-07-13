@@ -36,8 +36,7 @@ export default async function handler(
 				res.status(405).end()
 		}
 }
-
-//TODO P2 visual glitch on css first paint (may be related to https://github.com/styled-components/styled-components/issues/1860)
+//TODO do changelog on homepage
 //TODO fix hermanos macana are darker when delete
 //TODO make characters screen prettier
 

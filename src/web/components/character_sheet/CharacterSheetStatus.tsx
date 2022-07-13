@@ -13,6 +13,8 @@ export default function CharacterSheetStatus() {
 	const { character } = useCharacterSheetState()
 	return (
 		<StatusContainer>
+			<CharacterSheetStats />
+			<Corruption />
 			<ConditionTracker
 				conditions={PERIL_CONDITIONS}
 				condition={character.peril}
@@ -23,8 +25,6 @@ export default function CharacterSheetStatus() {
 				condition={character.damage}
 				type="Damage"
 			/>
-			<Corruption />
-			<CharacterSheetStats />
 		</StatusContainer>
 	)
 }
@@ -156,11 +156,10 @@ export const DAMAGE_CONDITIONS = [
 	{ code: 5, name: "SLAIN!" }
 ]
 
-//TODO Style correectly
 function CharacterSheetStats() {
 	const { character } = useCharacterSheetState()
 	return (
-		<Grid columns={2}>
+		<Grid columns={3}>
 			<BoxedNumber name="Initiative" value={character.initiative} />
 			<BoxedNumber name="Movement" value={character.movement} />
 			<BoxedNumber name="Max. Focuses" value={character.maximum_focuses} />
@@ -174,8 +173,8 @@ function CharacterSheetStats() {
 const BoxedNumber = ({ name, value }: { name: string; value: number }) => {
 	return (
 		<Container>
-			<span>{name}</span>
-			<span>{value}</span>
+			<BoxText>{name}</BoxText>
+			<BoxNumber>{value}</BoxNumber>
 		</Container>
 	)
 }
@@ -184,4 +183,17 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	height: 56px;
+	border: solid ${theme.colors.border} ${theme.spacing.separation};
+	padding: ${theme.spacing.padding} 0;
+	gap: ${theme.spacing.separation};
+	border-radius: ${theme.borders.radius};
+`
+
+const BoxText = styled.span`
+	font-size: 12px;
+`
+
+const BoxNumber = styled.span`
+	font-family: ${theme.fonts.handwritten};
 `
