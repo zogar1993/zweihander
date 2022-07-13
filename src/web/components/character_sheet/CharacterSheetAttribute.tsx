@@ -47,13 +47,13 @@ export default function CharacterSheetAttribute({
 							payload: { attribute: attribute.code, value: value }
 						})
 					}
-					rows={3}
+					columns={2}
 					aria-label={`${attribute.name} Advances`}
 					disabled={!isOwner}
 				/>
 				<BonusContainer>
-					<span>bonus</span>
-					<span>{attribute.bonus}</span>
+					<BoxText>bonus</BoxText>
+					<BoxNumber>{attribute.bonus}</BoxNumber>
 				</BonusContainer>
 			</ValuesContainer>
 		</Attribute>
@@ -74,11 +74,11 @@ const Name = styled.span`
 `
 
 const ValuesContainer = styled.div`
-	display: flex;
-	gap: ${theme.spacing.padding};
-	width: 100%;
-	justify-content: center;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 	align-items: center;
+	justify-items: center;
+	width: 100%;
 
 	@media (max-width: 768px) {
 		div:nth-child(2) {
@@ -92,4 +92,13 @@ const BonusContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: ${theme.spacing.separation};
+`
+
+//TODO replicated with status
+const BoxText = styled.span`
+	font-size: 12px;
+`
+
+const BoxNumber = styled.span`
+	font-family: ${theme.fonts.handwritten};
 `

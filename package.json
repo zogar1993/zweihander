@@ -11,7 +11,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "1.9.0",
     "contentful": "9.1.29",
-    "misevi": "0.4.15",
+    "misevi": "0.4.16",
     "mongodb": "4.6.0",
     "next": "12.1.6",
     "react": "18.1.0",

@@ -24,4 +24,5 @@ const SkillsSection = styled.div`
 	gap: ${theme.spacing.separation};
 	background-color: ${theme.colors.primary};
 	padding: ${theme.spacing.padding};
+	justify-content: center;
 `

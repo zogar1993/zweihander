@@ -42,7 +42,7 @@ export default function CharacterSheetSkill({
 
 const Container = styled.div`
 	display: grid;
-	grid-template-columns: 110px 1fr 18px;
+	grid-template-columns: 190px 1fr 18px;
 	gap: ${theme.spacing.padding};
 
 	@media (max-width: 768px) {

@@ -8,7 +8,7 @@ const Grid = styled.div<Props>`
 
 	@media (max-width: 768px) {
 		grid-template-columns: repeat(
-			${props => props["mobile-columns"] || props.columns || "auto-fit"},
+			${props => props["mobile-columns"] || props.columns || 1},
 			1fr
 		);
 	}

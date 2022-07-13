@@ -15,6 +15,22 @@ export default function CharacterSheetAlignment() {
 
 	return (
 		<Container>
+			<CorruptionContainer>
+				<Label>Corruption</Label>
+				<CircularNumberInput
+					min={0}
+					max={9}
+					value={character.corruption}
+					onBlur={value =>
+						dispatch({
+							type: ActionType.SetCorruption,
+							payload: value
+						})
+					}
+					aria-label="Corruption"
+					disabled={!isOwner}
+				/>
+			</CorruptionContainer>
 			<RanksContainer>
 				<Label>Order Ranks</Label>
 				<Dots
@@ -43,22 +59,6 @@ export default function CharacterSheetAlignment() {
 					disabled={!isOwner}
 				/>
 			</RanksContainer>
-			<CorruptionContainer>
-				<Label>Corruption</Label>
-				<CircularNumberInput
-					min={0}
-					max={9}
-					value={character.corruption}
-					onBlur={value =>
-						dispatch({
-							type: ActionType.SetCorruption,
-							payload: value
-						})
-					}
-					aria-label="Corruption"
-					disabled={!isOwner}
-				/>
-			</CorruptionContainer>
 		</Container>
 	)
 }
@@ -80,6 +80,8 @@ const Container = styled.div`
 const RanksContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	gap: ${theme.spacing.padding};
 `
 
 const CorruptionContainer = styled.div`
@@ -88,4 +90,5 @@ const CorruptionContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	gap: ${theme.spacing.padding};
 `
