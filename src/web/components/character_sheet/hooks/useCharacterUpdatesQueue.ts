@@ -1,19 +1,15 @@
 import updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import {
 	ActionType,
-	CharacterSheetAction,
-	CharacterSheetState
+	useCharacterSheetDispatcher,
+	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
 import useEffectAsync from "@web/components/character_sheet/hooks/UseEffectAsync"
-import { Dispatch } from "react"
 
-export default function useCharacterUpdatesQueue({
-	state,
-	dispatch
-}: {
-	state: CharacterSheetState
-	dispatch: Dispatch<CharacterSheetAction>
-}) {
+export default function useCharacterUpdatesQueue() {
+	const state = useCharacterSheetState()
+	const dispatch = useCharacterSheetDispatcher()
+	
 	useEffectAsync(async () => {
 		if (state.nextUpdate === null) return
 		const updatedAt = await updateCharacterOfId(

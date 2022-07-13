@@ -1,16 +1,12 @@
 import CharacterSheetBio from "@web/components/character_sheet/bio/CharacterSheetBio"
+import { CharacterSheetAddons } from "@web/components/character_sheet/CharacterSheetAddons"
 import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
 import CharacterSheetConfirmationModal from "@web/components/character_sheet/CharacterSheetConfirmationModal"
 import {
-	ActionType,
-	CharacterSheetContext,
-	CharacterSheetProps,
-	useCharacterSheetReducer
+	CharacterSheetContextProvider,
+	CharacterSheetProps
 } from "@web/components/character_sheet/CharacterSheetContext"
 import CharacterSheetStatus from "@web/components/character_sheet/CharacterSheetStatus"
-import useCharacterUpdatesQueue from "@web/components/character_sheet/hooks/useCharacterUpdatesQueue"
-import useCtrlZ from "@web/components/character_sheet/hooks/useCtrlZ"
-import useInitializeCharacterSheetReducer from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
 import theme from "@web/theme/theme"
 import React from "react"
@@ -19,14 +15,9 @@ import styled from "styled-components"
 export default function CharacterSheetScreen(
 	props: Partial<CharacterSheetProps>
 ) {
-	const [state, dispatch] = useCharacterSheetReducer()
-
-	useInitializeCharacterSheetReducer(props, dispatch) //TODO this seems like it can be improved
-	useCharacterUpdatesQueue({ state, dispatch })
-	useCtrlZ(() => dispatch({ type: ActionType.UndoLastAction }))
-
 	return (
-		<CharacterSheetContext.Provider value={{ state, dispatch }}>
+		<CharacterSheetContextProvider dependencies={props}>
+			<CharacterSheetAddons />
 			<CharacterSheetConfirmationModal />
 			<Layout>
 				<CharacterSheetBio />
@@ -34,7 +25,7 @@ export default function CharacterSheetScreen(
 				<CharacterSheetMisc />
 				<CharacterSheetStatus />
 			</Layout>
-		</CharacterSheetContext.Provider>
+		</CharacterSheetContextProvider>
 	)
 }
 

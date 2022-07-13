@@ -21,9 +21,10 @@ import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
+import useInitializeCharacterSheetReducer from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
 import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
-import React, { Dispatch, useContext, useReducer } from "react"
+import React, { Dispatch, ReactNode, useContext, useReducer } from "react"
 
 const PLACEHOLDER_CALCULATED_CHARACTER_SHEET = Object.freeze({
 	attributes: ATTRIBUTE_DEFINITIONS.map(attribute => ({
@@ -70,10 +71,27 @@ const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 	updatedAt: ""
 }) as CharacterSheetState
 
-export const CharacterSheetContext = React.createContext({
+const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
 	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
 })
+
+export function CharacterSheetContextProvider({
+	children,
+	dependencies
+}: {
+	children: ReactNode
+	dependencies: Partial<CharacterSheetProps>
+}) {
+	const [state, dispatch] = useCharacterSheetReducer()
+	useInitializeCharacterSheetReducer(dependencies, dispatch)
+
+	return (
+		<CharacterSheetContext.Provider value={{ state, dispatch }}>
+			{children}
+		</CharacterSheetContext.Provider>
+	)
+}
 
 export type CharacterSheetState = {
 	_character: SanitizedCharacterSheet
