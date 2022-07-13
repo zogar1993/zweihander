@@ -1,8 +1,11 @@
-import { CalculatedCharacterSheet, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+import {
+	CalculatedCharacterSheet,
+	ProfessionTech,
+	TalentTech
+} from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 
-//TODO add same profession free talents
 export default function calculateTalents({
 	character,
 	talents,
@@ -77,7 +80,6 @@ export default function calculateTalents({
 		}
 	})
 
-	//TODO make full wildcard possible
 	//This is so that you can buy profession3 talents for less experience
 	//This fixes weird edge case where:
 	//- buy A_TALENT (with second profession wildcard)

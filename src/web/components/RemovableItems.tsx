@@ -29,7 +29,6 @@ export default function RemovableItems({
 									<Tag
 										onClick={() =>
 											//TODO this is not working correcly after removing the first one for a reason
-											//TODO add validation for max 9 talents (3 per profession)
 											removeItem({ item: sub.code, key: item.code })
 										}
 										key={sub.code}

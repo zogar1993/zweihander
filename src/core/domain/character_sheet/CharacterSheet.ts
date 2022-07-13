@@ -185,7 +185,6 @@ function spentExperience({
 	schools: Array<MagicSchoolTech>
 	attributes: Array<CalculatedAttribute>
 }): number {
-	//TODO refactor this to newer talent mechanism
 	let profession1_talents_amount = 0
 	profession1_talents_amount += character.talents[0] === null ? 0 : 1
 	profession1_talents_amount += character.talents[1] === null ? 0 : 1

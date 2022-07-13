@@ -36,31 +36,3 @@ export default async function handler(
 				res.status(405).end()
 		}
 }
-//TODO do changelog on homepage
-//TODO fix hermanos macana are darker when delete
-//TODO make characters screen prettier
-
-//TODO P4 make hierarchies of talents for professions
-//TODO P4 check for strict experience expenditure
-
-//TODO Do test for react avatar and thumbnail
-
-//TODO add book distinction
-//TODO add creatures
-//TODO add weapons
-//TODO add alternative mercy
-
-//TODO add undo on react for failing server changes
-//TODO P2 Handle responses for failures
-
-//TODO capacidad de transferir un personaje?
-
-//TODO P2 add test for magics
-//TODO P2 add test for ancestries
-
-//TODO P2 check best practices for production ready gmail account
-//TODO P2 add tests for missing character sheet calculations
-
-//TODO P1 remove visibility of emails
-//TODO P1 add confirmation to create and authorise an account
-//TODO P1 restyle character screen
