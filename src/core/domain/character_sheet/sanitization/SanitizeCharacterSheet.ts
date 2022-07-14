@@ -8,8 +8,6 @@ const DEFAULT_SETTINGS = {
 	visibility: "public"
 } as const
 
-//TODO Ideally, sanitize would be a test function only, and we would rely on an empty character sheet clonable prototype
-//instead of sanitize we could just validate strongly
 export default function sanitizeCharacterSheet(
 	raw: UnsanitizedCharacterSheetData
 ): SanitizedCharacterSheet {

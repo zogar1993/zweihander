@@ -3,7 +3,6 @@ import theme from "@web/theme/theme"
 import React from "react"
 import styled from "styled-components"
 
-//TODO Fix styling and functionality of these
 export default function CharacterSheetConditionTracker({
 	conditions,
 	condition,

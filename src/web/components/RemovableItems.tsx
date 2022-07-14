@@ -28,7 +28,6 @@ export default function RemovableItems({
 								) : (
 									<Tag
 										onClick={() =>
-											//TODO this is not working correcly after removing the first one for a reason
 											removeItem({ item: sub.code, key: item.code })
 										}
 										key={sub.code}

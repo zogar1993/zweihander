@@ -1,8 +1,6 @@
 import theme from "@web/theme/theme"
 import styled, { css } from "styled-components"
 
-//TODO P3 maybe create a card link?
-
 export const Card = styled.article`
 	display: flex;
 	flex-direction: column;
