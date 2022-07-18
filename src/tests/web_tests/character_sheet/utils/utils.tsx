@@ -16,8 +16,8 @@ import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import {
-	ComboBoxItem,
-	ComboboxValidCode
+	ComboboxCode,
+	ComboBoxItem
 } from "misevi/dist/components/inner_components/ComboBox"
 import * as router from "next/router"
 import {
@@ -86,7 +86,7 @@ export async function change_number_input_value(name: string, value: number) {
 	fireEvent.blur(number_input)
 }
 
-export async function change_combobox_item<T extends ComboboxValidCode>(
+export async function change_combobox_item<T extends ComboboxCode>(
 	name: string,
 	item: ComboBoxItem<T>,
 	functions: BoundFunctions<typeof queries> = screen
@@ -94,11 +94,13 @@ export async function change_combobox_item<T extends ComboboxValidCode>(
 	const textbox = functions.getByRole("textbox", { name: name })
 	const combobox = textbox.parentElement!
 	textbox.focus()
-	const option = await within(combobox).findByRole("option", { name: item.name })
+	const option = await within(combobox).findByRole("option", {
+		name: item.name
+	})
 	fireEvent.click(option)
 }
 
-export async function is_a_combobox_option<T extends ComboboxValidCode>(
+export async function is_a_combobox_option<T extends ComboboxCode>(
 	name: string,
 	item: ComboBoxItem<T>,
 	functions: BoundFunctions<typeof queries> = screen
