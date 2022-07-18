@@ -19,7 +19,7 @@ export default function CharacterSheetSkill({
 	return (
 		<Container>
 			<SkillName>{skill.name}</SkillName>
-			<CenteredDots
+			<Dots
 				total={3}
 				value={skill.ranks}
 				onChange={value =>
@@ -55,8 +55,4 @@ const Container = styled.div`
 
 const SkillName = styled.span`
 	white-space: pre;
-`
-
-const CenteredDots = styled(Dots)`
-	justify-self: center;
 `

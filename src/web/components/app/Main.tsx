@@ -81,7 +81,7 @@ const screens = ({
 }: {
 	ancestries: Array<LeafItem>
 	magicSources: Array<LeafItem>
-	user: any
+	user: object | undefined
 }): Array<MenuItem> => [
 	{ path: "characters", name: "Characters", icon: "/menu/child.png" },
 	{
