@@ -6,12 +6,12 @@ export default function Unauthorized() {
 	const { user, contact } = query
 	return (
 		<Container>
-			<span>
+			<p>
 				This character sheet generator and rules compendium for ZWEIHÄNDER Grim
 				& Perilous RPG is private.
-			</span>
-			<span>User {user} has no access.</span>
-			<span>Feel free to contact ${contact} if you are interested!</span>
+			</p>
+			<p>User {user} has no access.</p>
+			<p>Feel free to contact {contact} if you are interested!</p>
 		</Container>
 	)
 }
@@ -19,4 +19,6 @@ export default function Unauthorized() {
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
+	line-height: 28px;
+	font-size: 20px;
 `

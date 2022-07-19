@@ -19,7 +19,7 @@ import {
 	ComboboxCode,
 	ComboBoxItem
 } from "misevi/dist/components/inner_components/ComboBox"
-import * as router from "next/router"
+import { RouterContext } from "next/dist/shared/lib/router-context"
 import {
 	TEST_ANCESTRIES,
 	TEST_ARCHETYPES,
@@ -30,11 +30,10 @@ import {
 	TEST_TALENTS
 } from "./collections"
 
-export const CHARACTER_ID = "an_id"
-export const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
-export const deleteCharacterOfIdSpy = jest.spyOn(deleteCharacterOfId, "default")
-export const useRouterSpy = jest.spyOn(router, "useRouter")
-useRouterSpy.mockReturnValue({ isFallback: false } as ReturnType<any>)
+const CHARACTER_ID = "an_id"
+const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
+const deleteCharacterOfIdSpy = jest.spyOn(deleteCharacterOfId, "default")
+const routerPushMock = jest.fn()
 
 const NEW_UPDATE_DATE = "2023-01-01T00:00:00Z"
 export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
@@ -51,22 +50,28 @@ export async function render_character_sheet(
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve(NEW_UPDATE_DATE))
 	deleteCharacterOfIdSpy.mockReset()
 	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
+	routerPushMock.mockReset()
+	routerPushMock.mockReturnValue(Promise.resolve())
 	render(
-		<UserProvider user={{ email: email || DEFAULT_CHARACTER_SHEET.created_by }}>
-			<CharacterSheetScreen
-				character={sanitizeCharacterSheet({
-					...DEFAULT_CHARACTER_SHEET,
-					...character
-				})}
-				schools={TEST_MAGIC_SCHOOLS}
-				ancestries={TEST_ANCESTRIES}
-				archetypes={TEST_ARCHETYPES}
-				chaosAlignments={TEST_CHAOS_ALIGNMENTS}
-				orderAlignments={TEST_ORDER_ALIGNMENTS}
-				professions={TEST_PROFESSIONS}
-				talents={TEST_TALENTS}
-			/>
-		</UserProvider>
+		<RouterContext.Provider value={{ push: routerPushMock } as any}>
+			<UserProvider
+				user={{ email: email || DEFAULT_CHARACTER_SHEET.created_by }}
+			>
+				<CharacterSheetScreen
+					character={sanitizeCharacterSheet({
+						...DEFAULT_CHARACTER_SHEET,
+						...character
+					})}
+					schools={TEST_MAGIC_SCHOOLS}
+					ancestries={TEST_ANCESTRIES}
+					archetypes={TEST_ARCHETYPES}
+					chaosAlignments={TEST_CHAOS_ALIGNMENTS}
+					orderAlignments={TEST_ORDER_ALIGNMENTS}
+					professions={TEST_PROFESSIONS}
+					talents={TEST_TALENTS}
+				/>
+			</UserProvider>
+		</RouterContext.Provider>
 	)
 }
 
@@ -174,6 +179,17 @@ export async function delete_character_api_was_called() {
 
 export async function delete_character_api_was_not_called() {
 	const calls = deleteCharacterOfIdSpy.mock.calls
+	await waitFor(() => expect(calls.length).toBe(0))
+}
+
+export async function user_is_redirected_to_(path: string) {
+	const calls = routerPushMock.mock.calls
+	await waitFor(() => expect(calls.length).toBe(1))
+	expect(calls[0][0]).toBe(path)
+}
+
+export async function user_is_not_redirected() {
+	const calls = routerPushMock.mock.calls
 	await waitFor(() => expect(calls.length).toBe(0))
 }
 

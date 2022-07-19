@@ -3928,10 +3928,10 @@ minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
-misevi@0.4.16:
-  version "0.4.16"
-  resolved "https://registry.yarnpkg.com/misevi/-/misevi-0.4.16.tgz#d7afee034f11acc791c2e4aec7d286ea83e09c6d"
-  integrity sha512-zgPLCSfgdnTOjDADlGbhYcwun8agq3nN0cMEjDP//02KjrDbvQASdQAqFHy32nk+RM2p9PZcu5flyWiR/WO/NQ==
+misevi@0.4.17:
+  version "0.4.17"
+  resolved "https://registry.yarnpkg.com/misevi/-/misevi-0.4.17.tgz#3fa8ea32e836651d623cf6f6629a4d56169a9b47"
+  integrity sha512-uEx2S2tWxUdKVrTm2BqQbkPHncIK1haWJwL8S2GAL4q9LOKJSe9Vlnn0wdZWFa1YHg+0Qyq2BnzERquzUxR/9Q==
   dependencies:
     react-image-file-resizer "0.4.2"
     react-is "17.0.1"
