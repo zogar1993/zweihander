@@ -3,7 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import RemovableItems from "@web/components/RemovableItems"
 import { Field } from "misevi"
 
@@ -12,7 +12,7 @@ export default function CharacterSheetSpells() {
 	const dispatch = useCharacterSheetDispatcher()
 	const { value: school, options: schools } = comboboxes.schools
 	const { options: spells } = comboboxes.spells
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	return (
 		<>

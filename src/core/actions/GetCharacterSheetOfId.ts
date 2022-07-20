@@ -49,15 +49,13 @@ export default async function getCharacterSheetOfId(id: string) {
 
 export async function getCharacterSheetMeta(
 	id: string
-): Promise<CharacterSheetMeta> {
+): Promise<CharacterSheetMeta | null> {
 	const client = await getMongoDBClient()
 	const character = await client
 		.collection("CHARACTERS")
 		.findOne({ _id: new ObjectId(id) }, { projection: { created_by: 1 } })
 
-	if (character === null) throw Error(`No character of id '${id}' found`)
-
-	return character as unknown as CharacterSheetMeta
+	return character as any
 }
 
 type CharacterSheetMeta = { created_by: string }

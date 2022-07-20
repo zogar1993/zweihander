@@ -5,7 +5,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import RemovableItems from "@web/components/RemovableItems"
 import { Field } from "misevi"
 import { useState } from "react"
@@ -15,7 +15,7 @@ export default function CharacterSheetFocuses() {
 	const [focus, setFocus] = useState<string>("")
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	return (
 		<div>

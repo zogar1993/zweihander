@@ -110,7 +110,7 @@ describe("Character Sheet Screen should", () => {
 	}, 10000)
 
 	it("show all fields as disabled when character is not yours", async () => {
-		await render_character_sheet({}, "another_user")
+		await render_character_sheet({}, { email: "another_user" })
 
 		await then_textbox_is_disabled("Name")
 		await then_number_input_is_disabled("Age")

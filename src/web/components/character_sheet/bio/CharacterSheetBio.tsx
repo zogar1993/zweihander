@@ -12,7 +12,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Avatar, Field } from "misevi"
 import React from "react"
@@ -21,7 +21,7 @@ import styled from "styled-components"
 export default function CharacterSheetBio() {
 	const { character, orderAlignments, chaosAlignments } =
 		useCharacterSheetState()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	const dispatch = useCharacterSheetDispatcher()
 	return (

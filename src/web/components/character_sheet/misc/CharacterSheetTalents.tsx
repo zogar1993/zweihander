@@ -3,7 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import RemovableItems from "@web/components/RemovableItems"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
@@ -14,7 +14,7 @@ export default function CharacterSheetTalents() {
 	const { character, comboboxes } = useCharacterSheetState()
 	const { options: talents } = comboboxes.talents
 	const dispatch = useCharacterSheetDispatcher()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	return (
 		<Container>

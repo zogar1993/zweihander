@@ -1,6 +1,7 @@
 import Accordion from "@web/components/Accordion"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsAdminUser from "@web/components/character_sheet/hooks/useIsAdminUser"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import CharacterSheetDangerZone from "@web/components/character_sheet/misc/CharacterSheetDangerZone"
 import CharacterSheetFocuses from "@web/components/character_sheet/misc/CharacterSheetFocuses"
 import CharacterSheetJournal from "@web/components/character_sheet/misc/CharacterSheetJournal"
@@ -13,7 +14,8 @@ import styled from "styled-components"
 
 export default function CharacterSheetMisc() {
 	const { character } = useCharacterSheetState()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
+	const isAdmin = useIsAdminUser()
 
 	return (
 		<MiscAccordion
@@ -50,7 +52,7 @@ export default function CharacterSheetMisc() {
 				{
 					name: ACCORDION_ITEM.DANGER_ZONE,
 					content: <CharacterSheetDangerZone />,
-					hide: !isOwner
+					hide: !isOwner && !isAdmin
 				}
 			]}
 		/>

@@ -3,6 +3,10 @@ import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
 import getCharacterSheetOfId, {
 	getCharacterSheetMeta
 } from "@core/actions/GetCharacterSheetOfId"
+import {
+	ROLES_PROPERTY_NAME,
+	UserRole
+} from "@web/components/character_sheet/hooks/useIsAdminUser"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -14,6 +18,9 @@ export default async function handler(
 
 	const id = req.query.id
 	if (Array.isArray(id)) return res.status(500).end()
+
+	const isAdmin = session.user[ROLES_PROPERTY_NAME].includes(UserRole.Admin)
+	const isUser = session.user[ROLES_PROPERTY_NAME].includes(UserRole.User)
 
 	if (!req.query.path)
 		switch (req.method) {
@@ -27,8 +34,9 @@ export default async function handler(
 			}
 			case "DELETE": {
 				const character = await getCharacterSheetMeta(id)
-				if (session.user.email !== character.created_by)
-					return res.status(403).end()
+				if (character === null) return res.status(404).end()
+				const isOwner = session.user.email === character.created_by
+				if (!isAdmin && !(isOwner && isUser)) return res.status(403).end()
 				await deleteCharacterSheetOfId(id)
 				return res.status(204).end()
 			}

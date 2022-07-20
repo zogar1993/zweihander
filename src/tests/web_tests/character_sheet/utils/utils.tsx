@@ -16,6 +16,10 @@ import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import {
+	ROLES_PROPERTY_NAME,
+	UserRole
+} from "@web/components/character_sheet/hooks/useIsAdminUser"
+import {
 	ComboboxCode,
 	ComboBoxItem
 } from "misevi/dist/components/inner_components/ComboBox"
@@ -44,7 +48,7 @@ export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 
 export async function render_character_sheet(
 	character: Partial<UnsanitizedCharacterSheetData> = {},
-	email?: string
+	user?: { email?: string; role?: UserRole }
 ) {
 	updateCharacterOfIdSpy.mockReset()
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve(NEW_UPDATE_DATE))
@@ -55,7 +59,10 @@ export async function render_character_sheet(
 	render(
 		<RouterContext.Provider value={{ push: routerPushMock } as any}>
 			<UserProvider
-				user={{ email: email || DEFAULT_CHARACTER_SHEET.created_by }}
+				user={{
+					email: user?.email || DEFAULT_CHARACTER_SHEET.created_by,
+					[ROLES_PROPERTY_NAME]: [user?.role || UserRole.User]
+				}}
 			>
 				<CharacterSheetScreen
 					character={sanitizeCharacterSheet({
@@ -182,7 +189,7 @@ export async function delete_character_api_was_not_called() {
 	await waitFor(() => expect(calls.length).toBe(0))
 }
 
-export async function user_is_redirected_to_(path: string) {
+export async function user_is_redirected_to(path: string) {
 	const calls = routerPushMock.mock.calls
 	await waitFor(() => expect(calls.length).toBe(1))
 	expect(calls[0][0]).toBe(path)

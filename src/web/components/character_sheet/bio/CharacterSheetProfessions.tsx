@@ -3,7 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
 import React from "react"
@@ -13,7 +13,7 @@ export default function CharacterSheetProfessions() {
 	const { character, professions, archetypes, tier1Professions } =
 		useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	return (
 		<Container>

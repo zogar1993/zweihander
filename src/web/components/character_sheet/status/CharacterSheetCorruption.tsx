@@ -3,7 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { CircularNumberInput, Dots } from "misevi"
 import React from "react"
@@ -12,7 +12,7 @@ import styled from "styled-components"
 export default function CharacterSheetCorruption() {
 	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	return (
 		<Container>

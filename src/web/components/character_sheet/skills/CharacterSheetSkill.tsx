@@ -3,7 +3,7 @@ import {
 	ActionType,
 	useCharacterSheetDispatcher
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Dots } from "misevi"
 import styled from "styled-components"
@@ -14,7 +14,7 @@ export default function CharacterSheetSkill({
 	skill: CalculatedSkill
 }) {
 	const dispatch = useCharacterSheetDispatcher()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	return (
 		<Container>
@@ -54,5 +54,5 @@ const Container = styled.div`
 `
 
 const SkillName = styled.span`
-	white-space: pre;
+  white-space: pre;
 `

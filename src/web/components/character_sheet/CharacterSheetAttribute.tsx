@@ -3,7 +3,7 @@ import {
 	ActionType,
 	useCharacterSheetDispatcher
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsOwner from "@web/components/character_sheet/hooks/useIsOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { CircularNumberInput, Dots } from "misevi"
 import React from "react"
@@ -15,7 +15,7 @@ export default function CharacterSheetAttribute({
 	attribute: CalculatedAttribute
 }) {
 	const dispatch = useCharacterSheetDispatcher()
-	const isOwner = useIsOwner()
+	const isOwner = useIsCharacterSheetOwner()
 
 	return (
 		<Attribute>
