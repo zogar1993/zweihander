@@ -7,16 +7,21 @@ import {
 import useEffectAsync from "@web/components/character_sheet/hooks/UseEffectAsync"
 
 export default function useCharacterUpdatesQueue() {
-	const state = useCharacterSheetState()
+	const { character, nextUpdate, updatedAt } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
-	
+
 	useEffectAsync(async () => {
-		if (state.nextUpdate === null) return
-		const updatedAt = await updateCharacterOfId(
-			state.character.id,
-			state.character.updated_at,
-			state.nextUpdate
+		if (nextUpdate === null) return
+		
+		const newUpdatedAt = await updateCharacterOfId(
+			character.id,
+			updatedAt,
+			nextUpdate
 		)
-		dispatch({ type: ActionType.CompleteAction, payload: { updatedAt } })
-	}, [state.nextUpdate, dispatch])
+
+		dispatch({
+			type: ActionType.CompleteAction,
+			payload: { updatedAt: newUpdatedAt, completed: nextUpdate }
+		})
+	}, [dispatch, character.id, updatedAt, nextUpdate])
 }

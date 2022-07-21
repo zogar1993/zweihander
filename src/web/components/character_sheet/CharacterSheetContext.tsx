@@ -1,7 +1,6 @@
 import { UpdateAction } from "@api/characters/[id]/update"
 import { Alignment } from "@core/actions/GetAlignments"
 import { Archetype } from "@core/actions/GetArchetypes"
-import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
 	AncestryTech,
@@ -13,63 +12,16 @@ import {
 	SpellTech,
 	TalentTech
 } from "@core/domain/character_sheet/CharacterSheet"
-import sanitizeCharacterSheet, {
-	SanitizedCharacterSheet
-} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
-import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
+import { PLACEHOLDER_CHARACTER_SHEET_STATE } from "@web/components/character_sheet/context/placeholders"
 import useInitializeCharacterSheetReducer from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
 import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, ReactNode, useContext, useReducer } from "react"
-
-const PLACEHOLDER_CALCULATED_CHARACTER_SHEET = Object.freeze({
-	attributes: ATTRIBUTE_DEFINITIONS.map(attribute => ({
-		...attribute,
-		skills: SKILL_DEFINITIONS.filter(
-			skill => attribute.code === skill.attribute
-		)
-	})) as any,
-	focuses: [],
-	schools: [],
-	talents: [],
-	special_rules: [] as any,
-	settings: {},
-	peril: {},
-	damage: {}
-}) as unknown as CalculatedCharacterSheet
-
-const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
-	_character: sanitizeCharacterSheet({}),
-	character: PLACEHOLDER_CALCULATED_CHARACTER_SHEET,
-
-	professions: [],
-	talents: [],
-	schools: [],
-	ancestries: [],
-	archetypes: [],
-	chaosAlignments: [],
-	orderAlignments: [],
-
-	comboboxes: {
-		schools: { value: null, options: [] },
-		spells: { options: [] },
-		talents: { options: [] }
-	},
-	ancestryTraits: [],
-	tier1Professions: [],
-	modals: {
-		confirmation: null
-	},
-
-	_undoQueue: [],
-	_pendingUpdates: [],
-	nextUpdate: null,
-	updatedAt: ""
-}) as CharacterSheetState
 
 const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
@@ -349,9 +301,21 @@ function characterSheetReducer(
 				modals: { ...state.modals, confirmation: action.payload }
 			}
 		case ActionType.CompleteAction:
+			const { updatedAt, completed } = action.payload
+			const [previous = null, ...remaining] = state._pendingUpdates
+
+			if (completed !== previous)
+				throw Error(
+					`Previous action should be ${JSON.stringify(
+						completed
+					)} but is ${JSON.stringify(previous)}`
+				)
+
 			return {
 				...state,
-				updatedAt: action.payload.updatedAt
+				nextUpdate: remaining.length ? remaining[0] : null,
+				_pendingUpdates: remaining,
+				updatedAt
 			}
 		default:
 			return state
@@ -479,7 +443,10 @@ export type CharacterSheetAction =
 	| { type: ActionType.SetConfirmationModal; payload: Confirmation | null }
 	| { type: ActionType.SetPerilCondition; payload: number | null }
 	| { type: ActionType.SetDamageCondition; payload: number | null }
-	| { type: ActionType.CompleteAction; payload: { updatedAt: string } }
+	| {
+			type: ActionType.CompleteAction
+			payload: { updatedAt: string; completed: Array<UpdateAction> }
+	  }
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
@@ -492,7 +459,7 @@ function changeFromCharacterSheet(
 		_character: character,
 		character: calculateCharacterSheet({ ...state, character }),
 		_pendingUpdates: updates,
-		nextUpdate: updates.length ? updates[0] : null
+		nextUpdate: updates[0]
 	}
 }
 

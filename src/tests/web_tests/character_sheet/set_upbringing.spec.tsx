@@ -8,7 +8,7 @@ import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 const NEW_CHARACTER_UPBRINGING = UPBRINGINGS[2]
 
 describe("Upbringing Combobox should", () => {
-	it("send a 'set_value|sex' action on change", async () => {
+	it("send a 'set_value|upbringing' action on change", async () => {
 		await render_character_sheet()
 
 		await change_combobox_item("Upbringing", NEW_CHARACTER_UPBRINGING)

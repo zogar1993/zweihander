@@ -35,11 +35,11 @@ import {
 } from "./collections"
 
 const CHARACTER_ID = "an_id"
-const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
+export const updateCharacterOfIdSpy = jest.spyOn(updateCharacterOfId, "default")
 const deleteCharacterOfIdSpy = jest.spyOn(deleteCharacterOfId, "default")
 const routerPushMock = jest.fn()
 
-const NEW_UPDATE_DATE = "2023-01-01T00:00:00Z"
+export const NEW_UPDATE_DATE = "2023-01-01T00:00:00Z"
 export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 	id: CHARACTER_ID,
 	created_by: "alistair.grout",
@@ -158,13 +158,18 @@ export async function click_menu_item(name: string) {
 }
 
 export async function update_character_api_was_called_with(
-	actions: Array<UpdateAction>
+	actions: Array<UpdateAction>,
+	options?: { calls: number; current: number; updated_at: string }
 ) {
+	const callsAmount = options ? options.calls : 1
+	const current = options ? options.current - 1 : 0
 	const calls = updateCharacterOfIdSpy.mock.calls
-	await waitFor(() => expect(calls.length).toBe(1))
-	expect(calls[0][0]).toBe(CHARACTER_ID)
-	expect(calls[0][1]).toBe(DEFAULT_CHARACTER_SHEET.updated_at)
-	expect(calls[0][2]).toStrictEqual(actions)
+	await waitFor(() => expect(calls.length).toBe(callsAmount))
+	expect(calls[current][0]).toBe(CHARACTER_ID)
+	expect(calls[current][1]).toBe(
+		options ? options.updated_at : DEFAULT_CHARACTER_SHEET.updated_at
+	)
+	expect(calls[current][2]).toStrictEqual(actions)
 }
 
 export async function then_tag_exists(
