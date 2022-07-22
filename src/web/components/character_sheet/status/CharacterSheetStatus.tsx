@@ -28,6 +28,7 @@ export default function CharacterSheetStatus() {
 }
 
 const StatusContainer = styled.div`
+	grid-area: status;
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};
