@@ -31,12 +31,8 @@ export default function CharacterSheetScreen(
 	)
 }
 
-export const BLOCK_WIDTH = "276px"
-export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
-
 const Layout = styled.div`
 	display: grid;
-	width: ${DESKTOP_MAX_WIDTH};
 	grid-template-columns: repeat(4, 1fr);
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
@@ -45,16 +41,14 @@ const Layout = styled.div`
 		"misc misc misc misc";
 
 	@media (max-width: 768px) {
-		grid-template-columns: minmax(0, 1fr);
-		grid-template-rows: none;
+		grid-template-columns: 1fr;
 		width: 100%;
 		grid-template-areas:
 			"bio"
 			"attributes"
 			"skills"
-			"misc"
 			"status"
-			"profession1";
-		max-height: none;
+			"profession_profile"
+			"misc";
 	}
 `

@@ -29,4 +29,17 @@ const Container = styled.div`
 	display: grid;
 	gap: ${theme.spacing.separation};
 	grid-template-columns: repeat(4, 1fr);
+
+	@media (max-width: 768px) {
+		grid-template-columns: minmax(0, 1fr);
+		width: 100%;
+		grid-template-areas:
+			"bio"
+			"attributes"
+			"skills"
+			"status"
+			"profession_profile"
+			"misc";
+		max-height: none;
+	}
 `

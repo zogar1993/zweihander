@@ -58,16 +58,21 @@ const Section = styled.section`
 	overflow-x: hidden;
 `
 
+export const BLOCK_WIDTH = "276px"
+export const DESKTOP_MAX_WIDTH = `calc((${BLOCK_WIDTH} * 4) + (${theme.spacing.separation} * 3))`
+
 const SectionContainer = styled.div<{ show: boolean }>`
 	padding: 8px calc(${theme.spacing.separation} + ${theme.scrollbar.width})
 		${theme.spacing.separation} ${theme.spacing.separation};
 	width: calc(100vw - ${MENU_WIDTH_EXTENDED});
 	margin: 0 auto;
-
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+	align-items: center;
 	gap: ${theme.spacing.separation};
+
+	display: grid;
+	justify-items: stretch;
+	justify-content: center;
+	grid-template-columns: minmax(auto, ${DESKTOP_MAX_WIDTH});
 
 	@media (max-width: 768px) {
 		width: 100%;

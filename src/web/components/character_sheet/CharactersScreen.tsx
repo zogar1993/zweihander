@@ -28,7 +28,7 @@ export default function CharactersScreen({
 	return (
 		<>
 			<Button onClick={create}>Create Character</Button>
-			<Grid columns={5} mobile-columns={1}>
+			<Grid columns={4} mobile-columns={1}>
 				{characters === undefined
 					? Array.from({ length: 20 }, (_, i) => (
 							<Skeleton key={i.toString()} />
