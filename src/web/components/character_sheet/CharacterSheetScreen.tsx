@@ -7,7 +7,7 @@ import {
 	CharacterSheetProps
 } from "@web/components/character_sheet/CharacterSheetContext"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
-import CharacterSheetProfession from "@web/components/character_sheet/professions/CharacterSheetProfession"
+import CharacterSheetProfessionProfile from "@web/components/character_sheet/professions/CharacterSheetProfessionProfile"
 import CharacterSheetStatus from "@web/components/character_sheet/status/CharacterSheetStatus"
 import theme from "@web/theme/theme"
 import React from "react"
@@ -24,8 +24,8 @@ export default function CharacterSheetScreen(
 				<CharacterSheetBio />
 				<CharacterSheetAttributes />
 				<CharacterSheetMisc />
+				<CharacterSheetProfessionProfile />
 				<CharacterSheetStatus />
-				<CharacterSheetProfession />
 			</Layout>
 		</CharacterSheetContextProvider>
 	)
@@ -41,7 +41,7 @@ const Layout = styled.div`
 	gap: ${theme.spacing.separation};
 	grid-template-areas:
 		"bio attributes attributes status"
-		"profession1 wea wea wea"
+		"profession_profile profession_profile profession_profile profession_profile"
 		"misc misc misc misc";
 
 	@media (max-width: 768px) {

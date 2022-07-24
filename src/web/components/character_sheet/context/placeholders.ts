@@ -17,7 +17,16 @@ const PLACEHOLDER_CALCULATED_CHARACTER_SHEET = Object.freeze({
 	special_rules: [] as any,
 	settings: {},
 	peril: {},
-	damage: {}
+	damage: {},
+
+	profession_profile: {
+		profession1: null,
+		profession2: null,
+		profession3: null,
+		spending_outside_profession: [],
+		missing_for_profession1: [],
+		missing_for_profession2: []
+	}
 }) as unknown as CalculatedCharacterSheet
 
 export const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({

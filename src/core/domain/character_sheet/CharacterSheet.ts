@@ -2,6 +2,9 @@ import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
+import calculateProfessionProfile, {
+	ProfessionProfile
+} from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
 import calculateTalents from "@core/domain/character_sheet/calculations/CalculateTalents"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
@@ -38,12 +41,12 @@ export enum Peril {
 }
 
 export function calculateCharacterSheet({
-	character,
-	ancestries,
-	professions,
-	schools,
-	talents
-}: Props): CalculatedCharacterSheet {
+																					character,
+																					ancestries,
+																					professions,
+																					schools,
+																					talents
+																				}: Props): CalculatedCharacterSheet {
 	const ancestry = calculateAncestry({ character, ancestries })
 	const _professions = calculateProfessions({ character, professions })
 	const _talents = calculateTalents({
@@ -65,6 +68,11 @@ export function calculateCharacterSheet({
 		talents,
 		professions: _professions,
 		ancestry
+	})
+
+	const profession_profile = calculateProfessionProfile({
+		character,
+		professions: _professions
 	})
 
 	return {
@@ -91,7 +99,8 @@ export function calculateCharacterSheet({
 		},
 		maximum_focuses: getAttribute("intelligence").bonus,
 		maximum_languages: getAttribute("fellowship").bonus,
-		special_rules: special_rules
+		special_rules: special_rules,
+		profession_profile
 	}
 }
 
@@ -102,10 +111,10 @@ type GetAttributeProps = {
 }
 
 function getAttributes({
-	character,
-	ancestry,
-	professions
-}: GetAttributeProps): Array<CalculatedAttribute> {
+												 character,
+												 ancestry,
+												 professions
+											 }: GetAttributeProps): Array<CalculatedAttribute> {
 	return ATTRIBUTE_DEFINITIONS.map(attribute => {
 		const { base: raw_base, advances } = character.attributes[attribute.code]
 		const ancestry_bonus = ancestry?.attribute_bonuses[attribute.code] || 0
@@ -161,11 +170,11 @@ type GetSpecialRulesProps = {
 }
 
 function getSpecialRules({
-	character,
-	talents,
-	professions,
-	ancestry
-}: GetSpecialRulesProps) {
+													 character,
+													 talents,
+													 professions,
+													 ancestry
+												 }: GetSpecialRulesProps) {
 	const ancestry_trait = ancestry?.traits.find(
 		x => x.code === character.ancestry_trait
 	)
@@ -177,10 +186,10 @@ function getSpecialRules({
 }
 
 function spentExperience({
-	character,
-	schools,
-	attributes
-}: {
+													 character,
+													 schools,
+													 attributes
+												 }: {
 	character: SanitizedCharacterSheet
 	schools: Array<MagicSchoolTech>
 	attributes: Array<CalculatedAttribute>
@@ -233,17 +242,17 @@ function spentExperience({
 }
 
 function calculateExperience({
-	profession1,
-	profession2,
-	profession3,
-	attributes,
-	profession1_talents_amount,
-	profession2_talents_amount,
-	profession3_talents_amount,
-	focuses,
-	spells,
-	favored_skills
-}: {
+															 profession1,
+															 profession2,
+															 profession3,
+															 attributes,
+															 profession1_talents_amount,
+															 profession2_talents_amount,
+															 profession3_talents_amount,
+															 focuses,
+															 spells,
+															 favored_skills
+														 }: {
 	profession1: string | null
 	profession2: string | null
 	profession3: string | null
@@ -371,6 +380,8 @@ export type CalculatedCharacterSheet = Readonly<{
 	settings: CharacterSheetSettings
 	created_by: string
 	updated_at: string
+
+	profession_profile: ProfessionProfile
 }>
 
 export type ConditionTrack = {
@@ -436,15 +447,11 @@ function formatFocuses(focuses: Focuses): CalculatedCharacterSheet["focuses"] {
 	})
 }
 
-export type AncestryTraitTech = Pick<
-	AncestryTrait,
-	"name" | "code" | "effect" | "from" | "to"
->
+export type AncestryTraitTech = Pick<AncestryTrait,
+	"name" | "code" | "effect" | "from" | "to">
 export type TraitTech = Pick<AncestryTrait, "name" | "code" | "effect">
-export type AncestryTech = Pick<
-	Ancestry,
-	"name" | "code" | "attribute_bonuses"
-> & {
+export type AncestryTech = Pick<Ancestry,
+	"name" | "code" | "attribute_bonuses"> & {
 	traits: Array<AncestryTraitTech>
 }
 
