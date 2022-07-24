@@ -30,7 +30,10 @@ export default function CharacterSheetConditionTracker({
 								selected={condition?.value === x.code}
 								onChange={value =>
 									dispatch({
-										type: ActionType.SetPerilCondition,
+										type:
+											type === "Peril"
+												? ActionType.SetPerilCondition
+												: ActionType.SetDamageCondition,
 										payload: value
 									})
 								}

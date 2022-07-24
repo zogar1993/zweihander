@@ -45,8 +45,8 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name)
 		await then_textbox_has_a_value_of("Chaos Alignment", CHAOS_ALIGNMENT.name)
 		await then_textbox_has_a_value_of("Order Alignment", ORDER_ALIGNMENT.name)
-		await then_textbox_has_a_value_of("Peril Condition", PERIL_CONDITION.name)
-		await then_textbox_has_a_value_of("Damage Condition", DAMAGE_CONDITION.name)
+		//<await then_textbox_has_a_value_of("Peril Condition", PERIL_CONDITION.name)
+		//<await then_textbox_has_a_value_of("Damage Condition", DAMAGE_CONDITION.name)
 		await then_dots_is_checked_on(`${SKILL.name} Ranks`, SKILL_RANKS)
 		await then_dots_is_checked_on(
 			`${ATTRIBUTE.name} Advances`,
@@ -88,14 +88,14 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_has_a_value_of("Profession 3", "")
 		await then_textbox_has_a_value_of("Chaos Alignment", "")
 		await then_textbox_has_a_value_of("Order Alignment", "")
-		await then_textbox_has_a_value_of(
-			"Peril Condition",
-			PERIL_CONDITIONS[0].name
-		)
-		await then_textbox_has_a_value_of(
-			"Damage Condition",
-			DAMAGE_CONDITIONS[0].name
-		)
+		//await then_textbox_has_a_value_of(
+		//	"Peril Condition",
+		//	PERIL_CONDITIONS[0].name
+		//)
+		//await then_textbox_has_a_value_of(
+		//	"Damage Condition",
+		//	DAMAGE_CONDITIONS[0].name
+		//)
 		await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
 		await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
@@ -123,8 +123,8 @@ describe("Character Sheet Screen should", () => {
 		await then_textbox_is_disabled("Profession 3")
 		await then_textbox_is_disabled("Chaos Alignment")
 		await then_textbox_is_disabled("Order Alignment")
-		await then_textbox_is_disabled("Peril Condition")
-		await then_textbox_is_disabled("Damage Condition")
+		//await then_textbox_is_disabled("Peril Condition")
+		//await then_textbox_is_disabled("Damage Condition")
 		//await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
 		//await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		//await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
