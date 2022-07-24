@@ -20,17 +20,17 @@ export default function CharacterSheetTier({
 			<Title>Profession</Title>
 			<CheckButton text={tier.profession.name} checked={false} />
 			<Title>Attributes</Title>
-			<WeaGrid columns={2}>
+			<Grid columns={2}>
 				{tier.attributes.map(x => (
 					<CheckButton text={x.code} checked={x.checked} />
 				))}
-			</WeaGrid>
+			</Grid>
 			<Title>Skills</Title>
-			<WeaGrid columns={2}>
+			<Grid columns={2}>
 				{tier.skills.map(x => (
 					<CheckButton text={x.code} checked={x.checked} />
 				))}
-			</WeaGrid>
+			</Grid>
 			<Title>Talents</Title>
 			{tier.talents.map(x => (
 				<CheckButton text={x.code} checked={x.checked} />
@@ -46,14 +46,11 @@ const Container = styled.div`
 	border: ${theme.spacing.separation} solid ${theme.colors.border};
 	padding: ${theme.spacing.padding};
 	border-radius: ${theme.borders.radius};
-	align-items: center;
+	align-items: stretch;
 `
 
 const Title = styled.span`
 	padding: ${theme.spacing.separation};
+	text-align: center;
 	font-size: 20px;
-`
-
-const WeaGrid = styled(Grid)`
-	width: 100%;
 `

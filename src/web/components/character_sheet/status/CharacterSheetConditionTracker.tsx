@@ -1,5 +1,10 @@
 import { ConditionTrack } from "@core/domain/character_sheet/CharacterSheet"
+import {
+	ActionType,
+	useCharacterSheetDispatcher
+} from "@web/components/character_sheet/CharacterSheetContext"
 import theme from "@web/theme/theme"
+import { RadioButton } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
@@ -12,6 +17,7 @@ export default function CharacterSheetConditionTracker({
 	condition: ConditionTrack
 	type: string
 }) {
+	const dispatch = useCharacterSheetDispatcher()
 	return (
 		<ThresholdContainer>
 			<Title>{type} Condition Track</Title>
@@ -22,7 +28,12 @@ export default function CharacterSheetConditionTracker({
 							<ConditionStep
 								value={x.code}
 								selected={condition?.value === x.code}
-								//onChange={condition?.setValue}
+								onChange={value =>
+									dispatch({
+										type: ActionType.SetPerilCondition,
+										payload: value
+									})
+								}
 								text={x.name}
 								key={x.code}
 							/>
@@ -31,6 +42,7 @@ export default function CharacterSheetConditionTracker({
 				</ConditionStepsContainer>
 			</ValuesContainer>
 		</ThresholdContainer>
+		//TODO add these boxes
 		//	<FlexItem>
 		//		<Threshold value={condition?.threshold} />
 		//	</FlexItem>
@@ -76,19 +88,19 @@ function ConditionStep({
 	selected: boolean
 }) {
 	return (
-		<InputWrapper>
-			<input
-				type="radio"
+		<InputWrapper role="radiogroup">
+			<RadioButton
 				value={value}
 				checked={selected}
 				onChange={onChange && (() => onChange(value))}
+				aria-label={text}
 			/>
 			<Text>{text}</Text>
 		</InputWrapper>
 	)
 }
 
-const InputWrapper = styled.span`
+const InputWrapper = styled.div`
 	display: flex;
 	gap: ${theme.spacing.padding};
 `

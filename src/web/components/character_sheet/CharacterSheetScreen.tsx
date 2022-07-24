@@ -23,9 +23,9 @@ export default function CharacterSheetScreen(
 			<Layout>
 				<CharacterSheetBio />
 				<CharacterSheetAttributes />
-				<CharacterSheetMisc />
-				<CharacterSheetProfessionProfile />
 				<CharacterSheetStatus />
+				<CharacterSheetProfessionProfile />
+				<CharacterSheetMisc />
 			</Layout>
 		</CharacterSheetContextProvider>
 	)

@@ -1,5 +1,5 @@
 import {
-	change_combobox_item,
+	click_radiobutton,
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
@@ -11,7 +11,7 @@ describe("Damage Condition Combobox should", () => {
 	it("send a 'set_value|damage' action on change", async () => {
 		await render_character_sheet()
 
-		await change_combobox_item("Damage Condition", VALUE)
+		await click_radiobutton(VALUE.name)
 
 		await update_character_api_was_called_with([
 			{

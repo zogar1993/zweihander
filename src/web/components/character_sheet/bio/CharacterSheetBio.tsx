@@ -1,8 +1,6 @@
 import CharacterSheetAncestry from "@web/components/character_sheet/bio/CharacterSheetAncestry"
 import CharacterSheetProfessions from "@web/components/character_sheet/bio/CharacterSheetProfessions"
 import {
-	DAMAGE_CONDITIONS,
-	PERIL_CONDITIONS,
 	SEXES,
 	SOCIAL_CLASSES,
 	UPBRINGINGS
@@ -113,28 +111,6 @@ export default function CharacterSheetBio() {
 					onChange={value =>
 						dispatch({ type: ActionType.SetChaosAlignment, payload: value })
 					}
-					disabled={!isOwner}
-				/>
-				<Field
-					type="combobox"
-					label="Peril Condition"
-					options={PERIL_CONDITIONS}
-					value={character.peril.value}
-					onChange={value =>
-						dispatch({ type: ActionType.SetPerilCondition, payload: value })
-					}
-					unclearable
-					disabled={!isOwner}
-				/>
-				<Field
-					type="combobox"
-					label="Damage Condition"
-					options={DAMAGE_CONDITIONS}
-					value={character.damage.value}
-					onChange={value =>
-						dispatch({ type: ActionType.SetDamageCondition, payload: value })
-					}
-					unclearable
 					disabled={!isOwner}
 				/>
 			</TwoColumns>

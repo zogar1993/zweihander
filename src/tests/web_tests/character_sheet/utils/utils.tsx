@@ -157,6 +157,11 @@ export async function click_menu_item(name: string) {
 	return within(content)
 }
 
+export async function click_radiobutton(name: string) {
+	const radio = screen.getByRole("radio", { name: name })
+	fireEvent.click(radio)
+}
+
 export async function update_character_api_was_called_with(
 	actions: Array<UpdateAction>,
 	options?: { calls: number; current: number; updated_at: string }
