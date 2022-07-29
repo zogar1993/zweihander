@@ -3,9 +3,7 @@ import getMagicSources from "@core/actions/GetMagicSources"
 import { MagicSchool } from "@core/domain/MagicSchool"
 import { MagicSource } from "@core/domain/MagicSource"
 import { Spell } from "@core/domain/Spell"
-import LinksGroup from "@web/components/general/LinksGroup"
-import { PageTitle } from "@web/components/general/PageTitle"
-import SpellCards from "@web/components/magic/SpellCards"
+import MagicScreen from "@web/components/magic/MagicScreen"
 import React from "react"
 
 export default withPageAuthRequired(
@@ -17,27 +15,12 @@ export default withPageAuthRequired(
 		source: MagicSource
 		school: MagicSchool
 		spells: Array<Spell>
-	}) => {
-		return (
-			<>
-				<PageTitle>{source.name}</PageTitle>
-				{source.schools.length > 1 && (
-					<LinksGroup
-						items={source.schools}
-						selected={school}
-						path={`/magic/${source.code}`}
-						columns={5}
-					/>
-				)}
-				<SpellCards spells={spells} />
-			</>
-		)
-	}
+	}) => <MagicScreen source={source} school={school} spells={spells} />
 )
 
 export async function getStaticProps({
-	params: { source: sourceCode, school: schoolCode }
-}: any) {
+																			 params: { source: sourceCode, school: schoolCode }
+																		 }: any) {
 	const sources = await getMagicSources()
 	const source = sources.find(x => x.code === sourceCode)!
 	const school = source.schools.find(x => x.code === schoolCode)!

@@ -11,7 +11,7 @@ export default function SpellCards({ spells }: Props) {
 	const router = useRouter()
 	const { source, school } = router.query
 	const navigate = (path?: string) => {
-		const base = `/magic/${source}/${school}`
+		const base = school ? `/magic/${source}/${school}` : `/magic/${source}`
 		const full_path = path ? `${base}?spell=${path}` : base
 		router.push(full_path, full_path, { shallow: true })
 	}
