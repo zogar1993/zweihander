@@ -3,6 +3,7 @@ import {
 	ActionType,
 	useCharacterSheetDispatcher
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { RadioButton } from "misevi"
 import React from "react"
@@ -46,6 +47,7 @@ export default function CharacterSheetConditionTracker({
 			</ValuesContainer>
 		</ThresholdContainer>
 		//TODO add these boxes
+		//TODO make cleaner the dispatch
 		//	<FlexItem>
 		//		<Threshold value={condition?.threshold} />
 		//	</FlexItem>
@@ -90,6 +92,7 @@ function ConditionStep({
 	onChange?: (value: number) => void
 	selected: boolean
 }) {
+	const isOwner = useIsCharacterSheetOwner()
 	return (
 		<InputWrapper role="radiogroup">
 			<RadioButton
@@ -97,6 +100,7 @@ function ConditionStep({
 				checked={selected}
 				onChange={onChange && (() => onChange(value))}
 				aria-label={text}
+				disabled={!isOwner}
 			/>
 			<Text>{text}</Text>
 		</InputWrapper>

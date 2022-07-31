@@ -137,6 +137,21 @@ export async function then_dots_is_checked_on(name: string, value: number) {
 	await waitFor(() => expect(selected).toBeChecked())
 }
 
+export async function then_radio_is_disabled(name: string) {
+	const radio = screen.getByRole("radio", { name: name })
+	await waitFor(() => expect(radio).toBeDisabled())
+}
+
+export async function then_radio_is_checked(name: string) {
+	const radio = screen.getByRole("radio", { name: name })
+	await waitFor(() => expect(radio).toBeChecked())
+}
+
+export async function then_radio_is_unchecked(name: string) {
+	const radio = screen.getByRole("radio", { name: name })
+	await waitFor(() => expect(radio).not.toBeChecked())
+}
+
 export async function then_textbox_has_a_value_of(name: string, value: string) {
 	const checkbox = screen.getByRole("textbox", { name: name })
 	await waitFor(() => expect(checkbox).toHaveValue(value.toString()))
