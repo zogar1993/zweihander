@@ -7,7 +7,7 @@ import styled from "styled-components"
 
 export default function SpellCard({ spell, onClick }: Props) {
 	return (
-		<CardContainer onClick={onClick}>
+		<CardContainer onClick={onClick} aria-label={spell.name}>
 			<CardTitle>{spell.name}</CardTitle>
 			<TagContainer>
 				<Tag>{spell.school}</Tag>

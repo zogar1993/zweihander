@@ -1,5 +1,5 @@
 import getMagicSources from "@core/actions/GetMagicSources"
-import { render } from "@testing-library/react"
+import { fireEvent, render, screen, within } from "@testing-library/react"
 import MagicScreen from "@web/components/magic/MagicScreen"
 import { useState } from "react"
 
@@ -24,22 +24,33 @@ function useRouterMock() {
 const useRouterSpy = jest.spyOn(require("next/router"), "useRouter")
 useRouterSpy.mockImplementation(useRouterMock as any)
 
-xdescribe("MagicScreen should", () => {
+describe("MagicScreen should", () => {
 	it("render all Arcanas and their spells", async () => {
 		const sources = await getMagicSources()
 		const source = sources.find(x => x.code === "arcana")!
-		const school = source.schools.find(x => x.code === "arcana")!
+		const school = source.schools[0]
 		const spells = school.spells
 
 		render(<MagicScreen source={source} school={school} spells={spells} />)
 
-		//for (const profession of professions) {
-		//	const article = screen.getByRole("article", { name: profession.name })
-		//	within(article).getByText(profession.name)
-		//	within(article).getByText(profession.book)
-		//	within(article).getByText(profession.type)
-		//	fireEvent.click(article)
-		//	await screen.findByText(profession.description)
-		//}
+		for (const school of source.schools)
+			screen.getByRole("link", {name: school.name})
+
+		for (const spell of spells) {
+			const article = screen.getByRole("article", { name: spell.name })
+			within(article).getByText(spell.name)
+			within(article).getByText(spell.description)
+			within(article).getByText(spell.distance_tag)
+			within(article).getByText(spell.principle)
+			within(article).getByText(spell.school)
+			fireEvent.click(article)
+			await screen.findByText(spell.effect)
+			await screen.findByText(spell.critical_failure)
+			await screen.findByText(spell.critical_success)
+			await screen.findByText(spell.reagents)
+			//TODO fix ambiguity here
+			//await screen.findByText(spell.duration)
+			//await screen.findByText(spell.distance)
+		}
 	})
 })

@@ -3,93 +3,42 @@ import type { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet
 import type { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 
 export default function calculateProfessionProfile({
-	character,
-	professions
-}: CalculateProfessionProfileProps): ProfessionProfile {
-	const result: ProfessionProfile = {
-		profession1: null,
-		profession2: null,
-		profession3: null,
-		spending_outside_profession: [],
-		missing_for_profession1: [],
-		missing_for_profession2: []
+																										 character,
+																										 professions
+																									 }: CalculateProfessionProfileProps): ProfessionProfile {
+
+	//Expenditures are to be consumed as they are encountered
+	const expenditures = getCharacterExpenditures(character)
+
+	const tiers: Array<CharacterTier> = []
+
+	professions.forEach(profession => {
+		const tier = getProfessionTierTemplate(profession)
+		;(["attributes", "skills", "talents"] as const).forEach(key => {
+			markExpenditures(expenditures[key], tier[key])
+		})
+		tiers.push(tier)
+	})
+
+	return {
+		profession1: tiers[0] ? tiers[0] : null,
+		profession2: tiers[1] ? tiers[1] : null,
+		profession3: tiers[2] ? tiers[2] : null,
+		spending_outside_profession: temporaryHackConcatForResult(expenditures)
 	}
-
-	let expenditures = getCharacterExpenditures(character)
-
-	if (professions.length === 0) {
-		if (temporaryHackConcatForLenght(expenditures))
-			result.spending_outside_profession =
-				temporaryHackConcatForResult(expenditures)
-
-		return result
-	}
-	const profession1 = getProfessionTierTemplate(professions[0])
-	const result1 = markExpenditures(expenditures, profession1)
-	expenditures = result1.remaining
-
-	result.profession1 = result1.profile
-
-	if (professions.length === 1) {
-		if (temporaryHackConcatForLenght(expenditures))
-			result.spending_outside_profession =
-				temporaryHackConcatForResult(expenditures)
-
-		return result
-	}
-
-	result.missing_for_profession1 = temporaryConcatProfessionTier(profession1)
-
-	const profession2 = getProfessionTierTemplate(professions[1])
-	const result2 = markExpenditures(expenditures, profession2)
-	expenditures = result2.remaining
-
-	result.profession2 = result2.profile
-
-	if (professions.length === 2) {
-		if (temporaryHackConcatForLenght(expenditures))
-			result.spending_outside_profession =
-				temporaryHackConcatForResult(expenditures)
-
-		return result
-	}
-
-	result.missing_for_profession2 = temporaryConcatProfessionTier(profession2)
-
-	const profession3 = getProfessionTierTemplate(professions[2])
-	const result3 = markExpenditures(expenditures, profession3)
-	expenditures = result3.remaining
-
-	result.profession3 = result3.profile
-
-	if (temporaryHackConcatForLenght(expenditures))
-		result.spending_outside_profession =
-			temporaryHackConcatForResult(expenditures)
-
-	return result
 }
 
 function markExpenditures(
-	expenditures: CharacterExpenditures,
-	profession: CharacterTier
+	expenditures: Array<string>,
+	items: Array<CharacterTierItem>
 ) {
-	const remaining: Record<string, Array<string>> = {
-		attributes: [],
-		skills: [],
-		talents: []
+	for (let i = expenditures.length; i >= 0; i--) {
+		const match = items.find(x => x.code === expenditures[i] && !x.checked)
+		if (match) {
+			match.checked = true
+			expenditures.splice(i, 1)
+		}
 	}
-
-	;(["attributes", "skills", "talents"] as const).forEach(key => {
-		const items = expenditures[key]
-		items.forEach(expenditure => {
-			const match = profession[key].find(
-				x => x.code === expenditure && !x.checked
-			)
-			if (match) match.checked = true
-			else remaining[key].push(expenditure)
-		})
-	})
-	return { remaining, profile: profession }
 }
 
 function getCharacterExpenditures(
@@ -137,8 +86,6 @@ export type ProfessionProfile = {
 	profession2: null | CharacterTier
 	profession3: null | CharacterTier
 	spending_outside_profession: Array<Expenditure>
-	missing_for_profession1: Array<Expenditure>
-	missing_for_profession2: Array<Expenditure>
 }
 
 export type CharacterTier = {
@@ -158,15 +105,4 @@ function temporaryHackConcatForResult(wea: CharacterExpenditures) {
 		.map(x => ({ code: x, type: "attribute" }))
 		.concat(wea.skills.map(x => ({ code: x, type: "skill" })))
 		.concat(wea.talents.map(x => ({ code: x, type: "talent" })))
-}
-
-function temporaryHackConcatForLenght(wea: CharacterExpenditures) {
-	return wea.talents.length + wea.attributes.length + wea.skills.length
-}
-
-function temporaryConcatProfessionTier(wea: CharacterTier) {
-	return wea.attributes
-		.map(x => ({ code: x.code, type: "attribute" }))
-		.concat(wea.skills.map(x => ({ code: x.code, type: "skill" })))
-		.concat(wea.talents.map(x => ({ code: x.code, type: "talent" })))
 }
