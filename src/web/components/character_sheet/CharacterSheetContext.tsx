@@ -54,9 +54,7 @@ export type CharacterSheetState = {
 	comboboxes: {
 		schools: { value: string | null; options: Array<MagicSchoolTech> }
 		spells: { options: Array<SpellTech> }
-		talents: { options: Array<TalentTech> }
 	}
-	tier1Professions: Array<ProfessionTech>
 	modals: {
 		confirmation: Confirmation | null
 	}
@@ -110,19 +108,14 @@ function characterSheetReducer(
 	switch (action.type) {
 		case ActionType.Initialize: {
 			const props = action.payload
-			const {character} = calculateCharacterSheet(props)
+			const { character } = calculateCharacterSheet(props)
 			return {
 				...props,
 				_character: props.character,
 				character: character,
-				tier1Professions: calculateTier1Professions(//TODO MFD
-					props.character.archetype,
-					props
-				),
 				comboboxes: {
 					schools: { value: null, options: props.schools },
-					spells: { options: [] },
-					talents: { options: getTalentOptions(props.character, props.talents) }//TODO MFD
+					spells: { options: [] }
 				},
 				modals: {
 					confirmation: null
@@ -157,11 +150,8 @@ function characterSheetReducer(
 			)
 		case ActionType.SetAncestryTrait:
 			return forwardChange(["set_value", "ancestry_trait", action.payload])
-		case ActionType.SetArchetype: {
-			const newState = forwardChange(["set_value", "archetype", action.payload])
-			const tier1Professions = calculateTier1Professions(action.payload, state)
-			return { ...newState, tier1Professions }
-		}
+		case ActionType.SetArchetype:
+			return forwardChange(["set_value", "archetype", action.payload])
 		case ActionType.SetProfession1: {
 			if (state._character.archetype === null) {
 				const isProfessionsArchetype = (archetype: Archetype) =>
@@ -240,18 +230,10 @@ function characterSheetReducer(
 					: forwardChange(["remove_from_array", `spells.${school}`, spell])
 			return recalculateSpellOptions(result)
 		}
-		case ActionType.AddTalent: {
-			const result = forwardChange(["add_to_array", `talents`, action.payload])
-			return recalculateTalentOptions(result)
-		}
-		case ActionType.RemoveTalent: {
-			const result = forwardChange([
-				"remove_from_array",
-				`talents`,
-				action.payload
-			])
-			return recalculateTalentOptions(result)
-		}
+		case ActionType.AddTalent:
+			return forwardChange(["add_to_array", `talents`, action.payload])
+		case ActionType.RemoveTalent:
+			return forwardChange(["remove_from_array", `talents`, action.payload])
 		case ActionType.SetPerilCondition:
 			return forwardChange(["set_value", "peril", action.payload])
 		case ActionType.SetDamageCondition:
@@ -448,7 +430,7 @@ function changeFromCharacterSheet(
 ): CharacterSheetState {
 	const _character = applyActionsToCharacter(state._character, changes)
 	const updates = [...state._pendingUpdates, changes]
-	const {character} = calculateCharacterSheet({ ...state, character: _character })
+	const { character } = calculateCharacterSheet({ ...state, character: _character })
 	return {
 		...state,
 		_character: _character,
@@ -481,42 +463,6 @@ function generateUndoActions(
 	})
 }
 
-function calculateTier1Professions(
-	archetype: string | null,
-	state: Pick<CharacterSheetState, "professions" | "archetypes">
-): Array<ProfessionTech> {
-	const { professions, archetypes } = state
-	if (archetype === null) {
-		return professions.filter(profession =>
-			archetypes.some(archetype =>
-				archetype.professions["Main Gauche"].some(
-					prof => prof.profession === profession.code
-				)
-			)
-		)
-	}
-
-	const names = getByCode(archetype, archetypes).professions["Main Gauche"]
-	return names.map(x => ({
-		...x,
-		...getByCode(x.profession, professions)
-	}))
-}
-
-function recalculateTalentOptions(
-	state: CharacterSheetState
-): CharacterSheetState {
-	return {
-		...state,
-		comboboxes: {
-			...state.comboboxes,
-			talents: {
-				options: getTalentOptions(state._character, state.talents)
-			}
-		}
-	}
-}
-
 function recalculateSpellOptions(
 	state: CharacterSheetState
 ): CharacterSheetState {
@@ -533,13 +479,6 @@ function recalculateSpellOptions(
 			}
 		}
 	}
-}
-
-function getTalentOptions(
-	character: SanitizedCharacterSheet,
-	talents: Array<TalentTech>
-) {
-	return talents.filter(x => !character.talents.includes(x.code))
 }
 
 function getSpellOptions(

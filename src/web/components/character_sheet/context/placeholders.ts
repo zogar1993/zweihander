@@ -14,6 +14,11 @@ const LOADING_TIER = {
 	talents: Array.from(Array(3), () => LOADING_TIER_ITEM)
 } as unknown as CharacterTier
 
+const LOADING_CALCULATED_COMBOBOX = {
+	code: undefined,
+	options: []
+}
+
 const LOADING_CALCULATED_CHARACTER_SHEET = {
 	attributes: ATTRIBUTE_DEFINITIONS.map(attribute => ({
 		...attribute,
@@ -28,14 +33,14 @@ const LOADING_CALCULATED_CHARACTER_SHEET = {
 	settings: {},
 	peril: {},
 	damage: {},
-	ancestry: {
-		code: undefined,
-		options: []
-	},
-	ancestry_trait: {
-	  code: undefined,
-	  options: []
-	},
+
+	ancestry: LOADING_CALCULATED_COMBOBOX,
+	ancestry_trait: LOADING_CALCULATED_COMBOBOX,
+	archetype: LOADING_CALCULATED_COMBOBOX,
+	profession1: LOADING_CALCULATED_COMBOBOX,
+	profession2: LOADING_CALCULATED_COMBOBOX,
+	profession3: LOADING_CALCULATED_COMBOBOX,
+	talent: LOADING_CALCULATED_COMBOBOX,
 
 	profession_profile: {
 		profession1: LOADING_TIER,

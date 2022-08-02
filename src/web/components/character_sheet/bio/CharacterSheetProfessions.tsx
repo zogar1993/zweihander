@@ -10,7 +10,7 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetProfessions() {
-	const { character, professions, archetypes, tier1Professions } =
+	const { character: { archetype, profession1, profession2, profession3 } } =
 		useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
@@ -20,57 +20,45 @@ export default function CharacterSheetProfessions() {
 			<Field
 				type="combobox"
 				label="Archetype"
-				options={archetypes}
-				value={character.archetype}
-				disabled={character.profession1 !== null || !isOwner}
-				onChange={value =>
-					dispatch({ type: ActionType.SetArchetype, payload: value })
-				}
+				value={archetype.code}
+				options={archetype.options}
+				disabled={archetype.disabled || !isOwner}
+				onChange={value => dispatch({ type: ActionType.SetArchetype, payload: value })}
 			/>
 			<Field
 				type="combobox"
 				label="Profession 1"
-				options={tier1Professions}
-				value={character.profession1}
-				disabled={character.profession2 !== null || !isOwner}
-				onChange={value =>
-					dispatch({ type: ActionType.SetProfession1, payload: value })
-				}
+				value={profession1.code}
+				options={profession1.options}
+				disabled={profession1.disabled || !isOwner}
+				onChange={value => dispatch({ type: ActionType.SetProfession1, payload: value })}
 			/>
 			<Field
 				type="combobox"
 				label="Profession 2"
-				options={professions}
-				value={character.profession2}
-				disabled={
-					character.profession1 === null ||
-					character.profession3 !== null ||
-					!isOwner
-				}
-				onChange={value =>
-					dispatch({ type: ActionType.SetProfession2, payload: value })
-				}
+				value={profession2.code}
+				options={profession2.options}
+				disabled={profession2.disabled || !isOwner}
+				onChange={value => dispatch({ type: ActionType.SetProfession2, payload: value })}
 			/>
 			<Field
 				type="combobox"
 				label="Profession 3"
-				options={professions}
-				value={character.profession3}
-				disabled={character.profession2 === null || !isOwner}
-				onChange={value =>
-					dispatch({ type: ActionType.SetProfession3, payload: value })
-				}
+				value={profession3.code}
+				options={profession3.options}
+				disabled={profession3.disabled || !isOwner}
+				onChange={value => dispatch({ type: ActionType.SetProfession3, payload: value })}
 			/>
 		</Container>
 	)
 }
 
 const Container = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: ${theme.spacing.separation};
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${theme.spacing.separation};
 
-	@media (max-width: 768px) {
-		grid-template-columns: 1fr;
-	}
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `

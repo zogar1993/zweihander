@@ -11,8 +11,7 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetTalents() {
-	const { character, comboboxes } = useCharacterSheetState()
-	const { options: talents } = comboboxes.talents
+	const { character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
 
@@ -22,14 +21,14 @@ export default function CharacterSheetTalents() {
 				<Field
 					label="Talent"
 					type="combobox"
-					options={talents}
+					value={character.talent.code}
+					options={character.talent.options}
 					onChange={value =>
 						dispatch({
 							type: ActionType.AddTalent,
 							payload: value as string
 						})
 					}
-					value={null}
 					unclearable
 				/>
 			)}

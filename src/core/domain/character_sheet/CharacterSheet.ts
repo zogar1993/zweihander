@@ -1,3 +1,4 @@
+import { Archetype } from "@core/actions/GetArchetypes"
 import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
@@ -38,13 +39,15 @@ export function calculateCharacterSheet({
 																					ancestries,
 																					professions,
 																					schools,
-																					talents
+																					talents,
+																					archetypes
 																				}: {
 	character: SanitizedCharacterSheet
 	ancestries: Array<AncestryTech>
 	professions: Array<ProfessionTech>
 	schools: Array<MagicSchoolTech>
 	talents: Array<TalentTech>
+	archetypes: Array<Archetype>
 }): {
 	character: CalculatedCharacterSheet
 } {
@@ -87,9 +90,34 @@ export function calculateCharacterSheet({
 				options: calculateAncestryTraits(character.ancestry, ancestries),
 				disabled: character.ancestry === null
 			},
+			archetype: {
+				code: character.archetype,
+				options: archetypes,
+				disabled: character.profession1 !== null
+			},
+			profession1: {
+				code: character.profession1,
+				options: calculateTier1Professions(character.archetype, professions, archetypes),
+				disabled: character.profession2 !== null
+			},
+			profession2: {
+				code: character.profession2,
+				options: professions,
+				disabled: character.profession1 === null || character.profession3 !== null
+			},
+			profession3: {
+				code: character.profession3,
+				options: professions,
+				disabled: character.profession2 === null
+			},
+			talent: {
+				code: null,
+				options: getTalentOptions(character, talents)
+			},
+
+
 			age: character.age,
 			avatar: character.avatar,
-			archetype: character.archetype,
 			chaos_alignment: character.chaos_alignment,
 			chaos_ranks: character.chaos_ranks,
 			corruption: character.corruption,
@@ -104,9 +132,6 @@ export function calculateCharacterSheet({
 			social_class: character.social_class,
 			upbringing: character.upbringing,
 			updated_at: character.updated_at,
-			profession1: character.profession1,
-			profession2: character.profession2,
-			profession3: character.profession3,
 
 			attributes,
 			damage: {
@@ -370,7 +395,6 @@ export type CalculatedCharacterSheet = Readonly<{
 	age: number
 	sex: string | null
 
-	archetype: string | null
 	social_class: string | null
 	upbringing: string | null
 	avatar: string | null
@@ -380,19 +404,13 @@ export type CalculatedCharacterSheet = Readonly<{
 	chaos_ranks: number
 	corruption: number
 
-	ancestry: {
-		code: string | null | undefined
-		options: ReadonlyArray<Item>
-		disabled?: boolean
-	}
-	ancestry_trait: {
-		code: string | null | undefined
-		options: ReadonlyArray<Item>
-		disabled?: boolean
-	}
-	profession1: string | null
-	profession2: string | null
-	profession3: string | null
+	ancestry: CalculatedCombobox
+	ancestry_trait: CalculatedCombobox
+	archetype: CalculatedCombobox
+	profession1: CalculatedCombobox
+	profession2: CalculatedCombobox
+	profession3: CalculatedCombobox
+	talent: CalculatedCombobox
 
 	encumbrance_limit: number
 	initiative: number
@@ -500,3 +518,39 @@ export type MagicSchoolTech = Pick<MagicSchool, "name" | "code" | "source"> & {
 }
 
 export type TalentTech = TraitTech
+
+type CalculatedCombobox = {
+	code: string | null | undefined
+	options: ReadonlyArray<Item>
+	disabled?: boolean
+}
+
+function getTalentOptions(
+	character: SanitizedCharacterSheet,
+	talents: Array<TalentTech>
+) {
+	return talents.filter(x => !character.talents.includes(x.code))
+}
+
+
+function calculateTier1Professions(
+	archetype: string | null,
+	professions: Array<ProfessionTech>,
+	archetypes: Array<Archetype>
+): Array<ProfessionTech> {
+	if (archetype === null) {
+		return professions.filter(profession =>
+			archetypes.some(archetype =>
+				archetype.professions["Main Gauche"].some(
+					prof => prof.profession === profession.code
+				)
+			)
+		)
+	}
+
+	const names = getByCode(archetype, archetypes).professions["Main Gauche"]
+	return names.map(x => ({
+		...x,
+		...getByCode(x.profession, professions)
+	}))
+}
