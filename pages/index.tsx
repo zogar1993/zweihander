@@ -9,6 +9,7 @@ export default function Homepage() {
 					the character sheet
 				</li>
 				<li>- 20220802 - STYLE now profession tiers always show, which means they no longer cause layout shifts </li>
+				<li>- 20220802 - STYLE now profession tiers show the name of the items instead of the code </li>
 			</ul>
 		</>
 	)

@@ -3,12 +3,12 @@ import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
-import calculateAncestryTraits from "@core/domain/character_sheet/calculations/CalculateAncestryTraits"
 import calculateProfessionProfile, {
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
 import calculateTalents from "@core/domain/character_sheet/calculations/CalculateTalents"
+import Comboboxify from "@core/domain/character_sheet/Comboboxify"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { Item } from "@core/domain/Item"
@@ -76,45 +76,19 @@ export function calculateCharacterSheet({
 
 	const profession_profile = calculateProfessionProfile({
 		character,
-		professions: _professions
+		professions: _professions,
+		talents
 	})
 
 	return {
 		character: {
-			ancestry: {
-				code: character.ancestry,
-				options: ancestries
-			},
-			ancestry_trait: {
-				code: character.ancestry_trait,
-				options: calculateAncestryTraits(character.ancestry, ancestries),
-				disabled: character.ancestry === null
-			},
-			archetype: {
-				code: character.archetype,
-				options: archetypes,
-				disabled: character.profession1 !== null
-			},
-			profession1: {
-				code: character.profession1,
-				options: calculateTier1Professions(character.archetype, professions, archetypes),
-				disabled: character.profession2 !== null
-			},
-			profession2: {
-				code: character.profession2,
-				options: professions,
-				disabled: character.profession1 === null || character.profession3 !== null
-			},
-			profession3: {
-				code: character.profession3,
-				options: professions,
-				disabled: character.profession2 === null
-			},
-			talent: {
-				code: null,
-				options: getTalentOptions(character, talents)
-			},
-
+			ancestry: Comboboxify.ancestry({ character, ancestries }),
+			ancestry_trait: Comboboxify.ancestryTrait({ character, ancestries }),
+			archetype: Comboboxify.archetype({ character, archetypes }),
+			profession1: Comboboxify.profession1({ character, professions, archetypes }),
+			profession2: Comboboxify.profession2({ character, professions }),
+			profession3: Comboboxify.profession3({ character, professions }),
+			talent: Comboboxify.talent({ character, talents }),
 
 			age: character.age,
 			avatar: character.avatar,
@@ -519,38 +493,8 @@ export type MagicSchoolTech = Pick<MagicSchool, "name" | "code" | "source"> & {
 
 export type TalentTech = TraitTech
 
-type CalculatedCombobox = {
+export type CalculatedCombobox = {
 	code: string | null | undefined
 	options: ReadonlyArray<Item>
 	disabled?: boolean
-}
-
-function getTalentOptions(
-	character: SanitizedCharacterSheet,
-	talents: Array<TalentTech>
-) {
-	return talents.filter(x => !character.talents.includes(x.code))
-}
-
-
-function calculateTier1Professions(
-	archetype: string | null,
-	professions: Array<ProfessionTech>,
-	archetypes: Array<Archetype>
-): Array<ProfessionTech> {
-	if (archetype === null) {
-		return professions.filter(profession =>
-			archetypes.some(archetype =>
-				archetype.professions["Main Gauche"].some(
-					prof => prof.profession === profession.code
-				)
-			)
-		)
-	}
-
-	const names = getByCode(archetype, archetypes).professions["Main Gauche"]
-	return names.map(x => ({
-		...x,
-		...getByCode(x.profession, professions)
-	}))
 }

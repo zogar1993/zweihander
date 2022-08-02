@@ -5,20 +5,31 @@ import calculateProfessionProfile, {
 	Expenditure,
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
-import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
+import { ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { getByCode } from "@core/domain/general/GetByCode"
+import { Item } from "@core/domain/Item"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
-import { TEST_PROFESSIONS } from "@tests/web_tests/character_sheet/utils/collections"
+import { TEST_PROFESSIONS, TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
+
+const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })
+
+const BLANK_TIER: CharacterTier = {
+	profession: { name: "", code: "" },
+	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
+	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
+	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM)
+}
 
 describe("CalculateProfessionProfile should", () => {
 	let professions: CalculateProfessionProfileProps["professions"] = []
 	let character = createEmptyCharacterSheet()
 	let profile: ProfessionProfile = {
-		profession1: null,
-		profession2: null,
-		profession3: null,
-		spending_outside_profession: [],
+		profession1: BLANK_TIER,
+		profession2: BLANK_TIER,
+		profession3: BLANK_TIER,
+		spending_outside_profession: []
 	}
 
 	beforeEach(() => {
@@ -97,7 +108,7 @@ describe("CalculateProfessionProfile should", () => {
 	}
 
 	function when_profession_profile_is_calculated() {
-		profile = calculateProfessionProfile({ character, professions })
+		profile = calculateProfessionProfile({ character, professions, talents: TEST_TALENTS })
 	}
 
 	function then_there_are_no_errors() {
@@ -111,7 +122,7 @@ describe("CalculateProfessionProfile should", () => {
 	}
 
 	function then_profession_1_is_set_without_spending() {
-		const profession1 = createProfileForProfession(PROFESSION_1)
+		const profession1 = getProfessionTierTemplate(PROFESSION_1)
 		expect(profile.profession1).toEqual(profession1)
 		expect(profile.profession2).toEqual(BLANK_TIER)
 		expect(profile.profession3).toEqual(BLANK_TIER)
@@ -129,17 +140,17 @@ describe("CalculateProfessionProfile should", () => {
 		expect(profile.profession1!.attributes.filter(x => x.checked)).toEqual(
 			spending
 				.filter(x => x.type === "attribute")
-				.map(x => ({ code: x.code, checked: true }))
+				.map(x => ({ code: x.code, checked: true, name: getByCode(x.code, ATTRIBUTE_DEFINITIONS).name }))
 		)
 		expect(profile.profession1!.skills.filter(x => x.checked)).toEqual(
 			spending
 				.filter(x => x.type === "skill")
-				.map(x => ({ code: x.code, checked: true }))
+				.map(x => ({ code: x.code, checked: true, name: getByCode(x.code, SKILL_DEFINITIONS).name }))
 		)
 		expect(profile.profession1!.talents.filter(x => x.checked)).toEqual(
 			spending
 				.filter(x => x.type === "talent")
-				.map(x => ({ code: x.code, checked: true }))
+				.map(x => ({ code: x.code, checked: true, name: getByCode(x.code, TEST_TALENTS).name }))
 		)
 	}
 })
@@ -185,32 +196,15 @@ const PROFESSION_1_SPENDING = [
 	{ type: "talent", code: PROFESSION_1.advances.talents[1] }
 ]
 
-function createProfileForProfession(profession: ProfessionTech) {
+	const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: false })
+
+function getProfessionTierTemplate(profession: ProfessionTech): CharacterTier {
 	return {
-		profession: {
-			name: profession.name,
-			code: profession.code
-		},
-		attributes: Object.entries(profession.advances.bonus_advances).flatMap(
-			([code, value]) =>
-				Array.from(Array(value), () => ({ code, checked: false }))
-		),
-		skills: profession.advances.skill_ranks.map(skill => ({
-			code: skill,
-			checked: false
-		})),
-		talents: profession.advances.talents.map(talent => ({
-			code: talent,
-			checked: false
-		}))
+		profession: { name: profession.name, code: profession.code },
+		attributes: Object.entries(profession.advances.bonus_advances).flatMap(([code, value]) =>
+			Array.from(Array(value), () => getByCode(code, ATTRIBUTE_DEFINITIONS))
+		).map(toItem),
+		skills: profession.advances.skill_ranks.map(code => getByCode(code, SKILL_DEFINITIONS)).map(toItem),
+		talents: profession.advances.talents.map(code => getByCode(code, TEST_TALENTS)).map(toItem)
 	}
-}
-
-
-const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ code: "", checked: false })
-const BLANK_TIER: CharacterTier = {
-	profession: { name: "", code: "" },
-	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
-	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
-	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM)
 }

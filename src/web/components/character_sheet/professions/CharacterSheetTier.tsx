@@ -5,10 +5,7 @@ import { CheckButton } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
-export default function CharacterSheetTier({
-																						 name,
-																						 tier
-																					 }: {
+export default function CharacterSheetTier({ name, tier }: {
 	name: string
 	tier: CharacterTier
 }) {
@@ -21,18 +18,18 @@ export default function CharacterSheetTier({
 			<Title>Attributes</Title>
 			<Grid columns={2}>
 				{tier.attributes.map((x, i) => (
-					<CheckButton text={x.code} checked={x.checked} key={`${i}-${x}`} />
+					<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`} />
 				))}
 			</Grid>
 			<Title>Skills</Title>
 			<Grid columns={2}>
 				{tier.skills.map((x, i) => (
-					<CheckButton text={x.code} checked={x.checked} key={`${i}-${x}`} />
+					<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`} />
 				))}
 			</Grid>
 			<Title>Talents</Title>
 			{tier.talents.map((x, i) => (
-				<CheckButton text={x.code} checked={x.checked} key={`${i}-${x}`} />
+				<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`} />
 			))}
 		</Container>
 	)
