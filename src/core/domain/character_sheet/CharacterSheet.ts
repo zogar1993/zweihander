@@ -17,14 +17,6 @@ import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Principle, Spell } from "@core/domain/Spell"
 import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 
-type Props = {
-	character: SanitizedCharacterSheet
-	ancestries: Array<AncestryTech>
-	professions: Array<ProfessionTech>
-	schools: Array<MagicSchoolTech>
-	talents: Array<TalentTech>
-}
-
 export enum Flip {
 	None,
 	ToFail,
@@ -46,7 +38,13 @@ export function calculateCharacterSheet({
 																					professions,
 																					schools,
 																					talents
-																				}: Props): CalculatedCharacterSheet {
+																				}: {
+	character: SanitizedCharacterSheet
+	ancestries: Array<AncestryTech>
+	professions: Array<ProfessionTech>
+	schools: Array<MagicSchoolTech>
+	talents: Array<TalentTech>
+}): CalculatedCharacterSheet {
 	const ancestry = calculateAncestry({ character, ancestries })
 	const _professions = calculateProfessions({ character, professions })
 	const _talents = calculateTalents({
@@ -76,19 +74,30 @@ export function calculateCharacterSheet({
 	})
 
 	return {
-		...character,
+		ancestry: character.ancestry,
+		ancestry_trait: character.ancestry_trait,
+		age: character.age,
+		avatar: character.avatar,
+		archetype: character.archetype,
+		chaos_alignment: character.chaos_alignment,
+		chaos_ranks: character.chaos_ranks,
+		corruption: character.corruption,
+		created_by: character.created_by,
+		id: character.id,
+		journal: character.journal,
+		name: character.name,
+		order_alignment: character.order_alignment,
+		order_ranks: character.order_ranks,
+		sex: character.sex,
+		settings: character.settings,
+		social_class: character.social_class,
+		upbringing: character.upbringing,
+		updated_at: character.updated_at,
+		profession1: character.profession1,
+		profession2: character.profession2,
+		profession3: character.profession3,
+
 		attributes,
-		schools: formatSpells(character.spells, schools),
-		focuses: formatFocuses(character.focuses),
-		talents: _talents,
-		spent_experience: spentExperience({
-			character,
-			attributes,
-			schools
-		}),
-		encumbrance_limit: 3 + getAttribute("brawn").bonus,
-		initiative: 3 + getAttribute("perception").bonus,
-		movement: 3 + getAttribute("agility").bonus,
 		damage: {
 			value: character.damage,
 			threshold: getAttribute("brawn").bonus
@@ -97,24 +106,33 @@ export function calculateCharacterSheet({
 			value: character.peril,
 			threshold: getAttribute("willpower").bonus + 3
 		},
+		schools: formatSpells(character.spells, schools),
+		focuses: formatFocuses(character.focuses),
+		talents: _talents,
+		encumbrance_limit: 3 + getAttribute("brawn").bonus,
+		initiative: 3 + getAttribute("perception").bonus,
+		movement: 3 + getAttribute("agility").bonus,
 		maximum_focuses: getAttribute("intelligence").bonus,
 		maximum_languages: getAttribute("fellowship").bonus,
+		spent_experience: spentExperience({
+			character,
+			attributes,
+			schools
+		}),
 		special_rules: special_rules,
 		profession_profile
 	}
-}
-
-type GetAttributeProps = {
-	character: SanitizedCharacterSheet
-	ancestry: AncestryTech | null
-	professions: Array<ProfessionTech>
 }
 
 function getAttributes({
 												 character,
 												 ancestry,
 												 professions
-											 }: GetAttributeProps): Array<CalculatedAttribute> {
+											 }: {
+	character: Pick<SanitizedCharacterSheet, "attributes" | "skills" | "mercy" | "peril" | "focuses">
+	ancestry: Pick<AncestryTech, "attribute_bonuses"> | null
+	professions: Array<Pick<ProfessionTech, "advances">>
+}): Array<CalculatedAttribute> {
 	return ATTRIBUTE_DEFINITIONS.map(attribute => {
 		const { base: raw_base, advances } = character.attributes[attribute.code]
 		const ancestry_bonus = ancestry?.attribute_bonuses[attribute.code] || 0
@@ -162,22 +180,19 @@ function getAttributes({
 	})
 }
 
-type GetSpecialRulesProps = {
-	character: SanitizedCharacterSheet
-	talents: Array<TalentTech>
-	professions: Array<ProfessionTech>
-	ancestry: AncestryTech | null
-}
-
 function getSpecialRules({
 													 character,
 													 talents,
 													 professions,
 													 ancestry
-												 }: GetSpecialRulesProps) {
-	const ancestry_trait = ancestry?.traits.find(
-		x => x.code === character.ancestry_trait
-	)
+												 }: {
+	character: SanitizedCharacterSheet
+	talents: Array<TalentTech>
+	professions: Array<ProfessionTech>
+	ancestry: AncestryTech | null
+}): Array<SpecialRule> {
+	const ancestry_trait = ancestry ?
+		ancestry.traits.find(x => x.code === character.ancestry_trait) : null
 	return [
 		...(ancestry_trait ? [ancestry_trait] : []),
 		...character.talents.map(x => getByCode(x!, talents)),

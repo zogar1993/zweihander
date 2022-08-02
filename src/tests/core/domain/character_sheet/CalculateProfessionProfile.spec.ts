@@ -1,7 +1,7 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateProfessionProfile, {
-	CalculateProfessionProfileProps,
+	CalculateProfessionProfileProps, CharacterTier,
 	Expenditure,
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
@@ -105,16 +105,16 @@ describe("CalculateProfessionProfile should", () => {
 	}
 
 	function then_there_are_no_professions() {
-		expect(profile.profession1).toBeNull()
-		expect(profile.profession2).toBeNull()
-		expect(profile.profession3).toBeNull()
+		expect(profile.profession1).toEqual(BLANK_TIER)
+		expect(profile.profession2).toEqual(BLANK_TIER)
+		expect(profile.profession3).toEqual(BLANK_TIER)
 	}
 
 	function then_profession_1_is_set_without_spending() {
 		const profession1 = createProfileForProfession(PROFESSION_1)
 		expect(profile.profession1).toEqual(profession1)
-		expect(profile.profession2).toBeNull()
-		expect(profile.profession3).toBeNull()
+		expect(profile.profession2).toEqual(BLANK_TIER)
+		expect(profile.profession3).toEqual(BLANK_TIER)
 	}
 
 	function then_there_are_errors_for_spending_outside_profession(
@@ -207,136 +207,10 @@ function createProfileForProfession(profession: ProfessionTech) {
 }
 
 
-
-describe("CalculateProfessionProfile should", () => {
-	let professions: CalculateProfessionProfileProps["professions"] = []
-	let character = createEmptyCharacterSheet()
-	let profile: ProfessionProfile = {
-		profession1: null,
-		profession2: null,
-		profession3: null,
-		spending_outside_profession: []
-	}
-
-	beforeEach(() => {
-		character = createEmptyCharacterSheet()
-	})
-
-	describe("while having no professions", () => {
-		beforeEach(() => {
-			professions = []
-		})
-
-		it("be ok if character has no spending", async () => {
-			given_character_sheet_has_no_spending()
-
-			when_profession_profile_is_calculated()
-
-			then_there_are_no_errors()
-			then_there_are_no_professions()
-		})
-
-		it("have spending outside of profession if it has any spending", async () => {
-			given_character_sheet_has_spending(ILLEGAL_SPENDING)
-
-			when_profession_profile_is_calculated()
-
-			then_there_are_errors_for_spending_outside_profession(ILLEGAL_SPENDING)
-			then_there_are_no_professions()
-		})
-	})
-
-	describe("while having first profession", () => {
-		beforeEach(() => {
-			professions = [PROFESSION_1]
-		})
-
-		it("be ok if character has no spending", async () => {
-			given_character_sheet_has_no_spending()
-
-			when_profession_profile_is_calculated()
-
-			then_there_are_no_errors()
-			then_profession_1_is_set_without_spending()
-		})
-
-		it("be ok if character has profession spending", async () => {
-			given_character_sheet_has_spending(PROFESSION_1_SPENDING)
-
-			when_profession_profile_is_calculated()
-
-			then_there_are_no_errors()
-			then_profession_1_is_set_with_spending(PROFESSION_1_SPENDING)
-		})
-	})
-
-	function given_character_sheet_has_no_spending() {
-		character = createEmptyCharacterSheet()
-	}
-
-	function given_character_sheet_has_spending(spending: Array<Expenditure>) {
-		character = createEmptyCharacterSheet()
-		spending.forEach(x => {
-			switch (x.type) {
-				case "attribute":
-					character.attributes[x.code as AttributeCode].advances++
-					break
-				case "skill":
-					character.skills[x.code as SkillCode].ranks++
-					break
-				case "talent":
-					character.talents.push(x.code)
-					break
-				default:
-					throw Error(`"${x.type}" is not a valid type`)
-			}
-		})
-	}
-
-	function when_profession_profile_is_calculated() {
-		profile = calculateProfessionProfile({ character, professions })
-	}
-
-	function then_there_are_no_errors() {
-		expect(profile.spending_outside_profession).toHaveLength(0)
-	}
-
-	function then_there_are_no_professions() {
-		expect(profile.profession1).toBeNull()
-		expect(profile.profession2).toBeNull()
-		expect(profile.profession3).toBeNull()
-	}
-
-	function then_profession_1_is_set_without_spending() {
-		const profession1 = createProfileForProfession(PROFESSION_1)
-		expect(profile.profession1).toEqual(profession1)
-		expect(profile.profession2).toBeNull()
-		expect(profile.profession3).toBeNull()
-	}
-
-	function then_there_are_errors_for_spending_outside_profession(
-		errors: Array<Expenditure>
-	) {
-		expect(profile.spending_outside_profession).toEqual(errors)
-	}
-
-	function then_profession_1_is_set_with_spending(
-		spending: Array<Expenditure>
-	) {
-		expect(profile.profession1!.attributes.filter(x => x.checked)).toEqual(
-			spending
-				.filter(x => x.type === "attribute")
-				.map(x => ({ code: x.code, checked: true }))
-		)
-		expect(profile.profession1!.skills.filter(x => x.checked)).toEqual(
-			spending
-				.filter(x => x.type === "skill")
-				.map(x => ({ code: x.code, checked: true }))
-		)
-		expect(profile.profession1!.talents.filter(x => x.checked)).toEqual(
-			spending
-				.filter(x => x.type === "talent")
-				.map(x => ({ code: x.code, checked: true }))
-		)
-	}
-})
+const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ code: "", checked: false })
+const BLANK_TIER: CharacterTier = {
+	profession: { name: "", code: "" },
+	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
+	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
+	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM)
+}

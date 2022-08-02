@@ -80,7 +80,7 @@ export default function calculateTalents({
 		}
 	})
 
-	//This is so that you can buy profession3 talents for less experience
+	//TODO This is so that you can buy profession3 talents for less experience
 	//This fixes weird edge case where:
 	//- buy A_TALENT (with second profession wildcard)
 	//- buy A_PROFESSION (includes A_TALENT for advance)

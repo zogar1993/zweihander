@@ -21,9 +21,9 @@ export default function calculateProfessionProfile({
 	})
 
 	return {
-		profession1: tiers[0] ? tiers[0] : null,
-		profession2: tiers[1] ? tiers[1] : null,
-		profession3: tiers[2] ? tiers[2] : null,
+		profession1: tiers[0] ? tiers[0] : BLANK_TIER,
+		profession2: tiers[1] ? tiers[1] : BLANK_TIER,
+		profession3: tiers[2] ? tiers[2] : BLANK_TIER,
 		spending_outside_profession: temporaryHackConcatForResult(expenditures)
 	}
 }
@@ -82,9 +82,9 @@ type CharacterSheet = {
 }
 
 export type ProfessionProfile = {
-	profession1: null | CharacterTier
-	profession2: null | CharacterTier
-	profession3: null | CharacterTier
+	profession1: CharacterTier
+	profession2: CharacterTier
+	profession3: CharacterTier
 	spending_outside_profession: Array<Expenditure>
 }
 
@@ -105,4 +105,12 @@ function temporaryHackConcatForResult(wea: CharacterExpenditures) {
 		.map(x => ({ code: x, type: "attribute" }))
 		.concat(wea.skills.map(x => ({ code: x, type: "skill" })))
 		.concat(wea.talents.map(x => ({ code: x, type: "talent" })))
+}
+
+const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ code: "", checked: false })
+const BLANK_TIER: CharacterTier = {
+	profession: { name: "", code: "" },
+	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
+	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
+	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM)
 }

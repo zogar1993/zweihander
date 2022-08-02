@@ -8,6 +8,6 @@ export default function calculateAncestry({
 }: {
 	character: Pick<SanitizedCharacterSheet, "ancestry">
 	ancestries: Array<AncestryTech>
-}) {
+}): AncestryTech | null {
 	return character.ancestry ? getByCode(character.ancestry, ancestries) : null
 }
