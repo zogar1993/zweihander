@@ -10,7 +10,7 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetAncestry() {
-	const { character, ancestries, ancestryTraits } = useCharacterSheetState()
+	const { character: {ancestry, ancestry_trait} } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
 
@@ -19,8 +19,8 @@ export default function CharacterSheetAncestry() {
 			<Field
 				type="combobox"
 				label="Ancestry"
-				options={ancestries}
-				value={character.ancestry}
+				value={ancestry.code}
+				options={ancestry.options}
 				onChange={value =>
 					dispatch({ type: ActionType.SetAncestry, payload: value })
 				}
@@ -29,12 +29,12 @@ export default function CharacterSheetAncestry() {
 			<Field
 				type="combobox"
 				label="Ancestry Trait"
-				options={ancestryTraits}
-				value={character.ancestry_trait}
+				value={ancestry_trait.code}
+				options={ancestry_trait.options}
 				onChange={value =>
 					dispatch({ type: ActionType.SetAncestryTrait, payload: value })
 				}
-				disabled={character.ancestry === null || !isOwner}
+				disabled={ancestry_trait.disabled || !isOwner}
 			/>
 		</Container>
 	)

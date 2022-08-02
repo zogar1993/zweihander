@@ -18,20 +18,22 @@ import { SkillCode } from "@core/domain/skill/SkillCode"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 import { PLACEHOLDER_CHARACTER_SHEET_STATE } from "@web/components/character_sheet/context/placeholders"
-import useInitializeCharacterSheetReducer from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
+import useInitializeCharacterSheetReducer
+	from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
 import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, ReactNode, useContext, useReducer } from "react"
 
 const CharacterSheetContext = React.createContext({
 	state: PLACEHOLDER_CHARACTER_SHEET_STATE,
-	dispatch: (() => {}) as Dispatch<CharacterSheetAction>
+	dispatch: (() => {
+	}) as Dispatch<CharacterSheetAction>
 })
 
 export function CharacterSheetContextProvider({
-	children,
-	dependencies
-}: {
+																								children,
+																								dependencies
+																							}: {
 	children: ReactNode
 	dependencies: Partial<CharacterSheetProps>
 }) {
@@ -55,7 +57,6 @@ export type CharacterSheetState = {
 		talents: { options: Array<TalentTech> }
 	}
 	tier1Professions: Array<ProfessionTech>
-	ancestryTraits: Array<AncestryTraitTech>
 	modals: {
 		confirmation: Confirmation | null
 	}
@@ -109,23 +110,19 @@ function characterSheetReducer(
 	switch (action.type) {
 		case ActionType.Initialize: {
 			const props = action.payload
+			const {character} = calculateCharacterSheet(props)
 			return {
 				...props,
 				_character: props.character,
-				character: calculateCharacterSheet(props),
-
-				ancestryTraits: calculateAncestryTraits(
-					props.character.ancestry,
-					props
-				),
-				tier1Professions: calculateTier1Professions(
+				character: character,
+				tier1Professions: calculateTier1Professions(//TODO MFD
 					props.character.archetype,
 					props
 				),
 				comboboxes: {
 					schools: { value: null, options: props.schools },
 					spells: { options: [] },
-					talents: { options: getTalentOptions(props.character, props.talents) }
+					talents: { options: getTalentOptions(props.character, props.talents) }//TODO MFD
 				},
 				modals: {
 					confirmation: null
@@ -153,14 +150,11 @@ function characterSheetReducer(
 			return forwardChange(["set_value", "upbringing", action.payload])
 		case ActionType.SetSocialClass:
 			return forwardChange(["set_value", "social_class", action.payload])
-		case ActionType.SetAncestry: {
-			const newState = forwardChange(
+		case ActionType.SetAncestry:
+			return forwardChange(
 				["set_value", "ancestry_trait", null],
 				["set_value", "ancestry", action.payload]
 			)
-			const ancestryTraits = calculateAncestryTraits(action.payload, state)
-			return { ...newState, ancestryTraits }
-		}
 		case ActionType.SetAncestryTrait:
 			return forwardChange(["set_value", "ancestry_trait", action.payload])
 		case ActionType.SetArchetype: {
@@ -388,9 +382,9 @@ export type CharacterSheetAction =
 	| { type: ActionType.Initialize; payload: CharacterSheetProps }
 	| { type: ActionType.SetName; payload: string }
 	| {
-			type: ActionType.SetAvatar
-			payload: { avatar: string; thumbnail: string }
-	  }
+	type: ActionType.SetAvatar
+	payload: { avatar: string; thumbnail: string }
+}
 	| { type: ActionType.SetAge; payload: number }
 	| { type: ActionType.SetSex; payload: string | null }
 	| { type: ActionType.SetUpbringing; payload: string | null }
@@ -404,60 +398,61 @@ export type CharacterSheetAction =
 	| { type: ActionType.SetChaosAlignment; payload: string | null }
 	| { type: ActionType.SetOrderAlignment; payload: string | null }
 	| {
-			type: ActionType.SetSkillRanks
-			payload: { skill: SkillCode; value: number }
-	  }
+	type: ActionType.SetSkillRanks
+	payload: { skill: SkillCode; value: number }
+}
 	| {
-			type: ActionType.SetAttributeAdvancements
-			payload: { attribute: AttributeCode; value: number }
-	  }
+	type: ActionType.SetAttributeAdvancements
+	payload: { attribute: AttributeCode; value: number }
+}
 	| {
-			type: ActionType.SetAttributeBase
-			payload: { attribute: AttributeCode; value: number }
-	  }
+	type: ActionType.SetAttributeBase
+	payload: { attribute: AttributeCode; value: number }
+}
 	| { type: ActionType.SetCorruption; payload: number }
 	| { type: ActionType.SetOrderRanks; payload: number }
 	| { type: ActionType.SetChaosRanks; payload: number }
 	| { type: ActionType.AddSpell; payload: { spell: string; school: string } }
 	| {
-			type: ActionType.RemoveSpell
-			payload: { spell: string; school: string }
-	  }
+	type: ActionType.RemoveSpell
+	payload: { spell: string; school: string }
+}
 	| { type: ActionType.AddFocus; payload: { focus: string; skill: SkillCode } }
 	| {
-			type: ActionType.RemoveFocus
-			payload: { focus: string; skill: SkillCode }
-	  }
+	type: ActionType.RemoveFocus
+	payload: { focus: string; skill: SkillCode }
+}
 	| { type: ActionType.AddTalent; payload: string }
 	| { type: ActionType.RemoveTalent; payload: string }
 	| { type: ActionType.UndoLastAction }
 	| { type: ActionType.SetJournal; payload: string }
 	| {
-			type: ActionType.SetSettings
-			payload: { visibility?: string }
-	  }
+	type: ActionType.SetSettings
+	payload: { visibility?: string }
+}
 	| {
-			type: ActionType.SetComboboxValue
-			payload: { combobox: "schools"; value: string | null }
-	  }
+	type: ActionType.SetComboboxValue
+	payload: { combobox: "schools"; value: string | null }
+}
 	| { type: ActionType.SetConfirmationModal; payload: Confirmation | null }
 	| { type: ActionType.SetPerilCondition; payload: number | null }
 	| { type: ActionType.SetDamageCondition; payload: number | null }
 	| {
-			type: ActionType.CompleteAction
-			payload: { updatedAt: string; completed: Array<UpdateAction> }
-	  }
+	type: ActionType.CompleteAction
+	payload: { updatedAt: string; completed: Array<UpdateAction> }
+}
 
 function changeFromCharacterSheet(
 	changes: Array<UpdateAction>,
 	state: CharacterSheetState
-) {
-	const character = applyActionsToCharacter(state._character, changes)
+): CharacterSheetState {
+	const _character = applyActionsToCharacter(state._character, changes)
 	const updates = [...state._pendingUpdates, changes]
+	const {character} = calculateCharacterSheet({ ...state, character: _character })
 	return {
 		...state,
-		_character: character,
-		character: calculateCharacterSheet({ ...state, character }),
+		_character: _character,
+		character: character,
 		_pendingUpdates: updates,
 		nextUpdate: updates[0]
 	}
@@ -484,13 +479,6 @@ function generateUndoActions(
 				return { action: "set_value", property, value: old }
 		}
 	})
-}
-
-function calculateAncestryTraits(
-	ancestry: string | null,
-	state: Pick<CharacterSheetState, "ancestries">
-): Array<AncestryTraitTech> {
-	return ancestry === null ? [] : getByCode(ancestry, state.ancestries).traits
 }
 
 function calculateTier1Professions(

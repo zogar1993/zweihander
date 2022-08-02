@@ -39,6 +39,7 @@ describe("useCharacterUpdatesQueue should", () => {
 		)
 	})
 
+//TODO flaky
 	it("call the API twice when queueing 2 actions before the first call", async () => {
 		await render_character_sheet({ upbringing: null })
 		updateCharacterOfIdSpy.mockReturnValue(

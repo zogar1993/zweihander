@@ -6,13 +6,12 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetTier({
-	name,
-	tier
-}: {
+																						 name,
+																						 tier
+																					 }: {
 	name: string
-	tier: CharacterTier | null
+	tier: CharacterTier
 }) {
-	if (tier === null) return null
 
 	return (
 		<Container>
@@ -21,36 +20,36 @@ export default function CharacterSheetTier({
 			<CheckButton text={tier.profession.name} checked={false} />
 			<Title>Attributes</Title>
 			<Grid columns={2}>
-				{tier.attributes.map(x => (
-					<CheckButton text={x.code} checked={x.checked} />
+				{tier.attributes.map((x, i) => (
+					<CheckButton text={x.code} checked={x.checked} key={`${i}-${x}`} />
 				))}
 			</Grid>
 			<Title>Skills</Title>
 			<Grid columns={2}>
-				{tier.skills.map(x => (
-					<CheckButton text={x.code} checked={x.checked} />
+				{tier.skills.map((x, i) => (
+					<CheckButton text={x.code} checked={x.checked} key={`${i}-${x}`} />
 				))}
 			</Grid>
 			<Title>Talents</Title>
-			{tier.talents.map(x => (
-				<CheckButton text={x.code} checked={x.checked} />
+			{tier.talents.map((x, i) => (
+				<CheckButton text={x.code} checked={x.checked} key={`${i}-${x}`} />
 			))}
 		</Container>
 	)
 }
 
 const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: ${theme.spacing.separation};
-	border: ${theme.spacing.separation} solid ${theme.colors.border};
-	padding: ${theme.spacing.padding};
-	border-radius: ${theme.borders.radius};
-	align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.separation};
+  border: ${theme.spacing.separation} solid ${theme.colors.border};
+  padding: ${theme.spacing.padding};
+  border-radius: ${theme.borders.radius};
+  align-items: stretch;
 `
 
 const Title = styled.span`
-	padding: ${theme.spacing.separation};
-	text-align: center;
-	font-size: 20px;
+  padding: ${theme.spacing.separation};
+  text-align: center;
+  font-size: 20px;
 `

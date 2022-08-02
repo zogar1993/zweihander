@@ -2,6 +2,7 @@ import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
+import calculateAncestryTraits from "@core/domain/character_sheet/calculations/CalculateAncestryTraits"
 import calculateProfessionProfile, {
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
@@ -44,7 +45,9 @@ export function calculateCharacterSheet({
 	professions: Array<ProfessionTech>
 	schools: Array<MagicSchoolTech>
 	talents: Array<TalentTech>
-}): CalculatedCharacterSheet {
+}): {
+	character: CalculatedCharacterSheet
+} {
 	const ancestry = calculateAncestry({ character, ancestries })
 	const _professions = calculateProfessions({ character, professions })
 	const _talents = calculateTalents({
@@ -74,53 +77,62 @@ export function calculateCharacterSheet({
 	})
 
 	return {
-		ancestry: character.ancestry,
-		ancestry_trait: character.ancestry_trait,
-		age: character.age,
-		avatar: character.avatar,
-		archetype: character.archetype,
-		chaos_alignment: character.chaos_alignment,
-		chaos_ranks: character.chaos_ranks,
-		corruption: character.corruption,
-		created_by: character.created_by,
-		id: character.id,
-		journal: character.journal,
-		name: character.name,
-		order_alignment: character.order_alignment,
-		order_ranks: character.order_ranks,
-		sex: character.sex,
-		settings: character.settings,
-		social_class: character.social_class,
-		upbringing: character.upbringing,
-		updated_at: character.updated_at,
-		profession1: character.profession1,
-		profession2: character.profession2,
-		profession3: character.profession3,
+		character: {
+			ancestry: {
+				code: character.ancestry,
+				options: ancestries
+			},
+			ancestry_trait: {
+				code: character.ancestry_trait,
+				options: calculateAncestryTraits(character.ancestry, ancestries),
+				disabled: character.ancestry === null
+			},
+			age: character.age,
+			avatar: character.avatar,
+			archetype: character.archetype,
+			chaos_alignment: character.chaos_alignment,
+			chaos_ranks: character.chaos_ranks,
+			corruption: character.corruption,
+			created_by: character.created_by,
+			id: character.id,
+			journal: character.journal,
+			name: character.name,
+			order_alignment: character.order_alignment,
+			order_ranks: character.order_ranks,
+			sex: character.sex,
+			settings: character.settings,
+			social_class: character.social_class,
+			upbringing: character.upbringing,
+			updated_at: character.updated_at,
+			profession1: character.profession1,
+			profession2: character.profession2,
+			profession3: character.profession3,
 
-		attributes,
-		damage: {
-			value: character.damage,
-			threshold: getAttribute("brawn").bonus
-		},
-		peril: {
-			value: character.peril,
-			threshold: getAttribute("willpower").bonus + 3
-		},
-		schools: formatSpells(character.spells, schools),
-		focuses: formatFocuses(character.focuses),
-		talents: _talents,
-		encumbrance_limit: 3 + getAttribute("brawn").bonus,
-		initiative: 3 + getAttribute("perception").bonus,
-		movement: 3 + getAttribute("agility").bonus,
-		maximum_focuses: getAttribute("intelligence").bonus,
-		maximum_languages: getAttribute("fellowship").bonus,
-		spent_experience: spentExperience({
-			character,
 			attributes,
-			schools
-		}),
-		special_rules: special_rules,
-		profession_profile
+			damage: {
+				value: character.damage,
+				threshold: getAttribute("brawn").bonus
+			},
+			peril: {
+				value: character.peril,
+				threshold: getAttribute("willpower").bonus + 3
+			},
+			schools: formatSpells(character.spells, schools),
+			focuses: formatFocuses(character.focuses),
+			talents: _talents,
+			encumbrance_limit: 3 + getAttribute("brawn").bonus,
+			initiative: 3 + getAttribute("perception").bonus,
+			movement: 3 + getAttribute("agility").bonus,
+			maximum_focuses: getAttribute("intelligence").bonus,
+			maximum_languages: getAttribute("fellowship").bonus,
+			spent_experience: spentExperience({
+				character,
+				attributes,
+				schools
+			}),
+			special_rules: special_rules,
+			profession_profile
+		}
 	}
 }
 
@@ -368,7 +380,16 @@ export type CalculatedCharacterSheet = Readonly<{
 	chaos_ranks: number
 	corruption: number
 
-	ancestry: string | null
+	ancestry: {
+		code: string | null | undefined
+		options: ReadonlyArray<Item>
+		disabled?: boolean
+	}
+	ancestry_trait: {
+		code: string | null | undefined
+		options: ReadonlyArray<Item>
+		disabled?: boolean
+	}
 	profession1: string | null
 	profession2: string | null
 	profession3: string | null
@@ -383,7 +404,6 @@ export type CalculatedCharacterSheet = Readonly<{
 	peril: ConditionTrack
 	attributes: Array<CalculatedAttribute>
 	talents: Array<Item & { items: Array<Item> }>
-	ancestry_trait: string | null
 
 	journal: string
 	spent_experience: number

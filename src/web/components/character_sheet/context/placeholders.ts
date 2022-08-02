@@ -28,6 +28,14 @@ const LOADING_CALCULATED_CHARACTER_SHEET = {
 	settings: {},
 	peril: {},
 	damage: {},
+	ancestry: {
+		code: undefined,
+		options: []
+	},
+	ancestry_trait: {
+	  code: undefined,
+	  options: []
+	},
 
 	profession_profile: {
 		profession1: LOADING_TIER,
@@ -54,7 +62,6 @@ export const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 		spells: { options: [] },
 		talents: { options: [] }
 	},
-	ancestryTraits: [],
 	tier1Professions: [],
 	modals: {
 		confirmation: null
