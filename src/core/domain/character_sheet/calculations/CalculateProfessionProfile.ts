@@ -29,7 +29,7 @@ export default function calculateProfessionProfile({
 		profession1: tiers[0] ? tiers[0] : BLANK_TIER,
 		profession2: tiers[1] ? tiers[1] : BLANK_TIER,
 		profession3: tiers[2] ? tiers[2] : BLANK_TIER,
-		spending_outside_profession: temporaryHackConcatForResult(expenditures)
+		spending_outside_profession: getUniqueAdvances({expenditures, talents})
 	}
 }
 
@@ -60,7 +60,7 @@ function getCharacterExpenditures(
 	}
 }
 
-type CharacterExpenditures = Record<string, Array<string>>
+type CharacterExpenditures = Record<"attributes" | "skills" | "talents", Array<string>>
 export type Expenditure = { type: string; code: string }
 
 
@@ -80,6 +80,20 @@ function getProfessionTierTemplate({
 	}
 }
 
+function getUniqueAdvances({
+														 expenditures,
+														 talents
+													 }: {
+	expenditures: CharacterExpenditures,
+	talents: Array<TalentTech>
+}): ProfessionProfile["spending_outside_profession"] {
+	return {
+		attributes: expenditures.attributes.map(code => getByCode(code, ATTRIBUTE_DEFINITIONS)).map(toItem),
+		skills: expenditures.skills.map(code => getByCode(code, SKILL_DEFINITIONS)).map(toItem),
+		talents: expenditures.talents.map(code => getByCode(code, talents)).map(toItem)
+	}
+}
+
 export type CalculateProfessionProfileProps = {
 	character: CharacterSheet
 	professions: Array<Profession>
@@ -96,7 +110,7 @@ export type ProfessionProfile = {
 	profession1: CharacterTier
 	profession2: CharacterTier
 	profession3: CharacterTier
-	spending_outside_profession: Array<Expenditure>
+	spending_outside_profession: Omit<CharacterTier, "profession">
 }
 
 export type CharacterTier = {
@@ -110,13 +124,6 @@ type CharacterTierItem = {
 	name: string
 	code: string
 	checked: boolean
-}
-
-function temporaryHackConcatForResult(wea: CharacterExpenditures) {
-	return wea.attributes
-		.map(x => ({ code: x, type: "attribute" }))
-		.concat(wea.skills.map(x => ({ code: x, type: "skill" })))
-		.concat(wea.talents.map(x => ({ code: x, type: "talent" })))
 }
 
 const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })

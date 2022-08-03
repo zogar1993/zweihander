@@ -5,7 +5,7 @@ import calculateProfessionProfile, {
 	Expenditure,
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
-import { ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { Item } from "@core/domain/Item"
@@ -29,7 +29,7 @@ describe("CalculateProfessionProfile should", () => {
 		profession1: BLANK_TIER,
 		profession2: BLANK_TIER,
 		profession3: BLANK_TIER,
-		spending_outside_profession: []
+		spending_outside_profession: BLANK_TIER
 	}
 
 	beforeEach(() => {
@@ -112,7 +112,9 @@ describe("CalculateProfessionProfile should", () => {
 	}
 
 	function then_there_are_no_errors() {
-		expect(profile.spending_outside_profession).toHaveLength(0)
+		expect(profile.spending_outside_profession.attributes).toHaveLength(0)
+		expect(profile.spending_outside_profession.skills).toHaveLength(0)
+		expect(profile.spending_outside_profession.talents).toHaveLength(0)
 	}
 
 	function then_there_are_no_professions() {

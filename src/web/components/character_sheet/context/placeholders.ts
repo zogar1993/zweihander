@@ -46,7 +46,7 @@ const LOADING_CALCULATED_CHARACTER_SHEET = {
 		profession1: LOADING_TIER,
 		profession2: LOADING_TIER,
 		profession3: LOADING_TIER,
-		spending_outside_profession: []
+		spending_outside_profession: LOADING_TIER
 	}
 } as unknown as CalculatedCharacterSheet
 
