@@ -1,4 +1,5 @@
 import { CharacterTier } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
 import { CheckButton } from "misevi"
@@ -9,6 +10,7 @@ export default function CharacterSheetTier({ name, tier }: {
 	name: string
 	tier: CharacterTier
 }) {
+	const dispatch = useCharacterSheetDispatcher()
 
 	return (
 		<Container>
@@ -29,7 +31,8 @@ export default function CharacterSheetTier({ name, tier }: {
 			</Grid>
 			<Title>Talents</Title>
 			{tier.talents.map((x, i) => (
-				<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`} />
+				<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`}
+										 onChange={() => dispatch({ type: ActionType.RemoveTalent, payload: x.code })} />
 			))}
 		</Container>
 	)

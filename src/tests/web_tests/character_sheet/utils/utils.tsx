@@ -153,16 +153,16 @@ export async function then_radio_is_unchecked(name: string) {
 }
 
 export async function then_textbox_has_a_value_of(name: string, value: string) {
-	const checkbox = screen.getByRole("textbox", { name: name })
-	await waitFor(() => expect(checkbox).toHaveValue(value.toString()))
+	const textbox = screen.getByRole("textbox", { name: name })
+	await waitFor(() => expect(textbox).toHaveValue(value.toString()))
 }
 
 export async function then_number_input_has_a_value_of(
 	name: string,
 	value: number
 ) {
-	const checkbox = screen.getByRole("spinbutton", { name: name })
-	await waitFor(() => expect(checkbox).toHaveValue(value))
+	const spinbutton = screen.getByRole("spinbutton", { name: name })
+	await waitFor(() => expect(spinbutton).toHaveValue(value))
 }
 
 export async function click_menu_item(name: string) {
@@ -197,6 +197,13 @@ export async function then_tag_exists(
 	functions: BoundFunctions<typeof queries> = screen
 ) {
 	functions.getByText(text)
+}
+
+export async function then_checkbox_exists(
+	name: string,
+	functions: BoundFunctions<typeof queries> = screen
+) {
+	functions.getByRole("checkbox", { name: name })
 }
 
 export async function press_ctrl_z() {

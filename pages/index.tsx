@@ -10,7 +10,8 @@ export default function Homepage() {
 				</li>
 				<li>- 20220802 - STYLE now profession tiers always show, which means they no longer cause layout shifts </li>
 				<li>- 20220802 - STYLE now profession tiers show the name of the items instead of the code </li>
-				<li>- 20220802 - STYLE now experience spent outside of profession is listed under unique advances </li>
+				<li>- 20220802 - FEATURE now experience spent outside of profession is listed under unique advances </li>
+				<li>- 20220803 - STYLE talents are now interactive on tiers and were removed from the accordion </li>
 			</ul>
 		</>
 	)

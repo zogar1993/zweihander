@@ -11,7 +11,7 @@ import {
 } from "@tests/web_tests/character_sheet/utils/collections"
 import {
 	click_menu_item,
-	render_character_sheet,
+	render_character_sheet, then_checkbox_exists,
 	then_dots_is_checked_on,
 	then_menu_item_is_not_shown,
 	then_number_input_has_a_value_of,
@@ -63,9 +63,8 @@ describe("Character Sheet Screen should", () => {
 		await then_dots_is_checked_on("Chaos Ranks", CHAOS_RANKS)
 		await then_dots_is_checked_on("Order Ranks", ORDER_RANKS)
 		await then_number_input_has_a_value_of("Corruption", CORRUPTION)
-		const talents_context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		await then_tag_exists(TALENT_1.name, talents_context)
-		await then_tag_exists(TALENT_2.name, talents_context)
+		await then_checkbox_exists(TALENT_1.name)
+		await then_checkbox_exists(TALENT_2.name)
 		await click_menu_item(ACCORDION_ITEM.FOCUSES)
 		await then_tag_exists(FOCUS_1)
 		await then_tag_exists(FOCUS_2)
@@ -157,8 +156,8 @@ const CHAOS_RANKS = 6
 const ORDER_RANKS = 2
 const CORRUPTION = 7
 
-const TALENT_1 = TEST_TALENTS[1]
-const TALENT_2 = TEST_TALENTS[2]
+const TALENT_1 = TEST_TALENTS[TEST_TALENTS.length - 1]
+const TALENT_2 = TEST_TALENTS[TEST_TALENTS.length - 2]
 const SCHOOL_1 = TEST_MAGIC_SCHOOLS[1]
 const SCHOOL_2 = TEST_MAGIC_SCHOOLS[2]
 const SPELL_1 = SCHOOL_1.spells[1]

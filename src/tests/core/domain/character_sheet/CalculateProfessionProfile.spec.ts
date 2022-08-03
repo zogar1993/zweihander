@@ -133,7 +133,18 @@ describe("CalculateProfessionProfile should", () => {
 	function then_there_are_errors_for_spending_outside_profession(
 		errors: Array<Expenditure>
 	) {
-		expect(profile.spending_outside_profession).toEqual(errors)
+
+		expect(profile.spending_outside_profession).toEqual({
+			attributes: errors
+				.filter(x => x.type === "attribute")
+				.map(x => ({ code: x.code, checked: false, name: getByCode(x.code, ATTRIBUTE_DEFINITIONS).name })),
+			skills: errors
+				.filter(x => x.type === "skill")
+				.map(x => ({ code: x.code, checked: false, name: getByCode(x.code, SKILL_DEFINITIONS).name })),
+			talents: errors
+				.filter(x => x.type === "talent")
+				.map(x => ({ code: x.code, checked: false, name: getByCode(x.code, TEST_TALENTS).name }))
+		})
 	}
 
 	function then_profession_1_is_set_with_spending(
@@ -186,7 +197,7 @@ function createEmptyCharacterSheet(): {
 const ILLEGAL_SPENDING = [
 	{ type: "attribute", code: "fellowship" },
 	{ type: "skill", code: "gamble" },
-	{ type: "talent", code: "non_profession_talent" }
+	{ type: "talent", code: TEST_TALENTS[TEST_TALENTS.length - 1].code }
 ]
 
 const PROFESSION_1_SPENDING = [
@@ -198,7 +209,7 @@ const PROFESSION_1_SPENDING = [
 	{ type: "talent", code: PROFESSION_1.advances.talents[1] }
 ]
 
-	const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: false })
+const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: false })
 
 function getProfessionTierTemplate(profession: ProfessionTech): CharacterTier {
 	return {

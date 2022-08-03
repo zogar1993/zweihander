@@ -1,4 +1,4 @@
-import { fireEvent, waitFor } from "@testing-library/react"
+import { fireEvent, waitFor, screen } from "@testing-library/react"
 import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
@@ -17,8 +17,7 @@ describe("Talents Tag Input should", () => {
 	it("send a 'add_to_array|talents' action on add", async () => {
 		await render_character_sheet()
 
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		await change_combobox_item("Talent", NEW_TALENT, context)
+		await change_combobox_item("New Talent", NEW_TALENT)
 
 		await update_character_api_was_called_with([
 			{
@@ -32,8 +31,7 @@ describe("Talents Tag Input should", () => {
 	it("send a 'remove_from_array|talents' action on remove", async () => {
 		await render_character_sheet({ talents: [PRE_EXISTING_TALENT_1.code] })
 
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		const tag = context.getByText(PRE_EXISTING_TALENT_1.name)
+		const tag = getCheckbox(PRE_EXISTING_TALENT_1.name)
 		fireEvent.click(tag)
 
 		await update_character_api_was_called_with([
@@ -47,36 +45,34 @@ describe("Talents Tag Input should", () => {
 
 	it("not have preexisting values as eligible", async () => {
 		await render_character_sheet({ talents: [PRE_EXISTING_TALENT_1.code] })
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Talent", PRE_EXISTING_TALENT_1, context)
+				await is_a_combobox_option("New Talent", PRE_EXISTING_TALENT_1)
 			).toBeFalsy()
 		)
 	})
 
 	it("not have newly added value as eligible", async () => {
 		await render_character_sheet()
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		await change_combobox_item("Talent", NEW_TALENT, context)
+		await change_combobox_item("New Talent", NEW_TALENT)
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Talent", NEW_TALENT, context)
+				await is_a_combobox_option("New Talent", NEW_TALENT)
 			).toBeFalsy()
 		)
 	})
 
 	it("have removed value as eligible", async () => {
 		await render_character_sheet({ talents: [PRE_EXISTING_TALENT_1.code] })
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		fireEvent.click(context.getByText(PRE_EXISTING_TALENT_1.name))
+		fireEvent.click(getCheckbox(PRE_EXISTING_TALENT_1.name))
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Talent", PRE_EXISTING_TALENT_1, context)
+				await is_a_combobox_option("New Talent", PRE_EXISTING_TALENT_1)
 			).toBeTruthy()
 		)
 	})
+	const getCheckbox = (name: string) => screen.getByRole("checkbox", {name: name})
 })

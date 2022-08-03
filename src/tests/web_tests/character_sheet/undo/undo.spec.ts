@@ -12,9 +12,8 @@ import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 describe("Character Sheet Screen should", () => {
 	it("undo add_to_array", async () => {
 		await render_character_sheet({ talents: [TALENT_1.code] })
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		await change_combobox_item("Talent", TALENT_2, context)
-		const new_tag = await context.findByText(TALENT_2.name)
+		await change_combobox_item("New Talent", TALENT_2)
+		const new_tag = await findCheckbox(TALENT_2.name)
 
 		await press_ctrl_z()
 
@@ -23,33 +22,30 @@ describe("Character Sheet Screen should", () => {
 
 	it("undo remove_from_array", async () => {
 		await render_character_sheet({ talents: [TALENT_1.code, TALENT_2.code] })
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		const a_tag = await context.findByText(TALENT_2.name)
+		const a_tag = await findCheckbox(TALENT_2.name)
 		fireEvent.click(a_tag)
 		await waitFor(() => expect(a_tag).not.toBeInTheDocument())
 
 		await press_ctrl_z()
 
-		await context.findByText(TALENT_2.name)
+		await findCheckbox(TALENT_2.name)
 	})
 
 	it("undo delete_property", async () => {
 		await render_character_sheet({ talents: [TALENT_1.code] })
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		const a_tag = await context.findByText(TALENT_1.name)
+		const a_tag = await findCheckbox(TALENT_1.name)
 		fireEvent.click(a_tag)
 		await waitFor(() => expect(a_tag).not.toBeInTheDocument())
 
 		await press_ctrl_z()
 
-		await context.findByText(TALENT_1.name)
+		await findCheckbox(TALENT_1.name)
 	})
 
 	it("undo set_value to delete property", async () => {
 		await render_character_sheet({})
-		const context = await click_menu_item(ACCORDION_ITEM.TALENTS)
-		await change_combobox_item("Talent", TALENT_1, context)
-		const new_tag = await context.findByText(TALENT_1.name)
+		await change_combobox_item("New Talent", TALENT_1)
+		const new_tag = await findCheckbox(TALENT_1.name)
 
 		await press_ctrl_z()
 
@@ -73,6 +69,8 @@ describe("Character Sheet Screen should", () => {
 
 		await screen.findByDisplayValue("Ragoz")
 	})
+
+	const findCheckbox = (name: string) => screen.findByRole("checkbox", {name: name})
 })
 
 const TALENT_1 = TEST_TALENTS[1]

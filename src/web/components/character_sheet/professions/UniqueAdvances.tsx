@@ -1,13 +1,18 @@
-import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import {
+	ActionType,
+	useCharacterSheetDispatcher,
+	useCharacterSheetState
+} from "@web/components/character_sheet/CharacterSheetContext"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
 import { CheckButton, Field } from "misevi"
 import React from "react"
 import styled from "styled-components"
-
+//TODO should be buttons instead maybe
 export default function UniqueAdvances() {
 	const { character: { profession_profile: { spending_outside_profession }, talent } } = useCharacterSheetState()
+	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
 	return (
 		<Container>
@@ -36,9 +41,18 @@ export default function UniqueAdvances() {
 			<>
 				<Title>Talents</Title>
 				{spending_outside_profession.talents.map((x, i) => (
-					<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`} />
+					<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`}
+											 onChange={() => dispatch({ type: ActionType.RemoveTalent, payload: x.code })} />
 				))}
-				{isOwner && <Field type="combobox" value={talent.code} options={talent.options} label="New Talent" />}
+				{isOwner &&
+				<Field
+					label="New Talent"
+					type="combobox"
+					value={null}
+					options={talent.options}
+					onChange={value => dispatch({ type: ActionType.AddTalent, payload: value as string })}
+					unclearable
+				/>}
 			</>
 			}
 		</Container>
