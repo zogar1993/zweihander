@@ -6,18 +6,20 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetProfessionProfile() {
-	const { character: { profession_profile } } = useCharacterSheetState()
+	const { character: { profession_profile, profession1, profession2, profession3 } } = useCharacterSheetState()
 
 	return (
 		<Container>
-			<CharacterSheetTier name="Basic" tier={profession_profile.profession1} />
+			<CharacterSheetTier name="Basic" tier={profession_profile.professions[0]} profession={profession1}/>
 			<CharacterSheetTier
 				name="Intermediate"
-				tier={profession_profile.profession2}
+				tier={profession_profile.professions[1]}
+				profession={profession2}
 			/>
 			<CharacterSheetTier
 				name="Advanced"
-				tier={profession_profile.profession3}
+				tier={profession_profile.professions[2]}
+				profession={profession3}
 			/>
 			<UniqueAdvances />
 		</Container>

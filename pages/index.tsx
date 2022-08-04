@@ -16,6 +16,7 @@ export default function Homepage() {
 					do not possess
 				</li>
 				<li>- 20220804 - BUGFIX talent options for repeated talents now take into consideration unselected talents</li>
+				<li>- 20220804 - FEATURE new character sheet experience is calculated according to the rulebook</li>
 			</ul>
 		</>
 	)

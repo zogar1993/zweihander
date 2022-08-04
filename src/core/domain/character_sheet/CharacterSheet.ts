@@ -127,7 +127,8 @@ export function calculateCharacterSheet({
 			spent_experience: spentExperience({
 				character,
 				attributes,
-				schools
+				schools,
+				profession_profile
 			}),
 			special_rules: special_rules,
 			profession_profile
@@ -214,24 +215,14 @@ function getSpecialRules({
 function spentExperience({
 													 character,
 													 schools,
-													 attributes
+													 attributes,
+													 profession_profile
 												 }: {
 	character: SanitizedCharacterSheet
 	schools: Array<MagicSchoolTech>
 	attributes: Array<CalculatedAttribute>
+	profession_profile: ProfessionProfile
 }): number {
-	let profession1_talents_amount = 0
-	profession1_talents_amount += character.talents[0] === null ? 0 : 1
-	profession1_talents_amount += character.talents[1] === null ? 0 : 1
-	profession1_talents_amount += character.talents[2] === null ? 0 : 1
-	let profession2_talents_amount = 0
-	profession2_talents_amount += character.talents[3] === null ? 0 : 1
-	profession2_talents_amount += character.talents[4] === null ? 0 : 1
-	profession2_talents_amount += character.talents[5] === null ? 0 : 1
-	let profession3_talents_amount = 0
-	profession3_talents_amount += character.talents[6] === null ? 0 : 1
-	profession3_talents_amount += character.talents[7] === null ? 0 : 1
-	profession3_talents_amount += character.talents[8] === null ? 0 : 1
 
 	const favored_attribute = UPBRINGINGS.find(
 		x => x.code === character.upbringing
@@ -253,87 +244,30 @@ function spentExperience({
 		}
 	}
 
-	return calculateExperience({
-		profession1: character.profession1,
-		profession2: character.profession2,
-		profession3: character.profession3,
-		attributes: attributes,
-		focuses: character.focuses,
-		favored_skills: favored_skills,
-		profession1_talents_amount: profession1_talents_amount,
-		profession2_talents_amount: profession2_talents_amount,
-		profession3_talents_amount: profession3_talents_amount,
-		spells
-	})
-}
-
-function calculateExperience({
-															 profession1,
-															 profession2,
-															 profession3,
-															 attributes,
-															 profession1_talents_amount,
-															 profession2_talents_amount,
-															 profession3_talents_amount,
-															 focuses,
-															 spells,
-															 favored_skills
-														 }: {
-	profession1: string | null
-	profession2: string | null
-	profession3: string | null
-	attributes: Array<CalculatedAttribute>
-	profession1_talents_amount: number
-	profession2_talents_amount: number
-	profession3_talents_amount: number
-	focuses: Partial<Record<SkillCode, Array<string>>>
-	favored_skills: Array<SkillCode>
-	spells: Partial<Record<Principle, number>>
-}): number {
 	let experience = 0
-
-	if (profession1) experience += 100
-	if (profession2) experience += 200
-	if (profession3) experience += 300
-
-	attributes
-		.flatMap(attribute => attribute.skills)
-		.forEach(skill => {
-			if (skill.ranks >= 1)
-				experience += skill.profession_ranks >= 1 ? 100 : 200
-			if (skill.ranks >= 2)
-				experience += skill.profession_ranks >= 2 ? 200 : 400
-			if (skill.ranks >= 3)
-				experience += skill.profession_ranks >= 3 ? 300 : 600
-		})
-
-	attributes.forEach(attribute => {
-		if (attribute.advances >= 1)
-			experience += attribute.profession_advances >= 1 ? 100 : 200
-		if (attribute.advances >= 2)
-			experience += attribute.profession_advances >= 2 ? 100 : 200
-		if (attribute.advances >= 3)
-			experience += attribute.profession_advances >= 3 ? 200 : 400
-		if (attribute.advances >= 4)
-			experience += attribute.profession_advances >= 4 ? 200 : 400
-		if (attribute.advances >= 5)
-			experience += attribute.profession_advances >= 5 ? 300 : 600
-		if (attribute.advances >= 6)
-			experience += attribute.profession_advances >= 6 ? 300 : 600
-	})
 
 	if (spells.Petty && spells.Petty > 3) experience += (spells.Petty - 3) * 100
 	if (spells.Lesser) experience += spells.Lesser * 200
 	if (spells.Greater) experience += spells.Greater * 300
 
-	experience += 100 * profession1_talents_amount
-	experience += 200 * profession2_talents_amount
-	experience += 300 * profession3_talents_amount
-
-	forEachEntryInRecord(focuses, ([skill, focuses]) => {
+	forEachEntryInRecord(character.focuses, ([skill, focuses]) => {
 		const favored = favored_skills.includes(skill)
 		experience += (favored ? 50 : 100) * focuses.length
 	})
+
+	experience += character.profession1 ? 100 : 0
+	experience += character.profession2 ? 200 : 0
+	experience += character.profession3 ? 300 : 0
+
+	profession_profile.professions.map((x, i) => {
+		const multiplier = (i + 1) * 100
+		experience += x.attributes.filter(x => x.checked).length * multiplier
+		experience += x.skills.filter(x => x.checked).length * multiplier
+		experience += x.talents.filter(x => x.checked).length * multiplier
+		experience += x.wildcard_talents.filter(x => x.code).length * multiplier
+	})
+
+	experience += profession_profile.spending_outside_profession.talents.filter(x => x.checked).length * 100
 
 	return experience
 }

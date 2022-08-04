@@ -1,7 +1,7 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateProfessionProfile, {
-	CalculateProfessionProfileProps, CharacterTier,
+	CalculateProfessionProfileProps, CharacterSheetProfessionAdvances,
 	Expenditure,
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
@@ -15,7 +15,7 @@ import { TEST_PROFESSIONS, TEST_TALENTS } from "@tests/web_tests/character_sheet
 
 const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })
 
-const BLANK_TIER: CharacterTier = {
+const BLANK_TIER: CharacterSheetProfessionAdvances = {
 	profession: { name: "", code: "" },
 	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
 	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
@@ -211,7 +211,7 @@ const PROFESSION_1_SPENDING = [
 
 const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: false })
 
-function getProfessionTierTemplate(profession: ProfessionTech): CharacterTier {
+function getProfessionTierTemplate(profession: ProfessionTech): CharacterSheetProfessionAdvances {
 	return {
 		profession: { name: profession.name, code: profession.code },
 		attributes: Object.entries(profession.advances.bonus_advances).flatMap(([code, value]) =>

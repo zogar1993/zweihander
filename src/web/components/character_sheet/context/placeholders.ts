@@ -1,5 +1,5 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import { CharacterTier } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import { CharacterSheetProfessionAdvances } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import { CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
 import sanitizeCharacterSheet from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
@@ -12,7 +12,7 @@ const LOADING_TIER = {
 	attributes: Array.from(Array(7), () => LOADING_TIER_ITEM),
 	skills: Array.from(Array(10), () => LOADING_TIER_ITEM),
 	talents: Array.from(Array(3), () => LOADING_TIER_ITEM)
-} as unknown as CharacterTier
+} as unknown as CharacterSheetProfessionAdvances
 
 const LOADING_CALCULATED_COMBOBOX = {
 	code: undefined,
@@ -43,9 +43,7 @@ const LOADING_CALCULATED_CHARACTER_SHEET = {
 	talent: LOADING_CALCULATED_COMBOBOX,
 
 	profession_profile: {
-		profession1: LOADING_TIER,
-		profession2: LOADING_TIER,
-		profession3: LOADING_TIER,
+		professions: [LOADING_TIER, LOADING_TIER, LOADING_TIER],
 		spending_outside_profession: LOADING_TIER
 	}
 } as unknown as CalculatedCharacterSheet
