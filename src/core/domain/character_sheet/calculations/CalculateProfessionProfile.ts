@@ -29,14 +29,15 @@ export default function calculateProfessionProfile({
 	})
 
 	//Add Comboboxes for repeated talents
+	const nonOptions = [...character.talents, ...talentsToExclude]
 	tiers.forEach(tier => {
 		while (tier.talents.length < 3) {
 			if (expenditures.talents.length > 0) {
 				const code = expenditures.talents.shift()
-				const options = talents.filter(talent => talent.code === code || !character.talents.includes(talent.code))
+				const options = talents.filter(talent => talent.code === code || !nonOptions.includes(talent.code))
 				tier.talents.push({ code, options })
 			} else {
-				const options = talents.filter(talent => !character.talents.includes(talent.code))
+				const options = talents.filter(talent => !nonOptions.includes(talent.code))
 				tier.talents.push({ code: null, options })
 			}
 		}

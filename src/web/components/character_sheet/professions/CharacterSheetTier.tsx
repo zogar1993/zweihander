@@ -3,7 +3,7 @@ import { CalculatedCombobox } from "@core/domain/character_sheet/CharacterSheet"
 import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
-import { CheckButton, CheckComboBox, Field } from "misevi"
+import { CheckButton, CheckComboBox } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
@@ -32,7 +32,7 @@ export default function CharacterSheetTier({ name, tier }: {
 			</Grid>
 			<Title>Talents</Title>
 			{tier.talents.map((x, i) =>
-				isCombobox(x) ?
+				isCombobox(x) ?//TODO horrible
 					<CheckComboBox value={x.code} options={x.options} key={`${i}-${x}`}
 												 onChange={(code) => code === null ? dispatch({
 														 type: ActionType.RemoveTalent,

@@ -13,8 +13,9 @@ export default function Homepage() {
 				<li>- 20220802 - FEATURE now experience spent outside of profession is listed under unique advances</li>
 				<li>- 20220803 - STYLE talents are now interactive on tiers and were removed from the accordion</li>
 				<li>- 20220804 - FEATURE duplicated talents are now turned into comboboxes so that you can select any talent you
-					do not posess
+					do not possess
 				</li>
+				<li>- 20220804 - BUGFIX talent options for repeated talents now take into consideration unselected talents</li>
 			</ul>
 		</>
 	)
