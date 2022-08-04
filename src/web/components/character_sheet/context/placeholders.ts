@@ -11,7 +11,8 @@ const LOADING_TIER = {
 	profession: { name: "", code: undefined },
 	attributes: Array.from(Array(7), () => LOADING_TIER_ITEM),
 	skills: Array.from(Array(10), () => LOADING_TIER_ITEM),
-	talents: Array.from(Array(3), () => LOADING_TIER_ITEM)
+	talents: Array.from(Array(3), () => LOADING_TIER_ITEM),
+	wildcard_talents: []
 } as unknown as CharacterSheetProfessionAdvances
 
 const LOADING_CALCULATED_COMBOBOX = {

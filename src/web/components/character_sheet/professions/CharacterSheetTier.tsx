@@ -1,4 +1,4 @@
-import { CharacterSheetProfessionAdvances, CharacterTierItem } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import { CharacterSheetProfessionAdvances } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import { CalculatedCombobox } from "@core/domain/character_sheet/CharacterSheet"
 import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import Grid from "@web/components/general/Grid"
