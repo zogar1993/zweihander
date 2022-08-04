@@ -31,9 +31,9 @@ export default async function handler(
 
 	const client_errors: Array<[UpdateAction, string]> = []
 	const results: Array<UpdateCharacterProps> = []
-
-	if (new Set(actions.map(x => x.property)).size < actions.length)
-		return res.status(400).json(["there can only be one action per property"])
+	//TODO add better validation that does not exclude adding and removing talents
+	//if (new Set(actions.map(x => x.property)).size < actions.length)
+	//	return res.status(400).json(["there can only be one action per property"])
 
 	for (const action of actions) {
 		try {

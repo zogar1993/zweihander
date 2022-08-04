@@ -1,8 +1,9 @@
-import { CharacterTier } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import { CharacterTier, CharacterTierItem } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import { CalculatedCombobox } from "@core/domain/character_sheet/CharacterSheet"
 import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
-import { CheckButton } from "misevi"
+import { CheckButton, CheckComboBox, Field } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
@@ -30,12 +31,33 @@ export default function CharacterSheetTier({ name, tier }: {
 				))}
 			</Grid>
 			<Title>Talents</Title>
-			{tier.talents.map((x, i) => (
-				<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`}
-										 onChange={() => dispatch({ type: ActionType.RemoveTalent, payload: x.code })} />
-			))}
+			{tier.talents.map((x, i) =>
+				isCombobox(x) ?
+					<CheckComboBox value={x.code} options={x.options} key={`${i}-${x}`}
+												 onChange={(code) => code === null ? dispatch({
+														 type: ActionType.RemoveTalent,
+														 payload: x.code as string
+													 }) : x.code === null ?
+													 dispatch({
+														 type: ActionType.AddTalent,
+														 payload: code
+													 })
+													 : dispatch({
+														 type: ActionType.ReplaceTalent,
+														 payload: { old: x.code as string, new: code }
+													 })} /> :
+					<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`}
+											 onChange={() => dispatch({
+												 type: ActionType.RemoveTalent,
+												 payload: x.code as string /* come on ts */
+											 })} />
+			)}
 		</Container>
 	)
+}
+
+function isCombobox(props: CalculatedCombobox | CharacterTierItem): props is CalculatedCombobox {
+	return props.hasOwnProperty("options")
 }
 
 const Container = styled.div`

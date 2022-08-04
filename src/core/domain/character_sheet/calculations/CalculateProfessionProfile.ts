@@ -1,6 +1,6 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import type { ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+import type { CalculatedCombobox, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { Item } from "@core/domain/Item"
@@ -17,20 +17,41 @@ export default function calculateProfessionProfile({
 
 	const tiers: Array<CharacterTier> = []
 
+	const talentsToExclude: Array<string> = []
+
+	//Generate tiers with Checkboxes
 	professions.forEach(profession => {
-		const tier = getProfessionTierTemplate({ profession, talents })
+		const tier = getProfessionTierTemplate({ profession, talents, talentsToExclude })
 		;(["attributes", "skills", "talents"] as const).forEach(key => {
-			markExpenditures(expenditures[key], tier[key])
+			markExpenditures(expenditures[key], tier[key] as Array<CharacterTierItem>)
 		})
 		tiers.push(tier)
 	})
+
+	//Add Comboboxes for repeated talents
+	tiers.forEach(tier => {
+		while (tier.talents.length < 3) {
+			if (expenditures.talents.length > 0) {
+				const code = expenditures.talents.shift()
+				const options = talents.filter(talent => talent.code === code || !character.talents.includes(talent.code))
+				tier.talents.push({ code, options })
+			} else {
+				const options = talents.filter(talent => !character.talents.includes(talent.code))
+				tier.talents.push({ code: null, options })
+			}
+		}
+	})
+
+	//TODO Downgrade talent expenditure to make it cheaper
 
 	return {
 		profession1: tiers[0] ? tiers[0] : BLANK_TIER,
 		profession2: tiers[1] ? tiers[1] : BLANK_TIER,
 		profession3: tiers[2] ? tiers[2] : BLANK_TIER,
-		spending_outside_profession: getUniqueAdvances({expenditures, talents})
+		spending_outside_profession: getUniqueAdvances({ expenditures, talents })
 	}
+
+
 }
 
 function markExpenditures(
@@ -68,15 +89,22 @@ const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: fal
 
 function getProfessionTierTemplate({
 																		 profession,
-																		 talents
-																	 }: { profession: Profession, talents: Array<TalentTech> }): CharacterTier {
+																		 talents,
+																		 talentsToExclude
+																	 }: {
+	profession: Profession,
+	talents: Array<TalentTech>,
+	talentsToExclude: Array<string>
+}): CharacterTier {
+	const remainingTalents = profession.advances.talents.filter(code => !talentsToExclude.includes(code))
+	talentsToExclude.push(...remainingTalents)
 	return {
 		profession: { name: profession.name, code: profession.code },
 		attributes: Object.entries(profession.advances.bonus_advances).flatMap(([code, value]) =>
 			Array.from(Array(value), () => getByCode(code, ATTRIBUTE_DEFINITIONS))
 		).map(toItem),
 		skills: profession.advances.skill_ranks.map(code => getByCode(code, SKILL_DEFINITIONS)).map(toItem),
-		talents: profession.advances.talents.map(code => getByCode(code, talents)).map(toItem)
+		talents: remainingTalents.map(code => getByCode(code, talents)).map(toItem)
 	}
 }
 
@@ -117,10 +145,10 @@ export type CharacterTier = {
 	profession: { name: string; code: string }
 	attributes: Array<CharacterTierItem>
 	skills: Array<CharacterTierItem>
-	talents: Array<CharacterTierItem>
+	talents: Array<CharacterTierItem | CalculatedCombobox>
 }
 
-type CharacterTierItem = {
+export type CharacterTierItem = {
 	name: string
 	code: string
 	checked: boolean

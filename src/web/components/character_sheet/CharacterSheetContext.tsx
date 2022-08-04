@@ -234,6 +234,11 @@ function characterSheetReducer(
 			return forwardChange(["add_to_array", `talents`, action.payload])
 		case ActionType.RemoveTalent:
 			return forwardChange(["remove_from_array", `talents`, action.payload])
+		case ActionType.ReplaceTalent:
+			return forwardChange(
+				["remove_from_array", "talents", action.payload.old],
+				["add_to_array", "talents", action.payload.new]
+			)
 		case ActionType.SetPerilCondition:
 			return forwardChange(["set_value", "peril", action.payload])
 		case ActionType.SetDamageCondition:
@@ -338,6 +343,7 @@ export enum ActionType {
 	RemoveFocus,
 	AddTalent,
 	RemoveTalent,
+	ReplaceTalent,
 	UndoLastAction,
 	SetJournal,
 	SetSettings,
@@ -406,6 +412,7 @@ export type CharacterSheetAction =
 }
 	| { type: ActionType.AddTalent; payload: string }
 	| { type: ActionType.RemoveTalent; payload: string }
+	| { type: ActionType.ReplaceTalent; payload: { old: string, new: string } }
 	| { type: ActionType.UndoLastAction }
 	| { type: ActionType.SetJournal; payload: string }
 	| {
