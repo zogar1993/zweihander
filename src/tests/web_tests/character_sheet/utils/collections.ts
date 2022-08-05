@@ -1,12 +1,7 @@
-import { Alignment } from "@core/actions/GetAlignments"
+import { AncestryTech, MagicSchoolTech, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+import { Alignment } from "@core/domain/types/Alignment"
 import { Archetype } from "@core/actions/GetArchetypes"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import {
-	AncestryTech,
-	MagicSchoolTech,
-	ProfessionTech,
-	TalentTech
-} from "@core/domain/character_sheet/CharacterSheet"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 
 export const TEST_ANCESTRIES: Array<AncestryTech> = Array.from(

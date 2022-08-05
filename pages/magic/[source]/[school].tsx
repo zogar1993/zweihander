@@ -1,8 +1,8 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 import getMagicSources from "@core/actions/GetMagicSources"
-import { MagicSchool } from "@core/domain/MagicSchool"
-import { MagicSource } from "@core/domain/MagicSource"
-import { Spell } from "@core/domain/Spell"
+import { MagicSchool } from "@core/domain/types/MagicSchool"
+import { MagicSource } from "@core/domain/types/MagicSource"
+import { Spell } from "@core/domain/types/Spell"
 import MagicScreen from "@web/components/magic/MagicScreen"
 import React from "react"
 

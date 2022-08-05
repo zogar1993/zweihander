@@ -13,4 +13,4 @@ export type Spell = {
 	critical_failure: string
 }
 
-export type Principle = "Petty" | "Lesser" | "Greater"
+type Principle = "Petty" | "Lesser" | "Greater"

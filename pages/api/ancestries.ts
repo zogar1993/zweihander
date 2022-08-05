@@ -1,6 +1,6 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0"
 import getAncestries from "@core/actions/GetAncestries"
-import { Ancestry } from "@core/domain/Ancestry"
+import { Ancestry } from "@core/domain/types/Ancestry"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default withApiAuthRequired(

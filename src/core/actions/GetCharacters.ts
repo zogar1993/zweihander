@@ -1,4 +1,4 @@
-import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { CharacterPreview } from "@core/domain/types/CharacterPreview"
 import getMongoDBClient from "@core/utils/GetMongoDBClient"
 
 export async function getCharacters(
@@ -45,15 +45,3 @@ function toTitle(value: string | null) {
 		.map(x => x[0].toUpperCase() + x.substring(1))
 		.join(" ")
 }
-
-export type CharacterPreview = Pick<
-	SanitizedCharacterSheet,
-	| "id"
-	| "name"
-	| "avatar"
-	| "ancestry"
-	| "profession1"
-	| "profession2"
-	| "profession3"
-	| "created_by"
-> & { visibility: SanitizedCharacterSheet["settings"]["visibility"] }

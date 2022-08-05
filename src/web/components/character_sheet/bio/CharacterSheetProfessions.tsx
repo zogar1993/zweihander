@@ -3,7 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
 import React from "react"

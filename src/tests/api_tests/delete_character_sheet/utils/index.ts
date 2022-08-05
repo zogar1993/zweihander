@@ -1,13 +1,13 @@
 import handler from "@api/characters/[id]"
 import * as auth0 from "@auth0/nextjs-auth0"
 import * as DeleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
-import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
+import * as GetCharacterSheetMetadata from "@core/actions/GetCharacterSheetOfIdMetadata"
 import { TestNextApiResponse } from "@tests/api_tests/utils"
 import { DEFAULT_CHARACTER_SHEET } from "@tests/web_tests/character_sheet/utils/utils"
 import {
 	ROLES_PROPERTY_NAME,
 	UserRole
-} from "@web/components/character_sheet/hooks/useIsAdminUser"
+} from "@web/components/character_sheet/hooks/UseIsAdminUser"
 import { NextApiRequest } from "next"
 
 export const deleteCharacterSheetOfIdSpy = jest.spyOn(
@@ -15,8 +15,8 @@ export const deleteCharacterSheetOfIdSpy = jest.spyOn(
 	"default"
 )
 export const getCharacterSheetOfIdMetaSpy = jest.spyOn(
-	GetCharacterSheetOfId,
-	"getCharacterSheetMeta"
+	GetCharacterSheetMetadata,
+	"default"
 )
 
 export const getSessionSpy = jest.spyOn(auth0, "getSession")

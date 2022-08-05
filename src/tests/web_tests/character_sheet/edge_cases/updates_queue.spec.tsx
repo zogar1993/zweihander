@@ -69,5 +69,5 @@ describe("useCharacterUpdatesQueue should", () => {
 			],
 			{ calls: 2, current: 2, updated_at: NEW_UPDATE_DATE }
 		)
-	})
+	}, 10000)
 })

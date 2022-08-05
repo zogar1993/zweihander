@@ -1,25 +1,25 @@
 import { UpdateAction } from "@api/characters/[id]/update"
-import { Alignment } from "@core/actions/GetAlignments"
-import { Archetype } from "@core/actions/GetArchetypes"
-import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
-	AncestryTech,
-	AncestryTraitTech,
-	calculateCharacterSheet,
-	CalculatedCharacterSheet,
+	AncestryTech, CalculatedCharacterSheet,
 	MagicSchoolTech,
 	ProfessionTech,
 	SpellTech,
 	TalentTech
 } from "@core/domain/character_sheet/CharacterSheet"
+import { Alignment } from "@core/domain/types/Alignment"
+import { Archetype } from "@core/actions/GetArchetypes"
+import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import {
+	calculateCharacterSheet
+} from "@core/domain/character_sheet/calculations/CalculateCharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
-import { PLACEHOLDER_CHARACTER_SHEET_STATE } from "@web/components/character_sheet/context/placeholders"
+import { PLACEHOLDER_CHARACTER_SHEET_STATE } from "@web/components/character_sheet/context/Placeholders"
 import useInitializeCharacterSheetReducer
-	from "@web/components/character_sheet/hooks/useInitializeCharacterSheetReducer"
+	from "@web/components/character_sheet/hooks/UseInitializeCharacterSheetReducer"
 import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, ReactNode, useContext, useReducer } from "react"
@@ -234,6 +234,11 @@ function characterSheetReducer(
 			return forwardChange(["add_to_array", `talents`, action.payload])
 		case ActionType.RemoveTalent:
 			return forwardChange(["remove_from_array", `talents`, action.payload])
+		case ActionType.ReplaceTalent:
+			return forwardChange(
+				["remove_from_array", "talents", action.payload.old],
+				["add_to_array", "talents", action.payload.new]
+			)
 		case ActionType.SetPerilCondition:
 			return forwardChange(["set_value", "peril", action.payload])
 		case ActionType.SetDamageCondition:
@@ -338,6 +343,7 @@ export enum ActionType {
 	RemoveFocus,
 	AddTalent,
 	RemoveTalent,
+	ReplaceTalent,
 	UndoLastAction,
 	SetJournal,
 	SetSettings,
@@ -406,6 +412,7 @@ export type CharacterSheetAction =
 }
 	| { type: ActionType.AddTalent; payload: string }
 	| { type: ActionType.RemoveTalent; payload: string }
+	| { type: ActionType.ReplaceTalent; payload: { old: string, new: string } }
 	| { type: ActionType.UndoLastAction }
 	| { type: ActionType.SetJournal; payload: string }
 	| {

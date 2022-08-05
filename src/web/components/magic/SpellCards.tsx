@@ -1,4 +1,4 @@
-import { Spell } from "@core/domain/Spell"
+import { Spell } from "@core/domain/types/Spell"
 import Grid from "@web/components/general/Grid"
 import SpellCard from "@web/components/magic/SpellCard"
 import ItemsModal from "@web/components/modal/ItemsModal"

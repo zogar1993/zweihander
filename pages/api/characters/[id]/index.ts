@@ -1,12 +1,11 @@
 import { getSession } from "@auth0/nextjs-auth0"
 import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
-import getCharacterSheetOfId, {
-	getCharacterSheetMeta
-} from "@core/actions/GetCharacterSheetOfId"
+import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
+import getCharacterSheetOfIdMetadata from "@core/actions/GetCharacterSheetOfIdMetadata"
 import {
 	ROLES_PROPERTY_NAME,
 	UserRole
-} from "@web/components/character_sheet/hooks/useIsAdminUser"
+} from "@web/components/character_sheet/hooks/UseIsAdminUser"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
@@ -33,7 +32,7 @@ export default async function handler(
 				return res.status(200).json(character)
 			}
 			case "DELETE": {
-				const character = await getCharacterSheetMeta(id)
+				const character = await getCharacterSheetOfIdMetadata(id)
 				if (character === null) return res.status(404).end()
 				const isOwner = session.user.email === character.created_by
 				if (!isAdmin && !(isOwner && isUser)) return res.status(403).end()

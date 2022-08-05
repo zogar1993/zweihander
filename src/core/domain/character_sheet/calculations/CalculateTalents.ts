@@ -1,11 +1,8 @@
-import {
-	CalculatedCharacterSheet,
-	ProfessionTech,
-	TalentTech
-} from "@core/domain/character_sheet/CharacterSheet"
+
+import { CalculatedCharacterSheet, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
-
+//TODO remove this
 export default function calculateTalents({
 	character,
 	talents,

@@ -5,7 +5,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import RemovableItems from "@web/components/RemovableItems"
 import { Field } from "misevi"
 import { useState } from "react"

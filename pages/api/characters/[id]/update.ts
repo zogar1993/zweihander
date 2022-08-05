@@ -3,6 +3,7 @@ import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import { flattenResults } from "@core/api/FlattenResults"
 import { getActionResult, InternalError } from "@core/api/GetActionResult"
 import { UpdateActionCode } from "@core/api/UpdateActionCode"
+import { validateActionCompatibility } from "@core/api/ValidateActionCompatibility"
 import { validateArrayErrors } from "@core/api/ValidateArrayErrors"
 import { validateModel } from "@core/api/ValidateModel"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
@@ -29,11 +30,12 @@ export default async function handler(
 	if (!Array.isArray(actions) || actions.length === 0)
 		return res.status(400).end()
 
+	const incompatible_actions = validateActionCompatibility(actions)
+	if (incompatible_actions.length > 0)
+		return res.status(400).json([`there can only be one action per property, received ${JSON.stringify(incompatible_actions)}`])
+
 	const client_errors: Array<[UpdateAction, string]> = []
 	const results: Array<UpdateCharacterProps> = []
-
-	if (new Set(actions.map(x => x.property)).size < actions.length)
-		return res.status(400).json(["there can only be one action per property"])
 
 	for (const action of actions) {
 		try {

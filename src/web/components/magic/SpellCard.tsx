@@ -1,4 +1,4 @@
-import { Spell } from "@core/domain/Spell"
+import { Spell } from "@core/domain/types/Spell"
 import { Card } from "@web/components/card/Card"
 import { CardTitle } from "@web/components/card/CardTitle"
 import theme from "@web/theme/theme"

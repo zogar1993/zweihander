@@ -1,3 +1,4 @@
+import { ArchetypeProfession } from "@core/domain/types/ArchetypeProfession"
 import { getEntries } from "@core/utils/CacheUtils"
 
 export default async function getArchetypes() {
@@ -12,8 +13,3 @@ export type Archetype = {
 	professions: Record<Book, Array<ArchetypeProfession>>
 }
 
-export type ArchetypeProfession = {
-	profession: string
-	from: number
-	to: number
-}

@@ -1,4 +1,4 @@
-import { Talent } from "@core/domain/Talent"
+import { Talent } from "@core/domain/types/Talent"
 import { Trait } from "@web/components/ancestry/AncestryTraitCard"
 import TraitCard from "@web/components/card/TraitCard"
 import Grid from "@web/components/general/Grid"
