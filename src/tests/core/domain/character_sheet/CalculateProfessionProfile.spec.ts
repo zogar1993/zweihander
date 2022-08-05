@@ -16,19 +16,17 @@ import { TEST_PROFESSIONS, TEST_TALENTS } from "@tests/web_tests/character_sheet
 const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })
 
 const BLANK_TIER: CharacterSheetProfessionAdvances = {
-	profession: { name: "", code: "" },
 	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
 	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
-	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM)
+	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM),
+	wildcard_talents: []
 }
 
 describe("CalculateProfessionProfile should", () => {
 	let professions: CalculateProfessionProfileProps["professions"] = []
 	let character = createEmptyCharacterSheet()
 	let profile: ProfessionProfile = {
-		profession1: BLANK_TIER,
-		profession2: BLANK_TIER,
-		profession3: BLANK_TIER,
+		professions: [BLANK_TIER, BLANK_TIER, BLANK_TIER],
 		spending_outside_profession: BLANK_TIER
 	}
 
@@ -118,16 +116,16 @@ describe("CalculateProfessionProfile should", () => {
 	}
 
 	function then_there_are_no_professions() {
-		expect(profile.profession1).toEqual(BLANK_TIER)
-		expect(profile.profession2).toEqual(BLANK_TIER)
-		expect(profile.profession3).toEqual(BLANK_TIER)
+		expect(profile.professions[0]).toEqual(BLANK_TIER)
+		expect(profile.professions[1]).toEqual(BLANK_TIER)
+		expect(profile.professions[2]).toEqual(BLANK_TIER)
 	}
 
 	function then_profession_1_is_set_without_spending() {
 		const profession1 = getProfessionTierTemplate(PROFESSION_1)
-		expect(profile.profession1).toEqual(profession1)
-		expect(profile.profession2).toEqual(BLANK_TIER)
-		expect(profile.profession3).toEqual(BLANK_TIER)
+		expect(profile.professions[0]).toEqual(profession1)
+		expect(profile.professions[1]).toEqual(BLANK_TIER)
+		expect(profile.professions[2]).toEqual(BLANK_TIER)
 	}
 
 	function then_there_are_errors_for_spending_outside_profession(
@@ -150,17 +148,17 @@ describe("CalculateProfessionProfile should", () => {
 	function then_profession_1_is_set_with_spending(
 		spending: Array<Expenditure>
 	) {
-		expect(profile.profession1!.attributes.filter(x => x.checked)).toEqual(
+		expect(profile.professions[0]!.attributes.filter(x => x.checked)).toEqual(
 			spending
 				.filter(x => x.type === "attribute")
 				.map(x => ({ code: x.code, checked: true, name: getByCode(x.code, ATTRIBUTE_DEFINITIONS).name }))
 		)
-		expect(profile.profession1!.skills.filter(x => x.checked)).toEqual(
+		expect(profile.professions[0]!.skills.filter(x => x.checked)).toEqual(
 			spending
 				.filter(x => x.type === "skill")
 				.map(x => ({ code: x.code, checked: true, name: getByCode(x.code, SKILL_DEFINITIONS).name }))
 		)
-		expect(profile.profession1!.talents.filter(x => x.checked)).toEqual(
+		expect(profile.professions[0]!.talents.filter(x => x.checked)).toEqual(
 			spending
 				.filter(x => x.type === "talent")
 				.map(x => ({ code: x.code, checked: true, name: getByCode(x.code, TEST_TALENTS).name }))
@@ -213,11 +211,11 @@ const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: fal
 
 function getProfessionTierTemplate(profession: ProfessionTech): CharacterSheetProfessionAdvances {
 	return {
-		profession: { name: profession.name, code: profession.code },
 		attributes: Object.entries(profession.advances.bonus_advances).flatMap(([code, value]) =>
 			Array.from(Array(value), () => getByCode(code, ATTRIBUTE_DEFINITIONS))
 		).map(toItem),
 		skills: profession.advances.skill_ranks.map(code => getByCode(code, SKILL_DEFINITIONS)).map(toItem),
-		talents: profession.advances.talents.map(code => getByCode(code, TEST_TALENTS)).map(toItem)
+		talents: profession.advances.talents.map(code => getByCode(code, TEST_TALENTS)).map(toItem),
+		wildcard_talents: []
 	}
 }

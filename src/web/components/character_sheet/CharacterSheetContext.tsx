@@ -1,10 +1,9 @@
 import { UpdateAction } from "@api/characters/[id]/update"
-import { Alignment } from "@core/actions/GetAlignments"
+import { Alignment } from "@core/domain/types/Alignment"
 import { Archetype } from "@core/actions/GetArchetypes"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
 	AncestryTech,
-	AncestryTraitTech,
 	calculateCharacterSheet,
 	CalculatedCharacterSheet,
 	MagicSchoolTech,

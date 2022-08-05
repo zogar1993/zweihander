@@ -1,4 +1,4 @@
-import { Alignment } from "@core/actions/GetAlignments"
+import { Alignment } from "@core/domain/types/Alignment"
 import { Archetype } from "@core/actions/GetArchetypes"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import {

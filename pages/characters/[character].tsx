@@ -1,5 +1,5 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0"
-import { Alignment } from "@core/actions/GetAlignments"
+import { Alignment } from "@core/domain/types/Alignment"
 import { Archetype } from "@core/actions/GetArchetypes"
 import {
 	AncestryTech,

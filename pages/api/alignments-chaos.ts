@@ -1,5 +1,5 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0"
-import { Alignment } from "@core/actions/GetAlignments"
+import { Alignment } from "@core/domain/types/Alignment"
 import getChaosAlignments from "@core/actions/GetChaosAlignments"
 import type { NextApiRequest, NextApiResponse } from "next"
 

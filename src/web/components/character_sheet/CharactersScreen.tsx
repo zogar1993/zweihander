@@ -1,5 +1,5 @@
 import { useUser } from "@auth0/nextjs-auth0"
-import { CharacterPreview } from "@core/actions/GetCharacters"
+import { CharacterPreview } from "@core/domain/types/CharacterPreview"
 import createCharacter from "@web/api_calls/CreateCharacter"
 import Button from "@web/components/general/Button"
 import Grid from "@web/components/general/Grid"
