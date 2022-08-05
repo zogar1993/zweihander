@@ -3,6 +3,7 @@ import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import { flattenResults } from "@core/api/FlattenResults"
 import { getActionResult, InternalError } from "@core/api/GetActionResult"
 import { UpdateActionCode } from "@core/api/UpdateActionCode"
+import { validateActionCompatibility } from "@core/api/ValidateActionCompatibility"
 import { validateArrayErrors } from "@core/api/ValidateArrayErrors"
 import { validateModel } from "@core/api/ValidateModel"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
@@ -29,7 +30,7 @@ export default async function handler(
 	if (!Array.isArray(actions) || actions.length === 0)
 		return res.status(400).end()
 
-	const incompatible_actions = getIncompatibleActions(actions)
+	const incompatible_actions = validateActionCompatibility(actions)
 	if (incompatible_actions.length > 0)
 		return res.status(400).json([`there can only be one action per property, received ${JSON.stringify(incompatible_actions)}`])
 
@@ -74,20 +75,6 @@ export default async function handler(
 		return res.status(500).json(error.message)
 	}
 	res.status(204).setHeader("last-modified", new_update_time).end()
-}
-
-function getIncompatibleActions(actions: Array<UpdateAction>) {
-	const properties = [...new Set(actions.map(x => x.property))]
-	//We group actions by property name
-	let results = properties.map(property => actions.filter(action => action.property === property))
-	//We exclude properties with one action
-	results = results.filter(actions => actions.length > 1)
-	//We exclude properties which just combine "add_to_array" and "remove_from_array"
-	return results.filter(actions => !(
-		actions.length === 2 &&
-		actions.some(action => action.action === "add_to_array") &&
-		actions.some(action => action.action === "remove_from_array")
-	))
 }
 
 export type UpdateAction = Readonly<{
