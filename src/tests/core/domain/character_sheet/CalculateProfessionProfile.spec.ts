@@ -141,7 +141,8 @@ describe("CalculateProfessionProfile should", () => {
 				.map(x => ({ code: x.code, checked: false, name: getByCode(x.code, SKILL_DEFINITIONS).name })),
 			talents: errors
 				.filter(x => x.type === "talent")
-				.map(x => ({ code: x.code, checked: false, name: getByCode(x.code, TEST_TALENTS).name }))
+				.map(x => ({ code: x.code, checked: false, name: getByCode(x.code, TEST_TALENTS).name })),
+			wildcard_talents: []
 		})
 	}
 
