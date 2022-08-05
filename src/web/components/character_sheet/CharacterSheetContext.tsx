@@ -1,16 +1,17 @@
 import { UpdateAction } from "@api/characters/[id]/update"
-import { Alignment } from "@core/domain/types/Alignment"
-import { Archetype } from "@core/actions/GetArchetypes"
-import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
-	AncestryTech,
-	calculateCharacterSheet,
-	CalculatedCharacterSheet,
+	AncestryTech, CalculatedCharacterSheet,
 	MagicSchoolTech,
 	ProfessionTech,
 	SpellTech,
 	TalentTech
 } from "@core/domain/character_sheet/CharacterSheet"
+import { Alignment } from "@core/domain/types/Alignment"
+import { Archetype } from "@core/actions/GetArchetypes"
+import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import {
+	calculateCharacterSheet
+} from "@core/domain/character_sheet/calculations/CalculateCharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
 import { SkillCode } from "@core/domain/skill/SkillCode"

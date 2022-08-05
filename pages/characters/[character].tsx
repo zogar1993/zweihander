@@ -1,12 +1,7 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0"
+import { AncestryTech, MagicSchoolTech, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 import { Alignment } from "@core/domain/types/Alignment"
 import { Archetype } from "@core/actions/GetArchetypes"
-import {
-	AncestryTech,
-	MagicSchoolTech,
-	ProfessionTech,
-	TalentTech
-} from "@core/domain/character_sheet/CharacterSheet"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import useCharacterSheet from "@web/components/character_sheet/hooks/useCharacterSheet"
 import useCollectionImmutable from "@web/hooks/UseCollectionImmutable"

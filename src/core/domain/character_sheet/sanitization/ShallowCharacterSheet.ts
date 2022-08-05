@@ -1,8 +1,4 @@
-import {
-	CharacterSheetSettings,
-	CharacterSpells,
-	Focuses
-} from "@core/domain/character_sheet/CharacterSheet"
+import { CharacterSheetSettings, CharacterSpells, Focuses } from "@core/domain/character_sheet/CharacterSheet"
 
 export type ShallowCharacterSheet = {
 	id: string
