@@ -5,7 +5,7 @@ import getCharacterSheetOfIdMetadata from "@core/actions/GetCharacterSheetOfIdMe
 import {
 	ROLES_PROPERTY_NAME,
 	UserRole
-} from "@web/components/character_sheet/hooks/useIsAdminUser"
+} from "@web/components/character_sheet/hooks/UseIsAdminUser"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(

@@ -7,7 +7,7 @@ import {
 	expect_character_to_be_deleted,
 	expect_character_to_not_be_deleted
 } from "@tests/api_tests/delete_character_sheet/utils"
-import { UserRole } from "@web/components/character_sheet/hooks/useIsAdminUser"
+import { UserRole } from "@web/components/character_sheet/hooks/UseIsAdminUser"
 
 const USER_NAME_A = "jeanette"
 const USER_NAME_B = "therese"

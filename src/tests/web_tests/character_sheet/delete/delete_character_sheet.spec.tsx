@@ -8,7 +8,7 @@ import {
 	user_is_not_redirected,
 	user_is_redirected_to
 } from "@tests/web_tests/character_sheet/utils/utils"
-import { UserRole } from "@web/components/character_sheet/hooks/useIsAdminUser"
+import { UserRole } from "@web/components/character_sheet/hooks/UseIsAdminUser"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 describe("Delete Character Sheet should", () => {

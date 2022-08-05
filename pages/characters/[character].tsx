@@ -3,7 +3,7 @@ import { AncestryTech, MagicSchoolTech, ProfessionTech, TalentTech } from "@core
 import { Alignment } from "@core/domain/types/Alignment"
 import { Archetype } from "@core/actions/GetArchetypes"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
-import useCharacterSheet from "@web/components/character_sheet/hooks/useCharacterSheet"
+import useCharacterSheet from "@web/components/character_sheet/hooks/UseCharacterSheet"
 import useCollectionImmutable from "@web/hooks/UseCollectionImmutable"
 import { useRouter } from "next/router"
 import React from "react"

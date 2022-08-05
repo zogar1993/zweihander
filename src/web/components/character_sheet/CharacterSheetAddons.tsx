@@ -2,8 +2,8 @@ import {
 	ActionType,
 	useCharacterSheetDispatcher
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useCharacterUpdatesQueue from "@web/components/character_sheet/hooks/useCharacterUpdatesQueue"
-import useCtrlZ from "@web/components/character_sheet/hooks/useCtrlZ"
+import useCharacterUpdatesQueue from "@web/components/character_sheet/hooks/UseCharacterUpdatesQueue"
+import useCtrlZ from "@web/components/character_sheet/hooks/UseCtrlZ"
 
 export function CharacterSheetAddons() {
 	const dispatch = useCharacterSheetDispatcher()

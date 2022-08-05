@@ -18,7 +18,7 @@ import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheet
 import {
 	ROLES_PROPERTY_NAME,
 	UserRole
-} from "@web/components/character_sheet/hooks/useIsAdminUser"
+} from "@web/components/character_sheet/hooks/UseIsAdminUser"
 import {
 	ComboboxCode,
 	ComboBoxItem

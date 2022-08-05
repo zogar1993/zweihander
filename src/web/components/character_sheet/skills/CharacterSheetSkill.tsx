@@ -3,7 +3,7 @@ import {
 	ActionType,
 	useCharacterSheetDispatcher
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Dots } from "misevi"
 import styled from "styled-components"

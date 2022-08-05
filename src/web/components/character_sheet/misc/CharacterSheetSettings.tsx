@@ -4,7 +4,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import { Field } from "misevi"
 
 export default function CharacterSheetSettings() {

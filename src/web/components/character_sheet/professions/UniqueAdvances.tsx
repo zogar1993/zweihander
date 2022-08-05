@@ -3,7 +3,7 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/useIsCharacterSheetOwner"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
 import { CheckButton, Field } from "misevi"

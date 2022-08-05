@@ -7,7 +7,7 @@ import { DEFAULT_CHARACTER_SHEET } from "@tests/web_tests/character_sheet/utils/
 import {
 	ROLES_PROPERTY_NAME,
 	UserRole
-} from "@web/components/character_sheet/hooks/useIsAdminUser"
+} from "@web/components/character_sheet/hooks/UseIsAdminUser"
 import { NextApiRequest } from "next"
 
 export const deleteCharacterSheetOfIdSpy = jest.spyOn(
