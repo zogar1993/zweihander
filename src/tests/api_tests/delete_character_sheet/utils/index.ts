@@ -16,7 +16,7 @@ export const deleteCharacterSheetOfIdSpy = jest.spyOn(
 )
 export const getCharacterSheetOfIdMetaSpy = jest.spyOn(
 	GetCharacterSheetOfId,
-	"getCharacterSheetMeta"
+	"getCharacterSheetMetadata"
 )
 
 export const getSessionSpy = jest.spyOn(auth0, "getSession")

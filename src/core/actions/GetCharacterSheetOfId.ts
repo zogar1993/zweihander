@@ -47,7 +47,7 @@ export default async function getCharacterSheetOfId(id: string) {
 	return sanitizeCharacterSheet(character)
 }
 
-export async function getCharacterSheetMeta(
+export async function getCharacterSheetMetadata(
 	id: string
 ): Promise<CharacterSheetMeta | null> {
 	const client = await getMongoDBClient()

@@ -1,5 +1,5 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import { Profession, Trait } from "@core/domain/Profession"
+import { Profession, Trait } from "@core/domain/types/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { Card } from "@web/components/card/Card"
 import { CardTitle } from "@web/components/card/CardTitle"

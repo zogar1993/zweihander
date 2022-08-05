@@ -1,7 +1,7 @@
 import { getSession } from "@auth0/nextjs-auth0"
 import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
 import getCharacterSheetOfId, {
-	getCharacterSheetMeta
+	getCharacterSheetMetadata
 } from "@core/actions/GetCharacterSheetOfId"
 import {
 	ROLES_PROPERTY_NAME,
@@ -33,7 +33,7 @@ export default async function handler(
 				return res.status(200).json(character)
 			}
 			case "DELETE": {
-				const character = await getCharacterSheetMeta(id)
+				const character = await getCharacterSheetMetadata(id)
 				if (character === null) return res.status(404).end()
 				const isOwner = session.user.email === character.created_by
 				if (!isAdmin && !(isOwner && isUser)) return res.status(403).end()

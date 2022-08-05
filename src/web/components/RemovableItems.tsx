@@ -1,5 +1,5 @@
 import { SpecialRule } from "@core/domain/character_sheet/CharacterSheet"
-import { Item } from "@core/domain/Item"
+import { Item } from "@core/domain/types/Item"
 import EffectCard from "@web/components/card/EffectCard"
 import theme from "@web/theme/theme"
 import React from "react"

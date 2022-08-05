@@ -1,4 +1,4 @@
-import { Profession } from "@core/domain/Profession"
+import { Profession } from "@core/domain/types/Profession"
 import { getEntries } from "@core/utils/CacheUtils"
 
 export default async function getProfessions() {

@@ -1,5 +1,5 @@
 import { Archetype } from "@core/actions/GetArchetypes"
-import { Ancestry, AncestryTrait } from "@core/domain/Ancestry"
+import { Ancestry, AncestryTrait } from "@core/domain/types/Ancestry"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
@@ -11,12 +11,12 @@ import calculateTalents from "@core/domain/character_sheet/calculations/Calculat
 import Comboboxify from "@core/domain/character_sheet/Comboboxify"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
-import { Item } from "@core/domain/Item"
-import { MagicSchool } from "@core/domain/MagicSchool"
-import { Profession } from "@core/domain/Profession"
+import { Item } from "@core/domain/types/Item"
+import { MagicSchool } from "@core/domain/types/MagicSchool"
+import { Profession } from "@core/domain/types/Profession"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
-import { Principle, Spell } from "@core/domain/Spell"
+import { Principle, Spell } from "@core/domain/types/Spell"
 import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 
 export enum Flip {

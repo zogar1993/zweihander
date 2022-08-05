@@ -1,6 +1,6 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0"
 import getMagicSources from "@core/actions/GetMagicSources"
-import { MagicSource } from "@core/domain/MagicSource"
+import { MagicSource } from "@core/domain/types/MagicSource"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default withApiAuthRequired(
