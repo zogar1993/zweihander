@@ -17,6 +17,7 @@ export default function Homepage() {
 				</li>
 				<li>- 20220804 - BUGFIX talent options for repeated talents now take into consideration unselected talents</li>
 				<li>- 20220804 - FEATURE new character sheet experience is calculated according to the rulebook</li>
+				<li>- 20220805 - FEATURE now controls inside of tiers and unique advances are interactive</li>
 			</ul>
 		</>
 	)
