@@ -23,28 +23,21 @@ export default function calculateProfessionProfile({
 	professions.forEach(profession => {
 		const tier = getProfessionTierTemplate({ profession, talents, talentsToExclude })
 		;(["attributes", "skills", "talents"] as const).forEach(key => {
-			markExpenditures(expenditures[key], tier[key] as Array<CharacterTierItem>)
+			markExpenditures(expenditures[key], tier[key])
 		})
 		tiers.push(tier)
 	})
 
-
-	//Add Comboboxes for repeated talents
-	const nonOptions = [...character.talents, ...talentsToExclude]
+	//We add a Comboboxes for each repeated talent
+	const nonOptions = new Set([...character.talents, ...talentsToExclude])
 	tiers.forEach(tier => {
-		while (tier.talents.length + tier.wildcard_talents.length < 3) {
-			if (expenditures.talents.length > 0) {
-				const code = expenditures.talents.shift()
-				const options = talents.filter(talent => talent.code === code || !nonOptions.includes(talent.code))
-				tier.wildcard_talents.push({ code, options })
-			} else {
-				const options = talents.filter(talent => !nonOptions.includes(talent.code))
-				tier.wildcard_talents.push({ code: null, options })
-			}
-		}
+		tier.wildcard_talents = getWildcardComboboxes({
+			amount: 3 - tier.talents.length,
+			talents: talents,
+			expenditures: expenditures.talents,
+			excluded: nonOptions
+		})
 	})
-
-	//TODO Downgrade talent expenditure to make it cheaper
 
 	return {
 		professions: [tiers[0] ? tiers[0] : BLANK_TIER,
@@ -52,9 +45,28 @@ export default function calculateProfessionProfile({
 			tiers[2] ? tiers[2] : BLANK_TIER],
 		spending_outside_profession: getUniqueAdvances({ expenditures, talents })
 	}
-
-
 }
+
+function getWildcardComboboxes({ amount, expenditures, talents, excluded }: {
+	amount: number,
+	expenditures: Array<string>,
+	talents: ReadonlyArray<Item>,
+	excluded: ReadonlySet<string>
+}) {
+	const isValidOption = (item: Item) => !excluded.has(item.code)
+	return Array.from({ length: amount }, () => {
+			if (expenditures.length > 0) {
+				const code = expenditures.shift()
+				const options = talents.filter(talent => talent.code === code || isValidOption(talent))
+				return { code, options }
+			} else {
+				const options = talents.filter(talent => !excluded.has(talent.code))
+				return { code: null, options }
+			}
+		}
+	)
+}
+
 
 function markExpenditures(
 	expenditures: Array<string>,

@@ -63,7 +63,6 @@ export type CalculatedCharacterSheet = Readonly<{
 	damage: ConditionTrack
 	peril: ConditionTrack
 	attributes: Array<CalculatedAttribute>
-	talents: Array<Item & { items: Array<Item> }>
 
 	journal: string
 	spent_experience: number
