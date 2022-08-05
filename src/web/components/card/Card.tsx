@@ -12,7 +12,7 @@ export const Card = styled.article`
 
 	${({ onClick }) => (onClick ? CLICKABLE_CSS : "")};
 `
-const wea = Card.withComponent("a")
+
 const CLICKABLE_CSS = css`
 	user-select: none;
 	cursor: pointer;
