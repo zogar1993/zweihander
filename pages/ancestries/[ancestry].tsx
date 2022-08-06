@@ -1,7 +1,7 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 import getAncestries from "@core/actions/GetAncestries"
 import { Ancestry } from "@core/domain/types/Ancestry"
-import { Trait } from "@web/components/ancestry/AncestryTraitCard"
+import { Trait } from "@core/domain/types/Profession"
 import TraitCard from "@web/components/card/TraitCard"
 import Grid from "@web/components/general/Grid"
 import { PageTitle } from "@web/components/general/PageTitle"
