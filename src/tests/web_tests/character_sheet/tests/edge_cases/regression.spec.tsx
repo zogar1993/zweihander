@@ -3,7 +3,7 @@ import {
 	change_dots_value,
 	render_character_sheet,
 	then_dots_is_checked_on
-} from "../utils/utils"
+} from "../../utils/utils"
 
 const SKILL = SKILL_DEFINITIONS[0]
 

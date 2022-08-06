@@ -3,7 +3,7 @@ import {
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
-import { TEST_ORDER_ALIGNMENTS } from "./utils/collections"
+import { TEST_ORDER_ALIGNMENTS } from "../utils/collections"
 
 const NEW_ALIGNMENT = TEST_ORDER_ALIGNMENTS[2]
 

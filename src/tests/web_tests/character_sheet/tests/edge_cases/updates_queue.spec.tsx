@@ -6,7 +6,7 @@ import {
 	render_character_sheet,
 	update_character_api_was_called_with,
 	updateCharacterOfIdSpy
-} from "../utils/utils"
+} from "../../utils/utils"
 
 const UPBRINGING_A = UPBRINGINGS[1]
 const UPBRINGING_B = UPBRINGINGS[2]

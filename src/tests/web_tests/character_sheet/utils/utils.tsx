@@ -40,6 +40,7 @@ const deleteCharacterOfIdSpy = jest.spyOn(deleteCharacterOfId, "default")
 const routerPushMock = jest.fn()
 
 export const NEW_UPDATE_DATE = "2023-01-01T00:00:00Z"
+export const ANOTHER_USER = "another_user"
 export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 	id: CHARACTER_ID,
 	created_by: "alistair.grout",

@@ -35,7 +35,6 @@ describe("Character Sheet Screen should", () => {
 		await render_character_sheet(A_CHARACTER_SHEET)
 
 		await then_textbox_has_a_value_of("Name", NAME)
-		await then_number_input_has_a_value_of("Age", AGE)
 		await then_textbox_has_a_value_of("Sex", SEX.name)
 		await then_textbox_has_a_value_of("Social Class", SOCIAL_CLASS.name)
 		await then_textbox_has_a_value_of("Upbringing", UPBRINGING.name)
@@ -81,7 +80,6 @@ describe("Character Sheet Screen should", () => {
 		await render_character_sheet({})
 
 		await then_textbox_has_a_value_of("Name", "")
-		await then_number_input_has_a_value_of("Age", 0)
 		await then_textbox_has_a_value_of("Sex", "")
 		await then_textbox_has_a_value_of("Social Class", "")
 		await then_textbox_has_a_value_of("Upbringing", "")
@@ -114,7 +112,6 @@ describe("Character Sheet Screen should", () => {
 		await render_character_sheet({}, { email: "another_user" })
 
 		await then_textbox_is_disabled("Name")
-		await then_number_input_is_disabled("Age")
 		await then_textbox_is_disabled("Sex")
 		await then_textbox_is_disabled("Social Class")
 		await then_textbox_is_disabled("Upbringing")

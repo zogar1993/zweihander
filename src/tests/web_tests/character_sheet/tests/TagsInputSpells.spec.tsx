@@ -7,7 +7,7 @@ import {
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
-import { TEST_MAGIC_SCHOOLS } from "./utils/collections"
+import { TEST_MAGIC_SCHOOLS } from "../utils/collections"
 
 const SCHOOL = TEST_MAGIC_SCHOOLS[2]
 const PRE_EXISTING_SPELL_1 = SCHOOL.spells[1]

@@ -3,7 +3,7 @@ import {
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
-import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "./utils/collections"
+import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "../utils/collections"
 
 const ARCHETYPE = TEST_ARCHETYPES[0]
 const PROFESSION_1 = TEST_PROFESSIONS.find(

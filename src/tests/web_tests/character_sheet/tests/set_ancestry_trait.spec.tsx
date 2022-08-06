@@ -3,7 +3,7 @@ import {
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
-import { TEST_ANCESTRIES } from "./utils/collections"
+import { TEST_ANCESTRIES } from "../utils/collections"
 
 const ANCESTRY = TEST_ANCESTRIES[2]
 const NEW_CHARACTER_ANCESTRY_TRAIT = ANCESTRY.traits[2]
