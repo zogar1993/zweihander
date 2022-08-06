@@ -1,6 +1,7 @@
 import {
+	A_USER,
 	ANOTHER_USER,
-	change_number_input_value,
+	change_number_input_value, given_your_email_is,
 	render_character_sheet, then_number_input_has_a_value_of, then_number_input_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
@@ -26,9 +27,8 @@ describe("Age Textbox should", () => {
 	})
 
 	it("be disabled if it is not yours", async () => {
-		await render_character_sheet({age: CHARACTER_AGE}, {email: ANOTHER_USER})
-
-		await character_sheet_finished_loading()
+		await given_your_email_is(A_USER)
+		await render_character_sheet({age: CHARACTER_AGE, created_by: ANOTHER_USER})
 
 		await then_number_input_is_disabled("Age")
 	})

@@ -1,14 +1,18 @@
 import { fireEvent, screen } from "@testing-library/react"
 import {
+	A_USER,
+	ANOTHER_USER,
 	click_menu_item,
 	delete_character_api_was_called,
 	delete_character_api_was_not_called,
+	given_you_have_role,
+	given_your_email_is,
 	render_character_sheet,
 	then_menu_item_is_not_shown,
 	user_is_not_redirected,
 	user_is_redirected_to
 } from "@tests/web_tests/character_sheet/utils/utils"
-import { UserRole } from "@web/components/character_sheet/hooks/UseIsAdminUser"
+import { UserRole } from "@web/components/character_sheet/hooks/UseHasAdminRole"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 describe("Delete Character Sheet should", () => {
@@ -35,19 +39,17 @@ describe("Delete Character Sheet should", () => {
 	})
 
 	it("not be possible if you are a non owner user", async () => {
-		await render_character_sheet(
-			{ created_by: USER_A_EMAIL },
-			{ email: USER_B_EMAIL, role: UserRole.User }
-		)
+		await given_your_email_is(A_USER)
+		await given_you_have_role(UserRole.User)
+		await render_character_sheet({ created_by: ANOTHER_USER })
 
 		await then_menu_item_is_not_shown(ACCORDION_ITEM.DANGER_ZONE)
 	})
 
 	it("be possible if you are a non owner admin", async () => {
-		await render_character_sheet(
-			{ created_by: USER_A_EMAIL },
-			{ email: USER_B_EMAIL, role: UserRole.Admin }
-		)
+		await given_your_email_is(A_USER)
+		await given_you_have_role(UserRole.Admin)
+		await render_character_sheet({ created_by: ANOTHER_USER })
 
 		await click_menu_item(ACCORDION_ITEM.DANGER_ZONE)
 		await click_button("Delete")
@@ -58,10 +60,9 @@ describe("Delete Character Sheet should", () => {
 	})
 
 	it("be possible if you are an owner admin", async () => {
-		await render_character_sheet(
-			{ created_by: USER_A_EMAIL },
-			{ email: USER_A_EMAIL, role: UserRole.Admin }
-		)
+		await given_your_email_is(A_USER)
+		await given_you_have_role(UserRole.Admin)
+		await render_character_sheet({ created_by: A_USER })
 
 		await click_menu_item(ACCORDION_ITEM.DANGER_ZONE)
 		await click_button("Delete")
@@ -76,6 +77,3 @@ async function click_button(name: string) {
 	const button = screen.getByRole("button", { name: name })
 	fireEvent.click(button)
 }
-
-const USER_A_EMAIL = "jeanette@email.com"
-const USER_B_EMAIL = "therese@email.com"
