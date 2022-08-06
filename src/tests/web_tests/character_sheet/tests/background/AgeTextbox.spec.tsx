@@ -24,6 +24,7 @@ describe("Age Textbox should", () => {
 		await update_character_api_was_called_with([
 			{ action: "set_value", property: "age", value: NEW_CHARACTER_AGE }
 		])
+		await then_number_input_has_a_value_of("Age", NEW_CHARACTER_AGE)
 	})
 
 	it("be disabled if it is not yours", async () => {
@@ -31,6 +32,7 @@ describe("Age Textbox should", () => {
 		await render_character_sheet({age: CHARACTER_AGE, created_by: ANOTHER_USER})
 
 		await then_number_input_is_disabled("Age")
+		await then_number_input_has_a_value_of("Age", CHARACTER_AGE)
 	})
 
 	it("be 0 by default", async () => {

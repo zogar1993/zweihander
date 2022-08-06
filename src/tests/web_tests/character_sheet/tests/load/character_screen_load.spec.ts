@@ -36,8 +36,6 @@ describe("Character Sheet Screen should", () => {
 	xit("show character values on load", async () => {
 		await render_character_sheet(A_CHARACTER_SHEET)
 
-		await then_textbox_has_a_value_of("Name", NAME)
-		await then_textbox_has_a_value_of("Sex", SEX.name)
 		await then_textbox_has_a_value_of("Social Class", SOCIAL_CLASS.name)
 		await then_textbox_has_a_value_of("Upbringing", UPBRINGING.name)
 		await then_textbox_has_a_value_of("Archetype", ARCHETYPE.name)
@@ -81,8 +79,6 @@ describe("Character Sheet Screen should", () => {
 	xit("show correct defaults for an empty character sheet", async () => {
 		await render_character_sheet({})
 
-		await then_textbox_has_a_value_of("Name", "")
-		await then_textbox_has_a_value_of("Sex", "")
 		await then_textbox_has_a_value_of("Social Class", "")
 		await then_textbox_has_a_value_of("Upbringing", "")
 		await then_textbox_has_a_value_of("Archetype", "")
@@ -114,8 +110,6 @@ describe("Character Sheet Screen should", () => {
 		await given_your_email_is(A_USER)
 		await render_character_sheet({ created_by: ANOTHER_USER })
 
-		await then_textbox_is_disabled("Name")
-		await then_textbox_is_disabled("Sex")
 		await then_textbox_is_disabled("Social Class")
 		await then_textbox_is_disabled("Upbringing")
 		await then_textbox_is_disabled("Archetype")

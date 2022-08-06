@@ -19,7 +19,7 @@ describe("Name Textbox should", () => {
 		await then_textbox_has_a_value_of("Name", CHARACTER_NAME)
 	})
 
-	it("send a 'set_value|name' action on change", async () => {
+	it("send a 'set_value|name' action and show updated value on change", async () => {
 		await render_character_sheet()
 
 		await change_textbox_value("Name", NEW_CHARACTER_NAME)
@@ -27,6 +27,7 @@ describe("Name Textbox should", () => {
 		await update_character_api_was_called_with([
 			{ action: "set_value", property: "name", value: NEW_CHARACTER_NAME }
 		])
+		await then_textbox_has_a_value_of("Name", NEW_CHARACTER_NAME)
 	})
 
 	it("be disabled if it is not yours", async () => {
@@ -34,6 +35,7 @@ describe("Name Textbox should", () => {
 		await render_character_sheet({name: CHARACTER_NAME, created_by: ANOTHER_USER})
 
 		await then_textbox_is_disabled("Name")
+		await then_textbox_has_a_value_of("Name", CHARACTER_NAME)
 	})
 
 
