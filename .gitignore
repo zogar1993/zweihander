@@ -42,3 +42,4 @@ yarn-error.log*
 
 # Cypress
 cypress.env.json
+cypress/fixtures
