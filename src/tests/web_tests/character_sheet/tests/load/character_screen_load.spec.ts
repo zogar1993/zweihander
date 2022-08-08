@@ -36,14 +36,6 @@ describe("Character Sheet Screen should", () => {
 	xit("show character values on load", async () => {
 		await render_character_sheet(A_CHARACTER_SHEET)
 
-		await then_textbox_has_a_value_of("Social Class", SOCIAL_CLASS.name)
-		await then_textbox_has_a_value_of("Upbringing", UPBRINGING.name)
-		await then_textbox_has_a_value_of("Archetype", ARCHETYPE.name)
-		await then_textbox_has_a_value_of("Profession 1", PROFESSION_1.name)
-		await then_textbox_has_a_value_of("Profession 2", PROFESSION_2.name)
-		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name)
-		await then_textbox_has_a_value_of("Chaos Alignment", CHAOS_ALIGNMENT.name)
-		await then_textbox_has_a_value_of("Order Alignment", ORDER_ALIGNMENT.name)
 		await Promise.all(PERIL_CONDITIONS.map(peril => PERIL_CONDITION.code === peril.code ?
 			then_radio_is_checked(peril.name) : then_radio_is_unchecked(peril.name)
 		))
@@ -79,14 +71,6 @@ describe("Character Sheet Screen should", () => {
 	xit("show correct defaults for an empty character sheet", async () => {
 		await render_character_sheet({})
 
-		await then_textbox_has_a_value_of("Social Class", "")
-		await then_textbox_has_a_value_of("Upbringing", "")
-		await then_textbox_has_a_value_of("Archetype", "")
-		await then_textbox_has_a_value_of("Profession 1", "")
-		await then_textbox_has_a_value_of("Profession 2", "")
-		await then_textbox_has_a_value_of("Profession 3", "")
-		await then_textbox_has_a_value_of("Chaos Alignment", "")
-		await then_textbox_has_a_value_of("Order Alignment", "")
 		await Promise.all(PERIL_CONDITIONS.map(peril => 0 === peril.code ?
 			then_radio_is_checked(peril.name) : then_radio_is_unchecked(peril.name)
 		))
@@ -109,15 +93,6 @@ describe("Character Sheet Screen should", () => {
 	xit("show all fields as disabled when character is not yours", async () => {
 		await given_your_email_is(A_USER)
 		await render_character_sheet({ created_by: ANOTHER_USER })
-
-		await then_textbox_is_disabled("Social Class")
-		await then_textbox_is_disabled("Upbringing")
-		await then_textbox_is_disabled("Archetype")
-		await then_textbox_is_disabled("Profession 1")
-		await then_textbox_is_disabled("Profession 2")
-		await then_textbox_is_disabled("Profession 3")
-		await then_textbox_is_disabled("Chaos Alignment")
-		await then_textbox_is_disabled("Order Alignment")
 		await Promise.all(PERIL_CONDITIONS.map(peril => then_radio_is_disabled(peril.name)))
 		await Promise.all(DAMAGE_CONDITIONS.map(damage => then_radio_is_disabled(damage.name)))
 		//await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
