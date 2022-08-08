@@ -1,7 +1,7 @@
 import {
 	A_USER, ANOTHER_USER,
 	change_number_input_value, given_your_email_is,
-	render_character_sheet, then_number_input_has_a_value_of, then_number_input_is_disabled,
+	render_character_sheet, then_number_input_has_a_value_of, then_number_input_is_disabled, then_radio_is_checked,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 
@@ -27,6 +27,7 @@ describe("Corruption Textbox should", () => {
 				value: NEW_CHARACTER_CORRUPTION
 			}
 		])
+		await then_number_input_has_a_value_of("Corruption", NEW_CHARACTER_CORRUPTION)
 	})
 
 	it("be disabled if it is not yours", async () => {

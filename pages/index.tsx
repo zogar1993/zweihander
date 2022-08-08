@@ -18,6 +18,8 @@ export default function Homepage() {
 				<li>- 20220804 - BUGFIX talent options for repeated talents now take into consideration unselected talents</li>
 				<li>- 20220804 - FEATURE new character sheet experience is calculated according to the rulebook</li>
 				<li>- 20220805 - FEATURE now controls inside of tiers and unique advances are interactive</li>
+				<li>- 20220808 - BUGFIX now character sheet journal displays its content properly</li>
+				<li>- 20220808 - ACCESSIBILITY now character sheet trackers have accessible radiogroup roles</li>
 			</ul>
 		</>
 	)

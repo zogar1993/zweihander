@@ -1,7 +1,7 @@
 import {
 	A_USER, ANOTHER_USER,
 	change_dots_value, given_your_email_is,
-	render_character_sheet, then_dots_are_disabled, then_dots_is_checked_on,
+	render_character_sheet, then_dots_are_disabled, then_dots_is_checked_on, then_number_input_has_a_value_of,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 
@@ -23,6 +23,7 @@ describe("Order Ranks Dots should", () => {
 		await update_character_api_was_called_with([
 			{ action: "set_value", property: "order_ranks", value: NEW_ORDER_RANKS }
 		])
+		await then_dots_is_checked_on("Order Ranks", NEW_ORDER_RANKS)
 	})
 
 	it("be disabled if it is not yours", async () => {

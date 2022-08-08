@@ -36,12 +36,6 @@ describe("Character Sheet Screen should", () => {
 	xit("show character values on load", async () => {
 		await render_character_sheet(A_CHARACTER_SHEET)
 
-		await Promise.all(PERIL_CONDITIONS.map(peril => PERIL_CONDITION.code === peril.code ?
-			then_radio_is_checked(peril.name) : then_radio_is_unchecked(peril.name)
-		))
-		await Promise.all(DAMAGE_CONDITIONS.map(damage => DAMAGE_CONDITION.code === damage.code ?
-			then_radio_is_checked(damage.name) : then_radio_is_unchecked(damage.name)
-		))
 		await then_dots_is_checked_on(`${SKILL.name} Ranks`, SKILL_RANKS)
 		await then_dots_is_checked_on(
 			`${ATTRIBUTE.name} Advances`,
@@ -51,9 +45,6 @@ describe("Character Sheet Screen should", () => {
 			`${ATTRIBUTE.name} Base`,
 			ATTRIBUTE_BASE
 		)
-		await then_dots_is_checked_on("Chaos Ranks", CHAOS_RANKS)
-		await then_dots_is_checked_on("Order Ranks", ORDER_RANKS)
-		await then_number_input_has_a_value_of("Corruption", CORRUPTION)
 		await then_checkbox_exists(TALENT_1.name)
 		await then_checkbox_exists(TALENT_2.name)
 		await click_menu_item(ACCORDION_ITEM.FOCUSES)
@@ -71,18 +62,9 @@ describe("Character Sheet Screen should", () => {
 	xit("show correct defaults for an empty character sheet", async () => {
 		await render_character_sheet({})
 
-		await Promise.all(PERIL_CONDITIONS.map(peril => 0 === peril.code ?
-			then_radio_is_checked(peril.name) : then_radio_is_unchecked(peril.name)
-		))
-		await Promise.all(DAMAGE_CONDITIONS.map(damage => 0 === damage.code ?
-			then_radio_is_checked(damage.name) : then_radio_is_unchecked(damage.name)
-		))
 		await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
 		await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
-		await then_dots_is_checked_on("Chaos Ranks", 0)
-		await then_dots_is_checked_on("Order Ranks", 0)
-		await then_number_input_has_a_value_of("Corruption", 0)
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
 		await then_textbox_has_a_value_of(
 			"Visibility",
@@ -93,14 +75,9 @@ describe("Character Sheet Screen should", () => {
 	xit("show all fields as disabled when character is not yours", async () => {
 		await given_your_email_is(A_USER)
 		await render_character_sheet({ created_by: ANOTHER_USER })
-		await Promise.all(PERIL_CONDITIONS.map(peril => then_radio_is_disabled(peril.name)))
-		await Promise.all(DAMAGE_CONDITIONS.map(damage => then_radio_is_disabled(damage.name)))
 		//await then_dots_is_checked_on(`${SKILL.name} Ranks`, 0)
 		//await then_dots_is_checked_on(`${ATTRIBUTE.name} Advances`, 0)
 		//await then_number_input_has_a_value_of(`${ATTRIBUTE.name} Base`, 42)
-		//await then_dots_is_checked_on("Chaos Ranks", 0)
-		//await then_dots_is_checked_on("Order Ranks", 0)
-		await then_number_input_is_disabled("Corruption")
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
 		await then_textbox_is_disabled("Visibility")
 		await then_menu_item_is_not_shown(ACCORDION_ITEM.DANGER_ZONE)

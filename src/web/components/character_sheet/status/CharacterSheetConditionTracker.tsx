@@ -23,7 +23,7 @@ export default function CharacterSheetConditionTracker({
 		<ThresholdContainer>
 			<Title>{type} Condition Track</Title>
 			<ValuesContainer>
-				<ConditionStepsContainer>
+				<ConditionStepsContainer role="radiogroup" aria-label={`${type} Tracker`}>
 					{conditions.map(x => {
 						return (
 							<ConditionStep
@@ -94,7 +94,7 @@ function ConditionStep({
 }) {
 	const isOwner = useIsCharacterSheetOwner()
 	return (
-		<InputWrapper role="radiogroup">
+		<InputWrapper>
 			<RadioButton
 				value={value}
 				checked={selected}
