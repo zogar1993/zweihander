@@ -153,6 +153,12 @@ export async function then_dots_is_checked_on(name: string, value: number) {
 	await waitFor(() => expect(selected).toBeChecked())
 }
 
+export async function then_dots_are_disabled(name: string) {
+	const group = screen.getByRole("radiogroup", { name: name })
+	const radios = within(group).queryAllByRole("radio")
+	radios.forEach(radio => expect(radio).toBeDisabled())
+}
+
 export async function then_radio_is_disabled(name: string) {
 	const radio = screen.getByRole("radio", { name: name })
 	await waitFor(() => expect(radio).toBeDisabled())
