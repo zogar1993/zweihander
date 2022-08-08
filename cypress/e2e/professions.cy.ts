@@ -13,7 +13,7 @@ describe("/professions", () => {
 	});
 
 	(require("../fixtures/profession.json") as Array<Profession>).map(profession =>
-		it(`shows profession "${profession.name}"`, () => {
+		it(`Profession "${profession.name}"`, () => {
 			cy.visit("/professions").then(() => {
 				cy.findByRole("article", {name: profession.name}).findByText(profession.name)
 				cy.findByRole("article", {name: profession.name}).findByText(profession.book)

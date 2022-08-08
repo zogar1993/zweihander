@@ -20,7 +20,7 @@ describe("/magic/{school?}", () => {
 	sources_without_schools.map(source =>
 		source.schools.map(school =>
 			school.spells.map(spell =>
-				it(`${source.name} - ${spell.name}`, () => {
+				it(`Spell ${source.name} - ${spell.name}`, () => {
 					cy.visit(`magic/${source.code}`)
 					validateSpell(spell)
 				})
@@ -31,7 +31,7 @@ describe("/magic/{school?}", () => {
 	sources_with_schools.map(source =>
 		source.schools.map(school =>
 			school.spells.map(spell =>
-				it(`${source.name} - ${school.name} - ${spell.name}`, () => {
+				it(`Spell ${source.name} - ${school.name} - ${spell.name}`, () => {
 					cy.visit(`magic/${source.code}/${school.code}`)
 					cy.findByRole("link", {name: school.name}).click()
 					validateSpell(spell)
@@ -52,8 +52,4 @@ function validateSpell(spell: Spell) {
 	cy.findByText(spell.critical_failure)
 	cy.findByText(spell.critical_success)
 	cy.findByText(spell.reagents)
-	//TODO fix ambiguity here
-	//await screen.findByText(spell.duration)
-	//await screen.findByText(spell.distance)
-	//TODO fix root sources like magic/arcana/
 }

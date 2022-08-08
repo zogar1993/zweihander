@@ -12,7 +12,7 @@ describe("/talents", () => {
 	});
 
 	(require("../fixtures/talent.json") as Array<Talent>).map(talent =>
-		it(`shows talent ${talent}`, () => {
+		it(`Talent ${talent}`, () => {
 			cy.visit("/talents").then(() => {
 				cy.findByRole("article", {name: talent.name}).findByText(talent.name)
 				cy.findByRole("article", {name: talent.name}).findByText(talent.description)
