@@ -3,11 +3,9 @@ import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections
 import {
 	change_combobox_item,
 	change_textbox_value,
-	click_menu_item,
 	press_ctrl_z,
 	render_character_sheet
 } from "@tests/web_tests/character_sheet/utils/utils"
-import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 
 describe("Character Sheet Screen should", () => {
 	it("undo add_to_array", async () => {
