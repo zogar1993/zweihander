@@ -6,8 +6,6 @@ import {
 	render_character_sheet,
 	then_dots_are_disabled,
 	then_dots_is_checked_on,
-	then_textbox_has_a_value_of,
-	then_textbox_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 

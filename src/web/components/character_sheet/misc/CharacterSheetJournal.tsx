@@ -5,7 +5,7 @@ import {
 } from "@web/components/character_sheet/CharacterSheetContext"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
-import {useCallback, useEffect, useRef, useState} from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetJournal() {

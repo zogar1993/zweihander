@@ -4,8 +4,6 @@ import {
 	click_radiobutton,
 	given_your_email_is,
 	render_character_sheet,
-	then_dots_are_disabled,
-	then_dots_is_checked_on,
 	then_radio_is_checked,
 	then_radio_is_disabled,
 	update_character_api_was_called_with

@@ -1,9 +1,5 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
-import {
-	change_dots_value,
-	render_character_sheet,
-	then_dots_is_checked_on
-} from "../../utils/utils"
+import { change_dots_value, render_character_sheet, then_dots_is_checked_on } from "../../utils/utils"
 
 const SKILL = SKILL_DEFINITIONS[0]
 

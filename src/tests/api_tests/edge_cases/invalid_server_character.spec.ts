@@ -1,8 +1,4 @@
-import {
-	expect_character_to_be_unchanged,
-	the_saved_character_has,
-	update_character
-} from "@tests/api_tests/utils"
+import { expect_character_to_be_unchanged, the_saved_character_has, update_character } from "@tests/api_tests/utils"
 
 describe("Character Update API should", () => {
 	it("when server state is wrong, return server error", async () => {

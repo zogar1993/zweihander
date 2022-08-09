@@ -1,10 +1,14 @@
 import {
-	A_USER, ANOTHER_USER,
-	change_combobox_item, given_your_email_is,
-	render_character_sheet, then_textbox_has_a_value_of, then_textbox_is_disabled,
+	A_USER,
+	ANOTHER_USER,
+	change_combobox_item,
+	given_your_email_is,
+	render_character_sheet,
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
-import {TEST_ARCHETYPES, TEST_PROFESSIONS} from "../../utils/collections"
+import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "../../utils/collections"
 
 const ARCHETYPE = TEST_ARCHETYPES[1]
 const ARCHETYPE_PROFESSIONS = TEST_PROFESSIONS.filter(professions =>

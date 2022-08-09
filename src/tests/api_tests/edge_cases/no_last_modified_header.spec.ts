@@ -1,7 +1,4 @@
-import {
-	expect_character_to_be_unchanged,
-	update_character_full
-} from "@tests/api_tests/utils"
+import { expect_character_to_be_unchanged, update_character_full } from "@tests/api_tests/utils"
 import { blocksToObjects } from "@web/misc/UpdateActionBlock"
 
 describe("Character Update API should", () => {

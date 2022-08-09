@@ -1,4 +1,4 @@
-import {Ancestry} from "@core/domain/types/Ancestry"
+import { Ancestry } from "@core/domain/types/Ancestry"
 
 describe("/ancestries", () => {
 	before(() => {

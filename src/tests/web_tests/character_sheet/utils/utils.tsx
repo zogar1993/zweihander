@@ -1,28 +1,12 @@
 import { UpdateAction } from "@api/characters/[id]/update"
 import { UserProvider } from "@auth0/nextjs-auth0"
-import sanitizeCharacterSheet, {
-	UnsanitizedCharacterSheetData
-} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
-import {
-	BoundFunctions,
-	fireEvent,
-	queries,
-	render,
-	screen,
-	waitFor,
-	within
-} from "@testing-library/react"
+import sanitizeCharacterSheet, { UnsanitizedCharacterSheetData } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { BoundFunctions, fireEvent, queries, render, screen, waitFor, within } from "@testing-library/react"
 import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
-import {
-	ROLES_PROPERTY_NAME,
-	UserRole
-} from "@web/components/character_sheet/hooks/UseHasAdminRole"
-import {
-	ComboboxCode,
-	ComboBoxItem
-} from "misevi/dist/components/inner_components/ComboBox"
+import { ROLES_PROPERTY_NAME, UserRole } from "@web/components/character_sheet/hooks/UseHasAdminRole"
+import { ComboboxCode, ComboBoxItem } from "misevi/dist/components/inner_components/ComboBox"
 import { RouterContext } from "next/dist/shared/lib/router-context"
 import {
 	TEST_ANCESTRIES,

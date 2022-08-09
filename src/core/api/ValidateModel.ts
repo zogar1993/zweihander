@@ -9,12 +9,7 @@ import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitizati
 import { getByCode } from "@core/domain/general/GetByCode"
 import { hasByCode } from "@core/domain/general/HasByCode"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
-import {
-	SETTINGS_VISIBILITY,
-	SEXES,
-	SOCIAL_CLASSES,
-	UPBRINGINGS
-} from "@web/components/character_sheet/bio/Constants"
+import { SETTINGS_VISIBILITY, SEXES, SOCIAL_CLASSES, UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 
 export async function validateModel(
 	character: SanitizedCharacterSheet

@@ -2,10 +2,7 @@ import { getSession } from "@auth0/nextjs-auth0"
 import deleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfId"
 import getCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
 import getCharacterSheetOfIdMetadata from "@core/actions/GetCharacterSheetOfIdMetadata"
-import {
-	ROLES_PROPERTY_NAME,
-	UserRole
-} from "@web/components/character_sheet/hooks/UseHasAdminRole"
+import { ROLES_PROPERTY_NAME, UserRole } from "@web/components/character_sheet/hooks/UseHasAdminRole"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(

@@ -4,10 +4,7 @@ import * as DeleteCharacterSheetOfId from "@core/actions/DeleteCharacterSheetOfI
 import * as GetCharacterSheetMetadata from "@core/actions/GetCharacterSheetOfIdMetadata"
 import { TestNextApiResponse } from "@tests/api_tests/utils"
 import { DEFAULT_CHARACTER_SHEET } from "@tests/web_tests/character_sheet/utils/utils"
-import {
-	ROLES_PROPERTY_NAME,
-	UserRole
-} from "@web/components/character_sheet/hooks/UseHasAdminRole"
+import { ROLES_PROPERTY_NAME, UserRole } from "@web/components/character_sheet/hooks/UseHasAdminRole"
 import { NextApiRequest } from "next"
 
 export const deleteCharacterSheetOfIdSpy = jest.spyOn(

@@ -1,10 +1,14 @@
 import {
-	A_USER, ANOTHER_USER,
-	click_radiobutton, given_your_email_is,
-	render_character_sheet, then_radio_is_checked, then_radio_is_disabled,
+	A_USER,
+	ANOTHER_USER,
+	click_radiobutton,
+	given_your_email_is,
+	render_character_sheet,
+	then_radio_is_checked,
+	then_radio_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
-import {DAMAGE_CONDITIONS} from "@web/components/character_sheet/bio/Constants"
+import { DAMAGE_CONDITIONS } from "@web/components/character_sheet/bio/Constants"
 
 const VALUE = DAMAGE_CONDITIONS[1]
 const NEW_VALUE = DAMAGE_CONDITIONS[2]

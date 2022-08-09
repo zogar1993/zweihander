@@ -3,8 +3,8 @@ import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import { CalculatedCombobox, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
-import { Item } from "@core/domain/types/Item"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
+import { Item } from "@core/domain/types/Item"
 
 export default function calculateProfessionProfile({
 																										 character,

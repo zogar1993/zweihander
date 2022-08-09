@@ -1,7 +1,4 @@
-import {
-	DocumentContext,
-	DocumentInitialProps
-} from "next/dist/shared/lib/utils"
+import { DocumentContext, DocumentInitialProps } from "next/dist/shared/lib/utils"
 import Document from "next/document"
 import { ServerStyleSheet } from "styled-components"
 

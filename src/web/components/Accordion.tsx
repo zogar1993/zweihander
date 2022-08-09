@@ -27,10 +27,10 @@ export type AccordionItemType = {
 }
 
 function AccordionItem({
-	item,
-	disabled,
-	z
-}: {
+												 item,
+												 disabled,
+												 z
+											 }: {
 	item: AccordionItemType
 	disabled: boolean
 	z: number
@@ -78,37 +78,37 @@ function AccordionItem({
 }
 
 const AccordionContainer = styled.div`
-	display: flex;
-	position: relative;
-	flex-direction: column;
-	border-radius: ${theme.borders.radius};
-	border: 1px gray solid;
-	grid-area: misc;
-	background-color: gray;
-	overflow-y: auto;
-	overflow-x: hidden;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  border-radius: ${theme.borders.radius};
+  border: 1px gray solid;
+  grid-area: misc;
+  background-color: gray;
+  overflow-y: auto;
+  overflow-x: hidden;
 
-	::-webkit-scrollbar {
-		display: none;
-		appearance: none;
-		width: 6px;
-	}
+  ::-webkit-scrollbar {
+    display: none;
+    appearance: none;
+    width: 6px;
+  }
 `
 
 const AccordionItemTab = styled.button`
-	width: 100%;
-	text-align: center;
-	height: 36px;
-	min-height: 36px;
-	font-size: 20px;
-	font-family: ${theme.fonts.title};
-	background-color: lightgray;
-	user-select: none;
-	cursor: pointer;
-	position: relative;
-	z-index: ${Z_INDEX_LEVEL.MENU};
+  width: 100%;
+  text-align: center;
+  height: 36px;
+  min-height: 36px;
+  font-size: 20px;
+  font-family: ${theme.fonts.title};
+  background-color: lightgray;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  z-index: ${Z_INDEX_LEVEL.MENU};
 
-	${({ disabled }) => (disabled ? "cursor: wait" : "")};
+  ${({ disabled }) => (disabled ? "cursor: wait" : "")};
 `
 
 const AccordionItemContent = styled.div<{
@@ -118,32 +118,32 @@ const AccordionItemContent = styled.div<{
 	focused: boolean
 	$z: number
 }>`
-	background-color: whitesmoke;
-	padding: ${theme.spacing.separation};
-	margin-top: ${({ "aria-expanded": expanded, $height }) =>
-		expanded ? 0 : `-${$height}px`};
-	transition: 0.2s ease-out margin-top;
-	position: ${({ initialized }) => (initialized ? "relative" : "absolute")};
-	opacity: ${({ initialized }) => (initialized ? 1 : 0)};
-	${({ focused, $z }) =>
-		focused ? "" : `z-index: ${Z_INDEX_LEVEL.COMPONENT + $z}`};
-	${({ "aria-expanded": expanded }) =>
-		expanded ? "" : "pointer-events: none"};
+  background-color: whitesmoke;
+  padding: ${theme.spacing.separation};
+  margin-top: ${({ "aria-expanded": expanded, $height }) =>
+          expanded ? 0 : `-${$height}px`};
+  transition: 0.2s ease-out margin-top;
+  position: ${({ initialized }) => (initialized ? "relative" : "absolute")};
+  opacity: ${({ initialized }) => (initialized ? 1 : 0)};
+  ${({ focused, $z }) =>
+          focused ? "" : `z-index: ${Z_INDEX_LEVEL.COMPONENT + $z}`};
+  ${({ "aria-expanded": expanded }) =>
+          expanded ? "" : "pointer-events: none"};
 `
 
 const ItemContainer = styled.div`
-	width: 100%;
+  width: 100%;
 
-	//this makes the last delimiter disappear
-	:last-child > :last-child {
-		display: none;
-	}
+  //this makes the last delimiter disappear
+  :last-child > :last-child {
+    display: none;
+  }
 `
 
 const ItemDelimiter = styled.div`
-	position: relative;
-	z-index: ${Z_INDEX_LEVEL.MENU};
-	border-bottom: 1px solid gray;
+  position: relative;
+  z-index: ${Z_INDEX_LEVEL.MENU};
+  border-bottom: 1px solid gray;
 `
 
 export type AccordionProps = {

@@ -4,7 +4,8 @@ import CharacterSheetAttributes from "@web/components/character_sheet/CharacterS
 import CharacterSheetConfirmationModal from "@web/components/character_sheet/CharacterSheetConfirmationModal"
 import {
 	CharacterSheetContextProvider,
-	CharacterSheetProps, useCharacterSheetState
+	CharacterSheetProps,
+	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
 import useHasNoRole from "@web/components/character_sheet/hooks/UseHasNoRole"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"

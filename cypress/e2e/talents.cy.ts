@@ -1,4 +1,4 @@
-import {Talent} from "@core/domain/types/Talent"
+import { Talent } from "@core/domain/types/Talent"
 
 describe("/talents", () => {
 	before(() => {

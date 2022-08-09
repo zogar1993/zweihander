@@ -13,4 +13,4 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import './commands.ts'
+import "./commands.ts"

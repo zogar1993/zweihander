@@ -1,4 +1,3 @@
-import calculateProfessionProfile from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import { TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 
 const TALENTS = [

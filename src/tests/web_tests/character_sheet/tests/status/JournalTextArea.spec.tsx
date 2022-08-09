@@ -1,8 +1,12 @@
 import {
-	A_USER, ANOTHER_USER,
+	A_USER,
+	ANOTHER_USER,
 	change_textbox_value,
-	click_menu_item, given_your_email_is,
-	render_character_sheet, then_dots_is_checked_on, then_textbox_has_a_value_of, then_textbox_is_disabled,
+	click_menu_item,
+	given_your_email_is,
+	render_character_sheet,
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"

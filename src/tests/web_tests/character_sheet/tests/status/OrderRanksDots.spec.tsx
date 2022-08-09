@@ -1,7 +1,11 @@
 import {
-	A_USER, ANOTHER_USER,
-	change_dots_value, given_your_email_is,
-	render_character_sheet, then_dots_are_disabled, then_dots_is_checked_on, then_number_input_has_a_value_of,
+	A_USER,
+	ANOTHER_USER,
+	change_dots_value,
+	given_your_email_is,
+	render_character_sheet,
+	then_dots_are_disabled,
+	then_dots_is_checked_on,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 

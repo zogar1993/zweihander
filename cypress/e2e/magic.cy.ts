@@ -1,5 +1,5 @@
-import {MagicSource} from "@core/domain/types/MagicSource"
-import {Spell} from "@core/domain/types/Spell"
+import { MagicSource } from "@core/domain/types/MagicSource"
+import { Spell } from "@core/domain/types/Spell"
 
 
 describe("/magic/{school?}", () => {

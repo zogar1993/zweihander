@@ -1,9 +1,7 @@
-import { fireEvent, waitFor, screen } from "@testing-library/react"
+import { fireEvent, screen, waitFor } from "@testing-library/react"
 import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
-import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
 import {
 	change_combobox_item,
-	click_menu_item,
 	is_a_combobox_option,
 	render_character_sheet,
 	update_character_api_was_called_with
