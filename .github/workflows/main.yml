@@ -24,6 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install
-        run: npm install
+        run: yarn install
       - name: Run Jest Tests
-        run: npm run jest
+        run: yarn jest
