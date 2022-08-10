@@ -1,4 +1,4 @@
-import { Trait } from "@web/components/ancestry/AncestryTraitCard"
+import { Trait } from "@core/domain/types/Profession"
 import { Card } from "@web/components/card/Card"
 import { CardTitle } from "@web/components/card/CardTitle"
 import React from "react"

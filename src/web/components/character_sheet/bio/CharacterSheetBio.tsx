@@ -1,10 +1,6 @@
 import CharacterSheetAncestry from "@web/components/character_sheet/bio/CharacterSheetAncestry"
 import CharacterSheetProfessions from "@web/components/character_sheet/bio/CharacterSheetProfessions"
-import {
-	SEXES,
-	SOCIAL_CLASSES,
-	UPBRINGINGS
-} from "@web/components/character_sheet/bio/Constants"
+import { SEXES, SOCIAL_CLASSES, UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 import {
 	ActionType,
 	useCharacterSheetDispatcher,

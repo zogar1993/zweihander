@@ -1,7 +1,4 @@
-import {
-	ActionType,
-	useCharacterSheetDispatcher
-} from "@web/components/character_sheet/CharacterSheetContext"
+import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import useCharacterUpdatesQueue from "@web/components/character_sheet/hooks/UseCharacterUpdatesQueue"
 import useCtrlZ from "@web/components/character_sheet/hooks/UseCtrlZ"
 

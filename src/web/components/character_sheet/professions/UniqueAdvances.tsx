@@ -1,3 +1,5 @@
+import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import { SkillCode } from "@core/domain/skill/SkillCode"
 import {
 	ActionType,
 	useCharacterSheetDispatcher,
@@ -12,8 +14,10 @@ import styled from "styled-components"
 //TODO should be buttons instead maybe
 export default function UniqueAdvances() {
 	const { character: { profession_profile: { spending_outside_profession }, talent } } = useCharacterSheetState()
+	const { _character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
+
 	return (
 		<Container>
 			<Title>Unique Advances</Title>
@@ -22,7 +26,20 @@ export default function UniqueAdvances() {
 				<Title>Attributes</Title>
 				<Grid columns={2}>
 					{spending_outside_profession.attributes.map((x, i) => (
-						<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`} />
+						<CheckButton
+							text={x.name}
+							checked={x.checked}
+							key={`${i}-${x}`}
+							onChange={() =>
+								dispatch({
+									type: ActionType.SetAttributeAdvancements,
+									payload: {
+										attribute: x.code as AttributeCode,
+										value: _character.attributes[x.code as AttributeCode].advances -1
+									}
+								})
+							}
+						/>
 					))}
 				</Grid>
 			</>
@@ -32,7 +49,20 @@ export default function UniqueAdvances() {
 				<Title>Skills</Title>
 				<Grid columns={2}>
 					{spending_outside_profession.skills.map((x, i) => (
-						<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`} />
+						<CheckButton
+						text={x.name}
+						checked={x.checked}
+						key={`${i}-${x}`}
+						onChange={() =>
+							dispatch({
+								type: ActionType.SetSkillRanks,
+								payload: {
+									skill: x.code as SkillCode,
+									value: _character.skills[x.code as SkillCode].ranks - 1
+								}
+							})
+						}
+					/>
 					))}
 				</Grid>
 			</>

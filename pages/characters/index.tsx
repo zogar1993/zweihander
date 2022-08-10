@@ -1,5 +1,5 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0"
-import { CharacterPreview } from "@core/actions/GetCharacters"
+import { CharacterPreview } from "@core/domain/types/CharacterPreview"
 import CharactersScreen from "@web/components/character_sheet/CharactersScreen"
 import useCollection from "@web/hooks/UseCollection"
 import React from "react"

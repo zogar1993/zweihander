@@ -1,9 +1,5 @@
 import { useUser } from "@auth0/nextjs-auth0"
-import Menu, {
-	LeafItem,
-	MENU_WIDTH_EXTENDED,
-	MenuItem
-} from "@web/components/app/Menu"
+import Menu, { LeafItem, MENU_WIDTH_EXTENDED, MenuItem } from "@web/components/app/Menu"
 import { LoadingModal } from "@web/components/redirect_loaders/LoadingModalContext"
 import theme from "@web/theme/theme"
 import React, { useState } from "react"

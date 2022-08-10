@@ -1,28 +1,12 @@
 import { UpdateAction } from "@api/characters/[id]/update"
 import { UserProvider } from "@auth0/nextjs-auth0"
-import sanitizeCharacterSheet, {
-	UnsanitizedCharacterSheetData
-} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
-import {
-	BoundFunctions,
-	fireEvent,
-	queries,
-	render,
-	screen,
-	waitFor,
-	within
-} from "@testing-library/react"
+import sanitizeCharacterSheet, { UnsanitizedCharacterSheetData } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import { BoundFunctions, fireEvent, queries, render, screen, waitFor, within } from "@testing-library/react"
 import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
-import {
-	ROLES_PROPERTY_NAME,
-	UserRole
-} from "@web/components/character_sheet/hooks/UseIsAdminUser"
-import {
-	ComboboxCode,
-	ComboBoxItem
-} from "misevi/dist/components/inner_components/ComboBox"
+import { ROLES_PROPERTY_NAME, UserRole } from "@web/components/character_sheet/hooks/UseHasAdminRole"
+import { ComboboxCode, ComboBoxItem } from "misevi/dist/components/inner_components/ComboBox"
 import { RouterContext } from "next/dist/shared/lib/router-context"
 import {
 	TEST_ANCESTRIES,
@@ -40,15 +24,35 @@ const deleteCharacterOfIdSpy = jest.spyOn(deleteCharacterOfId, "default")
 const routerPushMock = jest.fn()
 
 export const NEW_UPDATE_DATE = "2023-01-01T00:00:00Z"
+
+export const A_USER = "jeanette@vmail.com"
+export const ANOTHER_USER = "therese@email.com"
 export const DEFAULT_CHARACTER_SHEET = sanitizeCharacterSheet({
 	id: CHARACTER_ID,
-	created_by: "alistair.grout",
+	created_by: A_USER,
 	updated_at: "2022-03-12T16:24:50.462Z"
 })
 
+const DEFAULT_USER = {
+	email: DEFAULT_CHARACTER_SHEET.created_by,
+	[ROLES_PROPERTY_NAME]: [UserRole.User]
+}
+let _user = {...DEFAULT_USER}
+
+export function given_your_email_is(email: string) {
+	_user.email = email
+}
+
+export function given_you_have_role(role: UserRole) {
+	_user[ROLES_PROPERTY_NAME] = [role]
+}
+
+export function given_you_no_role() {
+	_user[ROLES_PROPERTY_NAME] = []
+}
+
 export async function render_character_sheet(
-	character: Partial<UnsanitizedCharacterSheetData> = {},
-	user?: { email?: string; role?: UserRole }
+	character: Partial<UnsanitizedCharacterSheetData> = {}
 ) {
 	updateCharacterOfIdSpy.mockReset()
 	updateCharacterOfIdSpy.mockReturnValue(Promise.resolve(NEW_UPDATE_DATE))
@@ -58,12 +62,7 @@ export async function render_character_sheet(
 	routerPushMock.mockReturnValue(Promise.resolve())
 	render(
 		<RouterContext.Provider value={{ push: routerPushMock } as any}>
-			<UserProvider
-				user={{
-					email: user?.email || DEFAULT_CHARACTER_SHEET.created_by,
-					[ROLES_PROPERTY_NAME]: [user?.role || UserRole.User]
-				}}
-			>
+			<UserProvider user={_user}>
 				<CharacterSheetScreen
 					character={sanitizeCharacterSheet({
 						...DEFAULT_CHARACTER_SHEET,
@@ -80,6 +79,7 @@ export async function render_character_sheet(
 			</UserProvider>
 		</RouterContext.Provider>
 	)
+	_user = {...DEFAULT_USER}
 }
 
 export async function change_textbox_value(
@@ -135,6 +135,12 @@ export async function then_dots_is_checked_on(name: string, value: number) {
 	const group = screen.getByRole("radiogroup", { name: name })
 	const selected = within(group).getByRole("radio", { name: value.toString() })
 	await waitFor(() => expect(selected).toBeChecked())
+}
+
+export async function then_dots_are_disabled(name: string) {
+	const group = screen.getByRole("radiogroup", { name: name })
+	const radios = within(group).queryAllByRole("radio")
+	radios.forEach(radio => expect(radio).toBeDisabled())
 }
 
 export async function then_radio_is_disabled(name: string) {
@@ -245,4 +251,15 @@ export async function then_number_input_is_disabled(name: string) {
 export async function then_menu_item_is_not_shown(name: string) {
 	const menuitem = screen.queryByRole("tab", { name: name })
 	expect(menuitem).not.toBeInTheDocument()
+}
+
+export async function then_character_sheet_does_not_show() {
+	const menuitem = screen.queryByRole("spinbutton", { name: "Age" })
+	expect(menuitem).not.toBeInTheDocument()
+}
+
+export async function then_you_are_redirected_to_unauthorized() {
+	const calls = routerPushMock.mock.calls
+	expect(calls).toHaveLength(1)
+	expect(calls[0]).toEqual(["/unauthorized"])
 }

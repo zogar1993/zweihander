@@ -1,9 +1,7 @@
 import handler, { UpdateAction } from "@api/characters/[id]/update"
 import * as auth0 from "@auth0/nextjs-auth0"
 import * as GetCharacterSheetOfId from "@core/actions/GetCharacterSheetOfId"
-import sanitizeCharacterSheet, {
-	SanitizedCharacterSheet
-} from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
+import sanitizeCharacterSheet, { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import * as UpdateCharacter from "@core/utils/UpdateCharacter"
 import { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
 import {
@@ -15,9 +13,9 @@ import {
 	TEST_PROFESSIONS,
 	TEST_TALENTS
 } from "@tests/web_tests/character_sheet/utils/collections"
+import { DEFAULT_CHARACTER_SHEET } from "@tests/web_tests/character_sheet/utils/utils"
 import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import { NextApiRequest, NextApiResponse } from "next"
-import { DEFAULT_CHARACTER_SHEET } from "@tests/web_tests/character_sheet/utils/utils"
 import { permamock } from "./Permamock"
 
 export const updateCharacterSpy = jest.spyOn(UpdateCharacter, "default")

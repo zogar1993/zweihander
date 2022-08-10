@@ -1,16 +1,17 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateProfessionProfile, {
-	CalculateProfessionProfileProps, CharacterSheetProfessionAdvances,
+	CalculateProfessionProfileProps,
+	CharacterSheetProfessionAdvances,
 	Expenditure,
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
-import { Item } from "@core/domain/types/Item"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
+import { Item } from "@core/domain/types/Item"
 import { TEST_PROFESSIONS, TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
 
 const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })

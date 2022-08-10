@@ -4,7 +4,6 @@ import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
 import calculateProfessionProfile, { ProfessionProfile } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
-import calculateTalents from "@core/domain/character_sheet/calculations/CalculateTalents"
 import {
 	AncestryTech,
 	CalculatedAttribute,
@@ -44,11 +43,6 @@ export function calculateCharacterSheet({
 } {
 	const ancestry = calculateAncestry({ character, ancestries })
 	const _professions = calculateProfessions({ character, professions })
-	const _talents = calculateTalents({
-		character,
-		talents,
-		professions: _professions
-	})
 
 	const attributes = getAttributes({
 		character,
@@ -109,7 +103,6 @@ export function calculateCharacterSheet({
 			},
 			schools: formatSpells(character.spells, schools),
 			focuses: formatFocuses(character.focuses),
-			talents: _talents,
 			encumbrance_limit: 3 + getAttribute("brawn").bonus,
 			initiative: 3 + getAttribute("perception").bonus,
 			movement: 3 + getAttribute("agility").bonus,

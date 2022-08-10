@@ -35,3 +35,11 @@ yarn-error.log*
 
 # cache
 .cache
+
+# Intellij Idea
+.idea
+*.iml
+
+# Cypress
+cypress.env.json
+cypress/fixtures

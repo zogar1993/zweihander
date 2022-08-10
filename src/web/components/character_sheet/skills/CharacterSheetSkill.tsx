@@ -1,8 +1,5 @@
 import { CalculatedSkill } from "@core/domain/character_sheet/CharacterSheet"
-import {
-	ActionType,
-	useCharacterSheetDispatcher
-} from "@web/components/character_sheet/CharacterSheetContext"
+import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Dots } from "misevi"

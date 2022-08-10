@@ -14,7 +14,13 @@ export default withApiAuthRequired(
 			switch (req.method) {
 				case "GET":
 					const characters = await getCharacters(username)
-					return res.status(200).json(characters)
+
+					const results = characters.map(character => ({
+						...character,
+						created_by: username === character.created_by
+					}))
+
+					return res.status(200).json(results)
 				case "POST":
 					const creation_time = new Date().toISOString()
 					const id = await createCharacter(

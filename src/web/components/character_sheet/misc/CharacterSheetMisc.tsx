@@ -1,6 +1,6 @@
 import Accordion from "@web/components/Accordion"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
-import useIsAdminUser from "@web/components/character_sheet/hooks/UseIsAdminUser"
+import useHasAdminRole from "@web/components/character_sheet/hooks/UseHasAdminRole"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import CharacterSheetDangerZone from "@web/components/character_sheet/misc/CharacterSheetDangerZone"
 import CharacterSheetFocuses from "@web/components/character_sheet/misc/CharacterSheetFocuses"
@@ -14,7 +14,7 @@ import styled from "styled-components"
 export default function CharacterSheetMisc() {
 	const { character } = useCharacterSheetState()
 	const isOwner = useIsCharacterSheetOwner()
-	const isAdmin = useIsAdminUser()
+	const isAdmin = useHasAdminRole()
 
 	return (
 		<MiscAccordion

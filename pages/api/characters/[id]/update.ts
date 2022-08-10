@@ -8,9 +8,7 @@ import { validateArrayErrors } from "@core/api/ValidateArrayErrors"
 import { validateModel } from "@core/api/ValidateModel"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import now from "@core/utils/Now"
-import updateCharacter, {
-	UpdateCharacterProps
-} from "@core/utils/UpdateCharacter"
+import updateCharacter, { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(

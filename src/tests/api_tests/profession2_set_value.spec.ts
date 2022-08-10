@@ -4,10 +4,7 @@ import {
 	the_saved_character_has,
 	update_character
 } from "@tests/api_tests/utils"
-import {
-	TEST_ARCHETYPES,
-	TEST_PROFESSIONS
-} from "@tests/web_tests/character_sheet/utils/collections"
+import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "@tests/web_tests/character_sheet/utils/collections"
 
 describe("set_value profession2 should", () => {
 	it("change the second profession of the character", async () => {
