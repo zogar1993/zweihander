@@ -1,7 +1,7 @@
 import { UpdateAction } from "@api/characters/[id]/update"
 import { UserProvider } from "@auth0/nextjs-auth0"
 import sanitizeCharacterSheet, { UnsanitizedCharacterSheetData } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
-import { BoundFunctions, fireEvent, queries, render, screen, waitFor, within } from "@testing-library/react"
+import { act, BoundFunctions, fireEvent, queries, render, screen, waitFor, within } from "@testing-library/react"
 import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
@@ -37,7 +37,7 @@ const DEFAULT_USER = {
 	email: DEFAULT_CHARACTER_SHEET.created_by,
 	[ROLES_PROPERTY_NAME]: [UserRole.User]
 }
-let _user = {...DEFAULT_USER}
+let _user = { ...DEFAULT_USER }
 
 export function given_your_email_is(email: string) {
 	_user.email = email
@@ -60,7 +60,7 @@ export async function render_character_sheet(
 	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	routerPushMock.mockReset()
 	routerPushMock.mockReturnValue(Promise.resolve())
-	render(
+	 render(
 		<RouterContext.Provider value={{ push: routerPushMock } as any}>
 			<UserProvider user={_user}>
 				<CharacterSheetScreen
@@ -79,7 +79,7 @@ export async function render_character_sheet(
 			</UserProvider>
 		</RouterContext.Provider>
 	)
-	_user = {...DEFAULT_USER}
+	_user = { ...DEFAULT_USER }
 }
 
 export async function change_textbox_value(
@@ -88,14 +88,18 @@ export async function change_textbox_value(
 	functions: BoundFunctions<typeof queries> = screen
 ) {
 	const textbox = functions.getByRole("textbox", { name: name })
-	fireEvent.change(textbox, { target: { value: value.toString() } })
-	fireEvent.blur(textbox)
+	act(() => {
+		fireEvent.change(textbox, { target: { value: value.toString() } })
+		fireEvent.blur(textbox)
+	})
 }
 
 export async function change_number_input_value(name: string, value: number) {
 	const number_input = screen.getByRole("spinbutton", { name: name })
-	fireEvent.change(number_input, { target: { value: value } })
-	fireEvent.blur(number_input)
+	act(() => {
+		fireEvent.change(number_input, { target: { value: value } })
+		fireEvent.blur(number_input)
+	})
 }
 
 export async function change_combobox_item<T extends ComboboxCode>(
@@ -109,7 +113,9 @@ export async function change_combobox_item<T extends ComboboxCode>(
 	const option = await within(combobox).findByRole("option", {
 		name: item.name
 	})
-	fireEvent.click(option)
+	act(() => {
+		fireEvent.click(option)
+	})
 }
 
 export async function is_a_combobox_option<T extends ComboboxCode>(
@@ -128,7 +134,9 @@ export async function is_a_combobox_option<T extends ComboboxCode>(
 export async function change_dots_value(name: string, value: number) {
 	const group = screen.getByRole("radiogroup", { name: name })
 	const selected = within(group).getByRole("radio", { name: value.toString() })
-	fireEvent.click(selected)
+	act(() => {
+		fireEvent.click(selected)
+	})
 }
 
 export async function then_dots_is_checked_on(name: string, value: number) {
@@ -173,14 +181,24 @@ export async function then_number_input_has_a_value_of(
 
 export async function click_menu_item(name: string) {
 	const menuitem = screen.getByRole("tab", { name: name })
-	fireEvent.click(menuitem)
+	act(() => {
+		fireEvent.click(menuitem)
+	})
 	const content = menuitem.parentElement!.children[1]! as HTMLElement
 	return within(content)
 }
 
 export async function click_radiobutton(name: string) {
 	const radio = screen.getByRole("radio", { name: name })
-	fireEvent.click(radio)
+	act(() => {
+		fireEvent.click(radio)
+	})
+}
+
+export async function press_ctrl_z() {
+	act(() => {
+		fireEvent.keyDown(document, { ctrlKey: true, key: "z" })
+	})
 }
 
 export async function update_character_api_was_called_with(
@@ -210,10 +228,6 @@ export async function then_checkbox_exists(
 	functions: BoundFunctions<typeof queries> = screen
 ) {
 	functions.getByRole("checkbox", { name: name })
-}
-
-export async function press_ctrl_z() {
-	fireEvent.keyDown(document, { ctrlKey: true, key: "z" })
 }
 
 export async function delete_character_api_was_called() {
