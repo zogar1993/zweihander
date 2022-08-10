@@ -285,6 +285,8 @@ const ItemName = styled.span`
 	font-family: ${theme.fonts.title};
 	font-size: 18px;
 	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
 	margin-left: 2px;
 	width: calc(${MENU_WIDTH_EXTENDED} - ${MENU_WIDTH_COLLAPSED});
 	color: ${theme.colors.text};
