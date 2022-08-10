@@ -1,4 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0"
 import { CharacterPreview } from "@core/domain/types/CharacterPreview"
 import createCharacter from "@web/api_calls/CreateCharacter"
 import Button from "@web/components/general/Button"
@@ -15,7 +14,6 @@ import styled from "styled-components"
 export default function CharactersScreen({
 	characters
 }: CharactersScreenProps) {
-	const { user } = useUser()
 	const router = useRouter()
 	const setLoading = useSetLoadingModal()
 	const create = async () => {
@@ -37,7 +35,7 @@ export default function CharactersScreen({
 							<Card
 								href={`characters/${character.id}`}
 								key={character.id}
-								personal={user?.email === character.created_by}
+								personal={!!character.created_by}
 								isPrivate={character.visibility === "private"}
 							>
 								<CardTitle>{character.name || "unnamed"}</CardTitle>
@@ -51,8 +49,7 @@ export default function CharactersScreen({
 									<CardInfo>
 										<CardInfoLine>{character.ancestry}</CardInfoLine>
 										<CardInfoLine>{character.profession1}</CardInfoLine>
-										<CardInfoLine>owner: {character.created_by}</CardInfoLine>
-										<CardInfoLine>{character.visibility}</CardInfoLine>
+										{character.visibility === "private" && <CardInfoLine>{character.visibility}</CardInfoLine>}
 									</CardInfo>
 								</CardBody>
 							</Card>

@@ -20,6 +20,7 @@ export default function Homepage() {
 				<li>- 20220805 - FEATURE now controls inside of tiers and unique advances are interactive</li>
 				<li>- 20220808 - BUGFIX now character sheet journal displays its content properly</li>
 				<li>- 20220808 - ACCESSIBILITY now character sheet trackers have accessible radiogroup roles</li>
+				<li>- 20220809 - SECURITY remove visibility of emails for character cards</li>
 			</ul>
 		</>
 	)
