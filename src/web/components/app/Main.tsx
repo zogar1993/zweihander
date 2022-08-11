@@ -101,7 +101,7 @@ const screens = ({
 		icon: "/menu/wand.png",
 		items: magicSources
 	},
-	{ path: "creatures", name: "Creatures", icon: "/menu/monster.png" },
+	//{ path: "creatures", name: "Creatures", icon: "/menu/monster.png" },
 	...(user
 		? [{ path: "api/auth/logout", name: "Log Out", icon: "/menu/logout.png" }]
 		: [])
