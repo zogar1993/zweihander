@@ -60,7 +60,7 @@ export async function render_character_sheet(
 	deleteCharacterOfIdSpy.mockReturnValue(Promise.resolve())
 	routerPushMock.mockReset()
 	routerPushMock.mockReturnValue(Promise.resolve())
-	 render(
+	render(
 		<RouterContext.Provider value={{ push: routerPushMock } as any}>
 			<UserProvider user={_user}>
 				<CharacterSheetScreen
@@ -88,7 +88,7 @@ export async function change_textbox_value(
 	functions: BoundFunctions<typeof queries> = screen
 ) {
 	const textbox = functions.getByRole("textbox", { name: name })
-	act(() => {
+	await act(async () => {
 		fireEvent.change(textbox, { target: { value: value.toString() } })
 		fireEvent.blur(textbox)
 	})
@@ -109,11 +109,11 @@ export async function change_combobox_item<T extends ComboboxCode>(
 ) {
 	const textbox = functions.getByRole("textbox", { name: name })
 	const combobox = textbox.parentElement!
-	textbox.focus()
+	await act(async () => textbox.focus())
 	const option = await within(combobox).findByRole("option", {
 		name: item.name
 	})
-	act(() => {
+	await act(async () => {
 		fireEvent.click(option)
 	})
 }
@@ -181,7 +181,7 @@ export async function then_number_input_has_a_value_of(
 
 export async function click_menu_item(name: string) {
 	const menuitem = screen.getByRole("tab", { name: name })
-	act(() => {
+	await act(async () => {
 		fireEvent.click(menuitem)
 	})
 	const content = menuitem.parentElement!.children[1]! as HTMLElement
@@ -190,13 +190,13 @@ export async function click_menu_item(name: string) {
 
 export async function click_radiobutton(name: string) {
 	const radio = screen.getByRole("radio", { name: name })
-	act(() => {
+	await act(async () => {
 		fireEvent.click(radio)
 	})
 }
 
 export async function press_ctrl_z() {
-	act(() => {
+	await act(async () => {
 		fireEvent.keyDown(document, { ctrlKey: true, key: "z" })
 	})
 }
