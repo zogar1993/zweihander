@@ -96,7 +96,7 @@ export async function change_textbox_value(
 
 export async function change_number_input_value(name: string, value: number) {
 	const number_input = screen.getByRole("spinbutton", { name: name })
-	act(() => {
+	await act(async () => {
 		fireEvent.change(number_input, { target: { value: value } })
 		fireEvent.blur(number_input)
 	})
@@ -134,7 +134,7 @@ export async function is_a_combobox_option<T extends ComboboxCode>(
 export async function change_dots_value(name: string, value: number) {
 	const group = screen.getByRole("radiogroup", { name: name })
 	const selected = within(group).getByRole("radio", { name: value.toString() })
-	act(() => {
+	await act(async () => {
 		fireEvent.click(selected)
 	})
 }
