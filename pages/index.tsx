@@ -21,6 +21,8 @@ export default function Homepage() {
 				<li>- 20220808 - BUGFIX now character sheet journal displays its content properly</li>
 				<li>- 20220808 - ACCESSIBILITY now character sheet trackers have accessible radiogroup roles</li>
 				<li>- 20220809 - SECURITY remove visibility of emails for character cards</li>
+				<li>- 20220810 - BUGFIX fix issue where Log Out button would be 2 line while hiding</li>
+				<li>- 20220811 - BUGFIX remove useless creatures menu button</li>
 			</ul>
 		</>
 	)
