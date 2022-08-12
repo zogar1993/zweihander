@@ -6,7 +6,6 @@ import * as deleteCharacterOfId from "@web/api_calls/DeleteCharacterOfId"
 import * as updateCharacterOfId from "@web/api_calls/UpdateCharacterOfId"
 import CharacterSheetScreen from "@web/components/character_sheet/CharacterSheetScreen"
 import { ROLES_PROPERTY_NAME, UserRole } from "@web/components/character_sheet/hooks/UseHasAdminRole"
-import { ComboboxCode, ComboBoxItem } from "misevi/dist/components/inner_components/ComboBox"
 import { RouterContext } from "next/dist/shared/lib/router-context"
 import {
 	TEST_ANCESTRIES,
@@ -82,103 +81,6 @@ export async function render_character_sheet(
 	_user = { ...DEFAULT_USER }
 }
 
-export async function change_textbox_value(
-	name: string,
-	value: string,
-	functions: BoundFunctions<typeof queries> = screen
-) {
-	const textbox = functions.getByRole("textbox", { name: name })
-	await act(async () => {
-		fireEvent.change(textbox, { target: { value: value.toString() } })
-		fireEvent.blur(textbox)
-	})
-}
-
-export async function change_number_input_value(name: string, value: number) {
-	const number_input = screen.getByRole("spinbutton", { name: name })
-	await act(async () => {
-		fireEvent.change(number_input, { target: { value: value } })
-		fireEvent.blur(number_input)
-	})
-}
-
-export async function change_combobox_item<T extends ComboboxCode>(
-	name: string,
-	item: ComboBoxItem<T>,
-	functions: BoundFunctions<typeof queries> = screen
-) {
-	const textbox = functions.getByRole("textbox", { name: name })
-	const combobox = textbox.parentElement!
-	await act(async () => textbox.focus())
-	const option = await within(combobox).findByRole("option", {
-		name: item.name
-	})
-	await act(async () => {
-		fireEvent.click(option)
-	})
-}
-
-export async function is_a_combobox_option<T extends ComboboxCode>(
-	name: string,
-	item: ComboBoxItem<T>,
-	functions: BoundFunctions<typeof queries> = screen
-) {
-	const textbox = functions.getByRole("textbox", { name: name })
-	const combobox = textbox.parentElement!
-	textbox.focus()
-	await within(combobox).findByRole("listbox")
-	const option = within(combobox).queryByRole("option", { name: item.name })
-	return !!option
-}
-
-export async function change_dots_value(name: string, value: number) {
-	const group = screen.getByRole("radiogroup", { name: name })
-	const selected = within(group).getByRole("radio", { name: value.toString() })
-	await act(async () => {
-		fireEvent.click(selected)
-	})
-}
-
-export async function then_dots_is_checked_on(name: string, value: number) {
-	const group = screen.getByRole("radiogroup", { name: name })
-	const selected = within(group).getByRole("radio", { name: value.toString() })
-	await waitFor(() => expect(selected).toBeChecked())
-}
-
-export async function then_dots_are_disabled(name: string) {
-	const group = screen.getByRole("radiogroup", { name: name })
-	const radios = within(group).queryAllByRole("radio")
-	radios.forEach(radio => expect(radio).toBeDisabled())
-}
-
-export async function then_radio_is_disabled(name: string) {
-	const radio = screen.getByRole("radio", { name: name })
-	await waitFor(() => expect(radio).toBeDisabled())
-}
-
-export async function then_radio_is_checked(name: string) {
-	const radio = screen.getByRole("radio", { name: name })
-	await waitFor(() => expect(radio).toBeChecked())
-}
-
-export async function then_radio_is_unchecked(name: string) {
-	const radio = screen.getByRole("radio", { name: name })
-	await waitFor(() => expect(radio).not.toBeChecked())
-}
-
-export async function then_textbox_has_a_value_of(name: string, value: string) {
-	const textbox = screen.getByRole("textbox", { name: name })
-	await waitFor(() => expect(textbox).toHaveValue(value.toString()))
-}
-
-export async function then_number_input_has_a_value_of(
-	name: string,
-	value: number
-) {
-	const spinbutton = screen.getByRole("spinbutton", { name: name })
-	await waitFor(() => expect(spinbutton).toHaveValue(value))
-}
-
 export async function click_menu_item(name: string) {
 	const menuitem = screen.getByRole("tab", { name: name })
 	await act(async () => {
@@ -186,13 +88,6 @@ export async function click_menu_item(name: string) {
 	})
 	const content = menuitem.parentElement!.children[1]! as HTMLElement
 	return within(content)
-}
-
-export async function click_radiobutton(name: string) {
-	const radio = screen.getByRole("radio", { name: name })
-	await act(async () => {
-		fireEvent.click(radio)
-	})
 }
 
 export async function press_ctrl_z() {
@@ -223,13 +118,6 @@ export async function then_tag_exists(
 	functions.getByText(text)
 }
 
-export async function then_checkbox_exists(
-	name: string,
-	functions: BoundFunctions<typeof queries> = screen
-) {
-	functions.getByRole("checkbox", { name: name })
-}
-
 export async function delete_character_api_was_called() {
 	const calls = deleteCharacterOfIdSpy.mock.calls
 	await waitFor(() => expect(calls.length).toBe(1))
@@ -250,16 +138,6 @@ export async function user_is_redirected_to(path: string) {
 export async function user_is_not_redirected() {
 	const calls = routerPushMock.mock.calls
 	await waitFor(() => expect(calls.length).toBe(0))
-}
-
-export async function then_textbox_is_disabled(name: string) {
-	const checkbox = screen.getByRole("textbox", { name: name })
-	await waitFor(() => expect(checkbox).toBeDisabled())
-}
-
-export async function then_number_input_is_disabled(name: string) {
-	const checkbox = screen.getByRole("spinbutton", { name: name })
-	await waitFor(() => expect(checkbox).toBeDisabled())
 }
 
 export async function then_menu_item_is_not_shown(name: string) {

@@ -1,6 +1,6 @@
+import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
 import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 import {
-	change_combobox_item,
 	DEFAULT_CHARACTER_SHEET,
 	NEW_UPDATE_DATE,
 	render_character_sheet,
@@ -13,8 +13,8 @@ const UPBRINGING_B = UPBRINGINGS[2]
 describe("useCharacterUpdatesQueue should", () => {
 	it("call the API twice when queueing 2 actions", async () => {
 		await render_character_sheet({ upbringing: null })
-		await change_combobox_item("Upbringing", UPBRINGING_A)
-		await change_combobox_item("Upbringing", UPBRINGING_B)
+		await when_combobox_item_is_changed("Upbringing", UPBRINGING_A)
+		await when_combobox_item_is_changed("Upbringing", UPBRINGING_B)
 
 		await update_character_api_was_called_with(
 			[
@@ -45,8 +45,8 @@ describe("useCharacterUpdatesQueue should", () => {
 		updateCharacterOfIdSpy.mockReturnValue(
 			new Promise(resolve => setTimeout(() => resolve(NEW_UPDATE_DATE), 1000))
 		)
-		await change_combobox_item("Upbringing", UPBRINGING_A)
-		await change_combobox_item("Upbringing", UPBRINGING_B)
+		await when_combobox_item_is_changed("Upbringing", UPBRINGING_A)
+		await when_combobox_item_is_changed("Upbringing", UPBRINGING_B)
 
 		await update_character_api_was_called_with(
 			[

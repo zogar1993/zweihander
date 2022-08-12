@@ -1,11 +1,13 @@
+import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
+import {
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled
+} from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
 	A_USER,
 	ANOTHER_USER,
-	change_combobox_item,
 	given_your_email_is,
 	render_character_sheet,
-	then_textbox_has_a_value_of,
-	then_textbox_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 import { TEST_ORDER_ALIGNMENTS } from "../../utils/collections"
@@ -23,7 +25,7 @@ describe("Order Alignment Combobox should", () => {
 	it("send a 'set_value|order_alignment' and show updated value on change", async () => {
 		await render_character_sheet({order_alignment: ALIGNMENT.code})
 
-		await change_combobox_item("Order Alignment", NEW_ALIGNMENT)
+		await when_combobox_item_is_changed("Order Alignment", NEW_ALIGNMENT)
 
 		await update_character_api_was_called_with([
 			{

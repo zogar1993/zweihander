@@ -1,6 +1,11 @@
 import { getByCode } from "@core/domain/general/GetByCode"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
+import { then_checkbox_exists } from "@tests/web_tests/character_sheet/utils/checkbox-helpers"
 import { TEST_MAGIC_SCHOOLS, TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
+import {
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled
+} from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
 	A_USER,
 	ANOTHER_USER,
@@ -9,11 +14,8 @@ import {
 	given_your_email_is,
 	render_character_sheet,
 	then_character_sheet_does_not_show,
-	then_checkbox_exists,
 	then_menu_item_is_not_shown,
 	then_tag_exists,
-	then_textbox_has_a_value_of,
-	then_textbox_is_disabled,
 	then_you_are_redirected_to_unauthorized
 } from "@tests/web_tests/character_sheet/utils/utils"
 import { SETTINGS_VISIBILITY } from "@web/components/character_sheet/bio/Constants"

@@ -1,8 +1,7 @@
 import { fireEvent, waitFor } from "@testing-library/react"
+import { when_combobox_item_is_changed, then_is_a_combobox_option } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
 import {
-	change_combobox_item,
 	click_menu_item,
-	is_a_combobox_option,
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
@@ -19,8 +18,8 @@ describe("Spells Tag Input should", () => {
 		await render_character_sheet()
 
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await change_combobox_item("School", SCHOOL, context)
-		await change_combobox_item("Spell", NEW_SPELL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
+		await when_combobox_item_is_changed("Spell", NEW_SPELL, context)
 
 		await update_character_api_was_called_with([
 			{
@@ -37,8 +36,8 @@ describe("Spells Tag Input should", () => {
 		})
 
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await change_combobox_item("School", SCHOOL, context)
-		await change_combobox_item("Spell", NEW_SPELL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
+		await when_combobox_item_is_changed("Spell", NEW_SPELL, context)
 
 		await update_character_api_was_called_with([
 			{
@@ -91,11 +90,11 @@ describe("Spells Tag Input should", () => {
 			spells: { [SCHOOL.code]: [PRE_EXISTING_SPELL_1.code] }
 		})
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await change_combobox_item("School", SCHOOL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+				await then_is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
 			).toBeFalsy()
 		)
 	})
@@ -103,12 +102,12 @@ describe("Spells Tag Input should", () => {
 	it("not have newly added value as eligible (first item addition)", async () => {
 		await render_character_sheet()
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await change_combobox_item("School", SCHOOL, context)
-		await change_combobox_item("Spell", NEW_SPELL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
+		await when_combobox_item_is_changed("Spell", NEW_SPELL, context)
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Spell", NEW_SPELL, context)
+				await then_is_a_combobox_option("Spell", NEW_SPELL, context)
 			).toBeFalsy()
 		)
 	})
@@ -118,12 +117,12 @@ describe("Spells Tag Input should", () => {
 			spells: { [SCHOOL.code]: [PRE_EXISTING_SPELL_1.code] }
 		})
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await change_combobox_item("School", SCHOOL, context)
-		await change_combobox_item("Spell", NEW_SPELL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
+		await when_combobox_item_is_changed("Spell", NEW_SPELL, context)
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Spell", NEW_SPELL, context)
+				await then_is_a_combobox_option("Spell", NEW_SPELL, context)
 			).toBeFalsy()
 		)
 	})
@@ -133,12 +132,12 @@ describe("Spells Tag Input should", () => {
 			spells: { [SCHOOL.code]: [PRE_EXISTING_SPELL_1.code] }
 		})
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await change_combobox_item("School", SCHOOL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
 		fireEvent.click(context.getByText(PRE_EXISTING_SPELL_1.name))
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+				await then_is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
 			).toBeTruthy()
 		)
 	})
@@ -150,12 +149,12 @@ describe("Spells Tag Input should", () => {
 			}
 		})
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
-		await change_combobox_item("School", SCHOOL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
 		fireEvent.click(context.getByText(PRE_EXISTING_SPELL_1.name))
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+				await then_is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
 			).toBeTruthy()
 		)
 	})
@@ -169,12 +168,12 @@ describe("Spells Tag Input should", () => {
 		const context = await click_menu_item(ACCORDION_ITEM.SPELLS)
 		fireEvent.click(context.getByText(PRE_EXISTING_SPELL_1.name))
 
-		await change_combobox_item("School", SCHOOL, context)
+		await when_combobox_item_is_changed("School", SCHOOL, context)
 
 		await waitFor(
 			async () =>
 				await expect(
-					is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
+					then_is_a_combobox_option("Spell", PRE_EXISTING_SPELL_1, context)
 				).toBeTruthy()
 		)
 	})

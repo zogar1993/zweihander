@@ -1,8 +1,8 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react"
 import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
+import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
+import { when_textbox_value_is_changed } from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
-	change_combobox_item,
-	change_textbox_value,
 	press_ctrl_z,
 	render_character_sheet
 } from "@tests/web_tests/character_sheet/utils/utils"
@@ -10,7 +10,7 @@ import {
 describe("Character Sheet Screen should", () => {
 	it("undo add_to_array", async () => {
 		await render_character_sheet({ talents: [TALENT_1.code] })
-		await change_combobox_item("New Talent", TALENT_2)
+		await when_combobox_item_is_changed("New Talent", TALENT_2)
 		const new_tag = await findCheckbox(TALENT_2.name)
 
 		await press_ctrl_z()
@@ -42,7 +42,7 @@ describe("Character Sheet Screen should", () => {
 
 	it("undo set_value to delete property", async () => {
 		await render_character_sheet({})
-		await change_combobox_item("New Talent", TALENT_1)
+		await when_combobox_item_is_changed("New Talent", TALENT_1)
 		const new_tag = await findCheckbox(TALENT_1.name)
 
 		await press_ctrl_z()
@@ -52,7 +52,7 @@ describe("Character Sheet Screen should", () => {
 
 	it("undo set_value to previous value", async () => {
 		await render_character_sheet({ name: "Ragoz" })
-		await change_textbox_value("Name", "Raghost")
+		await when_textbox_value_is_changed("Name", "Raghost")
 		await screen.findByDisplayValue("Raghost")
 
 		await press_ctrl_z()

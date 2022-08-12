@@ -1,11 +1,13 @@
+import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
+import {
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled
+} from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
 	A_USER,
 	ANOTHER_USER,
-	change_combobox_item,
 	given_your_email_is,
 	render_character_sheet,
-	then_textbox_has_a_value_of,
-	then_textbox_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
@@ -23,7 +25,7 @@ describe("Upbringing Combobox should", () => {
 	it("send a 'set_value|upbringing' and show updated value on change", async () => {
 		await render_character_sheet({upbringing: CHARACTER_UPBRINGING.code})
 
-		await change_combobox_item("Upbringing", NEW_CHARACTER_UPBRINGING)
+		await when_combobox_item_is_changed("Upbringing", NEW_CHARACTER_UPBRINGING)
 
 		await update_character_api_was_called_with([
 			{

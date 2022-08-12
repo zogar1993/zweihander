@@ -1,12 +1,14 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import {
+	change_dots_value,
+	then_dots_are_disabled,
+	then_dots_is_checked_on
+} from "@tests/web_tests/character_sheet/utils/dots-helpers"
+import {
 	A_USER,
 	ANOTHER_USER,
-	change_dots_value,
 	given_your_email_is,
 	render_character_sheet,
-	then_dots_are_disabled,
-	then_dots_is_checked_on,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 

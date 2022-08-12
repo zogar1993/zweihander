@@ -1,11 +1,13 @@
+import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
+import {
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled
+} from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
 	A_USER,
 	ANOTHER_USER,
-	change_combobox_item,
 	given_your_email_is,
 	render_character_sheet,
-	then_textbox_has_a_value_of,
-	then_textbox_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "../../utils/collections"
@@ -42,7 +44,7 @@ describe("Profession 3 Combobox should", () => {
 			profession3: PROFESSION_3.code
 		})
 
-		await change_combobox_item("Profession 3", NEW_PROFESSION_3)
+		await when_combobox_item_is_changed("Profession 3", NEW_PROFESSION_3)
 
 		await update_character_api_was_called_with([
 			{

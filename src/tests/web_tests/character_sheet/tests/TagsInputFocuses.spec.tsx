@@ -1,8 +1,8 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { fireEvent } from "@testing-library/react"
+import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
+import { when_textbox_value_is_changed } from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
-	change_combobox_item,
-	change_textbox_value,
 	click_menu_item,
 	render_character_sheet,
 	update_character_api_was_called_with
@@ -19,8 +19,8 @@ describe("Focuses Tag Input should", () => {
 		await render_character_sheet()
 
 		const context = await click_menu_item(ACCORDION_ITEM.FOCUSES)
-		await change_combobox_item("Skill", SKILL, context)
-		await change_textbox_value("Focus", NEW_FOCUS, context)
+		await when_combobox_item_is_changed("Skill", SKILL, context)
+		await when_textbox_value_is_changed("Focus", NEW_FOCUS, context)
 		const button = context.getByRole("button")
 		fireEvent.click(button)
 
@@ -39,8 +39,8 @@ describe("Focuses Tag Input should", () => {
 		})
 
 		const context = await click_menu_item(ACCORDION_ITEM.FOCUSES)
-		await change_combobox_item("Skill", SKILL, context)
-		await change_textbox_value("Focus", NEW_FOCUS, context)
+		await when_combobox_item_is_changed("Skill", SKILL, context)
+		await when_textbox_value_is_changed("Focus", NEW_FOCUS, context)
 		const button = context.getByRole("button")
 		fireEvent.click(button)
 

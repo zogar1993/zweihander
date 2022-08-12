@@ -1,11 +1,13 @@
 import {
+	when_spinbutton_value_is_changed,
+	then_number_input_has_a_value_of,
+	then_spinbutton_is_disabled
+} from "@tests/web_tests/character_sheet/utils/spinbutton-helpers"
+import {
 	A_USER,
 	ANOTHER_USER,
-	change_number_input_value,
 	given_your_email_is,
 	render_character_sheet,
-	then_number_input_has_a_value_of,
-	then_number_input_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 
@@ -22,7 +24,7 @@ describe("Age Textbox should", () => {
 	it("send a 'set_value|age' action and show updated value on change", async () => {
 		await render_character_sheet({age: CHARACTER_AGE})
 
-		await change_number_input_value("Age", NEW_CHARACTER_AGE)
+		await when_spinbutton_value_is_changed("Age", NEW_CHARACTER_AGE)
 
 		await update_character_api_was_called_with([
 			{ action: "set_value", property: "age", value: NEW_CHARACTER_AGE }
@@ -34,7 +36,7 @@ describe("Age Textbox should", () => {
 		await given_your_email_is(A_USER)
 		await render_character_sheet({age: CHARACTER_AGE, created_by: ANOTHER_USER})
 
-		await then_number_input_is_disabled("Age")
+		await then_spinbutton_is_disabled("Age")
 		await then_number_input_has_a_value_of("Age", CHARACTER_AGE)
 	})
 

@@ -1,8 +1,7 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react"
 import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
+import { when_combobox_item_is_changed, then_is_a_combobox_option } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
 import {
-	change_combobox_item,
-	is_a_combobox_option,
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
@@ -15,7 +14,7 @@ describe("Talents Tag Input should", () => {
 	it("send a 'add_to_array|talents' action on add", async () => {
 		await render_character_sheet()
 
-		await change_combobox_item("New Talent", NEW_TALENT)
+		await when_combobox_item_is_changed("New Talent", NEW_TALENT)
 
 		await update_character_api_was_called_with([
 			{
@@ -46,18 +45,18 @@ describe("Talents Tag Input should", () => {
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("New Talent", PRE_EXISTING_TALENT_1)
+				await then_is_a_combobox_option("New Talent", PRE_EXISTING_TALENT_1)
 			).toBeFalsy()
 		)
 	})
 
 	it("not have newly added value as eligible", async () => {
 		await render_character_sheet()
-		await change_combobox_item("New Talent", NEW_TALENT)
+		await when_combobox_item_is_changed("New Talent", NEW_TALENT)
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("New Talent", NEW_TALENT)
+				await then_is_a_combobox_option("New Talent", NEW_TALENT)
 			).toBeFalsy()
 		)
 	})
@@ -68,7 +67,7 @@ describe("Talents Tag Input should", () => {
 
 		await waitFor(async () =>
 			expect(
-				await is_a_combobox_option("New Talent", PRE_EXISTING_TALENT_1)
+				await then_is_a_combobox_option("New Talent", PRE_EXISTING_TALENT_1)
 			).toBeTruthy()
 		)
 	})

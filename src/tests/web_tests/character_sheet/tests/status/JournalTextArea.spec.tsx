@@ -1,12 +1,14 @@
 import {
+	when_textbox_value_is_changed,
+	then_textbox_has_a_value_of,
+	then_textbox_is_disabled
+} from "@tests/web_tests/character_sheet/utils/textbox-helpers"
+import {
 	A_USER,
 	ANOTHER_USER,
-	change_textbox_value,
 	click_menu_item,
 	given_your_email_is,
 	render_character_sheet,
-	then_textbox_has_a_value_of,
-	then_textbox_is_disabled,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
 import { ACCORDION_ITEM } from "@web/constants/ACCORDION_ITEM"
@@ -26,7 +28,7 @@ describe("Journal Textbox should", () => {
 	await render_character_sheet({journal: VALUE})
 		await click_menu_item(ACCORDION_ITEM.JOURNAL)
 
-		await change_textbox_value("Journal", NEW_VALUE)
+		await when_textbox_value_is_changed("Journal", NEW_VALUE)
 
 		await update_character_api_was_called_with([
 			{ action: "set_value", property: "journal", value: NEW_VALUE }

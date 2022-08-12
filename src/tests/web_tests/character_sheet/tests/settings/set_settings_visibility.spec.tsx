@@ -1,5 +1,5 @@
+import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
 import {
-	change_combobox_item,
 	click_menu_item,
 	render_character_sheet,
 	update_character_api_was_called_with
@@ -14,7 +14,7 @@ describe("Visibility Combobox should", () => {
 		await render_character_sheet()
 
 		await click_menu_item(ACCORDION_ITEM.SETTINGS)
-		await change_combobox_item("Visibility", VALUE)
+		await when_combobox_item_is_changed("Visibility", VALUE)
 
 		await update_character_api_was_called_with([
 			{
