@@ -1,5 +1,9 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
+import {
+	PROFESSION_EXPENDITURE_DEFAULT,
+	clasifyExpendituresReducer, removeRepeatedReducer, AdvancesDistinction
+} from "@core/domain/character_sheet/calculations/profession_profile/commons"
 import { CalculatedCombobox, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
@@ -9,7 +13,7 @@ import { Item } from "@core/domain/types/Item"
 export default function calculateProfessionProfile({
 																										 character,
 																										 professions,
-																										 talents
+																										 talents: talentsTech
 																									 }: CalculateProfessionProfileProps): {
 	professions: [
 		Omit<CharacterSheetProfessionAdvances, "profession">,
@@ -19,115 +23,93 @@ export default function calculateProfessionProfile({
 	spending_outside_profession: Omit<CharacterSheetProfessionAdvances, "profession">
 } {
 
-	//Expenditures are to be consumed as they are encountered
-	const expenditures = getCharacterExpenditures(character)
-
-	const tiers: Array<Omit<CharacterSheetProfessionAdvances, "profession">> = []
-
-	const talentsToExclude: Array<string> = []
-
-	//Generate tiers with Checkboxes
-	professions.forEach(profession => {
-		const tier = getProfessionTierTemplate({ profession, talents, talentsToExclude })
-		;(["attributes", "skills", "talents"] as const).forEach(key => {
-			markExpenditures(expenditures[key], tier[key])
+	const attributes = professions
+		.map(getProfessionAttributes)
+		.reduce(clasifyExpendituresReducer, {
+			...PROFESSION_EXPENDITURE_DEFAULT,
+			expenditures: getAttributeExpenditures(character)
 		})
-		tiers.push(tier)
-	})
 
-	//We add a Comboboxes for each repeated talent
-	const nonOptions = new Set([...character.talents, ...talentsToExclude])
-	tiers.forEach(tier => {
-		tier.wildcard_talents = getWildcardComboboxes({
-			amount: 3 - tier.talents.length,
-			talents: talents,
-			expenditures: expenditures.talents,
-			excluded: nonOptions
+	const skills = professions
+		.map(getProfessionSkills)
+		.reduce(clasifyExpendituresReducer, {
+			...PROFESSION_EXPENDITURE_DEFAULT,
+			expenditures: getSkillExpenditures(character)
 		})
-	})
 
-	return {
-		professions: [tiers[0] ? tiers[0] : BLANK_TIER,
-			tiers[1] ? tiers[1] : BLANK_TIER,
-			tiers[2] ? tiers[2] : BLANK_TIER],
-		spending_outside_profession: getUniqueAdvances({ expenditures, talents })
-	}
-}
+	const talents = professions
+		.map(getProfessionTalents)
+		.reduce(removeRepeatedReducer, [])
+		.reduce(clasifyExpendituresReducer, {
+			...PROFESSION_EXPENDITURE_DEFAULT,
+			expenditures: getTalentExpenditures(character)
+		})
 
-function getWildcardComboboxes({ amount, expenditures, talents, excluded }: {
-	amount: number,
-	expenditures: Array<string>,
-	talents: ReadonlyArray<Item>,
-	excluded: ReadonlySet<string>
-}) {
-	const isValidOption = (item: Item) => !excluded.has(item.code)
-	return Array.from({ length: amount }, () => {
-			if (expenditures.length > 0) {
-				const code = expenditures.shift()
-				const options = talents.filter(talent => talent.code === code || isValidOption(talent))
-				return { code, options }
-			} else {
-				const options = talents.filter(talent => !excluded.has(talent.code))
-				return { code: null, options }
-			}
+	const wildcards = talents.advances.reduce((accumulator, current) => {
+		const amount = 3 - current.bought.length - current.missing.length
+		return {
+			expenditures: accumulator.expenditures.filter((_, i) => i >= amount),
+			results: [
+				...accumulator.results,
+				accumulator.expenditures.filter((_, i) => i < amount)
+			]
 		}
+	}, { expenditures: talents.expenditures, results: [] as Array<Array<string>> })
+
+	const tiers = Array.from(Array(3), (_, i) =>
+		i < professions.length ? {
+			attributes: attributes.advances[i],
+			skills: skills.advances[i],
+			talents: talents.advances[i],
+			wildcards: wildcards.results[i]
+		} : BLANK_TIER
 	)
-}
 
-
-function markExpenditures(
-	expenditures: Array<string>,
-	items: Array<CharacterTierItem>
-) {
-	for (let i = expenditures.length; i >= 0; i--) {
-		const match = items.find(x => x.code === expenditures[i] && !x.checked)
-		if (match) {
-			match.checked = true
-			expenditures.splice(i, 1)
-		}
-	}
-}
-
-function getCharacterExpenditures(
-	character: CharacterSheet
-): CharacterExpenditures {
 	return {
-		attributes: Object.entries(character.attributes).flatMap(([code, value]) =>
-			Array.from(Array(value.advances), () => code)
-		),
-		skills: Object.entries(character.skills).flatMap(([code, value]) =>
-			Array.from(Array(value.ranks), () => code)
-		),
-		talents: [...character.talents]
+		professions: tiers.map(tier => ({
+			attributes: doStuff(tier.attributes, ATTRIBUTE_DEFINITIONS, 7),
+			skills: doStuff(tier.skills, SKILL_DEFINITIONS, 10),
+			talents: doStuff(tier.talents, talentsTech, 3),
+			wildcard_talents: doStuffCombobox(tier.wildcards, talentsTech)
+		})) as [
+		Omit<CharacterSheetProfessionAdvances, "profession">,
+		Omit<CharacterSheetProfessionAdvances, "profession">,
+		Omit<CharacterSheetProfessionAdvances, "profession">
+	],
+		spending_outside_profession: getUniqueAdvances({
+			expenditures: {
+				attributes: attributes.expenditures,
+				skills: skills.expenditures,
+				talents: wildcards.expenditures
+			}, talents: talentsTech
+		})
 	}
 }
+
+const getAttributeExpenditures = (character: CharacterSheet) =>
+	Object.entries(character.attributes).flatMap(([code, value]) =>
+		Array.from(Array(value.advances), () => code))
+
+const getSkillExpenditures = (character: CharacterSheet) =>
+	Object.entries(character.skills).flatMap(([code, value]) =>
+		Array.from(Array(value.ranks), () => code))
+
+const getTalentExpenditures = (character: CharacterSheet) => [...character.talents]
 
 type CharacterExpenditures = Record<"attributes" | "skills" | "talents", Array<string>>
 export type Expenditure = { type: string; code: string }
 
-
 const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: false })
 
-function getProfessionTierTemplate({
-																		 profession,
-																		 talents,
-																		 talentsToExclude
-																	 }: {
-	profession: Profession,
-	talents: Array<TalentTech>,
-	talentsToExclude: Array<string>
-}): Omit<CharacterSheetProfessionAdvances, "profession"> {
-	const remainingTalents = profession.advances.talents.filter(code => !talentsToExclude.includes(code))
-	talentsToExclude.push(...remainingTalents)
-	return {
-		attributes: Object.entries(profession.advances.bonus_advances).flatMap(([code, value]) =>
-			Array.from(Array(value), () => getByCode(code, ATTRIBUTE_DEFINITIONS))
-		).map(toItem),
-		skills: profession.advances.skill_ranks.map(code => getByCode(code, SKILL_DEFINITIONS)).map(toItem),
-		talents: remainingTalents.map(code => getByCode(code, talents)).map(toItem),
-		wildcard_talents: []
-	}
-}
+const getProfessionAttributes = (profession: Profession) =>
+	Object.entries(profession.advances.bonus_advances).flatMap(
+		([code, value]) => Array.from(Array(value), () => code))
+
+const getProfessionSkills = (profession: Profession) =>
+	profession.advances.skill_ranks.map(code => code)
+
+const getProfessionTalents = (profession: Profession) =>
+	profession.advances.talents.map(code => code)
 
 function getUniqueAdvances({
 														 expenditures,
@@ -175,10 +157,47 @@ export type CharacterTierItem = {
 	checked: boolean
 }
 
-const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })
-const BLANK_TIER: Omit<CharacterSheetProfessionAdvances, "profession"> = {
-	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
-	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
-	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM),
-	wildcard_talents: []
+const doStuff = (wea: AdvancesDistinction, items: ReadonlyArray<Item>, expected: number): Array<CharacterTierItem> => {
+	const amount = wea.bought.length + wea.missing.length
+	if (expected === 0)
+		return Array.from(Array(expected), () => ({
+			code: "",
+			name: "",
+			checked: false
+		}))
+	else
+		return wea.bought.map(x => ({
+			code: x,
+			name: getByCode(x, items).name,
+			checked: true
+		})).concat(wea.missing.map(x => ({ code: x, name: getByCode(x, items).name, checked: false })))
 }
+
+const doStuffCombobox = (wea: Array<string>, items: ReadonlyArray<Item>): Array<CalculatedCombobox> => {
+	return wea.map(x => ({
+		code: x,
+		options: items,
+	}))
+}
+
+
+//TODO check that all wildcards work
+const BLANK_TIER: {
+	attributes: AdvancesDistinction,
+	skills: AdvancesDistinction,
+	talents: AdvancesDistinction,
+	wildcards: Array<string>
+} = {
+	//attributes: {bought: [], missing: Array.from(Array(7), () => null)} ,
+	//skills: {bought: [], missing: Array.from(Array(10), () => null)},
+	//talents: {bought: [], missing: Array.from(Array(3), () => null)},
+	attributes: { bought: [], missing: [] },
+	skills: { bought: [], missing: [] },
+	talents: { bought: [], missing: [] },
+	wildcards: []
+}
+
+type ArrayElements<ArrayType extends readonly unknown[]> =
+	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
+const WEAS = ["attributes", "skills", "talents"] as const
