@@ -1,30 +1,35 @@
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import { CharacterSheetProfessionAdvances } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import {
 	ActionType,
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
 import { CheckButton, CheckComboBox } from "misevi"
-import React, { ReactNode } from "react"
+import React from "react"
 import styled from "styled-components"
 
-export default function CharacterSheetTier({ name, tier, profession }: {
-	name: string
-	tier: CharacterSheetProfessionAdvances
-	profession: ReactNode
-}) {
+export default function CharacterSheetTier({ i }: { i: number }) {
 	const dispatch = useCharacterSheetDispatcher()
-	const { _character } = useCharacterSheetState()
+	const isOwner = useIsCharacterSheetOwner()
+	const { _character, character: { profession_profile: { professions } } } = useCharacterSheetState()
+	const tier = professions[i]
+	const TIER = TIERS[i]
 
 	return (
-		<Container>
-			<Title>{name} Tier</Title>
+		<Container aria-labelledby={TIER.code}>
+			<Titlest id={TIER.code}>{TIER.name}</Titlest>
 			<Title>Profession</Title>
-			{profession}
+			<CheckComboBox
+				{...tier.profession}
+				disabled={tier.profession.disabled || !isOwner}
+				aria-label={TIER.profession}
+				value={tier.profession.code}
+				onChange={code => dispatch({ type: TIER.action, payload: code } as  any)}
+			/>
 			<Title>Attributes</Title>
 			<Grid columns={2}>
 				{tier.attributes.map((x, i) => (
@@ -95,7 +100,7 @@ export default function CharacterSheetTier({ name, tier, profession }: {
 	)
 }
 
-const Container = styled.div`
+const Container = styled.section`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.separation};
@@ -110,3 +115,30 @@ const Title = styled.span`
   text-align: center;
   font-size: 20px;
 `
+
+const Titlest = styled.h3`
+  padding: ${theme.spacing.separation};
+  text-align: center;
+  font-size: 20px;
+`
+
+const TIERS = [
+	{
+		name: "Basic Tier",
+		code: "basic_tier",
+		action: ActionType.SetProfession1,
+		profession: "Profession 1"
+	},
+	{
+		name: "Intermediate Tier",
+		code: "intermediate_tier",
+		action: ActionType.SetProfession2,
+		profession: "Profession 2"
+	},
+	{
+		name: "Advanced Tier",
+		code: "advanced_tier",
+		action: ActionType.SetProfession3,
+		profession: "Profession 3"
+	}
+]

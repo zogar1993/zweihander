@@ -155,3 +155,5 @@ export async function then_you_are_redirected_to_unauthorized() {
 	expect(calls).toHaveLength(1)
 	expect(calls[0]).toEqual(["/unauthorized"])
 }
+
+export const region = (name: string) => within(screen.getByRole("region", {name}))

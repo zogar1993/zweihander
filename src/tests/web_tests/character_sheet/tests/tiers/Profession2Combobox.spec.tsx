@@ -31,7 +31,7 @@ describe("Profession 2 Combobox should", () => {
 			profession2: PROFESSION_2.code
 		})
 
-		await then_textbox_has_a_value_of("Profession 2", PROFESSION_2.name, region("Background"))
+		await then_textbox_has_a_value_of("Profession 2", PROFESSION_2.name, region("Intermediate Tier"))
 	})
 
 	it("send a 'set_value|profession2' and show updated value on change", async () => {
@@ -41,7 +41,7 @@ describe("Profession 2 Combobox should", () => {
 			profession2: PROFESSION_2.code
 		})
 
-		await when_combobox_item_is_changed("Profession 2", NEW_PROFESSION_2, region("Background"))
+		await when_combobox_item_is_changed("Profession 2", NEW_PROFESSION_2, region("Intermediate Tier"))
 
 		await update_character_api_was_called_with([
 			{
@@ -50,7 +50,7 @@ describe("Profession 2 Combobox should", () => {
 				value: NEW_PROFESSION_2.code
 			}
 		])
-		await then_textbox_has_a_value_of("Profession 2", NEW_PROFESSION_2.name, region("Background"))
+		await then_textbox_has_a_value_of("Profession 2", NEW_PROFESSION_2.name, region("Intermediate Tier"))
 	})
 
 	it("be disabled if it is not yours", async () => {
@@ -62,8 +62,8 @@ describe("Profession 2 Combobox should", () => {
 			created_by: ANOTHER_USER
 		})
 
-		await then_textbox_is_disabled("Profession 2", region("Background"))
-		await then_textbox_has_a_value_of("Profession 2", PROFESSION_2.name, region("Background"))
+		await then_textbox_is_disabled("Profession 2", region("Intermediate Tier"))
+		await then_textbox_has_a_value_of("Profession 2", PROFESSION_2.name, region("Intermediate Tier"))
 	})
 
 	it("be disabled if you have no profession1", async () => {
@@ -71,7 +71,7 @@ describe("Profession 2 Combobox should", () => {
 			archetype: ARCHETYPE.code
 		})
 
-		await then_textbox_is_disabled("Profession 2", region("Background"))
+		await then_textbox_is_disabled("Profession 2", region("Intermediate Tier"))
 	})
 
 	it("be disabled if you have profession3", async () => {
@@ -79,16 +79,16 @@ describe("Profession 2 Combobox should", () => {
 			archetype: ARCHETYPE.code,
 			profession1: PROFESSION_1.code,
 			profession2: PROFESSION_2.code,
-			profession3: PROFESSION_3.code,
+			profession3: PROFESSION_3.code
 		})
 
-		await then_textbox_is_disabled("Profession 2", region("Background"))
+		await then_textbox_is_disabled("Profession 2", region("Intermediate Tier"))
 	})
 
 
 	it("be blank by default", async () => {
 		await render_character_sheet({})
 
-		await then_textbox_has_a_value_of("Profession 2", "", region("Background"))
+		await then_textbox_has_a_value_of("Profession 2", "", region("Intermediate Tier"))
 	})
 })

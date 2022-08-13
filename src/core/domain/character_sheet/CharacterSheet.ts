@@ -49,9 +49,6 @@ export type CalculatedCharacterSheet = Readonly<{
 	ancestry: CalculatedCombobox
 	ancestry_trait: CalculatedCombobox
 	archetype: CalculatedCombobox
-	profession1: CalculatedCombobox
-	profession2: CalculatedCombobox
-	profession3: CalculatedCombobox
 	talent: CalculatedCombobox
 
 	encumbrance_limit: number

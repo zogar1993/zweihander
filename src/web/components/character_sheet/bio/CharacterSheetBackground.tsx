@@ -12,14 +12,14 @@ import { Avatar, Field } from "misevi"
 import React from "react"
 import styled from "styled-components"
 
-export default function CharacterSheetBio() {
+export default function CharacterSheetBackground() {
 	const { character, orderAlignments, chaosAlignments } =
 		useCharacterSheetState()
 	const isOwner = useIsCharacterSheetOwner()
 
 	const dispatch = useCharacterSheetDispatcher()
 	return (
-		<Bio>
+		<CharacterBackgroundContainer aria-label="Background">
 			<AvatarContainer>
 				<Avatar
 					src={character.avatar || "/characters/bandit.png"}
@@ -110,7 +110,7 @@ export default function CharacterSheetBio() {
 					disabled={!isOwner}
 				/>
 			</TwoColumns>
-		</Bio>
+		</CharacterBackgroundContainer>
 	)
 }
 
@@ -132,8 +132,8 @@ const SexAgeContainer = styled.div`
 	gap: ${theme.spacing.separation};
 `
 
-const Bio = styled.div`
-	grid-area: bio;
+const CharacterBackgroundContainer = styled.section`
+	grid-area: background;
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};

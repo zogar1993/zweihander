@@ -10,12 +10,19 @@ export default function calculateProfessionProfile({
 																										 character,
 																										 professions,
 																										 talents
-																									 }: CalculateProfessionProfileProps): ProfessionProfile {
+																									 }: CalculateProfessionProfileProps): {
+	professions: [
+		Omit<CharacterSheetProfessionAdvances, "profession">,
+		Omit<CharacterSheetProfessionAdvances, "profession">,
+		Omit<CharacterSheetProfessionAdvances, "profession">
+	]
+	spending_outside_profession: Omit<CharacterSheetProfessionAdvances, "profession">
+} {
 
 	//Expenditures are to be consumed as they are encountered
 	const expenditures = getCharacterExpenditures(character)
 
-	const tiers: Array<CharacterSheetProfessionAdvances> = []
+	const tiers: Array<Omit<CharacterSheetProfessionAdvances, "profession">> = []
 
 	const talentsToExclude: Array<string> = []
 
@@ -109,7 +116,7 @@ function getProfessionTierTemplate({
 	profession: Profession,
 	talents: Array<TalentTech>,
 	talentsToExclude: Array<string>
-}): CharacterSheetProfessionAdvances {
+}): Omit<CharacterSheetProfessionAdvances, "profession"> {
 	const remainingTalents = profession.advances.talents.filter(code => !talentsToExclude.includes(code))
 	talentsToExclude.push(...remainingTalents)
 	return {
@@ -128,7 +135,7 @@ function getUniqueAdvances({
 													 }: {
 	expenditures: CharacterExpenditures,
 	talents: Array<TalentTech>
-}): ProfessionProfile["spending_outside_profession"] {
+}): Omit<ProfessionProfile["spending_outside_profession"], "profession"> {
 	return {
 		attributes: expenditures.attributes.map(code => getByCode(code, ATTRIBUTE_DEFINITIONS)).map(toItem),
 		skills: expenditures.skills.map(code => getByCode(code, SKILL_DEFINITIONS)).map(toItem),
@@ -151,10 +158,11 @@ type CharacterSheet = {
 
 export type ProfessionProfile = {
 	professions: [CharacterSheetProfessionAdvances, CharacterSheetProfessionAdvances, CharacterSheetProfessionAdvances]
-	spending_outside_profession: CharacterSheetProfessionAdvances
+	spending_outside_profession: Omit<CharacterSheetProfessionAdvances, "profession">
 }
 
 export type CharacterSheetProfessionAdvances = {
+	profession: CalculatedCombobox
 	attributes: Array<CharacterTierItem>
 	skills: Array<CharacterTierItem>
 	talents: Array<CharacterTierItem>
@@ -168,7 +176,7 @@ export type CharacterTierItem = {
 }
 
 const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })
-const BLANK_TIER: CharacterSheetProfessionAdvances = {
+const BLANK_TIER: Omit<CharacterSheetProfessionAdvances, "profession"> = {
 	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
 	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),
 	talents: Array.from(Array(3), () => BLANK_CHARACTER_TIER_ITEM),

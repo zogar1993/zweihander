@@ -10,7 +10,12 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetProfessions() {
-	const { character: { archetype, profession1, profession2, profession3 } } =
+	const {
+		character: {
+			archetype,
+			profession_profile: { professions: [{ profession: profession1 }, { profession: profession2 }, { profession: profession3 }] }
+		}
+	} =
 		useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()

@@ -1,4 +1,4 @@
-import CharacterSheetBio from "@web/components/character_sheet/bio/CharacterSheetBio"
+import CharacterSheetBackground from "@web/components/character_sheet/bio/CharacterSheetBackground"
 import { CharacterSheetAddons } from "@web/components/character_sheet/CharacterSheetAddons"
 import CharacterSheetAttributes from "@web/components/character_sheet/CharacterSheetAttributes"
 import CharacterSheetConfirmationModal from "@web/components/character_sheet/CharacterSheetConfirmationModal"
@@ -37,7 +37,7 @@ export default function CharacterSheetScreen(
 				<CharacterSheetAddons />
 				<CharacterSheetConfirmationModal />
 				<Layout>
-					<CharacterSheetBio />
+					<CharacterSheetBackground />
 					<CharacterSheetAttributes />
 					<CharacterSheetStatus />
 					<CharacterSheetProfessionProfile />
@@ -68,7 +68,7 @@ const Layout = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: ${theme.spacing.separation};
   grid-template-areas:
-		"bio attributes attributes status"
+		"background attributes attributes status"
 		"profession_profile profession_profile profession_profile profession_profile"
 		"misc misc misc misc";
 
@@ -76,7 +76,7 @@ const Layout = styled.div`
     grid-template-columns: 1fr;
     width: 100%;
     grid-template-areas:
-			"bio"
+			"background"
 			"attributes"
 			"skills"
 			"status"

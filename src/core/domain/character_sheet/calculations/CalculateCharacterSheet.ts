@@ -65,16 +65,28 @@ export function calculateCharacterSheet({
 		talents
 	})
 
+	const combobox_professions = [
+		Comboboxify.profession1({ character, professions, archetypes }),
+		Comboboxify.profession2({ character, professions }),
+		Comboboxify.profession3({ character, professions })
+	]
+
+	const tiers = profession_profile.professions.map((tier, i) => ({
+		...tier,
+		profession: combobox_professions[i]
+	}))
+
+	const wea: ProfessionProfile = {
+		professions: tiers as ProfessionProfile["professions"],
+		spending_outside_profession: profession_profile.spending_outside_profession
+	}
+
 	return {
 		character: {
 			ancestry: Comboboxify.ancestry({ character, ancestries }),
 			ancestry_trait: Comboboxify.ancestryTrait({ character, ancestries }),
 			archetype: Comboboxify.archetype({ character, archetypes }),
-			profession1: Comboboxify.profession1({ character, professions, archetypes }),
-			profession2: Comboboxify.profession2({ character, professions }),
-			profession3: Comboboxify.profession3({ character, professions }),
 			talent: Comboboxify.talent({ character, talents }),
-
 			age: character.age,
 			avatar: character.avatar,
 			chaos_alignment: character.chaos_alignment,
@@ -112,10 +124,10 @@ export function calculateCharacterSheet({
 				character,
 				attributes,
 				schools,
-				profession_profile
+			profession_profile: wea
 			}),
 			special_rules: special_rules,
-			profession_profile
+			profession_profile: wea
 		}
 	}
 }

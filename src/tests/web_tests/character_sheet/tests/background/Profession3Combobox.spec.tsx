@@ -6,7 +6,7 @@ import {
 import {
 	A_USER,
 	ANOTHER_USER,
-	given_your_email_is,
+	given_your_email_is, region,
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"
@@ -33,7 +33,7 @@ describe("Profession 3 Combobox should", () => {
 			profession3: PROFESSION_3.code
 		})
 
-		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name)
+		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name, region("Background"))
 	})
 
 	it("send a 'set_value|profession3' and show updated value on change", async () => {
@@ -44,7 +44,7 @@ describe("Profession 3 Combobox should", () => {
 			profession3: PROFESSION_3.code
 		})
 
-		await when_combobox_item_is_changed("Profession 3", NEW_PROFESSION_3)
+		await when_combobox_item_is_changed("Profession 3", NEW_PROFESSION_3, region("Background"))
 
 		await update_character_api_was_called_with([
 			{
@@ -53,6 +53,7 @@ describe("Profession 3 Combobox should", () => {
 				value: NEW_PROFESSION_3.code
 			}
 		])
+		await then_textbox_has_a_value_of("Profession 3", NEW_PROFESSION_3.name, region("Background"))
 	})
 
 	it("be disabled if it is not yours", async () => {
@@ -64,8 +65,8 @@ describe("Profession 3 Combobox should", () => {
 			profession3: PROFESSION_3.code, created_by: ANOTHER_USER
 		})
 
-		await then_textbox_is_disabled("Profession 3")
-		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name)
+		await then_textbox_is_disabled("Profession 3", region("Background"))
+		await then_textbox_has_a_value_of("Profession 3", PROFESSION_3.name, region("Background"))
 	})
 
 	it("be disabled if you have no profession2", async () => {
@@ -74,12 +75,12 @@ describe("Profession 3 Combobox should", () => {
 			profession1: PROFESSION_1.code
 		})
 
-		await then_textbox_is_disabled("Profession 3")
+		await then_textbox_is_disabled("Profession 3", region("Background"))
 	})
 
 	it("be blank by default", async () => {
 		await render_character_sheet({})
 
-		await then_textbox_has_a_value_of("Profession 3", "")
+		await then_textbox_has_a_value_of("Profession 3", "", region("Background"))
 	})
 })
