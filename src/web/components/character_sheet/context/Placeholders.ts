@@ -5,20 +5,17 @@ import sanitizeCharacterSheet from "@core/domain/character_sheet/sanitization/Sa
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { CharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 
-const LOADING_TIER_ITEM = { code: "", checked: undefined }
-
+const LOADING_CHECKBOX = { code: "", checked: undefined }
+const LOADING_CHECK_COMBOBOX = { name: "", code: undefined }
 const LOADING_TIER = {
-	profession: { name: "", code: undefined },
-	attributes: Array.from(Array(7), () => LOADING_TIER_ITEM),
-	skills: Array.from(Array(10), () => LOADING_TIER_ITEM),
-	talents: Array.from(Array(3), () => LOADING_TIER_ITEM),
+	profession: LOADING_CHECK_COMBOBOX,
+	attributes: Array.from(Array(7), () => LOADING_CHECKBOX),
+	skills: Array.from(Array(10), () => LOADING_CHECKBOX),
+	talents: Array.from(Array(3), () => LOADING_CHECKBOX),
 	wildcard_talents: []
 } as unknown as TierViewModel
 
-const LOADING_CALCULATED_COMBOBOX = {
-	code: undefined,
-	options: []
-}
+const LOADING_COMBOBOX = { code: undefined, options: [] }
 
 const LOADING_CALCULATED_CHARACTER_SHEET = {
 	attributes: ATTRIBUTE_DEFINITIONS.map(attribute => ({
@@ -35,13 +32,13 @@ const LOADING_CALCULATED_CHARACTER_SHEET = {
 	peril: {},
 	damage: {},
 
-	ancestry: LOADING_CALCULATED_COMBOBOX,
-	ancestry_trait: LOADING_CALCULATED_COMBOBOX,
-	archetype: LOADING_CALCULATED_COMBOBOX,
-	profession1: LOADING_CALCULATED_COMBOBOX,
-	profession2: LOADING_CALCULATED_COMBOBOX,
-	profession3: LOADING_CALCULATED_COMBOBOX,
-	talent: LOADING_CALCULATED_COMBOBOX,
+	ancestry: LOADING_COMBOBOX,
+	ancestry_trait: LOADING_COMBOBOX,
+	archetype: LOADING_COMBOBOX,
+	profession1: LOADING_COMBOBOX,
+	profession2: LOADING_COMBOBOX,
+	profession3: LOADING_COMBOBOX,
+	talent: LOADING_COMBOBOX,
 
 	profession_profile: {
 		professions: [LOADING_TIER, LOADING_TIER, LOADING_TIER],

@@ -2,16 +2,16 @@ import { Archetype } from "@core/actions/GetArchetypes"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
+import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
 import calculateTiers, {
-	TierViewModel, CharacterTierItem,
+	CharacterTierItem,
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateTiers"
-import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
 import { AdvancesDistinction } from "@core/domain/character_sheet/calculations/profession_profile/reducers"
 import {
 	AncestryTech,
 	CalculatedAttribute,
-	CalculatedCharacterSheet, CalculatedCombobox,
+	CalculatedCharacterSheet,
 	CharacterSpells,
 	Flip,
 	Focuses,
@@ -322,7 +322,7 @@ function formatFocuses(focuses: Focuses): CalculatedCharacterSheet["focuses"] {
 }
 
 
-const doStuff = (wea: AdvancesDistinction, items: ReadonlyArray<Item>): Array<CharacterTierItem> => {
+const doStuff = (wea: AdvancesDistinction, items: ReadonlyArray<Item>) => {
 	return wea.bought.map(x => ({
 		code: x,
 		name: getByCode(x, items).name,
@@ -335,8 +335,8 @@ const emptyCheckboxes = (amount: number): Array<CharacterTierItem> =>
 	Array.from(Array(amount), () => EMPTY_CHECKBOX)
 
 
-const doStuffCombobox = (wea: Array<string | null>, items: ReadonlyArray<Item>): Array<CalculatedCombobox> => {
-	return wea.map(x => ({ code: x, options: items }) as CalculatedCombobox)
+const doStuffCombobox = (wea: Array<string | null>, items: ReadonlyArray<Item>) => {
+	return wea.map(x => ({ code: x, options: items }))
 }
 
 

@@ -1,7 +1,7 @@
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import {
 	classifyExpendituresReducer,
-	PROFESSION_EXPENDITURE_DEFAULT
+	DEFAULT_ACCUMULATOR
 } from "@core/domain/character_sheet/calculations/profession_profile/reducers"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 
@@ -11,7 +11,7 @@ export default function calculateTierAttributes({ character, professions }: {
 	return professions
 		.map(getProfessionAttributes)
 		.reduce(classifyExpendituresReducer, {
-			...PROFESSION_EXPENDITURE_DEFAULT,
+			...DEFAULT_ACCUMULATOR,
 			expenditures: getAttributeExpenditures(character)
 		})
 }

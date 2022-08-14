@@ -1,9 +1,9 @@
 import {
 	classifyExpendituresReducer,
-	PROFESSION_EXPENDITURE_DEFAULT, removeRepeatedReducer
+	DEFAULT_ACCUMULATOR,
+	removeRepeatedReducer
 } from "@core/domain/character_sheet/calculations/profession_profile/reducers"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
-import { SkillCode } from "@core/domain/skill/SkillCode"
 
 export default function calculateTierTalents({ character, professions }: {
 	character: CharacterSheet, professions: ReadonlyArray<Profession>
@@ -12,7 +12,7 @@ export default function calculateTierTalents({ character, professions }: {
 		.map(getProfessionTalents)
 		.reduce(removeRepeatedReducer, [])
 		.reduce(classifyExpendituresReducer, {
-			...PROFESSION_EXPENDITURE_DEFAULT,
+			...DEFAULT_ACCUMULATOR,
 			expenditures: getTalentExpenditures(character)
 		})
 }

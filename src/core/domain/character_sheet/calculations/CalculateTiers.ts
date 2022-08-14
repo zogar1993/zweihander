@@ -1,22 +1,12 @@
-import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateTierAttributes
 	from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierAttributes"
-import calculateTierSkills
-	from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierSkills"
-import calculateTierTalents
-	from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierTalents"
+import calculateTierSkills from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierSkills"
+import calculateTierTalents from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierTalents"
 import calculateTierWildcardTalents
 	from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierWildcardTalents"
-import {
-	PROFESSION_EXPENDITURE_DEFAULT,
-	classifyExpendituresReducer, removeRepeatedReducer, AdvancesDistinction
-} from "@core/domain/character_sheet/calculations/profession_profile/reducers"
 import { CalculatedCombobox, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
-import { getByCode } from "@core/domain/general/GetByCode"
-import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
-import { Item } from "@core/domain/types/Item"
 
 export default function calculateTiers({
 																				 character,

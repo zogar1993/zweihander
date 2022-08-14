@@ -1,6 +1,6 @@
 import {
 	classifyExpendituresReducer,
-	PROFESSION_EXPENDITURE_DEFAULT
+	DEFAULT_ACCUMULATOR
 } from "@core/domain/character_sheet/calculations/profession_profile/reducers"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SkillCode } from "@core/domain/skill/SkillCode"
@@ -11,7 +11,7 @@ export default function calculateTierSkills({ character, professions }: {
 	return professions
 		.map(getProfessionSkills)
 		.reduce(classifyExpendituresReducer, {
-			...PROFESSION_EXPENDITURE_DEFAULT,
+			...DEFAULT_ACCUMULATOR,
 			expenditures: getSkillExpenditures(character)
 		})
 }
