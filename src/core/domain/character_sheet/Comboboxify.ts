@@ -85,8 +85,6 @@ export default class Comboboxify {
 			disabled: character.profession1 !== null
 		}
 	}
-
-	static
 }
 
 
