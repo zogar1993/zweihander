@@ -9,93 +9,92 @@ import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitizati
 import { getByCode } from "@core/domain/general/GetByCode"
 
 export default class Comboboxify {
-
-
-	static ancestry({ character, ancestries }: {
+	static ancestry({ character, ancestriesCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "ancestry">,
-		ancestries: Array<AncestryTech>
+		ancestriesCatalog: ReadonlyArray<AncestryTech>
 	}): CalculatedCombobox {
 		return {
 			code: character.ancestry,
-			options: ancestries
+			options: ancestriesCatalog
 		}
 	}
 
-	static ancestryTrait({ character, ancestries }: {
+	static ancestryTrait({ character, ancestriesCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "ancestry" | "ancestry_trait">,
-		ancestries: Array<AncestryTech>
+		ancestriesCatalog: ReadonlyArray<AncestryTech>
 	}): CalculatedCombobox {
 		return {
 			code: character.ancestry_trait,
-			options: character.ancestry === null ? [] : getByCode(character.ancestry, ancestries).traits,
+			options: character.ancestry === null ? [] : getByCode(character.ancestry, ancestriesCatalog).traits,
 			disabled: character.ancestry === null
 		}
 	}
 
-	static profession1({ character, archetypes, professions }: {
+	static profession1({ character, archetypesCatalog, professionsCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "profession1" | "profession2" | "archetype">,
-		archetypes: Array<Archetype>
-		professions: Array<ProfessionTech>
+		archetypesCatalog: ReadonlyArray<Archetype>
+		professionsCatalog: ReadonlyArray<ProfessionTech>
 	}): CalculatedCombobox {
 		return {
 			code: character.profession1,
-			options: calculateTier1Professions(character.archetype, professions, archetypes),
+			options: calculateTier1Professions(character.archetype, professionsCatalog, archetypesCatalog),
 			disabled: character.profession2 !== null
 		}
 	}
 
-	static profession2({ character, professions }: {
+	static profession2({ character, professionsCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "profession1" | "profession2" | "profession3">,
-		professions: Array<ProfessionTech>
+		professionsCatalog: ReadonlyArray<ProfessionTech>
 	}): CalculatedCombobox {
 		return {
 			code: character.profession2,
-			options: professions,
+			options: professionsCatalog,
 			disabled: character.profession1 === null || character.profession3 !== null
 		}
 	}
 
-	static profession3({ character, professions }: {
+	static profession3({ character, professionsCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "profession2" | "profession3">,
-		professions: Array<ProfessionTech>
+		professionsCatalog: ReadonlyArray<ProfessionTech>
 	}): CalculatedCombobox {
 		return {
 			code: character.profession3,
-			options: professions,
+			options: professionsCatalog,
 			disabled: character.profession2 === null
 		}
 	}
 
-	static talent({ character, talents }: {
+	static talent({ character, talentsCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "talents">,
-		talents: Array<TalentTech>
+		talentsCatalog: ReadonlyArray<TalentTech>
 	}): CalculatedCombobox {
 		return {
 			code: null,
-			options: talents.filter(x => !character.talents.includes(x.code))
+			options: talentsCatalog.filter(x => !character.talents.includes(x.code))
 		}
 	}
 
 
-	static archetype({ character, archetypes }: {
+	static archetype({ character, archetypesCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "archetype" | "profession1">,
-		archetypes: Array<Archetype>
+		archetypesCatalog: ReadonlyArray<Archetype>
 	}): CalculatedCombobox {
 		return {
 			code: character.archetype,
-			options: archetypes,
+			options: archetypesCatalog,
 			disabled: character.profession1 !== null
 		}
 	}
 
+	static
 }
 
 
 function calculateTier1Professions(
 	archetype: string | null,
-	professions: Array<ProfessionTech>,
-	archetypes: Array<Archetype>
-): Array<ProfessionTech> {
+	professions: ReadonlyArray<ProfessionTech>,
+	archetypes: ReadonlyArray<Archetype>
+): ReadonlyArray<ProfessionTech> {
 	if (archetype === null) {
 		return professions.filter(profession =>
 			archetypes.some(archetype =>

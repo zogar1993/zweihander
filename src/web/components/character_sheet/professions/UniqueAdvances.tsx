@@ -13,7 +13,7 @@ import React from "react"
 import styled from "styled-components"
 //TODO should be buttons instead maybe
 export default function UniqueAdvances() {
-	const { character: { profession_profile: { spending_outside_profession }, talent } } = useCharacterSheetState()
+	const { character: { profession_profile: { unique_advances }, talent } } = useCharacterSheetState()
 	const { _character } = useCharacterSheetState()
 	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
@@ -21,11 +21,11 @@ export default function UniqueAdvances() {
 	return (
 		<Container>
 			<Title>Unique Advances</Title>
-			{spending_outside_profession.attributes.length > 0 &&
+			{unique_advances.attributes.length > 0 &&
 			<>
 				<Title>Attributes</Title>
 				<Grid columns={2}>
-					{spending_outside_profession.attributes.map((x, i) => (
+					{unique_advances.attributes.map((x, i) => (
 						<CheckButton
 							text={x.name}
 							checked={x.checked}
@@ -44,11 +44,11 @@ export default function UniqueAdvances() {
 				</Grid>
 			</>
 			}
-			{spending_outside_profession.skills.length > 0 &&
+			{unique_advances.skills.length > 0 &&
 			<>
 				<Title>Skills</Title>
 				<Grid columns={2}>
-					{spending_outside_profession.skills.map((x, i) => (
+					{unique_advances.skills.map((x, i) => (
 						<CheckButton
 						text={x.name}
 						checked={x.checked}
@@ -67,10 +67,10 @@ export default function UniqueAdvances() {
 				</Grid>
 			</>
 			}
-			{(spending_outside_profession.talents.length > 0 || isOwner) &&
+			{(unique_advances.talents.length > 0 || isOwner) &&
 			<>
 				<Title>Talents</Title>
-				{spending_outside_profession.talents.map((x, i) => (
+				{unique_advances.talents.map((x, i) => (
 					<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`}
 											 onChange={() => dispatch({ type: ActionType.RemoveTalent, payload: x.code })} />
 				))}

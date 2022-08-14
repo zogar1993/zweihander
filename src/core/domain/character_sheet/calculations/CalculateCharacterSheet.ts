@@ -2,12 +2,16 @@ import { Archetype } from "@core/actions/GetArchetypes"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
-import calculateProfessionProfile, { ProfessionProfile } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import calculateTiers, {
+	TierViewModel, CharacterTierItem,
+	ProfessionProfile
+} from "@core/domain/character_sheet/calculations/CalculateTiers"
 import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
+import { AdvancesDistinction } from "@core/domain/character_sheet/calculations/profession_profile/reducers"
 import {
 	AncestryTech,
 	CalculatedAttribute,
-	CalculatedCharacterSheet,
+	CalculatedCharacterSheet, CalculatedCombobox,
 	CharacterSpells,
 	Flip,
 	Focuses,
@@ -22,71 +26,78 @@ import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitizati
 import { getByCode } from "@core/domain/general/GetByCode"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
+import { Item } from "@core/domain/types/Item"
 import { UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
 
 export function calculateCharacterSheet({
 																					character,
-																					ancestries,
-																					professions,
-																					schools,
-																					talents,
-																					archetypes
+																					ancestries: ancestriesCatalog,
+																					professions: professionsCatalog,
+																					schools: schoolsCatalog,
+																					talents: talentsCatalog,
+																					archetypes: archetypesCatalog
 																				}: {
 	character: SanitizedCharacterSheet
-	ancestries: Array<AncestryTech>
-	professions: Array<ProfessionTech>
-	schools: Array<MagicSchoolTech>
-	talents: Array<TalentTech>
-	archetypes: Array<Archetype>
+	ancestries: ReadonlyArray<AncestryTech>
+	professions: ReadonlyArray<ProfessionTech>
+	schools: ReadonlyArray<MagicSchoolTech>
+	talents: ReadonlyArray<TalentTech>
+	archetypes: ReadonlyArray<Archetype>
 }): {
 	character: CalculatedCharacterSheet
 } {
-	const ancestry = calculateAncestry({ character, ancestries })
-	const _professions = calculateProfessions({ character, professions })
-
-	const attributes = getAttributes({
-		character,
-		ancestry,
-		professions: _professions
-	})
+	const ancestry = calculateAncestry({ character, ancestriesCatalog })
+	const professions = calculateProfessions({ character, professionsCatalog })
+	const attributes = getAttributes({ character, ancestry, professions })
 
 	const getAttribute = (code: AttributeCode) => getByCode(code, attributes)
 
 	const special_rules = getSpecialRules({
 		character,
-		talents,
-		professions: _professions,
+		talentsCatalog,
+		professions,
 		ancestry
 	})
 
-	const profession_profile = calculateProfessionProfile({
-		character,
-		professions: _professions,
-		talents
-	})
+	const { tiers, remaining } = calculateTiers({ character, professions })
+
+
+
 
 	const combobox_professions = [
-		Comboboxify.profession1({ character, professions, archetypes }),
-		Comboboxify.profession2({ character, professions }),
-		Comboboxify.profession3({ character, professions })
+		Comboboxify.profession1({ character, professionsCatalog, archetypesCatalog }),
+		Comboboxify.profession2({ character, professionsCatalog }),
+		Comboboxify.profession3({ character, professionsCatalog })
 	]
 
-	const tiers = profession_profile.professions.map((tier, i) => ({
-		...tier,
-		profession: combobox_professions[i]
-	}))
+	const tiersViewModel = Array.from(Array(3), (_, i) =>
+		i < professions.length ? {
+			attributes: doStuff(tiers[i].attributes, ATTRIBUTE_DEFINITIONS),
+			skills: doStuff(tiers[i].skills, SKILL_DEFINITIONS),
+			talents: doStuff(tiers[i].talents, talentsCatalog),
+			wildcard_talents: doStuffCombobox(tiers[i].wildcards, talentsCatalog)
+		} : {
+			attributes: emptyCheckboxes(7),
+			skills: emptyCheckboxes(10),
+			talents: emptyCheckboxes(3),
+			wildcard_talents: []
+		}
+	).map((tier, i) => ({...tier, profession: combobox_professions[i]}))
+
 
 	const wea: ProfessionProfile = {
-		professions: tiers as ProfessionProfile["professions"],
-		spending_outside_profession: profession_profile.spending_outside_profession
+		professions: tiersViewModel as unknown as ProfessionProfile["professions"],
+		unique_advances: getUniqueAdvances({
+			expenditures: remaining, talents: talentsCatalog
+		})
 	}
 
 	return {
 		character: {
-			ancestry: Comboboxify.ancestry({ character, ancestries }),
-			ancestry_trait: Comboboxify.ancestryTrait({ character, ancestries }),
-			archetype: Comboboxify.archetype({ character, archetypes }),
-			talent: Comboboxify.talent({ character, talents }),
+			ancestry: Comboboxify.ancestry({ character, ancestriesCatalog }),
+			ancestry_trait: Comboboxify.ancestryTrait({ character, ancestriesCatalog }),
+			archetype: Comboboxify.archetype({ character, archetypesCatalog }),
+			talent: Comboboxify.talent({ character, talentsCatalog }),
 			age: character.age,
 			avatar: character.avatar,
 			chaos_alignment: character.chaos_alignment,
@@ -113,7 +124,7 @@ export function calculateCharacterSheet({
 				value: character.peril,
 				threshold: getAttribute("willpower").bonus + 3
 			},
-			schools: formatSpells(character.spells, schools),
+			schools: formatSpells(character.spells, schoolsCatalog),
 			focuses: formatFocuses(character.focuses),
 			encumbrance_limit: 3 + getAttribute("brawn").bonus,
 			initiative: 3 + getAttribute("perception").bonus,
@@ -123,8 +134,8 @@ export function calculateCharacterSheet({
 			spent_experience: spentExperience({
 				character,
 				attributes,
-				schools,
-			profession_profile: wea
+				schoolsCatalog,
+				profession_profile: wea
 			}),
 			special_rules: special_rules,
 			profession_profile: wea
@@ -139,8 +150,8 @@ function getAttributes({
 											 }: {
 	character: Pick<SanitizedCharacterSheet, "attributes" | "skills" | "mercy" | "peril" | "focuses">
 	ancestry: Pick<AncestryTech, "attribute_bonuses"> | null
-	professions: Array<Pick<ProfessionTech, "advances">>
-}): Array<CalculatedAttribute> {
+	professions: ReadonlyArray<Pick<ProfessionTech, "advances">>
+}): ReadonlyArray<CalculatedAttribute> {
 	return ATTRIBUTE_DEFINITIONS.map(attribute => {
 		const { base: raw_base, advances } = character.attributes[attribute.code]
 		const ancestry_bonus = ancestry?.attribute_bonuses[attribute.code] || 0
@@ -190,33 +201,33 @@ function getAttributes({
 
 function getSpecialRules({
 													 character,
-													 talents,
+													 talentsCatalog,
 													 professions,
 													 ancestry
 												 }: {
 	character: SanitizedCharacterSheet
-	talents: Array<TalentTech>
-	professions: Array<ProfessionTech>
+	talentsCatalog: ReadonlyArray<TalentTech>
+	professions: ReadonlyArray<ProfessionTech>
 	ancestry: AncestryTech | null
-}): Array<SpecialRule> {
+}): ReadonlyArray<SpecialRule> {
 	const ancestry_trait = ancestry ?
 		ancestry.traits.find(x => x.code === character.ancestry_trait) : null
 	return [
 		...(ancestry_trait ? [ancestry_trait] : []),
-		...character.talents.map(x => getByCode(x!, talents)),
+		...character.talents.map(x => getByCode(x!, talentsCatalog)),
 		...professions.flatMap(x => x.traits)
 	]
 }
 
 function spentExperience({
 													 character,
-													 schools,
+													 schoolsCatalog,
 													 attributes,
 													 profession_profile
 												 }: {
 	character: SanitizedCharacterSheet
-	schools: Array<MagicSchoolTech>
-	attributes: Array<CalculatedAttribute>
+	schoolsCatalog: ReadonlyArray<MagicSchoolTech>
+	attributes: ReadonlyArray<CalculatedAttribute>
 	profession_profile: ProfessionProfile
 }): number {
 
@@ -232,7 +243,7 @@ function spentExperience({
 	const spells = { Petty: 0, Lesser: 0, Greater: 0 }
 	const keys = Object.keys(character.spells)
 	for (const schoolCode of keys) {
-		const schoolSpells = getByCode(schoolCode, schools).spells
+		const schoolSpells = getByCode(schoolCode, schoolsCatalog).spells
 		const spellCodes = character.spells[schoolCode]!
 		for (const spellCode of spellCodes) {
 			const principle = getByCode(spellCode, schoolSpells).principle
@@ -263,7 +274,7 @@ function spentExperience({
 		experience += x.wildcard_talents.filter(x => x.code).length * multiplier
 	})
 
-	experience += profession_profile.spending_outside_profession.talents.filter(x => x.checked).length * 100
+	experience += profession_profile.unique_advances.talents.filter(x => x.checked).length * 100
 
 	return experience
 }
@@ -284,7 +295,7 @@ function forEachEntryInRecord<Key extends string, Value>(
 
 function formatSpells(
 	spells: CharacterSpells,
-	schools: Array<MagicSchoolTech>
+	schools: ReadonlyArray<MagicSchoolTech>
 ): CalculatedCharacterSheet["schools"] {
 	return Object.keys(spells).map(key => {
 		const school = getByCode(key, schools)
@@ -310,3 +321,39 @@ function formatFocuses(focuses: Focuses): CalculatedCharacterSheet["focuses"] {
 	})
 }
 
+
+const doStuff = (wea: AdvancesDistinction, items: ReadonlyArray<Item>): Array<CharacterTierItem> => {
+	return wea.bought.map(x => ({
+		code: x,
+		name: getByCode(x, items).name,
+		checked: true
+	})).concat(wea.missing.map(x => ({ code: x, name: getByCode(x, items).name, checked: false })))
+}
+
+const EMPTY_CHECKBOX = { code: "", name: "", checked: false, disabled: true }
+const emptyCheckboxes = (amount: number): Array<CharacterTierItem> =>
+	Array.from(Array(amount), () => EMPTY_CHECKBOX)
+
+
+const doStuffCombobox = (wea: Array<string | null>, items: ReadonlyArray<Item>): Array<CalculatedCombobox> => {
+	return wea.map(x => ({ code: x, options: items }) as CalculatedCombobox)
+}
+
+
+const toItem = (item: Item) => ({ name: item.name, code: item.code, checked: false })
+
+function getUniqueAdvances({
+														 expenditures,
+														 talents
+													 }: {
+	expenditures: CharacterExpenditures,
+	talents: ReadonlyArray<TalentTech>
+}): Omit<ProfessionProfile["unique_advances"], "profession"> {
+	return {
+		attributes: expenditures.attributes.map(code => getByCode(code, ATTRIBUTE_DEFINITIONS)).map(toItem),
+		skills: expenditures.skills.map(code => getByCode(code, SKILL_DEFINITIONS)).map(toItem),
+		talents: expenditures.talents.map(code => getByCode(code, talents)).map(toItem),
+		wildcard_talents: []
+	}
+}
+type CharacterExpenditures = Record<"attributes" | "skills" | "talents", ReadonlyArray<string>>

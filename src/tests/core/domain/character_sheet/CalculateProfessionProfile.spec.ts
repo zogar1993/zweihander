@@ -1,11 +1,10 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import calculateProfessionProfile, {
+import calculateTiers, {
 	CalculateProfessionProfileProps,
-	CharacterSheetProfessionAdvances,
-	Expenditure,
+	TierViewModel,
 	ProfessionProfile
-} from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+} from "@core/domain/character_sheet/calculations/CalculateTiers"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
@@ -16,7 +15,7 @@ import { TEST_PROFESSIONS, TEST_TALENTS } from "@tests/web_tests/character_sheet
 
 const BLANK_CHARACTER_TIER_ITEM = Object.freeze({ name: "", code: "", checked: false })
 
-const BLANK_TIER: CharacterSheetProfessionAdvances = {
+const BLANK_TIER: TierViewModel = {
 	profession: {code: "", options: []},
 	attributes: Array.from(Array(7), () => BLANK_CHARACTER_TIER_ITEM),
 	skills: Array.from(Array(10), () => BLANK_CHARACTER_TIER_ITEM),

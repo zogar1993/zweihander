@@ -9,7 +9,7 @@ describe("CalculateProfessions should", () => {
 	it("return empty array when there is no selected professions", async () => {
 		const professions = calculateProfessions({
 			character: { profession1: null, profession2: null, profession3: null },
-			professions: TEST_PROFESSIONS
+			professionsCatalog: TEST_PROFESSIONS
 		})
 
 		expect(professions).toEqual([])
@@ -22,7 +22,7 @@ describe("CalculateProfessions should", () => {
 				profession2: null,
 				profession3: null
 			},
-			professions: TEST_PROFESSIONS
+			professionsCatalog: TEST_PROFESSIONS
 		})
 
 		expect(professions).toEqual([PROFESSION_1])
@@ -35,7 +35,7 @@ describe("CalculateProfessions should", () => {
 				profession2: PROFESSION_2.code,
 				profession3: null
 			},
-			professions: TEST_PROFESSIONS
+			professionsCatalog: TEST_PROFESSIONS
 		})
 
 		expect(professions).toEqual([PROFESSION_1, PROFESSION_2])
@@ -48,7 +48,7 @@ describe("CalculateProfessions should", () => {
 				profession2: PROFESSION_2.code,
 				profession3: PROFESSION_3.code
 			},
-			professions: TEST_PROFESSIONS
+			professionsCatalog: TEST_PROFESSIONS
 		})
 
 		expect(professions).toEqual([PROFESSION_1, PROFESSION_2, PROFESSION_3])

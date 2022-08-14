@@ -7,7 +7,7 @@ describe("CalculateAncestry should", () => {
 	it("return null when there is no selected ancestry", async () => {
 		const ancestry = calculateAncestry({
 			character: { ancestry: null },
-			ancestries: TEST_ANCESTRIES
+			ancestriesCatalog: TEST_ANCESTRIES
 		})
 
 		expect(ancestry).toEqual(null)
@@ -16,7 +16,7 @@ describe("CalculateAncestry should", () => {
 	it("return ancestry of selected code", async () => {
 		const ancestry = calculateAncestry({
 			character: { ancestry: ANCESTRY.code },
-			ancestries: TEST_ANCESTRIES
+			ancestriesCatalog: TEST_ANCESTRIES
 		})
 
 		expect(ancestry).toEqual(ANCESTRY)

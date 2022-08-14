@@ -4,15 +4,15 @@ import { getByCode } from "@core/domain/general/GetByCode"
 
 export default function calculateProfessions({
 	character,
-	professions
+	professionsCatalog
 }: {
 	character: Pick<
 		SanitizedCharacterSheet,
 		"profession1" | "profession2" | "profession3"
 	>
-	professions: Array<ProfessionTech>
+	professionsCatalog: ReadonlyArray<ProfessionTech>
 }) {
 	return [character.profession1, character.profession2, character.profession3]
 		.filter(code => code)
-		.map(code => getByCode(code!, professions))
+		.map(code => getByCode(code!, professionsCatalog))
 }

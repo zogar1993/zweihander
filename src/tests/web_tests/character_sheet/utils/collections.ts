@@ -60,7 +60,7 @@ export const TEST_PROFESSIONS: Array<ProfessionTech> = Array.from(
 	],
 	advances: {
 		skill_ranks: SKILL_DEFINITIONS.filter(
-			(_, i) => (i + n) % SKILL_DEFINITIONS.length > 10
+			(_, i) => (i + n) % SKILL_DEFINITIONS.length < 10
 		).map(skill => skill.code),
 		bonus_advances: (() => {
 			const a1 = ATTRIBUTE_DEFINITIONS[(n + 1) % ATTRIBUTE_DEFINITIONS.length]
@@ -75,7 +75,7 @@ export const TEST_PROFESSIONS: Array<ProfessionTech> = Array.from(
 			}
 		})(),
 		talents: TEST_TALENTS.filter(
-			(_, i) => (i + n) % TEST_TALENTS.length > 3
+			(_, i) => (i + n) % TEST_TALENTS.length < 3
 		).map(talent => talent.code)
 	}
 }))

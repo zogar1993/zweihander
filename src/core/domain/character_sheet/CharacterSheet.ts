@@ -1,5 +1,5 @@
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import { ProfessionProfile } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import { ProfessionProfile } from "@core/domain/character_sheet/calculations/CalculateTiers"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Ancestry, AncestryTrait } from "@core/domain/types/Ancestry"
 import { Item } from "@core/domain/types/Item"
@@ -28,8 +28,8 @@ export type CharacterSheetSettings = {
 }
 export type SchoolCode = string
 export type SpellCode = string
-export type CharacterSpells = Partial<Record<SchoolCode, Array<SpellCode>>>
-export type Focuses = Partial<Record<SkillCode, Array<string>>>
+export type CharacterSpells = Partial<Record<SchoolCode, ReadonlyArray<SpellCode>>>
+export type Focuses = Partial<Record<SkillCode, ReadonlyArray<string>>>
 export type CalculatedCharacterSheet = Readonly<{
 	id: string
 
@@ -59,14 +59,14 @@ export type CalculatedCharacterSheet = Readonly<{
 
 	damage: ConditionTrack
 	peril: ConditionTrack
-	attributes: Array<CalculatedAttribute>
+	attributes: ReadonlyArray<CalculatedAttribute>
 
 	journal: string
 	spent_experience: number
-	focuses: Array<Item & { items: Array<Item> }>
-	schools: Array<Item & { items: Array<Item> }>
+	focuses: ReadonlyArray<Item & { items: ReadonlyArray<Item> }>
+	schools: ReadonlyArray<Item & { items: ReadonlyArray<Item> }>
 
-	special_rules: Array<SpecialRule>
+	special_rules: ReadonlyArray<SpecialRule>
 
 	settings: CharacterSheetSettings
 	created_by: string
@@ -89,7 +89,7 @@ export type CalculatedAttribute = {
 	ancestry_bonus: number
 
 	mercy_possible: boolean
-	skills: Array<CalculatedSkill>
+	skills: ReadonlyArray<CalculatedSkill>
 }
 export type CalculatedSkill = {
 	name: string
@@ -110,14 +110,14 @@ export type AncestryTraitTech = Pick<AncestryTrait,
 export type TraitTech = Pick<AncestryTrait, "name" | "code" | "effect">
 export type AncestryTech = Pick<Ancestry,
 	"name" | "code" | "attribute_bonuses"> & {
-	traits: Array<AncestryTraitTech>
+	traits: ReadonlyArray<AncestryTraitTech>
 }
 export type ProfessionTech = Pick<Profession, "name" | "code" | "advances"> & {
-	traits: Array<TraitTech>
+	traits: ReadonlyArray<TraitTech>
 }
 export type SpellTech = Pick<Spell, "name" | "code" | "principle" | "effect">
 export type MagicSchoolTech = Pick<MagicSchool, "name" | "code" | "source"> & {
-	spells: Array<SpellTech>
+	spells: ReadonlyArray<SpellTech>
 }
 export type TalentTech = TraitTech
 export type CalculatedCombobox = {

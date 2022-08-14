@@ -1,7 +1,10 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react"
 import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
 import { when_combobox_item_is_changed } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
-import { when_textbox_value_is_changed } from "@tests/web_tests/character_sheet/utils/textbox-helpers"
+import {
+	then_textbox_has_a_value_of,
+	when_textbox_value_is_changed
+} from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
 	press_ctrl_z,
 	render_character_sheet
@@ -53,11 +56,11 @@ describe("Character Sheet Screen should", () => {
 	it("undo set_value to previous value", async () => {
 		await render_character_sheet({ name: "Ragoz" })
 		await when_textbox_value_is_changed("Name", "Raghost")
-		await screen.findByDisplayValue("Raghost")
+		await then_textbox_has_a_value_of("Name", "Raghost")
 
 		await press_ctrl_z()
 
-		await screen.findByDisplayValue("Ragoz")
+		await then_textbox_has_a_value_of("Name", "Ragoz")
 	})
 
 	it("undo when no actions where done does nothing", async () => {
@@ -65,7 +68,7 @@ describe("Character Sheet Screen should", () => {
 
 		await press_ctrl_z()
 
-		await screen.findByDisplayValue("Ragoz")
+		await then_textbox_has_a_value_of("Name", "Ragoz")
 	})
 
 	const findCheckbox = (name: string) => screen.findByRole("checkbox", {name: name})

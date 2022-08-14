@@ -1,5 +1,5 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import { CharacterSheetProfessionAdvances } from "@core/domain/character_sheet/calculations/CalculateProfessionProfile"
+import { TierViewModel } from "@core/domain/character_sheet/calculations/CalculateTiers"
 import { CalculatedCharacterSheet } from "@core/domain/character_sheet/CharacterSheet"
 import sanitizeCharacterSheet from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
@@ -13,7 +13,7 @@ const LOADING_TIER = {
 	skills: Array.from(Array(10), () => LOADING_TIER_ITEM),
 	talents: Array.from(Array(3), () => LOADING_TIER_ITEM),
 	wildcard_talents: []
-} as unknown as CharacterSheetProfessionAdvances
+} as unknown as TierViewModel
 
 const LOADING_CALCULATED_COMBOBOX = {
 	code: undefined,
@@ -45,7 +45,7 @@ const LOADING_CALCULATED_CHARACTER_SHEET = {
 
 	profession_profile: {
 		professions: [LOADING_TIER, LOADING_TIER, LOADING_TIER],
-		spending_outside_profession: LOADING_TIER
+		unique_advances: LOADING_TIER
 	}
 } as unknown as CalculatedCharacterSheet
 
@@ -66,7 +66,6 @@ export const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 		spells: { options: [] },
 		talents: { options: [] }
 	},
-	tier1Professions: [],
 	modals: {
 		confirmation: null
 	},

@@ -4,10 +4,10 @@ import { getByCode } from "@core/domain/general/GetByCode"
 
 export default function calculateAncestry({
 	character,
-	ancestries
+	ancestriesCatalog
 }: {
 	character: Pick<SanitizedCharacterSheet, "ancestry">
-	ancestries: Array<AncestryTech>
+	ancestriesCatalog: ReadonlyArray<AncestryTech>
 }): AncestryTech | null {
-	return character.ancestry ? getByCode(character.ancestry, ancestries) : null
+	return character.ancestry ? getByCode(character.ancestry, ancestriesCatalog) : null
 }

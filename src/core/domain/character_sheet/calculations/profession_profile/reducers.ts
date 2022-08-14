@@ -1,14 +1,14 @@
 
 export const reduceExpenditures = ({
 															expenditures,
-															advances: { bought, missing }
-														}: { expenditures: Array<string>, advances: AdvancesDistinction }, current: string) => {
+															results: { bought, missing }
+														}: { expenditures: Array<string>, results: AdvancesDistinction }, current: string) => {
 
 	const index = expenditures.findIndex(expenditure => expenditure === current)
 	const match = index > -1
 	return {
 		expenditures: expenditures.filter((_, i) => i !== index),
-		advances: {
+		results: {
 			bought: match ? [...bought, current] : bought,
 			missing: match ? missing : [...missing, current]
 		}
@@ -18,20 +18,20 @@ export const reduceExpenditures = ({
 export type AdvancesDistinction = { bought: Array<string>, missing: Array<string> }
 type ProfessionExpenduturesAccumulator = {
 	expenditures: Array<string>
-	advances: Array<AdvancesDistinction>
+	results: Array<AdvancesDistinction>
 }
 export  const PROFESSION_EXPENDITURE_DEFAULT: ProfessionExpenduturesAccumulator = Object.freeze({
 	expenditures: [],
-	advances: []
+	results: []
 })
-export  const clasifyExpendituresReducer = (accumulator: ProfessionExpenduturesAccumulator, current: Array<string>) => {
+export const classifyExpendituresReducer = (accumulator: ProfessionExpenduturesAccumulator, current: Array<string>) => {
 
 	const catalogued = current.reduce(reduceExpenditures
-		, { expenditures: accumulator.expenditures, advances: { bought: [], missing: [] } as AdvancesDistinction })
+		, { expenditures: accumulator.expenditures, results: { bought: [], missing: [] } as AdvancesDistinction })
 
 	return {
 		expenditures: catalogued.expenditures,
-		advances: [...accumulator.advances, catalogued.advances]
+		results: [...accumulator.results, catalogued.results]
 	}
 }
 export  const removeRepeatedReducer = (accumulator: Array<Array<string>>, current: Array<string>) => {
