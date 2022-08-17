@@ -4,14 +4,13 @@ import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
 import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
 import calculateTiers, {
-	CharacterTierItem,
 	ProfessionProfile
 } from "@core/domain/character_sheet/calculations/CalculateTiers"
-import { AdvancesDistinction } from "@core/domain/character_sheet/calculations/profession_profile/reducers"
+import { AdvancesDistinction } from "@core/domain/character_sheet/calculations/tiers/reducers"
 import {
 	AncestryTech,
 	CalculatedAttribute,
-	CalculatedCharacterSheet,
+	CalculatedCharacterSheet, CalculatedCheckbox,
 	CharacterSpells,
 	Flip,
 	Focuses,
@@ -19,7 +18,7 @@ import {
 	Peril,
 	ProfessionTech,
 	SpecialRule,
-	TalentTech
+	TraitTech
 } from "@core/domain/character_sheet/CharacterSheet"
 import Comboboxify from "@core/domain/character_sheet/Comboboxify"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
@@ -41,7 +40,7 @@ export function calculateCharacterSheet({
 	ancestries: ReadonlyArray<AncestryTech>
 	professions: ReadonlyArray<ProfessionTech>
 	schools: ReadonlyArray<MagicSchoolTech>
-	talents: ReadonlyArray<TalentTech>
+	talents: ReadonlyArray<TraitTech>
 	archetypes: ReadonlyArray<Archetype>
 }): {
 	character: CalculatedCharacterSheet
@@ -206,7 +205,7 @@ function getSpecialRules({
 													 ancestry
 												 }: {
 	character: SanitizedCharacterSheet
-	talentsCatalog: ReadonlyArray<TalentTech>
+	talentsCatalog: ReadonlyArray<TraitTech>
 	professions: ReadonlyArray<ProfessionTech>
 	ancestry: AncestryTech | null
 }): ReadonlyArray<SpecialRule> {
@@ -331,7 +330,7 @@ const doStuff = (wea: AdvancesDistinction, items: ReadonlyArray<Item>) => {
 }
 
 const EMPTY_CHECKBOX = { code: "", name: "", checked: false, disabled: true }
-const emptyCheckboxes = (amount: number): Array<CharacterTierItem> =>
+const emptyCheckboxes = (amount: number): Array<CalculatedCheckbox> =>
 	Array.from(Array(amount), () => EMPTY_CHECKBOX)
 
 
@@ -347,7 +346,7 @@ function getUniqueAdvances({
 														 talents
 													 }: {
 	expenditures: CharacterExpenditures,
-	talents: ReadonlyArray<TalentTech>
+	talents: ReadonlyArray<TraitTech>
 }): Omit<ProfessionProfile["unique_advances"], "profession"> {
 	return {
 		attributes: expenditures.attributes.map(code => getByCode(code, ATTRIBUTE_DEFINITIONS)).map(toItem),

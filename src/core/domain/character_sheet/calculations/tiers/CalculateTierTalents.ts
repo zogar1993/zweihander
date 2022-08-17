@@ -2,7 +2,7 @@ import {
 	classifyExpendituresReducer,
 	DEFAULT_ACCUMULATOR,
 	removeRepeatedReducer
-} from "@core/domain/character_sheet/calculations/profession_profile/reducers"
+} from "@core/domain/character_sheet/calculations/tiers/reducers"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 
 export default function calculateTierTalents({ character, professions }: {

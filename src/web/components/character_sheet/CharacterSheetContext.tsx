@@ -8,7 +8,7 @@ import {
 	MagicSchoolTech,
 	ProfessionTech,
 	SpellTech,
-	TalentTech
+	TraitTech
 } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
@@ -58,7 +58,7 @@ export type CharacterSheetState = {
 		confirmation: Confirmation | null
 	}
 
-	talents: Array<TalentTech>
+	talents: Array<TraitTech>
 	professions: Array<ProfessionTech>
 	ancestries: Array<AncestryTech>
 	schools: Array<MagicSchoolTech>
@@ -356,7 +356,7 @@ export enum ActionType {
 export type CharacterSheetProps = {
 	character: SanitizedCharacterSheet
 
-	talents: Array<TalentTech>
+	talents: Array<TraitTech>
 	professions: Array<ProfessionTech>
 	ancestries: Array<AncestryTech>
 	schools: Array<MagicSchoolTech>

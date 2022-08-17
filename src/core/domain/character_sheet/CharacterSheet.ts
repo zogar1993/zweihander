@@ -22,7 +22,7 @@ export enum Peril {
 	Incapacitated = 5
 }
 
-export type Visibility = "public" | "private"
+type Visibility = "public" | "private"
 export type CharacterSheetSettings = {
 	visibility: Visibility
 }
@@ -78,6 +78,7 @@ export type ConditionTrack = {
 	value: number
 	threshold: number
 }
+
 export type CalculatedAttribute = {
 	name: string
 	code: AttributeCode
@@ -91,6 +92,7 @@ export type CalculatedAttribute = {
 	mercy_possible: boolean
 	skills: ReadonlyArray<CalculatedSkill>
 }
+
 export type CalculatedSkill = {
 	name: string
 	code: SkillCode
@@ -101,11 +103,13 @@ export type CalculatedSkill = {
 	flip: Flip
 	has_focuses: boolean
 }
+
 export type SpecialRule = {
 	name: string
 	effect: string
 }
-export type AncestryTraitTech = Pick<AncestryTrait,
+
+type AncestryTraitTech = Pick<AncestryTrait,
 	"name" | "code" | "effect" | "from" | "to">
 export type TraitTech = Pick<AncestryTrait, "name" | "code" | "effect">
 export type AncestryTech = Pick<Ancestry,
@@ -119,9 +123,15 @@ export type SpellTech = Pick<Spell, "name" | "code" | "principle" | "effect">
 export type MagicSchoolTech = Pick<MagicSchool, "name" | "code" | "source"> & {
 	spells: ReadonlyArray<SpellTech>
 }
-export type TalentTech = TraitTech
+
 export type CalculatedCombobox = {
 	code: string | null | undefined
 	options: ReadonlyArray<Item>
 	disabled?: boolean
+}
+
+export type CalculatedCheckbox = {
+	name: string
+	code: string
+	checked: boolean
 }

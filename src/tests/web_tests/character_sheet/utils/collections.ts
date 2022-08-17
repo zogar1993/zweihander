@@ -1,6 +1,6 @@
 import { Archetype } from "@core/actions/GetArchetypes"
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import { AncestryTech, MagicSchoolTech, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+import { AncestryTech, MagicSchoolTech, ProfessionTech, TraitTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { Alignment } from "@core/domain/types/Alignment"
 
@@ -30,7 +30,7 @@ export const TEST_ANCESTRIES: Array<AncestryTech> = Array.from(
 	icon: ""
 }))
 
-export const TEST_TALENTS: Array<TalentTech> = Array.from(
+export const TEST_TALENTS: Array<TraitTech> = Array.from(
 	Array(40).keys(),
 	n => n + 1
 ).map(n => ({

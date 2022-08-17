@@ -1,11 +1,16 @@
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateTierAttributes
-	from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierAttributes"
-import calculateTierSkills from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierSkills"
-import calculateTierTalents from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierTalents"
+	from "@core/domain/character_sheet/calculations/tiers/CalculateTierAttributes"
+import calculateTierSkills from "@core/domain/character_sheet/calculations/tiers/CalculateTierSkills"
+import calculateTierTalents from "@core/domain/character_sheet/calculations/tiers/CalculateTierTalents"
 import calculateTierWildcardTalents
-	from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierWildcardTalents"
-import { CalculatedCombobox, ProfessionTech, TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+	from "@core/domain/character_sheet/calculations/tiers/CalculateTierWildcardTalents"
+import {
+	CalculatedCheckbox,
+	CalculatedCombobox,
+	ProfessionTech,
+	TraitTech
+} from "@core/domain/character_sheet/CharacterSheet"
 import type { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 
 export default function calculateTiers({
@@ -43,7 +48,7 @@ type CharacterSheet = {
 export type  CalculateProfessionProfileProps = {
 	character: CharacterSheet
 	professions: ReadonlyArray<Profession>
-	talentsCatalog: ReadonlyArray<TalentTech>
+	talentsCatalog: ReadonlyArray<TraitTech>
 }
 
 export type ProfessionProfile = {
@@ -53,19 +58,8 @@ export type ProfessionProfile = {
 
 export type TierViewModel = {
 	profession: CalculatedCombobox
-	attributes: ReadonlyArray<CharacterTierItem>
-	skills: ReadonlyArray<CharacterTierItem>
-	talents: ReadonlyArray<CharacterTierItem>
+	attributes: ReadonlyArray<CalculatedCheckbox>
+	skills: ReadonlyArray<CalculatedCheckbox>
+	talents: ReadonlyArray<CalculatedCheckbox>
 	wildcard_talents: ReadonlyArray<CalculatedCombobox>
 }
-
-export type CharacterTierItem = {
-	name: string
-	code: string
-	checked: boolean
-}
-
-type ArrayElements<ArrayType extends readonly unknown[]> =
-	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
-
-const WEAS = ["attributes", "skills", "talents"] as const

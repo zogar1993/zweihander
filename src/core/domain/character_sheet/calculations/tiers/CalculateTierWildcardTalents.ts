@@ -1,4 +1,4 @@
-import calculateTierTalents from "@core/domain/character_sheet/calculations/profession_profile/CalculateTierTalents"
+import calculateTierTalents from "@core/domain/character_sheet/calculations/tiers/CalculateTierTalents"
 
 export default function calculateTierWildcardTalents({ talents }: {
 	talents: ReturnType<typeof calculateTierTalents>

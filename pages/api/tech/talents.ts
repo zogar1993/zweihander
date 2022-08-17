@@ -1,10 +1,10 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0"
 import getTalents from "@core/actions/GetTalents"
-import { TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+import { TraitTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default withApiAuthRequired(
-	async (req: NextApiRequest, res: NextApiResponse<Array<TalentTech>>) => {
+	async (req: NextApiRequest, res: NextApiResponse<Array<TraitTech>>) => {
 		const talents = (await getTalents()).map(x => ({
 			name: x.name,
 			code: x.code,

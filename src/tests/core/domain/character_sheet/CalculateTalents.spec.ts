@@ -1,4 +1,4 @@
-import { TalentTech } from "@core/domain/character_sheet/CharacterSheet"
+import { TraitTech } from "@core/domain/character_sheet/CharacterSheet"
 
 const TALENTS = [
 	"talent_exclusive_1",
@@ -180,7 +180,7 @@ xdescribe("CalculateTalents should", () => {
 	*/
 })
 
-function profession(number: 1 | 2 | 3, ...talents: Array<TalentTech>) {
+function profession(number: 1 | 2 | 3, ...talents: Array<TraitTech>) {
 	return {
 		name: `Profession ${number}`,
 		code: `profession${number}`,

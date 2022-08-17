@@ -1,7 +1,7 @@
 import {
 	classifyExpendituresReducer,
 	DEFAULT_ACCUMULATOR
-} from "@core/domain/character_sheet/calculations/profession_profile/reducers"
+} from "@core/domain/character_sheet/calculations/tiers/reducers"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SkillCode } from "@core/domain/skill/SkillCode"
 

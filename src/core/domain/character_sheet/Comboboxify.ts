@@ -3,7 +3,7 @@ import {
 	AncestryTech,
 	CalculatedCombobox,
 	ProfessionTech,
-	TalentTech
+	TraitTech
 } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
@@ -66,7 +66,7 @@ export default class Comboboxify {
 
 	static talent({ character, talentsCatalog }: {
 		character: Pick<SanitizedCharacterSheet, "talents">,
-		talentsCatalog: ReadonlyArray<TalentTech>
+		talentsCatalog: ReadonlyArray<TraitTech>
 	}): CalculatedCombobox {
 		return {
 			code: null,
