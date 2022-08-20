@@ -8,7 +8,8 @@ enum Color {
 	LightGray = "#dfdfdf",
 	Gray = "#b9b9b9",
 	DarkGrey = "#808080",
-	Black = "#000000"
+	Black = "#000000",
+	Red = "#FF0000"
 }
 
 const light = {
@@ -17,6 +18,7 @@ const light = {
 		muted: Color.DarkGrey,
 		background1: Color.White,
 		primary: Color.White,
+		error: Color.Red,
 
 		menu: {
 			background: Color.LightestGray,

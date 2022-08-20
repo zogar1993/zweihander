@@ -23,6 +23,7 @@ export default function Homepage() {
 				<li>- 20220809 - SECURITY remove visibility of emails for character cards</li>
 				<li>- 20220810 - BUGFIX fix issue where Log Out button would be 2 line while hiding</li>
 				<li>- 20220811 - BUGFIX remove useless creatures menu button</li>
+				<li>- 20220820 - FEATURE now skills with flip to fail show as red</li>
 			</ul>
 		</>
 	)

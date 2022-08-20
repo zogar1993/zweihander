@@ -1,4 +1,4 @@
-import { CalculatedSkill } from "@core/domain/character_sheet/CharacterSheet"
+import { CalculatedSkill, Flip } from "@core/domain/character_sheet/CharacterSheet"
 import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
@@ -32,7 +32,7 @@ export default function CharacterSheetSkill({
 				aria-label={`${skill.name} Ranks`}
 				disabled={!isOwner}
 			/>
-			<span>{skill.chance}</span>
+			<SkillChance flip={skill.flip}>{skill.chance}</SkillChance>
 		</Container>
 	)
 }
@@ -52,4 +52,8 @@ const Container = styled.div`
 
 const SkillName = styled.span`
   white-space: pre;
+`
+
+const SkillChance = styled.span<{flip: Flip}>`
+	${({flip}) => flip === Flip.ToFail && `color: ${theme.colors.error}`};
 `
