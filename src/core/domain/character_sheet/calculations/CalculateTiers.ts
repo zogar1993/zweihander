@@ -53,7 +53,7 @@ export type  CalculateProfessionProfileProps = {
 
 export type ProfessionProfile = {
 	professions: [TierViewModel, TierViewModel, TierViewModel]
-	unique_advances: Omit<TierViewModel, "profession">
+	unique_advances: Omit<TierViewModel, "profession" | "wildcard_talents">
 }
 
 export type TierViewModel = {
