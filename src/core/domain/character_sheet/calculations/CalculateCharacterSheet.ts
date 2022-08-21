@@ -60,7 +60,6 @@ export function calculateCharacterSheet({
 
 	const professionProfile = calculateTiers({ character, professions })
 
-
 	const combobox_professions = [
 		Comboboxify.profession1({ character, professionsCatalog, archetypesCatalog }),
 		Comboboxify.profession2({ character, professionsCatalog }),
@@ -208,10 +207,15 @@ function getSpecialRules({
 }): ReadonlyArray<SpecialRule> {
 	const ancestry_trait = ancestry ?
 		ancestry.traits.find(x => x.code === character.ancestry_trait) : null
+
+	const traits = professions.flatMap(x => x.traits)
+	const singles = new Set(traits.map(x => x.code))
+	const filtered = [...singles].map(code => traits.find(trait => trait.code === code)!)
+
 	return [
 		...(ancestry_trait ? [ancestry_trait] : []),
 		...character.talents.map(x => getByCode(x!, talentsCatalog)),
-		...professions.flatMap(x => x.traits)
+		...filtered
 	]
 }
 
