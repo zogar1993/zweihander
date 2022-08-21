@@ -5,7 +5,7 @@ export default function useHasNoRole() {
 	if (!user) return true
 	const roles = user[ROLES_PROPERTY_NAME]
 	if (!roles) return true
-	return (roles as Array<string>).length === 0
+	return (roles as ReadonlyArray<string>).length === 0
 }
 
 export const ROLES_PROPERTY_NAME = `${process.env.NEXT_PUBLIC_WEB_DOMAIN}/roles`

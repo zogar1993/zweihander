@@ -1,7 +1,7 @@
 export const reduceExpenditures = ({
 																		 expenditures,
 																		 results: { bought, missing }
-																	 }: { expenditures: Array<string>, results: AdvancesDistinction }, current: string) => {
+																	 }: { expenditures: ReadonlyArray<string>, results: AdvancesDistinction }, current: string) => {
 
 	const index = expenditures.findIndex(expenditure => expenditure === current)
 	const match = index > -1
@@ -14,12 +14,12 @@ export const reduceExpenditures = ({
 	}
 }
 
-export type AdvancesDistinction = { bought: Array<string>, missing: Array<string> }
-type Accumulator = { expenditures: Array<string>, results: Array<AdvancesDistinction> }
+export type AdvancesDistinction = { bought: ReadonlyArray<string>, missing: ReadonlyArray<string> }
+type Accumulator = { expenditures: ReadonlyArray<string>, results: ReadonlyArray<AdvancesDistinction> }
 export const DEFAULT_ACCUMULATOR: Accumulator = Object.freeze({ expenditures: [], results: [] })
 const DEFAULT_CLASSIFIED_EXPENDITURES = { bought: [], missing: [] } as AdvancesDistinction
 
-export const classifyExpendituresReducer = (accumulator: Accumulator, current: Array<string>) => {
+export const classifyExpendituresReducer = (accumulator: Accumulator, current: ReadonlyArray<string>) => {
 
 	const catalogued = current.reduce(reduceExpenditures,
 		{ expenditures: accumulator.expenditures, results: DEFAULT_CLASSIFIED_EXPENDITURES }
@@ -30,7 +30,7 @@ export const classifyExpendituresReducer = (accumulator: Accumulator, current: A
 		results: [...accumulator.results, catalogued.results]
 	}
 }
-export const removeRepeatedReducer = (accumulator: Array<Array<string>>, current: Array<string>) => {
+export const removeRepeatedReducer = (accumulator: ReadonlyArray<ReadonlyArray<string>>, current: ReadonlyArray<string>) => {
 	const excepted = accumulator.flatMap(x => x)
 	const remaining = current.filter(x => !excepted.includes(x))
 	return [...accumulator, remaining]

@@ -19,7 +19,7 @@ export type ShallowCharacterSheet = {
 	ancestry_trait: string | null
 	focuses: Focuses
 	spells: CharacterSpells
-	talents: Array<string>
+	talents: ReadonlyArray<string>
 	ancestry: string | null
 	archetype: string | null
 	profession1: string | null

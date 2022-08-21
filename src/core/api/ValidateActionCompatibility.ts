@@ -1,7 +1,7 @@
 import { UpdateAction } from "@api/characters/[id]/update"
 
 
-export function validateActionCompatibility(actions: Array<UpdateAction>) {
+export function validateActionCompatibility(actions: ReadonlyArray<UpdateAction>) {
 	const properties = [...new Set(actions.map(x => x.property))]
 	//We group actions by property name
 	let results = properties.map(property => actions.filter(action => action.property === property))

@@ -13,7 +13,7 @@ import { SETTINGS_VISIBILITY, SEXES, SOCIAL_CLASSES, UPBRINGINGS } from "@web/co
 
 export async function validateModel(
 	character: SanitizedCharacterSheet
-): Promise<Array<string>> {
+): Promise<ReadonlyArray<string>> {
 	const ancestries = await getAncestries()
 	const archetypes = await getArchetypes()
 	const professions = await getProfessions()
@@ -77,7 +77,7 @@ function verifyNoDuplicateValues(
 	character: SanitizedCharacterSheet
 ) {
 	const parts = property.split(".")
-	const array = getDeepPropertyValue(parts, character) as Array<string>
+	const array = getDeepPropertyValue(parts, character) as ReadonlyArray<string>
 	const set = new Set(array)
 	if (array.length !== set.size)
 		return [`cannot set a duplicate value into ${property}`]
@@ -108,7 +108,7 @@ function verifyIsNullOrWithin<T>(
 
 function verifyIsWithin(
 	value: string,
-	collection: Array<{ code: string }>,
+	collection: ReadonlyArray<{ code: string }>,
 	prop: string
 ) {
 	if (!hasByCode(value as string, collection))

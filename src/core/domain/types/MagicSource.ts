@@ -4,5 +4,5 @@ export type MagicSource = {
 	name: string
 	code: string
 	icon: any
-	schools: Array<MagicSchool>
+	schools: ReadonlyArray<MagicSchool>
 }

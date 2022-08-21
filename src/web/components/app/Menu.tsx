@@ -103,12 +103,12 @@ function SubItems({ items, expanded, show }: SubItemsProps) {
 
 type MenuProps = {
 	logo: any
-	menu: Array<MenuItem>
+	menu: ReadonlyArray<MenuItem>
 	onShowChange: (value: boolean) => void
 }
 
 type SubItemsProps = {
-	items: Array<LeafItem>
+	items: ReadonlyArray<LeafItem>
 	expanded: boolean
 	show: boolean
 }
@@ -294,7 +294,7 @@ const ItemName = styled.span`
 
 export type BranchItem = {
 	name: string
-	items: Array<LeafItem>
+	items: ReadonlyArray<LeafItem>
 	icon: any
 }
 

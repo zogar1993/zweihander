@@ -1,4 +1,4 @@
-export function getDeepPropertyValue(parts: Array<string>, obj: any): any {
+export function getDeepPropertyValue(parts: ReadonlyArray<string>, obj: any): any {
 	return parts.length === 0
 		? obj
 		: parts.length === 1

@@ -5,8 +5,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 export default async function GetSubmenusApi(
 	req: NextApiRequest,
 	res: NextApiResponse<{
-		ancestries: Array<LeafItem>
-		magicSources: Array<LeafItem>
+		ancestries: ReadonlyArray<LeafItem>
+		magicSources: ReadonlyArray<LeafItem>
 	}>
 ) {
 	const submenus = await getSubmenus()

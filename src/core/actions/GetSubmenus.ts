@@ -3,12 +3,12 @@ import getMagicSources from "@core/actions/GetMagicSources"
 import { LeafItem } from "@web/components/app/Menu"
 
 export default async function getSubmenus() {
-	const ancestries: Array<LeafItem> = (await getAncestries()).map(x => ({
+	const ancestries: ReadonlyArray<LeafItem> = (await getAncestries()).map(x => ({
 		name: x.name,
 		icon: x.icon,
 		path: `ancestries/${x.code}`
 	}))
-	const magicSources: Array<LeafItem> = (await getMagicSources()).map(x => ({
+	const magicSources: ReadonlyArray<LeafItem> = (await getMagicSources()).map(x => ({
 		name: x.name,
 		icon: x.icon,
 		path: `magic/${x.code}${

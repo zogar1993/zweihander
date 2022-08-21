@@ -257,11 +257,11 @@ const toCheckbox = (wea: AdvancesDistinction, items: ReadonlyArray<Item>) => {
 }
 
 const EMPTY_CHECKBOX = { code: "", name: "", checked: false, disabled: true }
-const emptyCheckboxes = (amount: number): Array<CalculatedCheckbox> =>
+const emptyCheckboxes = (amount: number): ReadonlyArray<CalculatedCheckbox> =>
 	Array.from(Array(amount), () => EMPTY_CHECKBOX)
 
 
-const toCombobox = (wea: Array<string | null>, items: ReadonlyArray<Item>) => {
+const toCombobox = (wea: ReadonlyArray<string | null>, items: ReadonlyArray<Item>) => {
 	return wea.map(x => ({ code: x, options: items }))
 }
 

@@ -30,7 +30,7 @@ type Item = {
 }
 
 type ButtonsGroupProps<T extends Item> = {
-	items: Array<T>
+	items: ReadonlyArray<T>
 	selected: T
 	path: string
 	columns: number

@@ -45,7 +45,7 @@ export default function RemovableItems({
 }
 
 type RemovableItemsProps = {
-	items: Array<Item & { items: Array<Item & { effect?: string }> }>
+	items: ReadonlyArray<Item & { items: ReadonlyArray<Item & { effect?: string }> }>
 	removeItem: (params: { item: string; key: string }) => void
 }
 

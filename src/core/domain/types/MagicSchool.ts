@@ -4,5 +4,5 @@ export type MagicSchool = {
 	name: string
 	code: string
 	source: string
-	spells: Array<Spell>
+	spells: ReadonlyArray<Spell>
 }

@@ -4,7 +4,7 @@ import { AncestryTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default withApiAuthRequired(
-	async (req: NextApiRequest, res: NextApiResponse<Array<AncestryTech>>) => {
+	async (req: NextApiRequest, res: NextApiResponse<ReadonlyArray<AncestryTech>>) => {
 		const ancestries = (await getAncestries()).map(x => ({
 			name: x.name,
 			code: x.code,

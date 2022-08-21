@@ -4,8 +4,8 @@ export default function calculateSkillsExperience({
 																										bought,
 																										remaining
 																									}: {
-	bought: Array<Array<string>>,
-	remaining: Array<string>,
+	bought: ReadonlyArray<ReadonlyArray<string>>,
+	remaining: ReadonlyArray<string>,
 }) {
 
 	const matrix = {} as Record<string, [XpMultiplier, XpMultiplier, XpMultiplier]>

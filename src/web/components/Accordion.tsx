@@ -147,6 +147,6 @@ const ItemDelimiter = styled.div`
 `
 
 export type AccordionProps = {
-	items: Array<AccordionItemType>
+	items: ReadonlyArray<AccordionItemType>
 	disabled: boolean
 }

@@ -4,7 +4,7 @@ import { AncestryTech, MagicSchoolTech, ProfessionTech, TraitTech } from "@core/
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { Alignment } from "@core/domain/types/Alignment"
 
-export const TEST_ANCESTRIES: Array<AncestryTech> = Array.from(
+export const TEST_ANCESTRIES: ReadonlyArray<AncestryTech> = Array.from(
 	Array(10).keys(),
 	n => n + 1
 ).map(n => ({
@@ -30,7 +30,7 @@ export const TEST_ANCESTRIES: Array<AncestryTech> = Array.from(
 	icon: ""
 }))
 
-export const TEST_TALENTS: Array<TraitTech> = Array.from(
+export const TEST_TALENTS: ReadonlyArray<TraitTech> = Array.from(
 	Array(40).keys(),
 	n => n + 1
 ).map(n => ({
@@ -40,7 +40,7 @@ export const TEST_TALENTS: Array<TraitTech> = Array.from(
 	description: `talent_${n}_description`
 }))
 
-export const TEST_PROFESSIONS: Array<ProfessionTech> = Array.from(
+export const TEST_PROFESSIONS: ReadonlyArray<ProfessionTech> = Array.from(
 	Array(50).keys(),
 	n => n + 1
 ).map(n => ({
@@ -80,7 +80,7 @@ export const TEST_PROFESSIONS: Array<ProfessionTech> = Array.from(
 	}
 }))
 
-export const TEST_ARCHETYPES: Array<Archetype> = Array.from(
+export const TEST_ARCHETYPES: ReadonlyArray<Archetype> = Array.from(
 	Array(5).keys(),
 	n => n + 1
 ).map(n => ({
@@ -98,7 +98,7 @@ export const TEST_ARCHETYPES: Array<Archetype> = Array.from(
 	}
 }))
 
-export const TEST_CHAOS_ALIGNMENTS: Array<Alignment> = Array.from(
+export const TEST_CHAOS_ALIGNMENTS: ReadonlyArray<Alignment> = Array.from(
 	Array(10).keys(),
 	n => n + 1
 ).map(n => ({
@@ -111,7 +111,7 @@ export const TEST_CHAOS_ALIGNMENTS: Array<Alignment> = Array.from(
 	partner: `order_alignment_${n}`
 }))
 
-export const TEST_ORDER_ALIGNMENTS: Array<Alignment> = Array.from(
+export const TEST_ORDER_ALIGNMENTS: ReadonlyArray<Alignment> = Array.from(
 	Array(10).keys(),
 	n => n + 1
 ).map(n => ({
@@ -124,7 +124,7 @@ export const TEST_ORDER_ALIGNMENTS: Array<Alignment> = Array.from(
 	partner: `order_alignment_${n}`
 }))
 
-export const TEST_MAGIC_SCHOOLS: Array<MagicSchoolTech> = Array.from(
+export const TEST_MAGIC_SCHOOLS: ReadonlyArray<MagicSchoolTech> = Array.from(
 	Array(10).keys(),
 	n => n + 1
 ).map(n => ({

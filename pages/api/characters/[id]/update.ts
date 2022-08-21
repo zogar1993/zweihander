@@ -24,7 +24,7 @@ export default async function handler(
 	const last_modified = req.headers["if-unmodified-since"]
 	if (!last_modified) return res.status(400).end()
 
-	const actions = JSON.parse(req.body) as Array<UpdateAction>
+	const actions = JSON.parse(req.body) as ReadonlyArray<UpdateAction>
 	if (!Array.isArray(actions) || actions.length === 0)
 		return res.status(400).end()
 

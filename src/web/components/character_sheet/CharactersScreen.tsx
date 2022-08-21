@@ -103,7 +103,7 @@ const Avatar = styled(Image)`
 `
 
 export type CharactersScreenProps = {
-	characters: Array<CharacterPreview> | undefined
+	characters: ReadonlyArray<CharacterPreview> | undefined
 }
 
 const Skeleton = styled.div`

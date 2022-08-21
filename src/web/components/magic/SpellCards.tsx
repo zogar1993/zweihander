@@ -41,7 +41,7 @@ export default function SpellCards({ spells }: Props) {
 }
 
 type Props = {
-	spells: Array<Spell>
+	spells: ReadonlyArray<Spell>
 }
 
 function SpellModalContent(item: Spell): ReactNode {

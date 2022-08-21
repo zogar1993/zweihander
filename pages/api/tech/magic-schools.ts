@@ -4,7 +4,7 @@ import { MagicSchoolTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default withApiAuthRequired(
-	async (req: NextApiRequest, res: NextApiResponse<Array<MagicSchoolTech>>) => {
+	async (req: NextApiRequest, res: NextApiResponse<ReadonlyArray<MagicSchoolTech>>) => {
 		const schools = (await getMagicSchools()).map(x => ({
 			name: x.name,
 			code: x.code,

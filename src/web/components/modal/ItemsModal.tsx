@@ -98,7 +98,7 @@ type Props<T> = {
 	onClose?: () => void
 	render: (item: T) => ReactNode
 	item: T | null
-	items: Array<T>
+	items: ReadonlyArray<T>
 	navigate: (path?: string) => void
 	children: (show: (item: T) => void) => ReactNode
 }

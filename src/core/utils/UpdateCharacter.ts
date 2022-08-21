@@ -32,5 +32,5 @@ export type UpdateCharacterProps = {
 	set?: Record<string, any>
 	pull?: Record<string, any>
 	push?: Record<string, any>
-	unset?: Array<string>
+	unset?: ReadonlyArray<string>
 }

@@ -3,7 +3,7 @@ import calculateTierTalents from "@core/domain/character_sheet/calculations/tier
 export default function calculateTierWildcardTalents({ talents }: {
 	talents: ReturnType<typeof calculateTierTalents>
 }): {
-	expenditures: Array<string>
+	expenditures: ReadonlyArray<string>
 	results: Results
 } {
 	const { results, expenditures } = talents
@@ -19,4 +19,4 @@ export default function calculateTierWildcardTalents({ talents }: {
 	}, { expenditures, results: [] as Results })
 }
 
-type Results = Array<Array<string | null>>
+type Results = ReadonlyArray<ReadonlyArray<string | null>>

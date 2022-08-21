@@ -7,8 +7,8 @@ import styled from "styled-components"
 
 export type MainProps = {
 	children: JSX.Element
-	ancestries: Array<LeafItem>
-	magicSources: Array<LeafItem>
+	ancestries: ReadonlyArray<LeafItem>
+	magicSources: ReadonlyArray<LeafItem>
 }
 
 export default function Main({
@@ -80,10 +80,10 @@ const screens = ({
 	magicSources,
 	user
 }: {
-	ancestries: Array<LeafItem>
-	magicSources: Array<LeafItem>
+	ancestries: ReadonlyArray<LeafItem>
+	magicSources: ReadonlyArray<LeafItem>
 	user: object | undefined
-}): Array<MenuItem> => [
+}): ReadonlyArray<MenuItem> => [
 	{ path: "characters", name: "Characters", icon: "/menu/child.png" },
 	{
 		name: "Ancestries",

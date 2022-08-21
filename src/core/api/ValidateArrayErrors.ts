@@ -4,7 +4,7 @@ import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 
 export function validateArrayErrors(
 	character: SanitizedCharacterSheet,
-	actions: Array<UpdateAction>
+	actions: ReadonlyArray<UpdateAction>
 ) {
 	return actions
 		.filter(

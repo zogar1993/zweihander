@@ -4,7 +4,7 @@ import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default withApiAuthRequired(
-	async (req: NextApiRequest, res: NextApiResponse<Array<ProfessionTech>>) => {
+	async (req: NextApiRequest, res: NextApiResponse<ReadonlyArray<ProfessionTech>>) => {
 		const professions = (await getProfessions()).map(x => ({
 			name: x.name,
 			code: x.code,

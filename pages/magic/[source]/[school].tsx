@@ -14,7 +14,7 @@ export default withPageAuthRequired(
 	}: {
 		source: MagicSource
 		school: MagicSchool
-		spells: Array<Spell>
+		spells: ReadonlyArray<Spell>
 	}) => <MagicScreen source={source} school={school} spells={spells} />
 )
 

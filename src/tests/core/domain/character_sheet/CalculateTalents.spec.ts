@@ -180,7 +180,7 @@ xdescribe("CalculateTalents should", () => {
 	*/
 })
 
-function profession(number: 1 | 2 | 3, ...talents: Array<TraitTech>) {
+function profession(number: 1 | 2 | 3, ...talents: ReadonlyArray<TraitTech>) {
 	return {
 		name: `Profession ${number}`,
 		code: `profession${number}`,

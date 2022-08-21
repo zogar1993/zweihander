@@ -3,7 +3,7 @@ import getMongoDBClient from "@core/utils/GetMongoDBClient"
 
 export async function getCharacters(
 	username: string
-): Promise<Array<CharacterPreview>> {
+): Promise<ReadonlyArray<CharacterPreview>> {
 	const client = await getMongoDBClient()
 	const result = await client
 		.collection("CHARACTERS")

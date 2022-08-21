@@ -1,6 +1,6 @@
 import { UpdateCharacterProps } from "@core/utils/UpdateCharacter"
 
-export function flattenResults(results: Array<UpdateCharacterProps>) {
+export function flattenResults(results: ReadonlyArray<UpdateCharacterProps>) {
 	return results.reduce((previous, current) => {
 		const merging = {
 			...previous

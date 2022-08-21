@@ -11,7 +11,7 @@ export default function CharacterSheetConditionTracker({
 	condition,
 	type
 }: {
-	conditions: Array<{ name: string; code: number }>
+	conditions: ReadonlyArray<{ name: string; code: number }>
 	condition: ConditionTrack
 	type: string
 }) {

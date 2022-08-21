@@ -13,7 +13,7 @@ describe("/magic/{school?}", () => {
 		// @ts-ignore ts shenanigans
 		cy.preserveAuth0CookiesOnce()
 	})
-	const sources = require("../fixtures/magic_source.json") as Array<MagicSource>
+	const sources = require("../fixtures/magic_source.json") as ReadonlyArray<MagicSource>
 	const sources_with_schools = sources.filter(source => source.schools.length > 1)
 	const sources_without_schools = sources.filter(source => source.schools.length === 1)
 

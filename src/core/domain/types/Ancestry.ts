@@ -6,7 +6,7 @@ export type Ancestry = {
 	description: string
 	type: string
 	family: string
-	traits: Array<AncestryTrait>
+	traits: ReadonlyArray<AncestryTrait>
 	attribute_bonuses: AttributeBonuses
 	icon: string
 	image: string

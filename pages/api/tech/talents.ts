@@ -4,7 +4,7 @@ import { TraitTech } from "@core/domain/character_sheet/CharacterSheet"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export default withApiAuthRequired(
-	async (req: NextApiRequest, res: NextApiResponse<Array<TraitTech>>) => {
+	async (req: NextApiRequest, res: NextApiResponse<ReadonlyArray<TraitTech>>) => {
 		const talents = (await getTalents()).map(x => ({
 			name: x.name,
 			code: x.code,

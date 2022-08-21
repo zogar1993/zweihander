@@ -117,7 +117,7 @@ describe("CalculateProfessionProfile should", () => {
 	}
 
 	function then_there_are_errors_for_spending_outside_profession(
-		errors: Record<"attributes" | "skills" | "talents", Array<string>>
+		errors: Record<"attributes" | "skills" | "talents", ReadonlyArray<string>>
 	) {
 		expect(tiers.remaining).toEqual(errors)
 	}
@@ -181,9 +181,9 @@ function getProfessionTierTemplate(profession: ProfessionTech) {
 }
 
 type Spending = {
-	attributes: Array<string>
-	skills: Array<string>
-	talents: Array<string>
+	attributes: ReadonlyArray<string>
+	skills: ReadonlyArray<string>
+	talents: ReadonlyArray<string>
 }
 
  

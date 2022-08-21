@@ -218,7 +218,7 @@ export const SKILL_DEFINITIONS: ReadonlyArray<SkillDefinition> = Object.freeze([
 		attribute: "fellowship",
 		special: false
 	}
-]) as Array<SkillDefinition>
+]) as ReadonlyArray<SkillDefinition>
 
 export type SkillDefinition = {
 	name: string

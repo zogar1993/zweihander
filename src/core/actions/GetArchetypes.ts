@@ -10,6 +10,6 @@ export type Archetype = {
 	code: string
 	from: number
 	to: number
-	professions: Record<Book, Array<ArchetypeProfession>>
+	professions: Record<Book, ReadonlyArray<ArchetypeProfession>>
 }
 

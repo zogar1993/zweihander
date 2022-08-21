@@ -1,6 +1,6 @@
 import * as contentful from "contentful"
 
-export function importify(entries: Array<any>, type: string) {
+export function importify(entries: ReadonlyArray<any>, type: string) {
 	return {
 		contentTypes: [],
 		tags: [],
@@ -41,7 +41,7 @@ const client = contentful.createClient({
 	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || "just_so_tests_dont_fail"
 })
 
-export async function fetchEntries<T>(type: string): Promise<Array<T>> {
+export async function fetchEntries<T>(type: string): Promise<ReadonlyArray<T>> {
 	//These are the max values for both limit and include at the time
 	const response = await client.getEntries({
 		content_type: type,
@@ -51,7 +51,7 @@ export async function fetchEntries<T>(type: string): Promise<Array<T>> {
 	return contentfulToArrayOfPlainObjects(response.items)
 }
 
-function contentfulToArrayOfPlainObjects(arr: Array<any>) {
+function contentfulToArrayOfPlainObjects(arr: ReadonlyArray<any>) {
 	return arr.map(x => unwrap(x)).sort((x, y) => x.code.localeCompare(y.code))
 }
 

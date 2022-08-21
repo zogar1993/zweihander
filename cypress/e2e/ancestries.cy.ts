@@ -11,7 +11,7 @@ describe("/ancestries", () => {
 		cy.preserveAuth0CookiesOnce()
 	});
 
-	(require("../fixtures/ancestry.json") as Array<Ancestry>).map(ancestry =>
+	(require("../fixtures/ancestry.json") as ReadonlyArray<Ancestry>).map(ancestry =>
 		it(`Ancestry ${ancestry.name}`, () => {
 			cy.visit(`/ancestries/${ancestry.code}`).then(() => {
 				//cy.findByText(ancestry.description)

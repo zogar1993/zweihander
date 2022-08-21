@@ -43,7 +43,7 @@ export default function ProfessionsScreen({ professions }: Props) {
 }
 
 type Props = {
-	professions: Array<Profession>
+	professions: ReadonlyArray<Profession>
 }
 
 function ProfessionModalContent(item: Profession): ReactNode {

@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import { fetchEntries } from "./ContentfulUtils"
 
-export async function getEntries<T>(type: string): Promise<Array<T>> {
+export async function getEntries<T>(type: string): Promise<ReadonlyArray<T>> {
 	const cachePath = path.resolve(`.cache/${type}`)
 	try {
 		const entries = readFile(cachePath)
@@ -20,7 +20,7 @@ export async function getEntries<T>(type: string): Promise<Array<T>> {
 		console.log(error)
 	}
 
-	return entries as Array<T>
+	return entries as ReadonlyArray<T>
 }
 
 const readFile = (path: string) => JSON.parse(fs.readFileSync(path, "utf8"))

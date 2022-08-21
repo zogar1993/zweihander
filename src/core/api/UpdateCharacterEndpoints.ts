@@ -21,7 +21,7 @@ const SIMPLE_DELETE_PROPERTY_ENDPOINT = (property: string) => {
 	return { unset: [property] }
 }
 
-export const UPDATE_CHARACTER_ENDPOINTS: Array<Endpoint> = [
+export const UPDATE_CHARACTER_ENDPOINTS: ReadonlyArray<Endpoint> = [
 	{
 		regex: /^age$/,
 		set_value: SIMPLE_SET_VALUE_ENDPOINT,

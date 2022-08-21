@@ -51,24 +51,24 @@ export type CharacterSheetState = {
 	character: CalculatedCharacterSheet
 
 	comboboxes: {
-		schools: { value: string | null; options: Array<MagicSchoolTech> }
-		spells: { options: Array<SpellTech> }
+		schools: { value: string | null; options: ReadonlyArray<MagicSchoolTech> }
+		spells: { options: ReadonlyArray<SpellTech> }
 	}
 	modals: {
 		confirmation: Confirmation | null
 	}
 
-	talents: Array<TraitTech>
-	professions: Array<ProfessionTech>
-	ancestries: Array<AncestryTech>
-	schools: Array<MagicSchoolTech>
-	archetypes: Array<Archetype>
-	orderAlignments: Array<Alignment>
-	chaosAlignments: Array<Alignment>
+	talents: ReadonlyArray<TraitTech>
+	professions: ReadonlyArray<ProfessionTech>
+	ancestries: ReadonlyArray<AncestryTech>
+	schools: ReadonlyArray<MagicSchoolTech>
+	archetypes: ReadonlyArray<Archetype>
+	orderAlignments: ReadonlyArray<Alignment>
+	chaosAlignments: ReadonlyArray<Alignment>
 
-	_undoQueue: Array<Array<UpdateAction>>
-	_pendingUpdates: Array<Array<UpdateAction>>
-	nextUpdate: Array<UpdateAction> | null
+	_undoQueue: ReadonlyArray<ReadonlyArray<UpdateAction>>
+	_pendingUpdates: ReadonlyArray<ReadonlyArray<UpdateAction>>
+	nextUpdate: ReadonlyArray<UpdateAction> | null
 	updatedAt: string
 }
 
@@ -89,7 +89,7 @@ function characterSheetReducer(
 	action: CharacterSheetAction
 ): CharacterSheetState {
 	const forwardChange = (
-		...blocks: Array<UpdateActionBlock>
+		...blocks: ReadonlyArray<UpdateActionBlock>
 	): CharacterSheetState => {
 		const changes = blocksToObjects(blocks)
 		const undoActions = generateUndoActions(changes, state._character)
@@ -356,13 +356,13 @@ export enum ActionType {
 export type CharacterSheetProps = {
 	character: SanitizedCharacterSheet
 
-	talents: Array<TraitTech>
-	professions: Array<ProfessionTech>
-	ancestries: Array<AncestryTech>
-	schools: Array<MagicSchoolTech>
-	archetypes: Array<Archetype>
-	orderAlignments: Array<Alignment>
-	chaosAlignments: Array<Alignment>
+	talents: ReadonlyArray<TraitTech>
+	professions: ReadonlyArray<ProfessionTech>
+	ancestries: ReadonlyArray<AncestryTech>
+	schools: ReadonlyArray<MagicSchoolTech>
+	archetypes: ReadonlyArray<Archetype>
+	orderAlignments: ReadonlyArray<Alignment>
+	chaosAlignments: ReadonlyArray<Alignment>
 }
 
 export type CharacterSheetAction =
@@ -427,11 +427,11 @@ export type CharacterSheetAction =
 	| { type: ActionType.SetDamageCondition; payload: number | null }
 	| {
 	type: ActionType.CompleteAction
-	payload: { updatedAt: string; completed: Array<UpdateAction> }
+	payload: { updatedAt: string; completed: ReadonlyArray<UpdateAction> }
 }
 
 function changeFromCharacterSheet(
-	changes: Array<UpdateAction>,
+	changes: ReadonlyArray<UpdateAction>,
 	state: CharacterSheetState
 ): CharacterSheetState {
 	const _character = applyActionsToCharacter(state._character, changes)
@@ -447,9 +447,9 @@ function changeFromCharacterSheet(
 }
 
 function generateUndoActions(
-	changes: Array<UpdateAction>,
+	changes: ReadonlyArray<UpdateAction>,
 	character: SanitizedCharacterSheet
-): Array<UpdateAction> {
+): ReadonlyArray<UpdateAction> {
 	return changes.map(({ action, property, value }) => {
 		switch (action) {
 			case "add_to_array":
@@ -489,9 +489,9 @@ function recalculateSpellOptions(
 
 function getSpellOptions(
 	character: SanitizedCharacterSheet,
-	schools: Array<MagicSchoolTech>,
+	schools: ReadonlyArray<MagicSchoolTech>,
 	school: string | null
-) {
+): ReadonlyArray<SpellTech> {
 	if (!school) return []
 	const options = getByCode(school, schools).spells
 	const spells = character.spells[school]!

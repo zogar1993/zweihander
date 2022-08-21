@@ -13,7 +13,7 @@ export default function MagicScreen({
 }: {
 	source: MagicSource
 	school: MagicSchool
-	spells: Array<Spell>
+	spells: ReadonlyArray<Spell>
 }) {
 	return (
 		<>

@@ -7,14 +7,14 @@ export type Profession = {
 	type: string
 	prerequisite?: string
 	description: string
-	traits: Array<Trait>
+	traits: ReadonlyArray<Trait>
 	advances: ProfessionAdvances
 }
 
 export type ProfessionAdvances = {
-	skill_ranks: Array<string>
+	skill_ranks: ReadonlyArray<string>
 	bonus_advances: AttributeBonuses
-	talents: Array<string>
+	talents: ReadonlyArray<string>
 }
 
 export type Trait = {

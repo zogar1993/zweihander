@@ -97,7 +97,7 @@ export async function press_ctrl_z() {
 }
 
 export async function update_character_api_was_called_with(
-	actions: Array<UpdateAction>,
+	actions: ReadonlyArray<UpdateAction>,
 	options?: { calls: number; current: number; updated_at: string }
 ) {
 	const callsAmount = options ? options.calls : 1

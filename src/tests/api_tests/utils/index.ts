@@ -68,7 +68,7 @@ export function the_saved_character_has(
 	getCharacterSheetOfId.mockReturnValue(Promise.resolve(sanitized))
 }
 
-export async function update_character(...body: Array<UpdateActionBlock>) {
+export async function update_character(...body: ReadonlyArray<UpdateActionBlock>) {
 	return update_character_full({
 		update_actions: blocksToObjects(body),
 		last_modified: DEFAULT_CHARACTER_SHEET.updated_at
@@ -79,7 +79,7 @@ export async function update_character_full({
 	update_actions = [],
 	last_modified = DEFAULT_CHARACTER_SHEET.updated_at
 }: {
-	update_actions: Array<UpdateAction>
+	update_actions: ReadonlyArray<UpdateAction>
 	last_modified: string | null
 }) {
 	updateCharacterSpy.mockReset()

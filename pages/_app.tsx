@@ -12,8 +12,8 @@ const App = ({
 	ancestries,
 	magicSources
 }: AppProps & {
-	ancestries: Array<LeafItem>
-	magicSources: Array<LeafItem>
+	ancestries: ReadonlyArray<LeafItem>
+	magicSources: ReadonlyArray<LeafItem>
 }) => {
 	return (
 		<UserProvider>

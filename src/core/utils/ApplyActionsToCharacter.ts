@@ -4,7 +4,7 @@ import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
 
 export default function applyActionsToCharacter(
 	character: SanitizedCharacterSheet,
-	changes: Array<UpdateAction>
+	changes: ReadonlyArray<UpdateAction>
 ) {
 	const clone = deepClone(character)
 	changes.forEach(({ action, property, value }) => {
