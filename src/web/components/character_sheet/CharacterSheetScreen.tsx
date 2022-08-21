@@ -78,9 +78,17 @@ const Layout = styled.div`
     grid-template-areas:
 			"background"
 			"attributes"
-			"skills"
 			"status"
 			"profession_profile"
 			"misc";
+  }
+
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+			"background status"
+			"attributes attributes"
+			"profession_profile profession_profile"
+			"misc misc";
   }
 `

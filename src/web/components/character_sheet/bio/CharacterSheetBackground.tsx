@@ -116,7 +116,7 @@ export default function CharacterSheetBackground() {
 
 const AvatarContainer = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 143px 1fr;
 	gap: ${theme.spacing.separation};
 `
 

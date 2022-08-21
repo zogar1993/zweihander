@@ -24,13 +24,10 @@ const Container = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: minmax(0, 1fr);
     width: 100%;
-    grid-template-areas:
-			"bio"
-			"attributes"
-			"skills"
-			"status"
-			"profession_profile"
-			"misc";
     max-height: none;
+  }
+
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 `

@@ -25,6 +25,7 @@ export default function Homepage() {
 				<li>- 20220811 - BUGFIX remove useless creatures menu button</li>
 				<li>- 20220820 - FEATURE now skills with flip to fail show as red</li>
 				<li>- 20220820 - FEATURE experience for skills outside of profession is calculated using educated guesses</li>
+				<li>- 20220820 - FEATURE add medium resolution for character sheet</li>
 			</ul>
 		</>
 	)
