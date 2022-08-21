@@ -7,7 +7,7 @@ import styled from "styled-components"
 export default function CharacterSheetSkills({
 	skills
 }: {
-	skills: Array<CalculatedSkill>
+	skills: ReadonlyArray<CalculatedSkill>
 }) {
 	return (
 		<SkillsSection>
