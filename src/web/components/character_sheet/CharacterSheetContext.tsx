@@ -154,7 +154,7 @@ function characterSheetReducer(
 		case ActionType.SetProfession1: {
 			if (state._character.archetype === null) {
 				const isProfessionsArchetype = (archetype: Archetype) =>
-					archetype.professions["Main Gauche"].some(
+					archetype.professions["main_gauche"].some(
 						x => x.profession === action.payload
 					)
 				return forwardChange(

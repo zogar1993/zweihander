@@ -117,7 +117,11 @@ export type AncestryTech = Pick<Ancestry,
 	traits: ReadonlyArray<AncestryTraitTech>
 }
 export type ProfessionTech = Pick<Profession, "name" | "code" | "advances"> & {
-	traits: ReadonlyArray<TraitTech>
+	traits: {
+		profession: TraitTech
+		drawback?: TraitTech
+		special?: TraitTech
+	 }
 }
 export type SpellTech = Pick<Spell, "name" | "code" | "principle" | "effect">
 export type MagicSchoolTech = Pick<MagicSchool, "name" | "code" | "source"> & {

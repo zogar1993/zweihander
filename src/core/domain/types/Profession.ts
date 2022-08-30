@@ -7,7 +7,11 @@ export type Profession = {
 	type: string
 	prerequisite?: string
 	description: string
-	traits: ReadonlyArray<Trait>
+	traits: {
+		profession: Trait
+		drawback?: Trait
+		special?: Trait
+	}
 	advances: ProfessionAdvances
 }
 

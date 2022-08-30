@@ -32,7 +32,7 @@ export async function validateModel(
 			? []
 			: archetypes
 					.find(x => x.code === character.archetype)
-					?.professions["Main Gauche"].map(x => ({ code: x.profession })) ?? []
+					?.professions["main_gauche"].map(x => ({ code: x.profession })) ?? []
 
 	return [
 		verifyNoDuplicateValues("talents", character),

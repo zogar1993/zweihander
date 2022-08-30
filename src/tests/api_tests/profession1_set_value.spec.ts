@@ -62,6 +62,6 @@ describe("set_value profession1 should", () => {
 const PROPERTY = "profession1"
 const ARCHETYPE = TEST_ARCHETYPES[1]
 const ANOTHER_ARCHETYPE = TEST_ARCHETYPES[2]
-const VALUE = ARCHETYPE.professions["Main Gauche"][1].profession
+const VALUE = ARCHETYPE.professions["main_gauche"][1].profession
 const PROFESSION_FROM_ANOTHER_ARCHETYPE =
-	ANOTHER_ARCHETYPE.professions["Main Gauche"][1].profession
+	ANOTHER_ARCHETYPE.professions["main_gauche"][1].profession

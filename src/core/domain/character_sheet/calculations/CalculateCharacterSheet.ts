@@ -208,7 +208,11 @@ function getSpecialRules({
 	const ancestry_trait = ancestry ?
 		ancestry.traits.find(x => x.code === character.ancestry_trait) : null
 
-	const traits = professions.flatMap(x => x.traits)
+	const traits = professions.flatMap(x => x.traits).flatMap(x => [
+		x.profession,
+		...(x.special ? [x.special] : []),
+		...(x.drawback ? [x.drawback] : [])
+	])
 	const singles = new Set(traits.map(x => x.code))
 	const filtered = [...singles].map(code => traits.find(trait => trait.code === code)!)
 

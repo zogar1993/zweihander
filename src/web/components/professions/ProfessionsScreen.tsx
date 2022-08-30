@@ -50,14 +50,14 @@ function ProfessionModalContent(item: Profession): ReactNode {
 	return (
 		<>
 			{item.prerequisite && (
-				<Property name="Prerequisite">{item.prerequisite}</Property>
+				<Property name="Prerequisite">{JSON.stringify(item.prerequisite)}</Property>
 			)}
 			<Property name="From">{item.book}</Property>
 			<Description>{item.description}</Description>
 			<div>
-				{item.traits.map(x => (
-					<TraitCard key={x.code} trait={x} />
-				))}
+				<TraitCard trait={item.traits.profession} />
+				{item.traits.drawback && <TraitCard trait={item.traits.drawback} />}
+				{item.traits.special && <TraitCard trait={item.traits.special} />}
 			</div>
 			<ProfessionAdvancesGrid {...item.advances} />
 		</>
@@ -75,10 +75,10 @@ function TraitCard({ trait }: { trait: Trait }) {
 }
 
 function ProfessionAdvancesGrid({
-	bonus_advances,
-	skill_ranks,
-	talents
-}: Profession["advances"]) {
+																	bonus_advances,
+																	skill_ranks,
+																	talents
+																}: Profession["advances"]) {
 	return (
 		<VerticalContainer>
 			<Heading>Attributes</Heading>
@@ -108,9 +108,9 @@ function ProfessionAdvancesGrid({
 }
 
 function ProfessionCard({
-	profession,
-	onClick
-}: {
+													profession,
+													onClick
+												}: {
 	profession: Profession
 	onClick: () => void
 }) {
@@ -126,9 +126,9 @@ function ProfessionCard({
 }
 
 const Description = styled.p`
-	color: black;
-	font-family: ${theme.fonts.handwritten};
-	font-style: italic;
+  color: black;
+  font-family: ${theme.fonts.handwritten};
+  font-style: italic;
 `
 
 function Property({ name, children }: PropertyProps) {
@@ -146,36 +146,36 @@ type PropertyProps = {
 }
 
 const PropertyName = styled.span`
-	font-family: ${theme.fonts.title};
-	font-weight: bold;
-	color: black;
+  font-family: ${theme.fonts.title};
+  font-weight: bold;
+  color: black;
 `
 
 const CardContainer = styled(Card)`
-	min-width: 200px;
+  min-width: 200px;
 `
 
 const TagContainer = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	gap: ${theme.spacing.separation};
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${theme.spacing.separation};
 `
 
 const Tag = styled.span`
-	border: 1px solid lightgray;
-	border-radius: 4px;
-	padding: 3px 5px 3px 5px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding: 3px 5px 3px 5px;
 `
 
 const Paragraph = styled.p`
-	color: black;
+  color: black;
 `
 
 const VerticalContainer = styled.p`
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `
 
 const Heading = styled.h6`
-	font-weight: bold;
+  font-weight: bold;
 `

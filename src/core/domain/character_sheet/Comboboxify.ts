@@ -96,14 +96,14 @@ function calculateTier1Professions(
 	if (archetype === null) {
 		return professions.filter(profession =>
 			archetypes.some(archetype =>
-				archetype.professions["Main Gauche"].some(
+				archetype.professions["main_gauche"].some(
 					prof => prof.profession === profession.code
 				)
 			)
 		)
 	}
 
-	const names = getByCode(archetype, archetypes).professions["Main Gauche"]
+	const names = getByCode(archetype, archetypes).professions["main_gauche"]
 	return names.map(x => ({
 		...x,
 		...getByCode(x.profession, professions)

@@ -14,7 +14,7 @@ import { TEST_ARCHETYPES, TEST_PROFESSIONS } from "../../utils/collections"
 
 const ARCHETYPE = TEST_ARCHETYPES[1]
 const ARCHETYPE_PROFESSIONS = TEST_PROFESSIONS.filter(professions =>
-	ARCHETYPE.professions["Main Gauche"].some(archetype => archetype.profession === professions.code)
+	ARCHETYPE.professions["main_gauche"].some(archetype => archetype.profession === professions.code)
 )
 const PROFESSION_1 = ARCHETYPE_PROFESSIONS[1]
 

@@ -46,7 +46,7 @@ export const TEST_PROFESSIONS: ReadonlyArray<ProfessionTech> = Array.from(
 ).map(n => ({
 	name: `Profession ${n}`,
 	code: `profession_${n}`,
-	book: "Main Gauche",
+	book: "main_gauche",
 	type: "",
 	prerequisite: undefined,
 	description: `Profession Description ${n}`,
@@ -89,12 +89,12 @@ export const TEST_ARCHETYPES: ReadonlyArray<Archetype> = Array.from(
 	from: 20 * (n - 1) + 1,
 	to: 20 * n,
 	professions: {
-		"Main Gauche": Array.from(Array(5).keys(), m => m + 1).map(m => ({
+		main_gauche: Array.from(Array(5).keys(), m => m + 1).map(m => ({
 			profession: TEST_PROFESSIONS[n + 5 * (m - 1)].code,
 			from: 20 * (m - 1) + 1,
 			to: 20 * m
 		})),
-		Zweihänder: []
+		zweihander: []
 	}
 }))
 

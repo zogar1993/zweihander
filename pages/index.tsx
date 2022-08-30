@@ -27,6 +27,7 @@ export default function Homepage() {
 				<li>- 20220820 - FEATURE experience for skills outside of profession is calculated using educated guesses</li>
 				<li>- 20220820 - FEATURE add medium resolution for character sheet</li>
 				<li>- 20220821 - BUGFIX remove repeated profession traits</li>
+				<li>- 20220830 - BUGFIX fix magic spells that have an '&' on their name</li>
 			</ul>
 		</>
 	)
