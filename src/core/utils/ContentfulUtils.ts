@@ -1,41 +1,5 @@
 import * as contentful from "contentful"
 
-export function importify(entries: ReadonlyArray<any>, type: string) {
-	return {
-		contentTypes: [],
-		tags: [],
-		editorInterfaces: [],
-		entries: entries.map(x => contentfullify(x, type)),
-		assets: [],
-		locales: [],
-		webhooks: [],
-		roles: []
-	}
-}
-
-function contentfullify(entry: any, type: string) {
-	return {
-		metadata: { tags: [] },
-		sys: {
-			type: "Entry",
-			contentType: {
-				sys: {
-					type: "Link",
-					linkType: "ContentType",
-					id: type
-				}
-			}
-		},
-		fields: usify(entry)
-	}
-}
-
-const usify = (data: any) => {
-	const result: any = {}
-	for (const key in data) result[key] = { "en-US": data[key] }
-	return result
-}
-
 const client = contentful.createClient({
 	space: process.env.CONTENTFUL_SPACE || "just_so_tests_dont_fail",
 	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || "just_so_tests_dont_fail"
