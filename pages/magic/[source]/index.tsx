@@ -25,6 +25,8 @@ export async function getStaticProps({ params: { source: sourceCode } }: any) {
 
 export async function getStaticPaths() {
 	const sources = await getMagicSources()
-	const paths = sources.map(source => ({ params: { source: source.code } }))
+	const paths = sources
+		.filter(source => source.schools.length === 1)
+		.map(source => ({ params: { source: source.code } }))
 	return { paths, fallback: false }
 }
