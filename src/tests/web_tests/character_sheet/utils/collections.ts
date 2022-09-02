@@ -50,14 +50,14 @@ export const TEST_PROFESSIONS: ReadonlyArray<ProfessionTech> = Array.from(
 	type: "",
 	prerequisite: undefined,
 	description: `Profession Description ${n}`,
-	traits: [
-		{
+	traits: {
+		profession: {
 			name: `Profession ${n} Trait`,
 			code: `profession_${n}_trait`,
 			description: `profession_${n}_trait_description`,
 			effect: `profession_${n}_trait_effect`
 		}
-	],
+	},
 	advances: {
 		skill_ranks: SKILL_DEFINITIONS.filter(
 			(_, i) => (i + n) % SKILL_DEFINITIONS.length < 10
