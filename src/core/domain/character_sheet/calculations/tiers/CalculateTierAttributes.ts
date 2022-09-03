@@ -18,7 +18,7 @@ export default function calculateTierAttributes({ character, professions }: {
 
 const getAttributeExpenditures = (character: CharacterSheet) =>
 	Object.entries(character.attributes).flatMap(([code, value]) =>
-		Array.from(Array(value.advances), () => code))
+		Array.from(Array(value.advances), () => code)) as ReadonlyArray<string>
 
 const getProfessionAttributes = (profession: Profession) =>
 	Object.entries(profession.advances.bonus_advances).flatMap(

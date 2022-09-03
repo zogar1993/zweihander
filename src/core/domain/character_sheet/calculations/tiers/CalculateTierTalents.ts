@@ -13,7 +13,7 @@ export default function calculateTierTalents({ character, professions }: {
 		.reduce(removeRepeatedReducer, [])
 		.reduce(classifyExpendituresReducer, {
 			...DEFAULT_ACCUMULATOR,
-			expenditures: getTalentExpenditures(character)
+			expenditures: getTalentExpenditures(character) as ReadonlyArray<string>
 		})
 }
 

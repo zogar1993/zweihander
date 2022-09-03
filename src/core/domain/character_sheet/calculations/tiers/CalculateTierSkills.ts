@@ -18,7 +18,7 @@ export default function calculateTierSkills({ character, professions }: {
 
 const getSkillExpenditures = (character: CharacterSheet) =>
 	Object.entries(character.skills).flatMap(([code, value]) =>
-		Array.from(Array(value.ranks), () => code))
+		Array.from(Array(value.ranks), () => code)) as ReadonlyArray<string>
 
 const getProfessionSkills = (profession: Profession) =>
 	profession.advances.skill_ranks.map(code => code)
