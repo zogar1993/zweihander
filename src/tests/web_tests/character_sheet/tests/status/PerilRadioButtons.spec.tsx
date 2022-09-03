@@ -1,7 +1,7 @@
 import {
-	when_radiobutton_is_clicked,
 	then_radiobutton_is_checked,
-	then_radiobutton_is_disabled
+	then_radiobutton_is_disabled,
+	when_radiobutton_is_clicked
 } from "@tests/web_tests/character_sheet/utils/radiobutton-helpers"
 import {
 	A_USER,

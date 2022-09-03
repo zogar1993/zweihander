@@ -5,10 +5,7 @@ import {
 	then_textbox_has_a_value_of,
 	when_textbox_value_is_changed
 } from "@tests/web_tests/character_sheet/utils/textbox-helpers"
-import {
-	press_ctrl_z,
-	render_character_sheet
-} from "@tests/web_tests/character_sheet/utils/utils"
+import { press_ctrl_z, render_character_sheet } from "@tests/web_tests/character_sheet/utils/utils"
 
 describe("Character Sheet Screen should", () => {
 	it("undo add_to_array", async () => {

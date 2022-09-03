@@ -6,7 +6,8 @@ import {
 import {
 	A_USER,
 	ANOTHER_USER,
-	given_your_email_is, region,
+	given_your_email_is,
+	region,
 	render_character_sheet,
 	update_character_api_was_called_with
 } from "@tests/web_tests/character_sheet/utils/utils"

@@ -1,5 +1,8 @@
 import { fireEvent, waitFor } from "@testing-library/react"
-import { when_combobox_item_is_changed, then_is_a_combobox_option } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
+import {
+	then_is_a_combobox_option,
+	when_combobox_item_is_changed
+} from "@tests/web_tests/character_sheet/utils/combobox-helpers"
 import {
 	click_menu_item,
 	render_character_sheet,

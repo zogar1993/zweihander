@@ -1,7 +1,7 @@
 import {
-	when_textbox_value_is_changed,
 	then_textbox_has_a_value_of,
-	then_textbox_is_disabled
+	then_textbox_is_disabled,
+	when_textbox_value_is_changed
 } from "@tests/web_tests/character_sheet/utils/textbox-helpers"
 import {
 	A_USER,

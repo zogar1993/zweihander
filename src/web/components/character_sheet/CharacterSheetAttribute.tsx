@@ -1,5 +1,5 @@
 import { CalculatedAttribute } from "@core/domain/character_sheet/CharacterSheet"
-import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
+import { useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import useSetCharacterAttributeAdvances
 	from "@web/components/character_sheet/hooks/update/useSetCharacterAttributeAdvances"
 import useSetCharacterAttributeBase from "@web/components/character_sheet/hooks/update/useSetCharacterAttributeBase"

@@ -1,6 +1,9 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react"
 import { TEST_TALENTS } from "@tests/web_tests/character_sheet/utils/collections"
-import { when_combobox_item_is_changed, then_is_a_combobox_option } from "@tests/web_tests/character_sheet/utils/combobox-helpers"
+import {
+	then_is_a_combobox_option,
+	when_combobox_item_is_changed
+} from "@tests/web_tests/character_sheet/utils/combobox-helpers"
 import {
 	render_character_sheet,
 	update_character_api_was_called_with

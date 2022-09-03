@@ -1,6 +1,6 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import calculateTiers, { CalculateProfessionProfileProps, } from "@core/domain/character_sheet/calculations/CalculateTiers"
+import calculateTiers, { CalculateProfessionProfileProps } from "@core/domain/character_sheet/calculations/CalculateTiers"
 import { ProfessionTech } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"

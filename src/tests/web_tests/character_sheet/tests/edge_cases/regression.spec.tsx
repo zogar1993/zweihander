@@ -1,6 +1,6 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { change_dots_value, then_dots_is_checked_on } from "@tests/web_tests/character_sheet/utils/dots-helpers"
-import { render_character_sheet} from "../../utils/utils"
+import { render_character_sheet } from "../../utils/utils"
 
 const SKILL = SKILL_DEFINITIONS[0]
 

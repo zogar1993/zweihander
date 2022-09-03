@@ -1,10 +1,6 @@
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import { SkillCode } from "@core/domain/skill/SkillCode"
-import {
-	ActionType,
-	useCharacterSheetDispatcher,
-	useCharacterSheetState
-} from "@web/components/character_sheet/CharacterSheetContext"
+import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
 import useSetCharacterAddTalent from "@web/components/character_sheet/hooks/update/useSetCharacterAddTalent"
 import useSetCharacterAttributeAdvances
 	from "@web/components/character_sheet/hooks/update/useSetCharacterAttributeAdvances"

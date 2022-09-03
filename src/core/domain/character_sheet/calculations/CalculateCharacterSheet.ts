@@ -3,15 +3,14 @@ import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITI
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import calculateAncestry from "@core/domain/character_sheet/calculations/CalculateAncestry"
 import calculateProfessions from "@core/domain/character_sheet/calculations/CalculateProfessions"
-import calculateTiers, {
-	ProfessionProfile
-} from "@core/domain/character_sheet/calculations/CalculateTiers"
+import calculateTiers, { ProfessionProfile } from "@core/domain/character_sheet/calculations/CalculateTiers"
 import calculateExperience from "@core/domain/character_sheet/calculations/experience/CalculateExperience"
 import { AdvancesDistinction } from "@core/domain/character_sheet/calculations/tiers/reducers"
 import {
 	AncestryTech,
 	CalculatedAttribute,
-	CalculatedCharacterSheet, CalculatedCheckbox,
+	CalculatedCharacterSheet,
+	CalculatedCheckbox,
 	CharacterSpells,
 	Flip,
 	Focuses,

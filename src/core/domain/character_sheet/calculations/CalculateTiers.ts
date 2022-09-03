@@ -1,10 +1,8 @@
 import { AttributeCode } from "@core/domain/attribute/AttributeCode"
-import calculateTierAttributes
-	from "@core/domain/character_sheet/calculations/tiers/CalculateTierAttributes"
+import calculateTierAttributes from "@core/domain/character_sheet/calculations/tiers/CalculateTierAttributes"
 import calculateTierSkills from "@core/domain/character_sheet/calculations/tiers/CalculateTierSkills"
 import calculateTierTalents from "@core/domain/character_sheet/calculations/tiers/CalculateTierTalents"
-import calculateTierWildcardTalents
-	from "@core/domain/character_sheet/calculations/tiers/CalculateTierWildcardTalents"
+import calculateTierWildcardTalents from "@core/domain/character_sheet/calculations/tiers/CalculateTierWildcardTalents"
 import {
 	CalculatedCheckbox,
 	CalculatedCombobox,

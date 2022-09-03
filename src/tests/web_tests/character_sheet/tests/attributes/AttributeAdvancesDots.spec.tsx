@@ -1,5 +1,4 @@
 import { ATTRIBUTE_DEFINITIONS } from "@core/domain/attribute/ATTRIBUTE_DEFINITIONS"
-import { act } from "@testing-library/react"
 import {
 	change_dots_value,
 	then_dots_are_disabled,

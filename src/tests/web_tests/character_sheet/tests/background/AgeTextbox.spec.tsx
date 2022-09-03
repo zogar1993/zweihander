@@ -1,7 +1,7 @@
 import {
-	when_spinbutton_value_is_changed,
 	then_number_input_has_a_value_of,
-	then_spinbutton_is_disabled
+	then_spinbutton_is_disabled,
+	when_spinbutton_value_is_changed
 } from "@tests/web_tests/character_sheet/utils/spinbutton-helpers"
 import {
 	A_USER,
