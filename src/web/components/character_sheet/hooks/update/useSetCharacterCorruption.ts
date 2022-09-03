@@ -3,7 +3,7 @@ import { ActionType, useCharacterSheetDispatcher } from "@web/components/charact
 export default function useSetCharacterCorruption() {
 	const dispatch = useCharacterSheetDispatcher()
 
-	return (value: string) => {
+	return (value: number) => {
 		dispatch({
 			type: ActionType.UpdateCharacter, payload: [
 				{ action: "set_value", property: "corruption", value: value }

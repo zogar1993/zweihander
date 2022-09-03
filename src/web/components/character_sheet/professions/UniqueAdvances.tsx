@@ -5,6 +5,11 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterAddTalent from "@web/components/character_sheet/hooks/update/useSetCharacterAddTalent"
+import useSetCharacterAttributeAdvances
+	from "@web/components/character_sheet/hooks/update/useSetCharacterAttributeAdvances"
+import useSetCharacterRemoveTalent from "@web/components/character_sheet/hooks/update/useSetCharacterRemoveTalent"
+import useSetCharacterSkillRanks from "@web/components/character_sheet/hooks/update/useSetCharacterSkillRanks"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
@@ -15,7 +20,10 @@ import styled from "styled-components"
 export default function UniqueAdvances() {
 	const { character: { profession_profile: { unique_advances }, talent } } = useCharacterSheetState()
 	const { _character } = useCharacterSheetState()
-	const dispatch = useCharacterSheetDispatcher()
+	const setAttributeAdvances = useSetCharacterAttributeAdvances()
+	const setSkillRanks = useSetCharacterSkillRanks()
+	const addTalent = useSetCharacterAddTalent()
+	const removeTalent = useSetCharacterRemoveTalent()
 	const isOwner = useIsCharacterSheetOwner()
 
 	return (
@@ -30,15 +38,10 @@ export default function UniqueAdvances() {
 							text={x.name}
 							checked={x.checked}
 							key={`${i}-${x}`}
-							onChange={() =>
-								dispatch({
-									type: ActionType.SetAttributeAdvancements,
-									payload: {
-										attribute: x.code as AttributeCode,
-										value: _character.attributes[x.code as AttributeCode].advances -1
-									}
-								})
-							}
+							onChange={() => setAttributeAdvances({
+								attribute: x.code as AttributeCode,
+								value: _character.attributes[x.code as AttributeCode].advances - 1
+							})}
 						/>
 					))}
 				</Grid>
@@ -50,19 +53,16 @@ export default function UniqueAdvances() {
 				<Grid columns={2}>
 					{unique_advances.skills.map((x, i) => (
 						<CheckButton
-						text={x.name}
-						checked={x.checked}
-						key={`${i}-${x}`}
-						onChange={() =>
-							dispatch({
-								type: ActionType.SetSkillRanks,
-								payload: {
+							text={x.name}
+							checked={x.checked}
+							key={`${i}-${x}`}
+							onChange={() =>
+								setSkillRanks({
 									skill: x.code as SkillCode,
 									value: _character.skills[x.code as SkillCode].ranks - 1
-								}
-							})
-						}
-					/>
+								})
+							}
+						/>
 					))}
 				</Grid>
 			</>
@@ -71,8 +71,12 @@ export default function UniqueAdvances() {
 			<>
 				<Title>Talents</Title>
 				{unique_advances.talents.map((x, i) => (
-					<CheckButton text={x.name} checked={x.checked} key={`${i}-${x}`}
-											 onChange={() => dispatch({ type: ActionType.RemoveTalent, payload: x.code })} />
+					<CheckButton
+						text={x.name}
+						checked={x.checked}
+						key={`${i}-${x}`}
+						onChange={() => removeTalent(x.code)}
+					/>
 				))}
 				{isOwner &&
 				<Field
@@ -80,7 +84,7 @@ export default function UniqueAdvances() {
 					type="combobox"
 					value={null}
 					options={talent.options}
-					onChange={value => dispatch({ type: ActionType.AddTalent, payload: value as string })}
+					onChange={value => addTalent(value as string)}
 					unclearable
 				/>}
 			</>

@@ -1,6 +1,5 @@
 import { UpdateAction } from "@api/characters/[id]/update"
 import { Archetype } from "@core/actions/GetArchetypes"
-import { AttributeCode } from "@core/domain/attribute/AttributeCode"
 import { calculateCharacterSheet } from "@core/domain/character_sheet/calculations/CalculateCharacterSheet"
 import {
 	AncestryTech,
@@ -12,7 +11,6 @@ import {
 } from "@core/domain/character_sheet/CharacterSheet"
 import { SanitizedCharacterSheet } from "@core/domain/character_sheet/sanitization/SanitizeCharacterSheet"
 import { getByCode } from "@core/domain/general/GetByCode"
-import { SkillCode } from "@core/domain/skill/SkillCode"
 import { Alignment } from "@core/domain/types/Alignment"
 import applyActionsToCharacter from "@core/utils/ApplyActionsToCharacter"
 import { getDeepPropertyValue } from "@core/utils/GetDeepPropertyValue"
@@ -20,7 +18,6 @@ import { PLACEHOLDER_CHARACTER_SHEET_STATE } from "@web/components/character_she
 import useInitializeCharacterSheetReducer
 	from "@web/components/character_sheet/hooks/UseInitializeCharacterSheetReducer"
 import { ConfirmationModalProps } from "@web/components/modal/ConfirmationModal"
-import { blocksToObjects, UpdateActionBlock } from "@web/misc/UpdateActionBlock"
 import React, { Dispatch, ReactNode, useContext, useReducer } from "react"
 
 const CharacterSheetContext = React.createContext({
@@ -113,7 +110,10 @@ function characterSheetReducer(
 		case ActionType.UpdateCharacter: {
 			const undoActions = generateUndoActions(action.payload, state._character)
 			const result = changeFromCharacterSheet(action.payload, state)
-			return { ...result, _undoQueue: [...result._undoQueue, undoActions] }
+
+			const result2 = recalculateSpellOptions(result)//TODO temporary, find a better way to do this. As is it does not fix it on undo.
+
+			return { ...result2, _undoQueue: [...result._undoQueue, undoActions] }
 		}
 
 		case ActionType.UndoLastAction: {

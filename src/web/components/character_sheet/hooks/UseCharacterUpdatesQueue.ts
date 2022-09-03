@@ -12,16 +12,20 @@ export default function useCharacterUpdatesQueue() {
 
 	useEffectAsync(async () => {
 		if (nextUpdate === null) return
-		
-		const newUpdatedAt = await updateCharacterOfId(
-			character.id,
-			updatedAt,
-			nextUpdate
-		)
 
-		dispatch({
-			type: ActionType.CompleteAction,
-			payload: { updatedAt: newUpdatedAt, completed: nextUpdate }
-		})
+		try {
+			const newUpdatedAt = await updateCharacterOfId({
+				id: character.id,
+				lastModified: updatedAt,
+				changes: nextUpdate
+			})
+
+			dispatch({
+				type: ActionType.CompleteAction,
+				payload: { updatedAt: newUpdatedAt, completed: nextUpdate }
+			})
+		} catch (e: any) {
+			//dispatch({ type: ActionType.ReportUpdateError })
+		}
 	}, [dispatch, character.id, updatedAt, nextUpdate])
 }

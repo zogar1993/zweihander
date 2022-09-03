@@ -14,7 +14,7 @@ export default function useSetCharacterRemoveFocus() {
 		dispatch({
 			type: ActionType.UpdateCharacter, payload: [
 				list.length === 1 ?
-					{ action: "delete_property", property: `focuses.${skill}`, value: focus } :
+					{ action: "delete_property", property: `focuses.${skill}` } :
 					{ action: "remove_from_array", property: `focuses.${skill}`, value: focus }
 			]
 		})

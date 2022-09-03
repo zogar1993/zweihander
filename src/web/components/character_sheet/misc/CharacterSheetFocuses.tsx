@@ -1,10 +1,8 @@
 import { SKILL_DEFINITIONS } from "@core/domain/skill/SKILL_DEFINITIONS"
 import { SkillCode } from "@core/domain/skill/SkillCode"
-import {
-	ActionType,
-	useCharacterSheetDispatcher,
-	useCharacterSheetState
-} from "@web/components/character_sheet/CharacterSheetContext"
+import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterAddFocus from "@web/components/character_sheet/hooks/update/useSetCharacterAddFocus"
+import useSetCharacterRemoveFocus from "@web/components/character_sheet/hooks/update/useSetCharacterRemoveFocus"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import RemovableItems from "@web/components/RemovableItems"
 import { Field } from "misevi"
@@ -14,8 +12,10 @@ export default function CharacterSheetFocuses() {
 	const [skill, setSkill] = useState<SkillCode | null>(null)
 	const [focus, setFocus] = useState<string>("")
 	const { character } = useCharacterSheetState()
-	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
+
+	const addFocus = useSetCharacterAddFocus()
+	const removeFocus = useSetCharacterRemoveFocus()
 
 	return (
 		<div>
@@ -34,12 +34,7 @@ export default function CharacterSheetFocuses() {
 					<Field label="Focus" value={focus} onBlur={setFocus} />
 					<button
 						disabled={focus === "" || skill === null}
-						onClick={() =>
-							dispatch({
-								type: ActionType.AddFocus,
-								payload: { focus, skill: skill! }
-							})
-						}
+						onClick={() => addFocus({ focus, skill: skill! })}
 					>
 						Add
 					</button>
@@ -47,12 +42,7 @@ export default function CharacterSheetFocuses() {
 			)}
 			<RemovableItems
 				items={character.focuses}
-				removeItem={({ item, key }) =>
-					dispatch({
-						type: ActionType.RemoveFocus,
-						payload: { skill: key as SkillCode, focus: item }
-					})
-				}
+				removeItem={({ item, key }) => removeFocus({ skill: key as SkillCode, focus: item })}
 			/>
 		</div>
 	)

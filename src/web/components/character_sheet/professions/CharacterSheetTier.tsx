@@ -5,6 +5,15 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterAddTalent from "@web/components/character_sheet/hooks/update/useSetCharacterAddTalent"
+import useSetCharacterAttributeAdvances
+	from "@web/components/character_sheet/hooks/update/useSetCharacterAttributeAdvances"
+import useSetCharacterProfession1 from "@web/components/character_sheet/hooks/update/useSetCharacterProfession1"
+import useSetCharacterProfession2 from "@web/components/character_sheet/hooks/update/useSetCharacterProfession2"
+import useSetCharacterProfession3 from "@web/components/character_sheet/hooks/update/useSetCharacterProfession3"
+import useSetCharacterRemoveTalent from "@web/components/character_sheet/hooks/update/useSetCharacterRemoveTalent"
+import useSetCharacterReplaceTalent from "@web/components/character_sheet/hooks/update/useSetCharacterReplaceTalent"
+import useSetCharacterSkillRanks from "@web/components/character_sheet/hooks/update/useSetCharacterSkillRanks"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import Grid from "@web/components/general/Grid"
 import theme from "@web/theme/theme"
@@ -13,11 +22,17 @@ import React from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetTier({ i }: { i: number }) {
-	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
 	const { _character, character: { profession_profile: { professions } } } = useCharacterSheetState()
+	const setAttributeAdvances = useSetCharacterAttributeAdvances()
+	const setSkillRanks = useSetCharacterSkillRanks()
+	const addTalent = useSetCharacterAddTalent()
+	const removeTalent = useSetCharacterRemoveTalent()
+	const replaceTalent = useSetCharacterReplaceTalent()
 	const tier = professions[i]
 	const TIER = TIERS[i]
+	const setProfession = TIER.useSetCharacterProfession() //TODO this is too weird
+
 
 	return (
 		<Container aria-labelledby={TIER.code}>
@@ -28,7 +43,7 @@ export default function CharacterSheetTier({ i }: { i: number }) {
 				disabled={tier.profession.disabled || !isOwner}
 				aria-label={TIER.profession}
 				value={tier.profession.code}
-				onChange={code => dispatch({ type: TIER.action, payload: code } as  any)}
+				onChange={setProfession}
 			/>
 			<Title>Attributes</Title>
 			<Grid columns={2}>
@@ -37,15 +52,10 @@ export default function CharacterSheetTier({ i }: { i: number }) {
 						text={x.name}
 						checked={x.checked}
 						key={`${i}-${x}`}
-						onChange={checked =>
-							dispatch({
-								type: ActionType.SetAttributeAdvancements,
-								payload: {
-									attribute: x.code as AttributeCode,
-									value: _character.attributes[x.code as AttributeCode].advances + (checked ? 1 : -1)
-								}
-							})
-						}
+						onChange={checked => setAttributeAdvances({
+							attribute: x.code as AttributeCode,
+							value: _character.attributes[x.code as AttributeCode].advances + (checked ? 1 : -1)
+						})}
 					/>
 				))}
 			</Grid>
@@ -56,14 +66,10 @@ export default function CharacterSheetTier({ i }: { i: number }) {
 						text={x.name}
 						checked={x.checked}
 						key={`${i}-${x}`}
-						onChange={checked =>
-							dispatch({
-								type: ActionType.SetSkillRanks,
-								payload: {
-									skill: x.code as SkillCode,
-									value: _character.skills[x.code as SkillCode].ranks + (checked ? 1 : -1)
-								}
-							})
+						onChange={checked => setSkillRanks({
+							skill: x.code as SkillCode,
+							value: _character.skills[x.code as SkillCode].ranks + (checked ? 1 : -1)
+						})
 						}
 					/>
 				))}
@@ -73,28 +79,25 @@ export default function CharacterSheetTier({ i }: { i: number }) {
 				<CheckButton
 					text={x.name}
 					checked={x.checked} key={`${i}-${x}`}
-					onChange={checked => dispatch({
-						type: checked ? ActionType.AddTalent : ActionType.RemoveTalent,
-						payload: x.code
-					})}
+					onChange={checked => {
+						if (checked)
+							addTalent(x.code)
+						else
+							removeTalent(x.code)
+					}}
 				/>
 			)}
 			{tier.wildcard_talents.map((x, i) =>
-				//TODO horrible
-
 				<CheckComboBox value={x.code} options={x.options} key={`${i}-${x}`}
-											 onChange={(code) => code === null ? dispatch({
-												 type: ActionType.RemoveTalent,
-												 payload: x.code as string
-											 }) : x.code === null ?
-												 dispatch({
-													 type: ActionType.AddTalent,
-													 payload: code
-												 })
-												 : dispatch({
-													 type: ActionType.ReplaceTalent,
-													 payload: { old: x.code as string, new: code }
-												 })} />
+											 onChange={(code) => {
+												 if (code === null)
+													 removeTalent(x.code as string)
+												 else if (x.code === null)
+													 addTalent(code)
+												 else
+													 replaceTalent({ old: x.code as string, new: code })
+											 }}
+				/>
 			)}
 		</Container>
 	)
@@ -126,19 +129,19 @@ const TIERS = [
 	{
 		name: "Basic Tier",
 		code: "basic_tier",
-		action: ActionType.SetProfession1,
+		useSetCharacterProfession: useSetCharacterProfession1,
 		profession: "Profession 1"
 	},
 	{
 		name: "Intermediate Tier",
 		code: "intermediate_tier",
-		action: ActionType.SetProfession2,
+		useSetCharacterProfession: useSetCharacterProfession2,
 		profession: "Profession 2"
 	},
 	{
 		name: "Advanced Tier",
 		code: "advanced_tier",
-		action: ActionType.SetProfession3,
+		useSetCharacterProfession: useSetCharacterProfession3,
 		profession: "Profession 3"
 	}
 ]

@@ -1,11 +1,15 @@
 import CharacterSheetAncestry from "@web/components/character_sheet/bio/CharacterSheetAncestry"
 import CharacterSheetProfessions from "@web/components/character_sheet/bio/CharacterSheetProfessions"
 import { SEXES, SOCIAL_CLASSES, UPBRINGINGS } from "@web/components/character_sheet/bio/Constants"
-import {
-	ActionType,
-	useCharacterSheetDispatcher,
-	useCharacterSheetState
-} from "@web/components/character_sheet/CharacterSheetContext"
+import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterAge from "@web/components/character_sheet/hooks/update/useSetCharacterAge"
+import useSetCharacterAvatar from "@web/components/character_sheet/hooks/update/useSetCharacterAvatar"
+import useSetCharacterChaosAlignment from "@web/components/character_sheet/hooks/update/useSetCharacterChaosAlignment"
+import useSetCharacterName from "@web/components/character_sheet/hooks/update/useSetCharacterName"
+import useSetCharacterOrderAlignment from "@web/components/character_sheet/hooks/update/useSetCharacterOrderAlignment"
+import useSetCharacterSex from "@web/components/character_sheet/hooks/update/useSetCharacterSex"
+import useSetCharacterSocialClass from "@web/components/character_sheet/hooks/update/useSetCharacterSocialClass"
+import useSetCharacterUpbringing from "@web/components/character_sheet/hooks/update/useSetCharacterUpbringing"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Avatar, Field } from "misevi"
@@ -16,8 +20,15 @@ export default function CharacterSheetBackground() {
 	const { character, orderAlignments, chaosAlignments } =
 		useCharacterSheetState()
 	const isOwner = useIsCharacterSheetOwner()
+	const setAvatar = useSetCharacterAvatar()
+	const setName = useSetCharacterName()
+	const setSex = useSetCharacterSex()
+	const setAge = useSetCharacterAge()
+	const setSocialClass = useSetCharacterSocialClass()
+	const setUpbringing = useSetCharacterUpbringing()
+	const setOrderAlignment = useSetCharacterOrderAlignment()
+	const setChaosAlignment = useSetCharacterChaosAlignment()
 
-	const dispatch = useCharacterSheetDispatcher()
 	return (
 		<CharacterBackgroundContainer aria-label="Background">
 			<AvatarContainer>
@@ -25,21 +36,14 @@ export default function CharacterSheetBackground() {
 					src={character.avatar || "/characters/bandit.png"}
 					alt="Avatar"
 					resizes={[70 * 2, 143 * 2]}
-					onChange={(_, [thumbnail, avatar]) =>
-						dispatch({
-							type: ActionType.SetAvatar,
-							payload: { avatar, thumbnail }
-						})
-					}
+					onChange={(_, [thumbnail, avatar]) => setAvatar({ avatar, thumbnail })}
 					disabled={!isOwner}
 				/>
 				<FlexColumn>
 					<Field
 						label="Name"
 						value={character.name}
-						onBlur={value =>
-							dispatch({ type: ActionType.SetName, payload: value })
-						}
+						onBlur={setName}
 						disabled={!isOwner}
 					/>
 					<SexAgeContainer>
@@ -48,9 +52,7 @@ export default function CharacterSheetBackground() {
 							label="Sex"
 							options={SEXES}
 							value={character.sex}
-							onChange={value =>
-								dispatch({ type: ActionType.SetSex, payload: value })
-							}
+							onChange={setSex}
 							disabled={!isOwner}
 						/>
 						<Field
@@ -58,9 +60,7 @@ export default function CharacterSheetBackground() {
 							label="Age"
 							value={character.age}
 							min={0}
-							onBlur={value =>
-								dispatch({ type: ActionType.SetAge, payload: value })
-							}
+							onBlur={setAge}
 							disabled={!isOwner}
 						/>
 					</SexAgeContainer>
@@ -69,9 +69,7 @@ export default function CharacterSheetBackground() {
 						label="Social Class"
 						options={SOCIAL_CLASSES}
 						value={character.social_class}
-						onChange={value =>
-							dispatch({ type: ActionType.SetSocialClass, payload: value })
-						}
+						onChange={setSocialClass}
 						disabled={!isOwner}
 					/>
 				</FlexColumn>
@@ -81,9 +79,7 @@ export default function CharacterSheetBackground() {
 				label="Upbringing"
 				options={UPBRINGINGS}
 				value={character.upbringing}
-				onChange={value =>
-					dispatch({ type: ActionType.SetUpbringing, payload: value })
-				}
+				onChange={setUpbringing}
 				disabled={!isOwner}
 			/>
 			<CharacterSheetAncestry />
@@ -94,9 +90,7 @@ export default function CharacterSheetBackground() {
 					label="Order Alignment"
 					options={orderAlignments}
 					value={character.order_alignment}
-					onChange={value =>
-						dispatch({ type: ActionType.SetOrderAlignment, payload: value })
-					}
+					onChange={setOrderAlignment}
 					disabled={!isOwner}
 				/>
 				<Field
@@ -104,9 +98,7 @@ export default function CharacterSheetBackground() {
 					label="Chaos Alignment"
 					options={chaosAlignments}
 					value={character.chaos_alignment}
-					onChange={value =>
-						dispatch({ type: ActionType.SetChaosAlignment, payload: value })
-					}
+					onChange={setChaosAlignment}
 					disabled={!isOwner}
 				/>
 			</TwoColumns>
@@ -115,36 +107,36 @@ export default function CharacterSheetBackground() {
 }
 
 const AvatarContainer = styled.div`
-	display: grid;
-	grid-template-columns: 143px 1fr;
-	gap: ${theme.spacing.separation};
+  display: grid;
+  grid-template-columns: 143px 1fr;
+  gap: ${theme.spacing.separation};
 `
 
 const FlexColumn = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: ${theme.spacing.separation};
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.separation};
 `
 
 const SexAgeContainer = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 40px;
-	gap: ${theme.spacing.separation};
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  gap: ${theme.spacing.separation};
 `
 
 const CharacterBackgroundContainer = styled.section`
-	grid-area: background;
-	display: flex;
-	flex-direction: column;
-	gap: ${theme.spacing.separation};
+  grid-area: background;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.separation};
 `
 
 const TwoColumns = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: ${theme.spacing.separation};
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${theme.spacing.separation};
 
-	@media (max-width: 768px) {
-		grid-template-columns: 1fr;
-	}
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `

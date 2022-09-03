@@ -1,6 +1,6 @@
 import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 
-export default function useSetCharacterProfession2() {
+export default function useSetCharacterProfession3() {
 	const dispatch = useCharacterSheetDispatcher()
 
 	return (value: string | null) => {

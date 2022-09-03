@@ -1,8 +1,7 @@
-import {
-	ActionType,
-	useCharacterSheetDispatcher,
-	useCharacterSheetState
-} from "@web/components/character_sheet/CharacterSheetContext"
+import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterChaosRanks from "@web/components/character_sheet/hooks/update/useSetCharacterChaosRanks"
+import useSetCharacterCorruption from "@web/components/character_sheet/hooks/update/useSetCharacterCorruption"
+import useSetCharacterOrderRanks from "@web/components/character_sheet/hooks/update/useSetCharacterOrderRanks"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { CircularNumberInput, Dots } from "misevi"
@@ -11,8 +10,10 @@ import styled from "styled-components"
 
 export default function CharacterSheetCorruption() {
 	const { character } = useCharacterSheetState()
-	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
+	const setCorruption = useSetCharacterCorruption()
+	const setOrderRanks = useSetCharacterOrderRanks()
+	const setChaosRanks = useSetCharacterChaosRanks()
 
 	return (
 		<Container>
@@ -22,12 +23,7 @@ export default function CharacterSheetCorruption() {
 					min={0}
 					max={9}
 					value={character.corruption}
-					onBlur={value =>
-						dispatch({
-							type: ActionType.SetCorruption,
-							payload: value
-						})
-					}
+					onBlur={setCorruption}
 					aria-label="Corruption"
 					disabled={!isOwner}
 				/>
@@ -37,12 +33,7 @@ export default function CharacterSheetCorruption() {
 				<Dots
 					value={character.order_ranks}
 					total={9}
-					onChange={value =>
-						dispatch({
-							type: ActionType.SetOrderRanks,
-							payload: value
-						})
-					}
+					onChange={setOrderRanks}
 					aria-label="Order Ranks"
 					disabled={!isOwner}
 				/>
@@ -50,12 +41,7 @@ export default function CharacterSheetCorruption() {
 				<Dots
 					value={character.chaos_ranks}
 					total={9}
-					onChange={value =>
-						dispatch({
-							type: ActionType.SetChaosRanks,
-							payload: value
-						})
-					}
+					onChange={setChaosRanks}
 					aria-label="Chaos Ranks"
 					disabled={!isOwner}
 				/>

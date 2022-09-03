@@ -1,5 +1,4 @@
 import { ConditionTrack } from "@core/domain/character_sheet/CharacterSheet"
-import { ActionType, useCharacterSheetDispatcher } from "@web/components/character_sheet/CharacterSheetContext"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { RadioButton } from "misevi"
@@ -9,13 +8,14 @@ import styled from "styled-components"
 export default function CharacterSheetConditionTracker({
 	conditions,
 	condition,
-	type
+	type,
+	onChange
 }: {
 	conditions: ReadonlyArray<{ name: string; code: number }>
 	condition: ConditionTrack
 	type: string
+	onChange: (value: number) => void
 }) {
-	const dispatch = useCharacterSheetDispatcher()
 	return (
 		<ThresholdContainer>
 			<Title>{type} Condition Track</Title>
@@ -26,15 +26,7 @@ export default function CharacterSheetConditionTracker({
 							<ConditionStep
 								value={x.code}
 								selected={condition?.value === x.code}
-								onChange={value =>
-									dispatch({
-										type:
-											type === "Peril"
-												? ActionType.SetPerilCondition
-												: ActionType.SetDamageCondition,
-										payload: value
-									})
-								}
+								onChange={onChange}
 								text={x.name}
 								key={x.code}
 							/>

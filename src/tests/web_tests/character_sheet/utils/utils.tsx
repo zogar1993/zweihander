@@ -104,11 +104,11 @@ export async function update_character_api_was_called_with(
 	const current = options ? options.current - 1 : 0
 	const calls = updateCharacterOfIdSpy.mock.calls
 	await waitFor(() => expect(calls.length).toBe(callsAmount))
-	expect(calls[current][0]).toBe(CHARACTER_ID)
-	expect(calls[current][1]).toBe(
-		options ? options.updated_at : DEFAULT_CHARACTER_SHEET.updated_at
-	)
-	expect(calls[current][2]).toStrictEqual(actions)
+	expect(calls[current][0]).toEqual({
+		id: CHARACTER_ID,
+		lastModified: options ? options.updated_at : DEFAULT_CHARACTER_SHEET.updated_at,
+		changes: actions
+	})
 }
 
 export async function then_tag_exists(
@@ -156,4 +156,4 @@ export async function then_you_are_redirected_to_unauthorized() {
 	expect(calls[0]).toEqual(["/unauthorized"])
 }
 
-export const region = (name: string) => within(screen.getByRole("region", {name}))
+export const region = (name: string) => within(screen.getByRole("region", { name }))

@@ -1,16 +1,13 @@
 import { SETTINGS_VISIBILITY } from "@web/components/character_sheet/bio/Constants"
-import {
-	ActionType,
-	useCharacterSheetDispatcher,
-	useCharacterSheetState
-} from "@web/components/character_sheet/CharacterSheetContext"
+import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterSettings from "@web/components/character_sheet/hooks/update/useSetCharacterSettings"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import { Field } from "misevi"
 
 export default function CharacterSheetSettings() {
 	const { character } = useCharacterSheetState()
-	const dispatch = useCharacterSheetDispatcher()
 	const isOwner = useIsCharacterSheetOwner()
+	const setSettings = useSetCharacterSettings()
 
 	return (
 		<>
@@ -19,12 +16,7 @@ export default function CharacterSheetSettings() {
 				type="combobox"
 				value={character.settings.visibility}
 				options={SETTINGS_VISIBILITY}
-				onChange={value => {
-					dispatch({
-						type: ActionType.SetSettings,
-						payload: { visibility: value! }
-					})
-				}}
+				onChange={value => setSettings({ visibility: value! })}
 				unclearable
 				disabled={!isOwner}
 			/>

@@ -14,7 +14,7 @@ export default function useSetCharacterRemoveSpell() {
 		dispatch({
 			type: ActionType.UpdateCharacter, payload: [
 				list.length === 1 ?
-					{ action: "delete_property", property: `spells.${school}`, value: spell } :
+					{ action: "delete_property", property: `spells.${school}` } :
 					{ action: "remove_from_array", property: `spells.${school}`, value: spell }
 			]
 		})

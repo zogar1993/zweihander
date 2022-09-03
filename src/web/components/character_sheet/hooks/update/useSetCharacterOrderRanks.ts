@@ -3,7 +3,7 @@ import { ActionType, useCharacterSheetDispatcher } from "@web/components/charact
 export default function useSetCharacterOrderRanks() {
 	const dispatch = useCharacterSheetDispatcher()
 
-	return (value: string) => {
+	return (value: number) => {
 		dispatch({
 			type: ActionType.UpdateCharacter, payload: [
 				{ action: "set_value", property: "order_ranks", value: value }

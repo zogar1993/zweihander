@@ -3,14 +3,15 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterJournal from "@web/components/character_sheet/hooks/update/useSetCharacterJournal"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { useCallback, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 export default function CharacterSheetJournal() {
-	const {character: {journal}} = useCharacterSheetState()
-	const dispatch = useCharacterSheetDispatcher()
+	const { character: { journal } } = useCharacterSheetState()
+	const setJournal = useSetCharacterJournal()
 	const [text, setText] = useState(journal)
 	const ref = useRef<HTMLTextAreaElement>(null)
 	const isOwner = useIsCharacterSheetOwner()
@@ -34,9 +35,7 @@ export default function CharacterSheetJournal() {
 			ref={ref}
 			value={text}
 			onChange={e => setText(e.target.value)}
-			onBlur={() => {
-				dispatch({type: ActionType.SetJournal, payload: text})
-			}}
+			onBlur={() => setJournal(text)}
 			disabled={!isOwner}
 		/>
 	)

@@ -3,6 +3,8 @@ import {
 	useCharacterSheetDispatcher,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterAncestry from "@web/components/character_sheet/hooks/update/useSetCharacterAncestry"
+import useSetCharacterAncestryTrait from "@web/components/character_sheet/hooks/update/useSetCharacterAncestryTrait"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import theme from "@web/theme/theme"
 import { Field } from "misevi"
@@ -11,7 +13,8 @@ import styled from "styled-components"
 
 export default function CharacterSheetAncestry() {
 	const { character: {ancestry, ancestry_trait} } = useCharacterSheetState()
-	const dispatch = useCharacterSheetDispatcher()
+	const setAncestry = useSetCharacterAncestry()
+	const setAncestryTrait = useSetCharacterAncestryTrait()
 	const isOwner = useIsCharacterSheetOwner()
 
 	return (
@@ -21,9 +24,7 @@ export default function CharacterSheetAncestry() {
 				label="Ancestry"
 				value={ancestry.code}
 				options={ancestry.options}
-				onChange={value =>
-					dispatch({ type: ActionType.SetAncestry, payload: value })
-				}
+				onChange={setAncestry}
 				disabled={!isOwner}
 			/>
 			<Field
@@ -31,9 +32,7 @@ export default function CharacterSheetAncestry() {
 				label="Ancestry Trait"
 				value={ancestry_trait.code}
 				options={ancestry_trait.options}
-				onChange={value =>
-					dispatch({ type: ActionType.SetAncestryTrait, payload: value })
-				}
+				onChange={setAncestryTrait}
 				disabled={ancestry_trait.disabled || !isOwner}
 			/>
 		</Container>

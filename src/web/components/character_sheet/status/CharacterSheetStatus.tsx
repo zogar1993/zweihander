@@ -1,5 +1,7 @@
 import { Peril } from "@core/domain/character_sheet/CharacterSheet"
 import { useCharacterSheetState } from "@web/components/character_sheet/CharacterSheetContext"
+import useSetCharacterDamageCondition from "@web/components/character_sheet/hooks/update/useSetCharacterDamageCondition"
+import useSetCharacterPerilCondition from "@web/components/character_sheet/hooks/update/useSetCharacterPerilCondition"
 import CharacterSheetConditionTracker from "@web/components/character_sheet/status/CharacterSheetConditionTracker"
 import CharacterSheetCorruption from "@web/components/character_sheet/status/CharacterSheetCorruption"
 import CharacterSheetStats from "@web/components/character_sheet/status/CharacterSheetStats"
@@ -9,6 +11,8 @@ import styled from "styled-components"
 
 export default function CharacterSheetStatus() {
 	const { character } = useCharacterSheetState()
+	const setPerilCondition = useSetCharacterPerilCondition()
+	const setDamageCondition = useSetCharacterDamageCondition()
 	return (
 		<StatusContainer>
 			<CharacterSheetStats />
@@ -17,11 +21,13 @@ export default function CharacterSheetStatus() {
 				conditions={PERIL_CONDITIONS}
 				condition={character.peril}
 				type="Peril"
+				onChange={setPerilCondition}
 			/>
 			<CharacterSheetConditionTracker
 				conditions={DAMAGE_CONDITIONS}
 				condition={character.damage}
 				type="Damage"
+				onChange={setDamageCondition}
 			/>
 		</StatusContainer>
 	)

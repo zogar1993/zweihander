@@ -3,7 +3,7 @@ import { ActionType, useCharacterSheetDispatcher } from "@web/components/charact
 export default function useSetCharacterSex() {
 	const dispatch = useCharacterSheetDispatcher()
 
-	return (value: string) => {
+	return (value: string | null) => {
 		dispatch({
 			type: ActionType.UpdateCharacter, payload: [
 				{ action: "set_value", property: "sex", value: value }
