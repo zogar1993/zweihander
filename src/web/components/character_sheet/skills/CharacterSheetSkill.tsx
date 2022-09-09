@@ -50,5 +50,6 @@ const SkillName = styled.span`
 `
 
 const SkillChance = styled.span<{ flip: Flip }>`
+	font-family: ${theme.fonts.handwritten};
   ${({ flip }) => flip === Flip.ToFail && `color: ${theme.colors.error}`};
 `

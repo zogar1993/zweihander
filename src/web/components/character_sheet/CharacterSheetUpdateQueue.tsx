@@ -26,6 +26,7 @@ export default function CharacterSheetUpdateQueue() {
 				})
 				.catch(e => {
 					setStatus(SavingStatus.Error)
+					console.error(e.message)
 					dispatch({ type: ActionType.ReportUpdateError, payload: e })
 				})
 		}
