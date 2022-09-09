@@ -11,16 +11,23 @@ export default function TalentsScreen({ talents }: { talents: Array<Talent> }) {
                      <WepCardTitle>
                         {weapons.name}
                      </WepCardTitle>
-                     <WepCardInfo>
-                        <li>Load: {weapons.load}</li>
-                        <li>Handling: {weapons.handling}</li>
-                        <li>Distance: {weapons.distance}</li>
-                        <li>Qualities: {weapons.qualities.join(", ")}</li>
-                        <li>Type: {weapons.type}</li>
-                        <li>Encumberance: {weapons.encumbrance}</li>
-                        <li>Price: {weapons.price}</li>
-                        <li>Skills: {weapons.skill}</li>
-                     </WepCardInfo>
+                     <WepCardQual>
+                        {weapons.qualities.join(", ")}
+                     </WepCardQual>
+                     <WepCardBott>
+                        <WepCardInfo>
+                           <li>Type: {weapons.type}</li>
+                           <li>Skills: {weapons.skill}</li>
+                           <li>Handling: {weapons.handling}</li>
+                           <li>Distance: {weapons.distance}</li>
+                           <li>Load: {weapons.load}</li>
+                           <li>Encumberance: {weapons.encumbrance}</li>
+                           <li>Price: {weapons.price}</li>
+                        </WepCardInfo>
+                        <WepCardImg>
+                           <img src="/characters/bandit.png" alt="wea"/>
+                        </WepCardImg>
+                     </WepCardBott>
                     </WepCard>
 				))}
 			</WepCardBlock>
@@ -35,6 +42,7 @@ const WepCardBlock = styled.div`
    justify-content: flex-start;
    padding: 32px;
    gap:20px;
+   font-family: var(--fonts-common);
 `
 
 const WepCard = styled.div`
@@ -42,7 +50,7 @@ const WepCard = styled.div`
    border: 1px solid #eee;
    box-shadow: 2px 4px 16px rgba(0,0,0,.06);
    border-radius: 4px; 
-   font-family:Roboto, sans-serif;
+   font: inherit;
    font-size:small;
    font-weight: 500;
    text-orientation:upright;
@@ -51,20 +59,45 @@ const WepCard = styled.div`
    flex-direction: column;
 `
 const WepCardTitle = styled.h5`
-   font-family:Roboto, sans-serif;
-   font-size:15px;
+   font-family: var(--fonts-title);
+   font-size:medium;
    font-weight: bolder;
    text-orientation:upright;
    margin:5px;
+   align-self: center;
+`
+const WepCardQual = styled.div`
+   font-family: var(--fonts-common);
+   font-size:small;
+   font-weight: bold;
+   text-orientation:upright;
+   text-align:center;
+   white-space: nowrap;
+   overflow: hidden;
+`
+
+const WepCardBott = styled.div`
+   display:flex;
+   justify-content: space-around;
+   align-items: center; 
 `
 const WepCardInfo = styled.p`
-   font-family:Roboto, sans-serif;
+   font-family: var(--fonts-common);
    font-size:small;
    font-weight: 500;
    text-orientation:upright;
+   white-space: nowrap;
+   overflow: hidden;
    list-style: none;
    margin:5px;
 `
+const WepCardImg = styled.div`
+   height: 50%; 
+   width: 50%; 
+   object-fit: container;
+   overflow:hidden;
+`
+
 const weapons = [
     {
        "name":"Blackjack",
