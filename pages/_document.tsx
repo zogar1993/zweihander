@@ -20,6 +20,8 @@ export default class MyDocument extends Document {
 				...initialProps,
 				styles: (
 					<>
+						<CssPreloadLink href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" />
+						<CssPreloadLink href="https://fonts.googleapis.com/css?family=Almendra&display=swap" />
 						{initialProps.styles}
 						{sheet.getStyleElement()}
 					</>
@@ -30,3 +32,6 @@ export default class MyDocument extends Document {
 		}
 	}
 }
+
+const CssPreloadLink = ({ href }: { href: string }) =>
+	<link rel="preload stylesheet" type="text/css" as="style" href={href}  crossOrigin="anonymous" />

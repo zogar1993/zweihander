@@ -67,6 +67,7 @@ export const PLACEHOLDER_CHARACTER_SHEET_STATE = Object.freeze({
 		confirmation: null
 	},
 
+	errors: [],
 	_undoQueue: [],
 	_pendingUpdates: [],
 	nextUpdate: null,

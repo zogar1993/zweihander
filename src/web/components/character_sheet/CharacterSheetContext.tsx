@@ -63,6 +63,7 @@ export type CharacterSheetState = {
 	orderAlignments: ReadonlyArray<Alignment>
 	chaosAlignments: ReadonlyArray<Alignment>
 
+	errors: Array<any>
 	_undoQueue: ReadonlyArray<ReadonlyArray<UpdateAction>>
 	_pendingUpdates: ReadonlyArray<ReadonlyArray<UpdateAction>>
 	nextUpdate: ReadonlyArray<UpdateAction> | null
@@ -101,6 +102,7 @@ function characterSheetReducer(
 				modals: {
 					confirmation: null
 				},
+				errors: [],//TODO errors need not be inside of the context
 				_undoQueue: [],
 				_pendingUpdates: [],
 				nextUpdate: null,
@@ -166,6 +168,11 @@ function characterSheetReducer(
 				_pendingUpdates: remaining,
 				updatedAt
 			}
+		case ActionType.ReportUpdateError:
+			return {
+				...state,
+				errors: [...state.errors, action.payload]
+			}
 		default:
 			return state
 	}
@@ -188,7 +195,8 @@ export enum ActionType {
 	SetComboboxValue,
 	SetConfirmationModal,
 	CompleteAction,
-	UpdateCharacter
+	UpdateCharacter,
+	ReportUpdateError
 }
 
 export type CharacterSheetProps = {
@@ -218,6 +226,10 @@ export type CharacterSheetAction =
 	| {
 	type: ActionType.UpdateCharacter
 	payload: ReadonlyArray<UpdateAction>
+}
+	| {
+	type: ActionType.ReportUpdateError
+	payload: any
 }
 
 function changeFromCharacterSheet(

@@ -7,6 +7,7 @@ import {
 	CharacterSheetProps,
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
+import CharacterSheetUpdateQueue from "@web/components/character_sheet/CharacterSheetUpdateQueue"
 import useHasNoRole from "@web/components/character_sheet/hooks/UseHasNoRole"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
@@ -37,6 +38,8 @@ export default function CharacterSheetScreen(
 				<CharacterSheetAddons />
 				<CharacterSheetConfirmationModal />
 				<Layout>
+					{/*TODO esto no deberia estar adentro del Layout*/}
+					<CharacterSheetUpdateQueue />
 					<CharacterSheetBackground />
 					<CharacterSheetAttributes />
 					<CharacterSheetStatus />
@@ -64,6 +67,8 @@ function EnforcerPrivateVisibility({ children }: { children: ReactNode }): any /
 }
 
 const Layout = styled.div`
+	position: relative;
+  
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: ${theme.spacing.separation};

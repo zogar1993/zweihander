@@ -30,6 +30,7 @@ export default function Homepage() {
 				<li>- 20220830 - BUGFIX fix magic spells that have an & on their name</li>
 				<li>- 20220830 - SECURITY remove export capacity for data</li>
 				<li>- 20220901 - BUGFIX remove glitchy urls for direct sources with more than one school</li>
+				<li>- 20220909 - FEATURE add saving and error indicators on character sheet</li>
 			</ul>
 		</>
 	)
