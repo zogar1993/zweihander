@@ -32,12 +32,7 @@ export default function CharactersScreen({
 							<Skeleton key={i.toString()} />
 					  ))
 					: characters.map(character => (
-							<Card
-								href={`characters/${character.id}`}
-								key={character.id}
-								personal={!!character.created_by}
-								isPrivate={character.visibility === "private"}
-							>
+							<Card href={`characters/${character.id}`} key={character.id}>
 								<CardTitle>{character.name || "unnamed"}</CardTitle>
 								<CardBody>
 									<Avatar
@@ -59,10 +54,7 @@ export default function CharactersScreen({
 	)
 }
 
-const Card = styled(Link)<{ personal: boolean; isPrivate: boolean }>`
-	${({ personal, isPrivate }) =>
-		personal ? `background-color: ${isPrivate ? "green" : "palegreen"}` : ""};
-
+const Card = styled(Link)`
 	display: flex;
 	flex-direction: column;
 	gap: ${theme.spacing.separation};

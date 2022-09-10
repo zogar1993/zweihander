@@ -8,7 +8,8 @@ export async function getCharacters(
 	const result = await client
 		.collection("CHARACTERS")
 		.find(
-			{ $or: [{ created_by: username }, { visibility: { $ne: "private" } }] },
+			//{ $or: [{ created_by: username }, { visibility: { $ne: "private" } }] },
+			{ created_by: username },
 			{
 				projection: {
 					name: 1,

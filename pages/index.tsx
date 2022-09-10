@@ -31,7 +31,8 @@ export default function Homepage() {
 				<li>- 20220830 - SECURITY remove export capacity for data</li>
 				<li>- 20220901 - BUGFIX remove glitchy urls for direct sources with more than one school</li>
 				<li>- 20220909 - FEATURE add saving and error indicators on character sheet</li>
-				<li>- 20220909 - STYLE add handwritten font to skill chance </li>
+				<li>- 20220909 - STYLE add handwritten font to skill chance</li>
+				<li>- 20220910 - FEATURE now characters list only shows your characters</li>
 			</ul>
 		</>
 	)
