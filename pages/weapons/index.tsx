@@ -49,7 +49,8 @@ const WepCard = styled.div`
    flex-basis: 16%;
    border: 1px solid #eee;
    box-shadow: 2px 4px 16px rgba(0,0,0,.06);
-   border-radius: 4px; 
+   border-radius: 4px;
+   max-width:380px; 
    font: inherit;
    font-size:small;
    font-weight: 500;
@@ -60,7 +61,7 @@ const WepCard = styled.div`
 `
 const WepCardTitle = styled.h5`
    font-family: var(--fonts-title);
-   font-size:medium;
+   font-size:large;
    font-weight: bolder;
    text-orientation:upright;
    margin:5px;
@@ -78,8 +79,8 @@ const WepCardQual = styled.div`
 
 const WepCardBott = styled.div`
    display:flex;
-   justify-content: space-around;
-   align-items: center; 
+   justify-content: center;
+   height: 125px;
 `
 const WepCardInfo = styled.p`
    font-family: var(--fonts-common);
