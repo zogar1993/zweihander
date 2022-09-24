@@ -8,9 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "cypress": "cypress open",
-    "cypress:headless": "cypress run --browser chrome --headless",
-    "test:e2e": "start-server-and-test 'yarn start' 3000 'yarn cypress'",
-    "test:e2e:ci": "start-server-and-test 'yarn start' 3000 'yarn cypress:headless'"
+    "cypress:headless": "cypress run --browser chrome --headless"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "1.9.0",
