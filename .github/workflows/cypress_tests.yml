@@ -1,11 +1,9 @@
 name: Cypress Tests
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+  deployment_status:
+  run-e2es:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
 
 jobs:
   build:
@@ -15,6 +13,6 @@ jobs:
       - name: Install
         run: yarn install
       - name: Run tests
-        run: yarn cypress:headless
-          env:
-              BASE_URL: ${{ github.event.deployment_status.target_url }}
+          run: yarn cypress:headless
+            env:
+                BASE_URL: ${{ github.event.deployment_status.target_url }}
