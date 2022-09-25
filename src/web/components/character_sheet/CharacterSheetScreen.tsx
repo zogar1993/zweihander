@@ -22,16 +22,6 @@ import styled from "styled-components"
 export default function CharacterSheetScreen(
 	props: Partial<CharacterSheetProps>
 ) {
-	const hasNoRole = useHasNoRole()
-	const router = useRouter()
-
-	useEffect(() => {
-		if (hasNoRole)
-			router.push("/unauthorized")
-	}, [hasNoRole])
-
-	if (hasNoRole) return null
-
 	return (
 		<CharacterSheetContextProvider dependencies={props}>
 			<EnforcerPrivateVisibility>
