@@ -33,6 +33,7 @@ export default function Homepage() {
 				<li>- 20220909 - FEATURE add saving and error indicators on character sheet</li>
 				<li>- 20220909 - STYLE add handwritten font to skill chance</li>
 				<li>- 20220910 - FEATURE now characters list only shows your characters</li>
+				<li>- 20221001 - SECURITY character sheets are now open to public</li>
 			</ul>
 		</>
 	)
