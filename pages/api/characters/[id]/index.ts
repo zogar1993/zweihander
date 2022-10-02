@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				const character = await getCharacterSheetOfIdMetadata(id)
 				if (character === null) return res.status(404).end()
 				const isOwner = user.email === character.created_by
-				if (!user.isAdmin && !(isOwner && user.isUser)) return res.status(403).end()
+				if (!user.isAdmin && !isOwner) return res.status(403).end()
 				await deleteCharacterSheetOfId(id)
 				return res.status(204).end()
 			}
