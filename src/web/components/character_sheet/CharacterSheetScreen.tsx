@@ -8,7 +8,6 @@ import {
 	useCharacterSheetState
 } from "@web/components/character_sheet/CharacterSheetContext"
 import CharacterSheetUpdateQueue from "@web/components/character_sheet/CharacterSheetUpdateQueue"
-import useHasNoRole from "@web/components/character_sheet/hooks/UseHasNoRole"
 import useIsCharacterSheetOwner from "@web/components/character_sheet/hooks/UseIsCharacterSheetOwner"
 import CharacterSheetMisc from "@web/components/character_sheet/misc/CharacterSheetMisc"
 import CharacterSheetProfessionProfile

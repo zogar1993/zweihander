@@ -36,7 +36,6 @@ export default function CharacterSheetConditionTracker({
 			</ValuesContainer>
 		</ThresholdContainer>
 		//TODO add these boxes
-		//TODO make cleaner the dispatch
 		//	<FlexItem>
 		//		<Threshold value={condition?.threshold} />
 		//	</FlexItem>
