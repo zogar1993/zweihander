@@ -35,6 +35,7 @@ export default function Homepage() {
 				<li>- 20220910 - FEATURE now characters list only shows your characters</li>
 				<li>- 20221001 - SECURITY character sheets are now open to public</li>
 				<li>- 20221002 - BUGFIX public users can now delete their own characters</li>
+				<li>- 20221025 - FEATURE add thresholds in character sheets</li>
 			</ul>
 		</>
 	)
