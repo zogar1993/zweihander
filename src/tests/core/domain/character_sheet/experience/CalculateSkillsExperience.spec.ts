@@ -1,6 +1,5 @@
 import calculateSkillsExperience from "@core/domain/character_sheet/calculations/experience/CalculateSkillsExperience"
 
-//TODO make this cleaner
 describe("CalculateSkillsExperience should", () => {
 	it("return 0 when there are no tiers", async () => {
 		const experience = calculateSkillsExperience({ bought: [], remaining: [] })
