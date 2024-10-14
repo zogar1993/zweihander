@@ -12,7 +12,7 @@ describe("/professions", () => {
 		cy.preserveAuth0CookiesOnce()
 	});
 
-	(require("../fixtures/profession.json") as ReadonlyArray<Profession>).map(profession =>
+	(require("../fixtures/professions.json") as ReadonlyArray<Profession>).map(profession =>
 		it(`Profession "${profession.name}"`, () => {
 			cy.visit("/professions").then(() => {
 				cy.findByRole("article", {name: profession.name}).findByText(profession.name)

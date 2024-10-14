@@ -11,7 +11,7 @@ describe("/talents", () => {
 		cy.preserveAuth0CookiesOnce()
 	});
 
-	(require("../fixtures/talent.json") as ReadonlyArray<Talent>).map(talent =>
+	(require("../fixtures/talents.json") as ReadonlyArray<Talent>).map(talent =>
 		it(`Talent ${talent}`, () => {
 			cy.visit("/talents").then(() => {
 				cy.findByRole("article", {name: talent.name}).findByText(talent.name)
