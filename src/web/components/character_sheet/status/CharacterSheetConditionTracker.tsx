@@ -37,19 +37,19 @@ export default function CharacterSheetConditionTracker({
 			<Boxes>
 				<Box>
 					<BoxText>Threshold</BoxText>
-					<Threshold>{condition?.threshold}</Threshold>
+					<Threshold>{condition.threshold}</Threshold>
 				</Box>
 				<Box>
 					<BoxText>+6</BoxText>
-					<Threshold>{condition?.threshold + 6}</Threshold>
+					<Threshold>{condition.threshold === undefined ? "" : condition.threshold + 6}</Threshold>
 				</Box>
 				<Box>
 					<BoxText>+12</BoxText>
-					<Threshold>{condition?.threshold + 12}</Threshold>
+					<Threshold>{condition.threshold === undefined ? "" : condition.threshold + 12}</Threshold>
 				</Box>
 				<Box>
 					<BoxText>+18</BoxText>
-					<Threshold>{condition?.threshold + 18}</Threshold>
+					<Threshold>{condition.threshold === undefined ? "" : condition.threshold + 18}</Threshold>
 				</Box>
 			</Boxes>
 		</ThresholdContainer>
