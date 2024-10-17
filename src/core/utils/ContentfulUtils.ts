@@ -16,7 +16,9 @@ export async function fetchEntries<T>(type: string): Promise<ReadonlyArray<T>> {
 }
 
 function contentfulToArrayOfPlainObjects(arr: ReadonlyArray<any>) {
-	return arr.map(x => unwrap(x)).sort((x, y) => x.code.localeCompare(y.code))
+	const unwrapped = arr.map(x => unwrap(x))
+	if (unwrapped.length > 0 && unwrapped[0].code === undefined) return unwrapped
+	return unwrapped.sort((x, y) => x.code.localeCompare(y.code))
 }
 
 function contentfulToPlainObject(obj: any) {
