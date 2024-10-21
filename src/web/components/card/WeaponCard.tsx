@@ -4,69 +4,71 @@ import { CardTitle } from "@web/components/card/CardTitle"
 import React from "react"
 import styled from "styled-components"
 
-
-export default function WeaponCard({ weapon }: SpecialRuleCardProps) {
+export default function WeaponCard({ weapon, onPropertyClick, }: {
+	weapon: Weapon; onPropertyClick: (filterType: string, filterValue: string) => void;
+}) {
 	return (
 		<Card aria-label={weapon.name}>
 			<CardTitle>{weapon.name}</CardTitle>
-			<Description>{weapon.description}</Description>
 			<PropertyList>
-				<Property name="load">{weapon.load}</Property>
-				<Property name="handling">{weapon.handling}</Property>
-				<Property name="distance">{weapon.distance}</Property>
-				<Property name="qualities">{weapon.qualities}</Property>
-				<Property name="type">{weapon.type}</Property>
-				<Property name="encumbrance">{weapon.encumbrance}</Property>
-				<Property name="price">{weapon.price}</Property>
+				<WeaponProperties name="Load">{weapon.load}</WeaponProperties>
+				<WeaponProperties name="Handling">{weapon.handling.join(", ")}</WeaponProperties>
+				<WeaponProperties name="Distance">{weapon.distance.join(", ")}</WeaponProperties>
+				<WeaponProperties name="Qualities">
+					{weapon.qualities.map((quality) => (
+						<ClickableSpan
+							key={quality}
+							onClick={() => onPropertyClick("quality", quality)}
+						>
+							{quality}
+						</ClickableSpan>
+					))}
+				</WeaponProperties>
+				<WeaponProperties name="Type">
+					{weapon.type.map((type) => (
+						<ClickableSpan
+							key={type}
+							onClick={() => onPropertyClick("type", type)}
+						>
+							{type}
+						</ClickableSpan>
+					))}
+				</WeaponProperties>
+				<WeaponProperties name="Encumbrance">{weapon.encumbrance}</WeaponProperties>
+				<WeaponProperties name="Price">{weapon.price}</WeaponProperties>
 			</PropertyList>
 		</Card>
-	)
+	);
 }
-
-const Description = styled.p`
-	font-style: italic;
-	color: black;
-`
 
 const PropertyList = styled.dl`
-	font-size: 16px;
-	color: black;
-`
+    font-size: 16px;
+    color: black;
+    dt {
+        font-weight: bold;
+    }
+    dd {
+        margin-left: 1rem;
+    }
+`;
 
-function Property({ name, children }: PropertyProps) {
+const ClickableSpan = styled.span`
+	color: blue;
+	cursor: pointer;
+	text-decoration: underline;
+	margin-right: 0.5rem;
+`;
+
+function WeaponProperties({ name, children }: PropertyProps) {
 	return (
 		<>
-			<Term>{name}</Term>
-			<Definition>{children}</Definition>
+			<dt>{name}:</dt>
+			<dd>{children}</dd>
 		</>
-	)
+	);
 }
-
-const Term = styled.dt`
-	display: inline-block;
-	cursor: text;
-	font-weight: bold;
-	font-style: italic;
-
-	:after {
-		content: ": ";
-		white-space: pre;
-	}
-`
-
-const Definition = styled.dd`
-	display: inline;
-	cursor: text;
-
-	:after {
-		display: block;
-		content: "";
-	}
-`
 
 type PropertyProps = {
-	name: string
-	children: string
-}
-
-type SpecialRuleCardProps = { weapon: Weapon }
+	name: string;
+	children: React.ReactNode;
+};
