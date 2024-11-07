@@ -42,13 +42,18 @@ export default function WeaponCard({ weapon, onPropertyClick, }: {
 }
 
 const PropertyList = styled.dl`
+    display: flex;
+		flex-wrap: wrap;
+    gap: 8px 16px; 
     font-size: 16px;
     color: black;
+
     dt {
         font-weight: bold;
     }
+
     dd {
-        margin-left: 1rem;
+        margin-left: 0;
     }
 `;
 
@@ -59,12 +64,23 @@ const ClickableSpan = styled.span`
 	margin-right: 0.5rem;
 `;
 
+const WeaponPropertiesStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid lightgray;
+  padding: 8px;
+  border-radius: 4px;
+  flex-basis: calc(50% - 8px);
+  box-sizing: border-box;
+`;
+
 function WeaponProperties({ name, children }: PropertyProps) {
 	return (
-		<>
+		<WeaponPropertiesStyle>
 			<dt>{name}:</dt>
 			<dd>{children}</dd>
-		</>
+		</WeaponPropertiesStyle>
 	);
 }
 
