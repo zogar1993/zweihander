@@ -21,13 +21,13 @@ const Container = styled.div`
   gap: ${theme.spacing.separation};
   grid-template-columns: repeat(4, 1fr);
 
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   @media (max-width: 768px) {
     grid-template-columns: minmax(0, 1fr);
     width: 100%;
     max-height: none;
-  }
-
-  @media (max-width: 1280px) {
-    grid-template-columns: repeat(2, 1fr);
   }
 `

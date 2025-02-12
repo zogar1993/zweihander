@@ -58,31 +58,31 @@ function EnforcerPrivateVisibility({ children }: { children: ReactNode }): any /
 const Layout = styled.div`
 	position: relative;
   
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: ${theme.spacing.separation};
-  grid-template-areas:
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: ${theme.spacing.separation};
+	grid-template-areas:
 		"background attributes attributes status"
 		"profession_profile profession_profile profession_profile profession_profile"
 		"misc misc misc misc";
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    width: 100%;
-    grid-template-areas:
+	@media (max-width: 1280px) {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas:
+			"background status"
+			"attributes attributes"
+			"profession_profile profession_profile"
+			"misc misc";
+	}
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+		width: 100%;
+		grid-template-areas:
 			"background"
 			"attributes"
 			"status"
 			"profession_profile"
 			"misc";
-  }
-
-  @media (max-width: 1280px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas:
-			"background status"
-			"attributes attributes"
-			"profession_profile profession_profile"
-			"misc misc";
-  }
+	}
 `
